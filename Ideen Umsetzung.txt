@@ -1,0 +1,9 @@
+	- warum Testplan nach counterMeasurement --> falsche Bewertung
+	- SolutionBlock Tara
+	- Test CounterMeasurement auch gegen Detailed Countermeasure
+	- Report Testresult zu DocumentCounter
+	- Rollen/ Ebenen Zuordnung bei uns
+	- Testplan -> genauere Spec
+	- Übersicht über ecomatic
+	- Solutionblock: States (mitigation, …) --> testbar; hardware driver (1-19, 27-42)
+Dokumente: Tara etc. 

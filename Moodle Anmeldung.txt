@@ -1,0 +1,6 @@
+Functional Testing of Security in Industrial Gateways under the New Machinery Regulation
+
+
+With the implementation of the EU Machinery Regulation (2023/1230), cybersecurity has become a mandatory constituent of the conformity assessment process for industrial gateways at the IT/OT interface. Historically, these components were operated within isolated, perimeter-protected environments, resulting in a lack of systematic security testing within traditional functional validation frameworks. Consequently this creates a gap between regulatory expectations and the company’s current established methodologies for the functional testing. 
+
+The central scientific problem addressed in this thesis is the absence of a systematic approach to verify security functions. The goal of the thesis is to research security testing approaches, frameworks, and organizational practices to ensure compliance and systematically verify security in future product releases. The investigation focuses specifically on the physical IT/OT interfaces to provide empirical evidence of the efficency of technical mitigation measures. The final output should be a validated testing methodology that facilitates the practical application of theoretical regulatory requirements within an industrial manufacturing context.
