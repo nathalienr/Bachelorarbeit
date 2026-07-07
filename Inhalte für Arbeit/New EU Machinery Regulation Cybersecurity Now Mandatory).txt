@@ -1,0 +1,81 @@
+
+
+### 1. zentrale Aussage 
+ Mit der EU-Maschinenverordnung 2023/1230 wird Cybersecurity explizit Teil der Maschinensicherheit und damit relevant für CE-Konformität und Konformitätsbewertung. Die Verordnung ersetzt die Maschinenrichtlinie 2006/42/EG ab 20. Januar 2027. 
+
+Industrial Gateways an der IT/OT-Schnittstelle sind Komponenten, bei denen Netzwerkverbindungen, Remote Access, Datenübertragung und Softwareintegrität sicherheitsrelevant werden können.
+
+
+> Industrial Gateways müssen nicht nur funktional getestet werden, sondern ihre Security-Funktionen müssen nachweisbar dazu beitragen, gefährliche Situationen zu verhindern.
+
+
+
+2. „Protection against corruption“
+
+Der wichtigste Bezugspunkt für deine Arbeit ist Anhang III der Maschinenverordnung, insbesondere der neue Gedanke des Schutzes gegen Korrumpierung beziehungsweise Manipulation. Schutz von sicherheitsrelevanter Software, Steuerungen und Verbindungen gegen unbeabsichtigte Fehler sowie absichtliche Cyberangriffe. 
+
+
+
+
+- Können über das Gateway Steuerdaten verändert werden?
+- Können sicherheitsrelevante Daten manipuliert werden?
+- Kann ein kompromittiertes Gateway eine Maschine in einen gefährlichen Zustand bringen?
+- Sind Kommunikationsschnittstellen ausreichend geschützt?
+- Gibt es Schutz gegen unautorisierte Konfigurationsänderungen?
+- Gibt es Logs, um Manipulationen nachzuweisen?
+
+
+
+3. Security wird Teil der funktionalen Validierung
+
+Cybersecurity muss in die Risikobeurteilung, das Design und den Lebenszyklus integriert werden. 
+
+
+
+
+Früher wurde ein Gateway hauptsächlich getestet auf:
+
+- Datenübertragung
+- Protokollkonvertierung
+- Verfügbarkeit
+- Performance
+- Schnittstellenfunktion
+- Interoperabilität
+
+Künftig muss zusätzlich getestet werden:
+
+- Authentisierung
+- Zugriffskontrolle
+- sichere Konfiguration
+- Update-Mechanismen
+- Logging
+- Manipulationsschutz
+- sichere Default-Einstellungen
+- Netzwerksegmentierung
+- Robustheit gegen fehlerhafte oder bösartige Eingaben
+
+Damit wird Security Bestandteil der Produktvalidierung
+
+
+
+4. IEC 62443 
+-  IEC 62443-3-2: Security Risk Assessment für industrielle Automatisierungssysteme
+- IEC 62443-3-3: System Security Requirements und Security Levels
+- IEC 62443-4-2: Technische Security-Anforderungen an Komponenten
+- IEC 62443-4-1: Secure Product Development Lifecycle
+
+Das Konzept von Zones and Conduits ist passend für Industrial Gateways, weil ein Gateway typischerweise genau an einem Übergang zwischen Zonen sitzt, z. B. zwischen IT-Netz, OT-Netz, Maschinensteuerung oder Cloud-Anbindung. IEC 62443 betrachtet Zonen als Bereiche mit ähnlichen Security-Anforderungen und Conduits als kontrollierte Kommunikationswege zwischen diesen Zonen. 
+
+
+> Das Industrial Gateway wird als Conduit-Komponente betrachtet, deren Security-Funktionen die sichere Kommunikation zwischen IT- und OT-Zonen gewährleisten müssen.
+
+5. EN 50742 / prEN 50742
+
+EN 50742 als kommenden Standard zum Thema „Protection against corruption“. Dieser Standard ist noch in Entwicklung beziehungsweise als Entwurf verfügbar und soll Anforderungen aus Anhang III, insbesondere Abschnitte 1.1.9 und 1.2.1, konkretisieren. 
+
+EN 50742 die Brücke zwischen Maschinenrecht und Security-Testing schlägt.
+
+
+
+
+

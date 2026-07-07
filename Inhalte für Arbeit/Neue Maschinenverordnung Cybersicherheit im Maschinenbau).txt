@@ -1,0 +1,107 @@
+
+1. Schutz gegen Korrumpierung bzw. Manipulation. 
+Kern der neuen Cybersecurity-Anforderungen für Maschinen und zugehörige Produkte. 
+
+
+> Das Industrial Gateway ist nicht nur ein Kommunikationsbaustein, sondern ein potenzieller sicherheitsrelevanter Angriffspunkt an der IT/OT-Schnittstelle.
+
+Anforderungen:
+
+- externe Anschlüsse oder Fernzugriffe dürfen keine gefährliche Situation verursachen, 
+- sicherheitsrelevante Hardware muss gegen unbeabsichtigte oder vorsätzliche Manipulation geschützt werden, 
+- sicherheitsrelevante Software und Daten müssen identifiziert und geschützt werden, 
+- sicherheitsrelevante Software muss erkennbar und abrufbar sein, 
+- Änderungen an Software oder Konfiguration müssen nachweisbar protokolliert werden. 
+
+Prüfen, ob solche Schutzmechanismen nicht nur dokumentiert, sondern technisch wirksam sind.
+
+
+2.Relevant für Industrial Gateway 
+
+Bei einem Gateway an der IT/OT-Schnittstelle sind vor allem die Kommunikations- und Zugriffsfunktionen relevant. Vernetzte Maschinen durch Internetanbindung, Fernwartung und externe Kommunikation anfälliger für Cyberangriffe werden. 
+
+A. Sichere Konnektivität
+
+Die Maschinenverordnung fordert, dass der Anschluss anderer Einrichtungen oder Remote-Zugriffe nicht zu gefährlichen Situationen führen darf. 
+Für dein Gateway heißt das:
+
+- Was passiert bei unautorisierten Verbindungsversuchen?
+- Werden unsichere Protokolle blockiert?
+- Gibt es sichere Authentifizierung?
+- Können manipulierte Pakete Safety-relevante Kommunikation beeinflussen?
+- Bleibt die OT-Seite geschützt, wenn die IT-Seite kompromittiert wird?
+
+
+B. Schutz vor Manipulation von Software und Konfiguration
+
+Sicherheitsrelevante Software und Daten müssen gegen Manipulation geschützt werden. 
+Für dein Gateway bedeutet das:
+
+- Firmware muss gegen unautorisierte Änderungen geschützt sein.
+- Konfigurationen dürfen nicht unkontrolliert verändert werden.
+- Updates sollten authentifiziert und idealerweise signiert sein.
+- Kritische Parameter müssen geschützt sein.
+- Änderungen müssen nachvollziehbar sein.
+
+Daraus kannst du funktionale Security-Testfälle ableiten, z. B.:
+
+- Versuch eines Firmware-Downgrades,
+- Upload einer manipulierten Konfigurationsdatei,
+- Änderung sicherheitsrelevanter Einstellungen ohne Berechtigung,
+- Prüfung von Rollen- und Rechtekonzepten,
+- Prüfung, ob Änderungen geloggt werden.
+
+C. Nachweisbarkeit und Logging
+
+Maschinen Eingriffe in Software oder Konfiguration müssen nachgewiesen werden können.
+
+Prüfkriterien:
+
+- Wird ein Login-Versuch protokolliert?
+- Werden fehlgeschlagene Authentifizierungen geloggt?
+- Werden Konfigurationsänderungen mit Zeitstempel gespeichert?
+- Sind Logs manipulationsgeschützt?
+- Können Logs exportiert oder für Audits bereitgestellt werden?
+- Sind die Ereignisse eindeutig genug, um einen Angriff oder Fehlgebrauch nachzuvollziehen?
+
+
+3. Lücke zwischen regulatorischen Erwartungen und bestehenden funktionalen Testmethoden
+
+Die Maschinenverordnung bringt neue verbindliche Cybersecurity-Anforderungen, während traditionelle Maschinenvalidierung historisch eher auf physische Sicherheit und klassische Funktionalität ausgerichtet war.
+
+> Die neue Maschinenverordnung erweitert den klassischen Safety-Fokus um Security-Anforderungen. Dadurch reicht eine rein funktionale Validierung industrieller Gateways nicht mehr aus. Es wird eine strukturierte Methode benötigt, um Security-Funktionen funktional, reproduzierbar und nachweisbar zu testen.
+
+
+4. EN 50742: Normen-/Framework-Teil 
+
+als zukünftige harmonisierte Norm zur praktischen Umsetzung des Schutzes gegen Korrumpierung. 
+
+--> Testmethodik normativ verankern. Die Norm soll speziell die Anforderungen aus Anhang III, Abschnitt 1.1.9 und 1.2.1 adressieren. 
+
+Du solltest EN 50742 als:
+
+- zukünftigen Umsetzungsrahmen,
+- Brücke zwischen Maschinenverordnung und praktischen Security-Maßnahmen,
+- möglichen Bezugspunkt für Testziele,
+- Ergänzung zu IEC 62443.
+
+
+| Ansatz                     | Relevanz für Arbeit                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Eigenständiger Ansatz      | Gut, wenn ifm noch keine vollständig etablierte IEC-62443-Testmethodik hat                                |
+| IEC-62443-basierter Ansatz | Relevant, wenn bestehende industrielle Security-Prozesse oder Anforderungen wiederverwendet werden sollen |
+
+
+5. Cyber Resilience Act als Kontext
+
+kann Überschneidungen mit der Maschinenverordnung geben kann. 
+
+- Der CRA stärkt die allgemeine Produktsicherheit von digitalen Produkten.
+- Die Maschinenverordnung ist aber dein primärer regulatorischer Bezug.
+- Für Industrial Gateways können beide Regelwerke relevant werden.
+- Eigene Testmethodik kann so gestaltet werden, dass sie Anforderungen aus beiden Richtungen unterstützt.
+
+
+
+
+s

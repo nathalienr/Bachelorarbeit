@@ -1,0 +1,97 @@
+### 1. Threat Analysis und Risk Analysis
+
+Die Sicherheitsfunktionen entstehen aus:
+
+- Threat Modeling
+- Threat Analysis
+- Risk Analysis
+
+
+> Welche Bedrohungen gibt es überhaupt und welche Sicherheitsmaßnahmen müssen geprüft werden?
+
+Grundlage, damit beurteilt werden kann, ob ein Test erfolgreich war. 
+
+
+### 2. Cybersecurity Requirements
+
+- Sicherheitsanforderungen aus der Risikoanalyse ableiten
+- Anforderungen dokumentieren
+- Anforderungen später verifiziert 
+
+> Wurde die Security-Anforderung tatsächlich erfüllt?
+
+
+### 3. Security Verification & Validation
+
+- Examination of Cybersecurity Requirements
+- Threat Mitigation Testing
+- Vulnerability Testing
+- Penetration Testing
+
+Aktuellen Vorgaben, wie Security validiert werden soll.
+
+### 4. Threat Mitigation Testing
+
+> Nachweisen, dass alle Maßnahmen aus der Threat Analysis wirksam umgesetzt wurden.
+
+
+### 5. Vulnerability Testing
+
+- Attack Surface Analysis
+- Known Vulnerability Scanning
+- Abuse Case Testing
+- Fuzzing
+ Software Composition Analysis
+
+--> späteren Testmethodik
+
+
+### 6. Penetration Testing
+
+- Wann Penetration Tests erforderlich sind.
+- Welcher Unabhängigkeitsgrad gefordert wird.
+- Wie die Intensität vom Einsatzszenario abhängt.
+
+Verbindung Maschinenverordnung und IEC 62443 
+
+--> theoretischen Hintergrund
+
+### 7. Secure Development Lifecycle (SDLC)
+
+> Security wurde historisch nicht systematisch im Functional Testing betrachtet.
+
+Der SDLC aus dem Handbuch liefert organisatorischen Rahmen. 
+
+
+### 8. Secure by Design & Defense in Depth
+
+Industrial Gateways sitzen an der IT/OT-Grenze.
+
+- warum mehrere Sicherheitsschichten benötigt werden
+- welche Security-Funktionen überhaupt getestet werden müssen
+
+Beispiele:
+
+- Authentifizierung
+- TLS
+- Rollenrechte
+- Logging
+- Netzwerksegmentierung
+
+ 
+
+### 9. Cybersecurity Goals
+
+Für den theoretischen Teil solltest du die sechs Schutzziele kennen:
+
+* Confidentiality
+* Integrity
+* Availability
+* Accountability
+* Authenticity
+* Non-Repudiation
+
+Jede Testmethode prüft eines oder mehrere dieser Ziele.
+
+
+
