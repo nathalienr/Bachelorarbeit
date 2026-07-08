@@ -1,0 +1,113 @@
+Grundlagen und Recherche:
+'''''''''''''''''''''''''
+	- Maschinenverordnung 2023/1230:
+		> Wandel von Safety zu Security --> Bedarf Security Testing
+		> Anhang III: Schutz gegen Korrumpierung
+		> prEN 50742 als Bindeglied für praktische Umsetzung
+		> IEC 62443: Zonen- und Conduit-Konzept für Industrielle Gateways (4-2, 3-3); EN IEC 62443-4-2:2019/prAA 2026-XX
+	- Begriffe:
+		> RACI
+		> Confidentiality
+		> Integrity
+		> Availability
+		> Authenticity
+		> Accountability
+		> Secure Development Lifecycle
+		> Threat Mitigation Testing
+		> Vulnerability Testing
+		> Penetrationtesting
+
+
+
+
+Analyse IT/OT-Schnittstellen:
+'''''''''''''''''''''''''''''
+
+Analyse bestehender Testansätze:
+''''''''''''''''''''''''''''''''
+	- State-of-Art im Testing:
+		> Attack Surface (Industrielle Gateway als kritische Schnittstellenkomponente)
+		> Secure Development Lifecycle (SDLC)
+		> Verifikation (wer welche Rolle)
+		> Methodiken (Threat Mitigation, Vulnerability Testing, Penetration-Testing)
+	- Gap-Analysis + Ist-Zustand:
+		> Traditionelle funktionale Validierung (Fokus auf Datenübertragung, Performance, Protokolle)
+		> Lücke: Klassisches Testen bietet keinen Schutz vor Korrumpierung 
+
+Entwicklung Testmethodik:
+'''''''''''''''''''''''''
+	- Threat Modeling: 
+		> Ableitung von Security Requirements aus Risikoanalyse
+	- Konzeption Testframeworks:
+		> Zuordnung: Requirement --> Testmethode --> Schutzziele
+	- Definition funktionaler Security-Testfälle:
+		> Firmware-Schutz
+		> Rollenkonzepte
+		> Manipulationsschutz
+	- Strukturierung Logging- und Nachweisverfahren 
+		
+
+Implementierung Methodik:
+'''''''''''''''''''''''''
+	- Testaufbau + Toolchain 
+		> Scanner
+		> Fuzzer
+		> Testskripte
+	- Durchführung der Tests z.B.:
+		> Downgrade
+		> manipulierte Konfiguration 
+		
+
+Bewertung Ergebnisse:
+''''''''''''''''''''''
+	- Evaluierung der Testergebnisse 
+		> Nachweis Wirksamkeit Mitigationsmaßnahmen
+
+
+
+
+
+
+Excel-Tabelle: Anforderung Maschinenverordnung (Anhang III) --> Empfehlung prEN 50742 / IEC 62443 --> Möglicher technischer Testfall am Gateway.
+
+- Textstellen der Maschinenverordnung (Anhang III, 1.1.9 / 1.2.1)
+- prEN 50742 analysieren (Schutzziele definieren). I
+- EC 62443 (Zonen/Conduits)
+
+- Definitionen:
+	> Threat Mitigation Testing 
+	> Vulnerability Testing
+	> Penetration-Testing
+ 
+- Secure Developement Lifecycle (SDLC)-Rahmen
+
+
+Phase 2: Lückenanalyse & Konzeptentwicklung 
+''''''''''''''''''''''''''''''''''''''''''''
+- Gegenüberstellung: "Was testen wir heute?" vs. "Was fordert die prEN 50742 / Maschinenverordnung?" 
+	--> Datenübertragung vs. Authentisierung/Logging
+
+- Matrix, die zeigt, wie eine Security-Anforderung (z.B. "Schutz vor unautorisierter Konfiguration") in einen funktionalen Security-Testfall übersetzt wird.
+
+- konkreten Testfälle (Downgrade-Schutz, Log-Manipulation, Authentifizierung).
+
+- Vorbereitung: Testumgebung und die Tools (z.B. für Fuzzing/Scans) vor
+
+
+Phase 3: Praktische Validierung & Testdurchführung 
+'''''''''''''''''''''''''''''''''''''''''''''''''''
+- Durchführung definierter Tests am Industrial Gateway
+	> Schnittstellen angreifen
+	> Konfigurationsdateien manipulieren
+	> Prüfen, ob die Logs (wie gefordert) manipulationssicher mitgeschrieben werden
+
+- Testergebnisse analysieren
+	> Wurden die Gegenmaßnahmen empirisch nachgewiesen? 
+	> Unabhängigkeit des Prüfers (Auditor Independence)?  
+	> Praktikabilität für zukünftige Produktreleases?
+
+
+
+
+
+
