@@ -1,0 +1,193 @@
+1. Introduction
+	Background and Motivation
+		Digitalisierung von Industrieanlagen
+		IT/OT-Konvergenz
+		Industrielle Gateways als kritische Schnittstellen
+		Wandel von Safety zu Security
+		Neue Anforderungen durch die Machinery Regulation 2023/1230
+	Problem Statement
+		Klassische funktionale Tests fokussieren Kommunikation, Performance und Zuverlässigkeit
+		Fehlende systematische Verifikation von Security-Funktionen
+		Gap zwischen regulatorischen Anforderungen und bestehender Testpraxis
+	Objectives and Scope
+		Entwicklung einer Security-Testmethodik
+		Nachweis der Wirksamkeit technischer Gegenmaßnahmen
+		Integration in bestehende Testprozesse
+
+		Beispielsweise:
+
+		RQ1: Welche regulatorischen und normativen Anforderungen müssen durch funktionale Security-Tests 		für industrielle Gateways berücksichtigt werden?
+
+		RQ2: Wie können Security-Anforderungen aus Bedrohungen und Risiken systematisch in Testfälle 			überführt werden?
+
+		RQ3: Wie wirksam ist die entwickelte Testmethodik bei der Verifikation bestehender Security-			Maßnahmen?
+
+		Fokus auf industrielle Gateways (physische/digitale Schnittstellen)
+		Fokus auf funktionales Security Testing
+		Keine vollständige Produktzertifizierung
+		Keine tiefgehenden Penetration-Tests
+	Structure of the Thesis
+		Kurze Beschreibung der Kapitel.
+
+2. Fundamentals
+
+	2.1 Industrial Gateways in IT/OT Architectures
+		2.1.1 Role as Critical Interface Component
+		2.1.2 IT/OT Interfaces
+		2.1.3 Attack Surface of Industrial Gateways
+	2.2 Regulatory and Standardization Framework
+		2.2.1 EU Machinery Regulation (EU) 2023/1230
+			Cybersecurity-Anforderungen
+			Annex III
+			Schutz gegen Korrumpierung
+		2.2.2 prEN 50742
+			Konkretisierung der Maschinenverordnung
+		2.2.3 IEC 62443 Series
+			Zonen- und Conduits
+			IEC 62443-3-3
+			IEC 62443-4-2
+	2.3 Cybersecurity Fundamentals
+		2.3.1 Security Goals
+			Confidentiality
+			Integrity
+			Availability
+			Authenticity
+			Accountability
+		2.3.2 Secure Development Lifecycle
+		2.3.3 Threats, Vulnerabilities and Risks
+	2.4 Risk-Based Security Engineering
+		2.4.1 Threat Analysis and Risk Assessment (TARA)
+		2.4.2 STRIDE Methodology
+			Threat Categories (Spoofing, Tampering, Repudiation, Information disclosure, Denial of Service, Elevation of privilege)
+				--> Associated with security control (Authentication, Integrity, Non-repudiation, Confidentiality, Availability, Authorization)
+		2.4.3 Risk Evaluation
+			Impact
+			Likelihood
+			Risk Matrix
+			Mitigation Strategies
+		2.4.4 Risk Treatment Strategies
+			Avoid
+			Mitigate
+			Transfer
+			Accept
+	2.5 Security Testing Approaches
+		2.5.1 Threat Mitigation Testing
+		2.5.2 Vulnerability Testing --> begründen, warum klassische Vulnerability-Tests und funktionale Security-Tests unterschiedliche Ziele verfolgen 
+												(Vulnerability Databases, Fuzzing, Vulnerability Scanning))
+		2.5.3 Penetration Testing
+		2.5.4 Functional Security Testing
+
+
+
+3. Methodology
+
+	3.1 Research Approach
+		Design Science Research
+		Entwicklung und Validierung einer Methodik
+	3.2 Analysis of the Gateway Security Context
+		 Asset Identification
+		 Interface Analysis
+			Netzwerkinterfaces
+			Konfigurationsschnittstellen
+			Update-Schnittstellen
+			Diagnosezugänge
+		 Threat Identification
+		 Risk Assessment
+	3.3 Derivation of Security Requirements
+
+		Ableitung aus:
+			Machinery Regulation
+			IEC 62443
+			TARA
+	3.4 Development of the Functional Security Testing Methodology
+		3.4.1 Testing Framework Concept
+			Test Matrix Structure: 
+				Requirement --> Threat --> Countermeasure --> Test Category --> Test Case --> 					Evidence
+		3.4.2 Security Test Categories
+			Interface Exposure
+			Authentication
+			Authorization --> Firewall, Whitelisting, Zone Separation
+			Communication Security
+			Configuration Protection
+			Firmware and Update Security
+			Logging and Traceability
+			Robustness / Negative Testing
+			Principles: Completeness, and Abstraction
+		3.4.3 Test Case Structure
+			Beispielsweise:
+				Requirement
+				Threat
+				Objective
+				Preconditions
+				Procedure
+				Expected Result
+				Evidence
+		3.4.4 Roles and Responsibilities in Verification
+			Organizational Roles and RACI Matrix in Verification
+	3.5 Evaluation Criteria
+		PASS / FAIL / PARTIAL / N/A
+
+
+
+4. Implementation and Results
+
+	4.1 Test Environment
+		4.1.1 Test Object
+			Beschreibung des Gateways.
+		4.1.2 Test Setup
+			Netzwerkaufbau.
+		4.1.3 Toolchain
+			Scanner
+			Fuzzer
+			Testskripte
+			Logging Tools
+	4.2 Application of the Testing Methodology
+		4.2.1 Authentication Tests
+			Beispiele:
+				Passwortprüfung
+				Fehlgeschlagene Logins
+		4.2.2 Authorization Tests
+			Rollenmodell
+			Rechteeskalation
+		4.2.3 Configuration Manipulation Tests
+			Unautorisierte Änderungen
+			Import/Export-Manipulation
+		4.2.4 Firmware and Update Protection Tests
+			Signaturprüfung
+			Downgrade-Schutz
+		4.2.5 Logging and Traceability Tests
+			Nachvollziehbarkeit
+			Manipulationsschutz
+		4.2.6 Communication Security Tests
+			Verschlüsselung
+			Zertifikate
+	4.3 Results
+		4.3.1 Test Results Overview
+			Matrix:
+
+			Test Case	Requirement	ResultTC-01	Authentifizierung	PASS
+			TC-02	Firmware Integrity	FAIL
+		4.3.2 Evaluation of Mitigation Effectiveness
+			Reduziert die Gegenmaßnahme tatsächlich das ursprünglich identifizierte Risiko?
+			Stärken der Methodik
+			Grenzen
+			Übertragbarkeit auf andere Produkte
+
+5. Summary
+	5.1 Summary of Findings
+			Forschungsfragen beantworten
+		Contributions
+			Entwickelte Testmethodik
+			Testframework
+			Traceability-Konzept
+	 	Limitations
+			Einzelnes Gateway
+			Begrenzte Testzeit
+			Keine vollständige Security-Zertifizierung
+	5.4 Future Work
+		Automatisierung
+		Continuous Security Testing
+		Integration in SDLC
+		Erweiterung auf weitere OT-Produkte
+		KI
+		Neue Standards
