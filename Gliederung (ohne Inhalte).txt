@@ -4,7 +4,7 @@
 
 	2.1 Industrial Gateways in IT/OT Environments
 		2.1.1 Role as Critical Interface Component
-		2.1.2 IT/OT Interfaces
+		2.1.2 IT/OT Interfaces --> Security Anforderungen IT/ OT
 		2.1.3 Attack Surface and Asset Identification
 
 	2.2 Regulatory and Standardization Framework
@@ -14,8 +14,8 @@
 
 	2.3 Cybersecurity Fundamentals
 		2.3.1 Security Goals
-		2.3.2 Secure Development Lifecycle 
-		2.3.3 Threats, Vulnerabilities and Risks
+		2.3.2 Threats, Vulnerabilities and Attack Vectors
+		2.3.3 Security Controls and Mitigation Measures
 
 	2.4 Risk-Based Security Engineering
 		2.4.1 Threat Analysis and Risk Assessment (TARA)
@@ -61,6 +61,8 @@
 5. Summary and Outlook 
 	5.1 Summary of Findings
 	5.2 Future Work
+
+Anhang Secure Development Lifecycle 
 
 
 

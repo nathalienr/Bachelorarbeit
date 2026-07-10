@@ -1,1 +1,142 @@
-\chapter{Fundamentals} \label{chap:fundamentals} \section{Industrial Gateways in IT/OT Environments} \label{sec:industrial_gateways} \subsection{Role as Critical Interface Component} \label{subsec:critical_interface_component} \subsection{IT/OT Interfaces} \label{subsec:it_ot_interfaces} \subsection{Attack Surface and Asset Identification} \label{subsec:attack_surface_asset_identification} \section{Regulatory and Standardization Framework} \label{sec:regulatory_framework} \subsection{EU Machinery Regulation (EU) 2023/1230} \label{subsec:eu_machinery_regulation} \subsection{prEN 50742} \label{subsec:pren_50742} \subsection{IEC 62443 Series} \label{subsec:iec_62443} \section{Cybersecurity Fundamentals} \label{sec:cybersecurity_fundamentals} \subsection{Security Goals} \label{subsec:security_goals} \subsection{Secure Development Lifecycle} \label{subsec:secure_development_lifecycle} \subsection{Threats, Vulnerabilities and Risks} \label{subsec:threats_vulnerabilities_risks} \section{Risk-Based Security Engineering} \label{sec:risk_based_security_engineering} \subsection{Threat Analysis and Risk Assessment (TARA)} \label{subsec:tara} \subsection{STRIDE Methodology} \label{subsec:stride} \subsection{Risk Evaluation} \label{subsec:risk_evaluation} \subsection{Risk Treatment Strategies} \label{subsec:risk_treatment_strategies} \section{Security Testing Approaches} \label{sec:security_testing_approaches} \subsection{Threat Mitigation Testing} \label{subsec:threat_mitigation_testing} \subsection{Vulnerability Testing} \label{subsec:vulnerability_testing} \subsection{Penetration Testing} \label{subsec:penetration_testing} \subsection{Functional Security Testing} \label{subsec:functional_security_testing}
+\chapter{Fundamentals} \label{chap:fundamentals} 
+% mind. 18 Seiten 
+
+
+
+\section{Industrial Gateways in IT/OT Environments} 
+\label{sec:industrial_gateways} 
+
+
+
+\subsection{Role as Critical Interface Component} 
+\label{subsec:critical_interface_component} 
+
+\subsection{IT/OT Interfaces} 
+\label{subsec:it_ot_interfaces} 
+
+\subsection{Attack Surface and Asset Identification} 
+\label{subsec:attack_surface_asset_identification} 
+
+
+\section{Regulatory and Standardization Framework} 
+\label{sec:regulatory_framework} 
+
+\subsection{EU Machinery Regulation (EU) 2023/1230} 
+\label{subsec:eu_machinery_regulation} 
+
+\subsection{prEN 50742} 
+\label{subsec:pren_50742} 
+
+\subsection{IEC 62443 Series} 
+\label{subsec:iec_62443} 
+
+Within the landscape of industrial cybersecurity, the international standard series 
+IEC 62443 serves as the foundational framework for securing Industrial Automation 
+and Control Systems \cite[S. 13]{IEC62443-3-3}. 
+
+
+IEC 62443-3-3 delineates the system-level security requirements, thereby bridging the gap between high-level organizational policies and technical implementation  \cite[S. 15]{IEC62443-3-3}. The primary objective of this standard is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[S. 6]{IEC62443-3-3}. 
+
+To achieve this objective, the standard establishes seven core pillars, referred to 
+as Foundational Requirements (FRs), which define the essential technical capabilities 
+a system must possess:
+\begin{itemize}
+	\item \textbf{FR 1: Identification and Authentication Control (IAC):} Ensures that all 
+	users, software processes, and devices are uniquely identified and authenticated 
+	before being granted access to the system \cite[S. 29]{IEC62443-3-3}. 
+	\item \textbf{FR 2: Use Control (UC):} Monitors and restricts the privileges of 
+	authenticated entities, ensuring they can only execute authorized actions 
+	in accordance with the principle of least privilege \cite[S. 41]{IEC62443-3-3}.
+	\item \textbf{FR 3: System Integrity (SI):} Protects the system, applications, and data 
+	from unauthorized or malicious modifications to guarantee the trustworthy 
+	operation of OT components \cite[S. 50]{IEC62443-3-3}.
+	\item \textbf{FR 4: Data Confidentiality (DC):} Safeguards sensitive information against 
+	unauthorized disclosure both at rest and in transit across communication channels \cite[S. 57]{IEC62443-3-3}.
+	\item \textbf{FR 5: Restricted Data Flow (RDF):} Segmentizes the industrial network into 
+	defined security zones and conduits, limiting data communication to the absolute 
+	necessary minimum to prevent lateral movement of threats \cite[S. 61]{IEC62443-3-3}.
+	\item \textbf{FR 6: Timely Response to Events (TRE):} Mandates continuous security monitoring, 
+	logging, and anomaly detection to facilitate rapid incident response and mitigation 
+	in the event of a breach \cite[S. 65]{IEC62443-3-3}.
+	\item \textbf{FR 7: Resource Availability (RA):} Ensures that the system remains operational and critical functions are maintained even when subjected to faults or 
+	Denial-of-Service attacks \cite[S. 67]{IEC62443-3-3}.
+\end{itemize}
+
+The fulfillment of these foundational requirements is evaluated through a granular 
+metric known as Security Levels (SL), which quantify the system's resilience 
+against various adversary profiles \cite[S. 16]{IEC62443-3-3}. These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
+utilizing significant resources \cite[S. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[S. 26]{IEC62443-3-3}.
+
+
+
+%While \mbox{IEC 62443-3-3} addresses cybersecurity from a holistic system-level 
+%perspective, \mbox{IEC 62443-4-2} shifts the focus to the individual technical 
+%building blocks, specifying the technical security requirements for IACS components 
+%\cite[S. 11]{IEC62443-4-2}. The primary objective of this standard is to ensure 
+%that the components integrated into an industrial system inherently possess the 
+%necessary technical capabilities to support the overarching system-level Security 
+%Levels (SL) \cite[S. 12]{IEC62443-4-2}. To achieve this, the standard maps the 
+%seven Foundational Requirements (FRs) defined in the system-level framework directly 
+%onto four distinct component types: software applications, embedded devices, host 
+%devices, and network components \cite[S. 13]{IEC62443-4-2}. In the context of 
+%industrial gateways, which act as critical boundaries at the IT/OT interface, these 
+%devices are primarily evaluated under the stringent requirements for network 
+%components \cite[S. 14]{IEC62443-4-2}.
+%
+%Analogous to the system-level standard, the concrete technical specifications 
+%within \mbox{IEC 62443-4-2} are structured as Component Security Requirements (CRs) 
+%and further refined by Requirement Enhancements (REs) \cite[S. 15]{IEC62443-4-2}. 
+%These CRs and REs are directly derived from the seven FRs, acting as the granular 
+%technical criteria that a component must satisfy to achieve a specific Component 
+%Security Level Capability ($SL\text{-}C_{component}$) \cite[S. 19]{IEC62443-4-2}. 
+%For instance, while a system requires restricted data flow under FR~5, 
+%\mbox{IEC 62443-4-2} translates this into explicit component capabilities, such 
+%as the network component's ability to enforce logical isolation, manage access control 
+%lists, and securely route or filter traffic at the physical IT/OT interface 
+%\cite[S. 55]{IEC62443-4-2}. Consequently, the verification of these component-level 
+%capabilities forms the prerequisite for achieving compliance and satisfying the 
+%regulatory expectations imposed by modern conformity assessment frameworks.
+
+
+\section{Cybersecurity Fundamentals} 
+\label{sec:cybersecurity_fundamentals} 
+
+\subsection{Security Goals} 
+\label{subsec:security_goals} 
+
+\subsection{Secure Development Lifecycle} 
+\label{subsec:secure_development_lifecycle} 
+
+\subsection{Threats, Vulnerabilities and Risks} 
+\label{subsec:threats_vulnerabilities_risks} 
+
+
+\section{Risk-Based Security Engineering} 
+\label{sec:risk_based_security_engineering} 
+
+\subsection{Threat Analysis and Risk Assessment (TARA)} \label{subsec:tara} 
+
+\subsection{STRIDE Methodology} 
+\label{subsec:stride} 
+
+\subsection{Risk Evaluation} 
+\label{subsec:risk_evaluation} 
+
+\subsection{Risk Treatment Strategies} 
+\label{subsec:risk_treatment_strategies} 
+
+
+\section{Security Testing Approaches} 
+\label{sec:security_testing_approaches} 
+
+\subsection{Threat Mitigation Testing} 
+\label{subsec:threat_mitigation_testing} 
+
+\subsection{Vulnerability Testing} 
+\label{subsec:vulnerability_testing} 
+
+\subsection{Penetration Testing} 
+\label{subsec:penetration_testing} 
+
+\subsection{Functional Security Testing} 
+\label{subsec:functional_security_testing}
