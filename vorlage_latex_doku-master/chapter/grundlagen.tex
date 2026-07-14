@@ -21,8 +21,30 @@
 \section{Regulatory and Standardization Framework} 
 \label{sec:regulatory_framework} 
 
-\subsection{EU Machinery Regulation (EU) 2023/1230} 
-\label{subsec:eu_machinery_regulation} 
+
+\subsection{EU Machinery Regulation (EU) 2023/1230}
+\label{subsec:eu_machinery_regulation}
+
+With the publication of Regulation (EU) 2023/1230 on June 29, 2023, in the Official Journal of the European Union, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \Cite[S. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[S. 38]{EU2023_1230}.
+
+The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \Cite[S. 32]{https://doi.org/10.1002/citp.202501012} \cite[S. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[S. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as \glqq substantial modification\grqq, formally clarifying when an alteration to an existing machine turns an operator legally into a manufacturer subject to full conformity assessment procedures \cite[S. 25]{EU2023_1230}.
+
+A key driver for this overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[S. 2]{EU2023_1230}. Consequently, the Regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \Cite[S. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, demonstrating that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
+
+This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions, establishing that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \Cite[S. 42 f]{EU2023_1230}. Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \Cite[S. 19]{EU2023_1230}.
+
+Specific requirements apply to the components under Regulation (EU) 2023/1230 \cite[S. 44 ff]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
+\begin{itemize}
+	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[S. 48]{EU2023_1230}
+	\item Hardware components transmitting signals or data relevant to safety-related software must be adequately protected against accidental or intentional corruption 
+	\item Software and data essential for compliance with safety requirements must be identified as such and adequately protected against corruption
+	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[S. 49]{EU2023_1230}
+\end{itemize}
+
+Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems, requiring them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[S. 49]{EU2023_1230}.
+
+Furthermore, Article 10(2) \cite[S. 18]{EU2023_1230} and Annex IV Part A \cite[S. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include the risk assessment, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[S. 83]{EU2023_1230}. Upon a reasoned request from competent national authorities, access to the source code or programming logic of safety-related software must also be provided \cite[S. 84]{EU2023_1230}.
+
 
 \subsection{prEN 50742} 
 \label{subsec:pren_50742} 

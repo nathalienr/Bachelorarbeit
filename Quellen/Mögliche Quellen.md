@@ -1,8 +1,6 @@
+&#x09;~~- IEC 62443 Series (4-2, 3-3, 4-1)~~
 
-
-&#x09;**- IEC 62443 Series (**4-2, 3-3, **4-1)**
-
-&#x09;**- EU Machinery Regulation (EU) 2023/1230**
+&#x09;~~- EU Machinery Regulation (EU) 2023/1230~~
 
 &#x09;**- prEN 50742**
 
@@ -74,27 +72,11 @@ EN ISO 13849-1 / IEC 61508 (Funktionale Sicherheit):
 
 **EU Cyber Resilience Act (CRA):**
 
-&#x09;**Relevanz: Da ein industrielles Gateway ein „Produkt mit digitalen Elementen“ ist, greift der CRA parallel. Er verlangt Cybersicherheit über den gesamten Lebenszyklus sowie ein systematisches Schwachstellenmanagement. Die 				Interplay-Regelungen zwischen CRA und Maschinenverordnung (z. B. bezüglich der Konformitätsbewertung) sind zentral für Ihren Kontext.**  
+&#x09;**Relevanz: Da ein industrielles Gateway ein „Produkt mit digitalen Elementen“ ist, greift der CRA parallel. Er verlangt Cybersicherheit über den gesamten Lebenszyklus sowie ein systematisches Schwachstellenmanagement. Die 				Interplay-Regelungen zwischen CRA und Maschinenverordnung (z. B. bezüglich der Konformitätsbewertung) sind zentral für Ihren Kontext.**
 
 
 
 **NIS-2-Richtlinie (EU 2022/2555):**
 
 &#x09;**Relevanz: Flankierender regulatorischer Rahmen. Sie zwingt Hersteller und Betreiber in der Lieferkette zu Cybersecurity-Nachweisen, was den Druck auf systematische Produkttests erhöht.**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
