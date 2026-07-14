@@ -68,35 +68,30 @@ against various adversary profiles \cite[S. 16]{IEC62443-3-3}. These levels scal
 utilizing significant resources \cite[S. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[S. 26]{IEC62443-3-3}.
 
 
+However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, IEC 62443-4-1 specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
+\begin{itemize}
+	\item \textbf{Practice 1: Security Management (SM):} Ensures that security activities are planned, documented, and governed throughout the entire product lifecycle \cite[Chapter:  Security Management]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 2: Specification of Security Requirements (SR):} Defines functional and non-functional security requirements based on product intent and threat scenarios \cite[Chapter: Specification of Security Requirements]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 3: Secure by Design (SD):} Mandates secure architecture principles, defense-in-depth strategies, and threat modeling during system design \cite[Chapter: Secure by Design]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 4: Secure Implementation (SI):} Focuses on secure coding standards, code reviews, and avoiding known software vulnerabilities \cite[Chapter: Secure Implementation]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 5: Security Verification and Validation Testing (SV):} Requires systematic security testing, including dynamic analysis, interface testing, and fuzzing prior to release \cite[Chapter: Security Verification and Validation Testing]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 6: Management of Security-Related Issues (DM):} Establishes processes for tracking, analyzing, and resolving identified vulnerabilities or defects \cite[Chapter:  Management of Security-Related Issues]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 7: Security Update Management (SUM):} Defines procedures for creating, testing, and distributing security patches to affected deployments \cite[Chapter: Security Update Management]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{Practice 8: Security Guidelines (SG):} Demands comprehensive documentation to enable end users to securely configure, deploy, and operate the component \cite[Chapter: Security Guidelines]{DIN_EN_IEC_62443_4_1_2018}.
+\end{itemize}
 
-%While \mbox{IEC 62443-3-3} addresses cybersecurity from a holistic system-level 
-%perspective, \mbox{IEC 62443-4-2} shifts the focus to the individual technical 
-%building blocks, specifying the technical security requirements for IACS components 
-%\cite[S. 11]{IEC62443-4-2}. The primary objective of this standard is to ensure 
-%that the components integrated into an industrial system inherently possess the 
-%necessary technical capabilities to support the overarching system-level Security 
-%Levels (SL) \cite[S. 12]{IEC62443-4-2}. To achieve this, the standard maps the 
-%seven Foundational Requirements (FRs) defined in the system-level framework directly 
-%onto four distinct component types: software applications, embedded devices, host 
-%devices, and network components \cite[S. 13]{IEC62443-4-2}. In the context of 
-%industrial gateways, which act as critical boundaries at the IT/OT interface, these 
-%devices are primarily evaluated under the stringent requirements for network 
-%components \cite[S. 14]{IEC62443-4-2}.
-%
-%Analogous to the system-level standard, the concrete technical specifications 
-%within \mbox{IEC 62443-4-2} are structured as Component Security Requirements (CRs) 
-%and further refined by Requirement Enhancements (REs) \cite[S. 15]{IEC62443-4-2}. 
-%These CRs and REs are directly derived from the seven FRs, acting as the granular 
-%technical criteria that a component must satisfy to achieve a specific Component 
-%Security Level Capability ($SL\text{-}C_{component}$) \cite[S. 19]{IEC62443-4-2}. 
-%For instance, while a system requires restricted data flow under FR~5, 
-%\mbox{IEC 62443-4-2} translates this into explicit component capabilities, such 
-%as the network component's ability to enforce logical isolation, manage access control 
-%lists, and securely route or filter traffic at the physical IT/OT interface 
-%\cite[S. 55]{IEC62443-4-2}. Consequently, the verification of these component-level 
-%capabilities forms the prerequisite for achieving compliance and satisfying the 
-%regulatory expectations imposed by modern conformity assessment frameworks.
+To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
 
+
+Building upon these lifecycle practice, IEC 62443-4-2 shifts the focus to the individual technical building blocks, specifying the technical security requirements for IACS components \cite[S. 18]{IEC62443-4-2}. The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
+To achieve this, the standard maps the seven Foundational Requirements (FRs) defined in the system-level framework directly onto four distinct component types: software applications, embedded devices, host 
+devices, and network components \cite[S. 17]{IEC62443-4-2}. 
+
+
+Analogous to the system-level standard, the concrete technical specifications within IEC 62443-4-2 are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs)\cite[S. 32 ff]{IEC62443-4-2}. These CRs and REs are directly derived from the seven FRs, acting as the granular technical criteria that a component must satisfy to achieve a specific Component Security Level Capability (SL-C) \cite[S. 31 ff]{IEC62443-4-2}. 
+
+For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as the network component's ability to enforce logical isolation, manage access control lists, and securely route or filter traffic at the physical IT/OT interface 
+\cite[S. 61 ff]{IEC62443-4-2}. 
 
 \section{Cybersecurity Fundamentals} 
 \label{sec:cybersecurity_fundamentals} 
