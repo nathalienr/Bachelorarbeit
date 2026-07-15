@@ -2,7 +2,7 @@
 
 &#x09;~~- EU Machinery Regulation (EU) 2023/1230~~
 
-&#x09;**- prEN 50742**
+&#x09;~~- prEN 50742~~
 
 &#x09;- ISO/IEC 27005 (2022): Information security, cybersecurity and privacy protection — Guidance on managing information security risks.
 

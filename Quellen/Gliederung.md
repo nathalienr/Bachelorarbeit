@@ -78,6 +78,8 @@
 
 &#x09;		Gateway as Security Enforcement Point
 
+&#x09;		Gateway as Trust Boundary
+
 &#x09;	2.1.2 IT/OT Interfaces
 
 &#x09;		Characteristics of IT Systems
@@ -86,9 +88,9 @@
 
 &#x09;		IT/OT Convergence
 
-&#x09;		IEC 62443 Zones and Conduits als Architekturkonzept
-
 &#x09;		Security Requirements at IT/OT Boundaries
+
+&#x09;		Different Security Priorities in IT and OT	
 
 &#x09;	2.1.3 Attack Surface of Industrial Gateways
 
@@ -102,41 +104,43 @@
 
 &#x09;		Firmware and Update Mechanisms
 
+&#x09;		Security Relevant Assets
+
 &#x09;		Typical Attack Vectors
 
 
 
-&#x09;2.2 Regulatory and Standardization Framework
+&#x09;~~2.2 Regulatory and Standardization Framework~~
 
-&#x09;	2.2.1 EU Machinery Regulation (EU) 2023/1230
+&#x09;	~~2.2.1 EU Machinery Regulation (EU) 2023/1230~~
 
-&#x09;		Cybersecurity Requirements
+&#x09;		~~Cybersecurity Requirements~~
 
-&#x09;		Essential Health and Safety Requirements
+&#x09;		~~Essential Health and Safety Requirements~~
 
-&#x09;		Annex III
+&#x09;		~~Annex III~~
 
-&#x09;		Protection against Corruption
+&#x09;		~~Protection against Corruption~~
 
-&#x09;		Secure Communication
+&#x09;		~~Secure Communication~~
 
-&#x09;		Traceability
+&#x09;		~~Traceability~~
 
-&#x09;	2.2.2 prEN 50742
+&#x09;	~~2.2.2 prEN 50742~~
 
-&#x09;		Relationship to Machinery Regulation
+&#x09;		~~Relationship to Machinery Regulation~~
 
-&#x09;		Guidance for Cybersecurity Verification
+&#x09;		~~Guidance for Cybersecurity Verification~~
 
-&#x09;	2.2.3 IEC 62443 Series
+&#x09;	~~2.2.3 IEC 62443 Series~~
 
-&#x20;			Overview of the Standard Series
+&#x20;			~~Overview of the Standard Series~~
 
-&#x09;			- IEC 62443-3-2 Risk Assessment Concepts
+&#x09;			~~- IEC 62443- 4-1 Risk Assessment Concepts~~
 
 &#x09;			~~- IEC 62443-3-3 Foundational Requirements~~
 
-&#x09;			- IEC 62443-4-2 Technical Security Requirements
+&#x09;			~~- IEC 62443-4-2 Technical Security Requirements~~
 
 
 
@@ -194,7 +198,7 @@
 
 &#x09;			--> Associated with security control (Authentication, Integrity, Non-repudiation, Confidentiality, Availability, Authorization)
 
-&#x09;	2.4.3 Risk Evaluation
+&#x09;	2.4.3 Risk Evaluation 
 
 &#x09;		Impact
 
@@ -218,7 +222,7 @@
 
 &#x09;	2.5.1 Threat Mitigation Testing
 
-&#x09;	2.5.2 Vulnerability Testing --> begründen, warum klassische Vulnerability-Tests und funktionale Security-Tests unterschiedliche Ziele verfolgen
+&#x09;	2.5.2 Vulnerability Testing --> begründen, warum klassische Vulnerability-Tests und funktionale Security-Tests unterschiedliche Ziele verfolgen 
 
 &#x09;											(Vulnerability Databases, Fuzzing, Vulnerability Scanning))
 
@@ -241,6 +245,10 @@
 
 
 3\. Methodology
+
+
+
+(Herleitung Anforderungen: IEC 62443-3-2)
 
 &#x09;3.1 Research Approach
 
@@ -282,7 +290,7 @@
 
 &#x09;	3.4.1 Testing Framework Concept
 
-&#x09;		Test Matrix Structure:
+&#x09;		Test Matrix Structure: 
 
 &#x09;			Requirement --> Threat -->  Risk --> Countermeasure --> Test Category --> Test Case --> Evidence
 
