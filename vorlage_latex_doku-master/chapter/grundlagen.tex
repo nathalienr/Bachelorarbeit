@@ -53,15 +53,23 @@ The attributes summarized in Table \ref{tab:it_ot_comparison} highlight the fund
 
 This divergence further dictates how software maintenance and network communication are handled. While IT infrastructures rely on frequent, rapid security patching and standard communication protocols (such as HTTP or SQL), OT infrastructures adopt a highly conservative update policy. Because OT systems require rigorous validation and recertification to guarantee absolute operational safety, patches are applied rarely and only during planned maintenance windows. Furthermore, the underlying network communication in OT utilizes deterministic, low-overhead protocols like Modbus or Profinet, which lack built-in security features such as encryption \cite{hwi_ot_definition}.
 
+
 \subsection{Attack Surface and Asset Identification} 
 \label{subsec:attack_surface_asset_identification} 
 
+For a systematic assessment of Industrial Internet of Things components such as industrial gateways, a granular decomposition of the target architecture into hardware, software, and data assets throughout the entire product life cycle is required \cite[pp. 1]{liebl2024analyzingattacksurfacethreats}. 
 
+The hardware asset dimension comprises the physical enclosure. It may include tamper protection features, alongside the underlying printed circuit boards (PCB) and core microprocessors or microcontrollers . These processing units often embed specialized security mechanisms like Trusted Execution Environments, True Random Number Generators and cryptographic accelerators. Furthermore, hardware assets encompass volatile and non-volatile memory components such as SRAM and EEPROM structures, as well as removable storage like SD cards or USB sticks \cite{liebl2024analyzingattacksurfacethreats}. Dedicated secure cryptoprocessors, including Trusted Platform Modules and Secure Elements, are part of this domain, together with connectivity structures and various physical input and output elements \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
 
+The software asset dimension is formed by the firmware providing low-level hardware access, the underlying operating system or real-time operating system, and software-based cryptographic libraries. It also contains integrated communication protocol stacks for local, internet, or automation environments, such as TCP/IP, PROFINET, or OPC UA, alongside local or remote smart services. At the top of this stack sits the specific application logic responsible for tasks like data pre-processing or controlling actuators \cite[p. 4]{liebl2024analyzingattacksurfacethreats}. 
 
+All these components interact with various data assets that must be identified, which include the executable device code itself, configuration data, specific application data from sensor readings, diagnostic log data, and essential authentication data \cite[p. 4]{liebl2024analyzingattacksurfacethreats}.
+The overall attack surface of the device is defined by the sum of all entry points and attack vectors that target these individual components throughout the life cycle phases \cite[p. 1]{liebl2024analyzingattacksurfacethreats}. 
 
-
-
+On the hardware level, chip-level vectors include the malicious insertion of hardware Trojans during design or production, physical data manipulation, and fault injection e.g. via voltage glitching \cite[p. 8]{liebl2024analyzingattacksurfacethreats}.
+On the PCB level, vectors focus on design cloning. Device-level physical vectors involve general sabotage.
+The software and application attack surface is primarily driven by vulnerabilities within the embedded firmware components, such as flaws in network stacks that allow remote code execution or denial of service. Application-layer entries include input validation flaws like SQL injection, typical web application vulnerabilities, data injection via spoofed sensor inputs \cite[p. 8]{liebl2024analyzingattacksurfacethreats}. 
+The network interface exposes the device to classic automation protocol weaknesses that lack native security controls, enabling man-in-the-middle and replay attacks, distributed denial of service (DDoS) attempts, and port scans \cite[p. 9]{liebl2024analyzingattacksurfacethreats}.
 
 
 \section{Regulatory and Standardization Framework} 
