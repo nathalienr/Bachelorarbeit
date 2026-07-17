@@ -31,20 +31,19 @@
 
 2. Fundamentals
 	2.1 Industrial Gateways in IT/OT Environments
-		2.1.1 Role as Critical Interface Component
-			Definition of Industrial Gateways
+		2.1.1 Definition of Industrial Gateways
 			Gateway Functions
 			Protocol Translation
-			Data Aggregation
-			Remote Access
-			Gateway as Security Enforcement Point
 		2.1.2 IT/OT Interfaces
 			Characteristics of IT Systems
 			Characteristics of OT Systems
 			IT/OT Convergence
 			IEC 62443 Zones and Conduits als Architekturkonzept
 			Security Requirements at IT/OT Boundaries	
-		2.1.3 Attack Surface of Industrial Gateways
+		2.1.3 Attack Surface and Asset Identification
+			Data Aggregation
+			Remote Access
+			Gateway as Security Enforcement Point
 			Assets within Industrial Gateways
 			Communication Interfaces
 			User Interfaces

@@ -1,19 +1,67 @@
 \chapter{Fundamentals} \label{chap:fundamentals} 
 % mind. 18 Seiten 
 
+
 \section{Industrial Gateways in IT/OT Environments} 
 \label{sec:industrial_gateways} 
 
+\subsection{Fundamentals of Industrial Gateways}
+\label{subsec:industrial_gateways_fundamentals}
+
+Industrial gateways represent crucial architectural components that bridge the gap between distinct network environments by integrating both hardware and software functionalities. Their primary objective is to enable seamless communication between heterogeneous systems operating on different communication protocols. To achieve this, a gateway intercepts incoming data packets from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[pp. 277]{Gsell2026}.
+
+A gateway can operate across all layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. In the context of this thesis, industrial gateways specifically facilitate the transition between Information Technology (IT) networks, typically dominant in layers 4 to 7, and Operational Technology (OT) networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints. These include differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
+To ensure efficient translation, the protocol implementation and mapping generally occur at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
 
 
-\subsection{Role as Critical Interface Component} 
-\label{subsec:critical_interface_component} 
 
 \subsection{IT/OT Interfaces} 
 \label{subsec:it_ot_interfaces} 
 
+The ongoing digitization and networking within industrial value chains necessitate an increasing integration of two historically distinct domains: Information Technology (IT) and Operational Technology (OT). While IT systems are primarily designed for the electronic storage, calculation, and transport of data, OT comprises a combination of hardware and software components explicitly utilized to monitor and control the performance of physical devices, machines, plants, and infrastructures. Operating predominantly within manufacturing and industrial environments, OT relies heavily on Industrial Control Systems, such as Supervisory Control and Data Acquisition (SCADA) systems \cite[p. 1]{8586807}. Traditionally, OT environments were realized as isolated networks relying on proprietary technologies. However, in the context of modern industrial paradigms, they are increasingly penetrated by networked technologies \cite[p. 1]{8586807}.
+
+Typical representatives of the IT domain include business-oriented software applications such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems. Conversely, the OT domain encompasses physical components on the shop floor, such as machines, scales, scanners, and sensors, along with the integrated control software that orchestrates them, such as Manufacturing Execution Systems (MES) \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
+
+To systematically structure industrial environments, the architectural composition of OT can be categorized into four fundamental elements or functional levels \cite{hwi_ot_definition}:
+\begin{enumerate}
+	\item \textbf{Process Level:} This level consists of physical sensors and actuators that interact directly with the physical environment to perform actual mechanical work
+	\item \textbf{Control Level:} This layer comprises Programmable Logic Controllers (PLCs) and automated controllers that execute the underlying process logic and regulate physical operations in real-time
+	\item \textbf{Supervisory/Operation Level:} This level involves Human-Machine Interfaces (HMIs) and SCADA systems, which allow human operators to monitor system states visually, analyze anomalies, and intervene manually when necessary
+	\item \textbf{Operation IT / Data Layer:} Within this domain, raw OT data is aggregated, processed, and structured to make it valuable and actionable for higher-level applications
+\end{enumerate}
+
+The technological convergence of IT and OT yields substantial operational and economic advantages. These advantages include enhanced transparency through the real-time acquisition of process data, the implementation of predictive maintenance strategies, the enablement of remote operation and maintenance, and comprehensive data-driven process optimization. Despite these benefits, IT/OT convergence introduces significant challenges, primarily because both domains operate under fundamentally conflicting requirements and distinct paradigms. These differences manifest across various dimensions, particularly regarding security priorities, protocols, and lifecycle management \cite{hwi_ot_definition}.
+
+\begin{table}[htbp]
+	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments}
+	\label{tab:it_ot_comparison}
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
+		\toprule  
+		\textbf{Characteristic} & \textbf{Information Technology (IT)} & \textbf{Operational Technology (OT)} \\ 
+		\midrule
+		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
+		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality \\ \addlinespace
+		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
+		Protocol Examples & TCP/IP, \newline HTTP(S),\newline SQL & Modbus, \newline Profinet \\ \addlinespace
+		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
+		\bottomrule  % Schöne untere Linie
+	\end{tabularx}
+\end{table}
+
+The attributes summarized in Table \ref{tab:it_ot_comparison} highlight the fundamental misalignment between the two domains, which complicates seamless interface design. The most critical divergence lies within the prioritization of the CIA triad (Confidentiality, Integrity, and Availability). In IT paradigms, data confidentiality and robust authentication mechanisms occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments prioritize maximum availability and deterministic real-time execution, as any latency or system interruption could lead to physical damage, production downtime, or severe safety hazards on the shop floor \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
+
+This divergence further dictates how software maintenance and network communication are handled. While IT infrastructures rely on frequent, rapid security patching and standard communication protocols (such as HTTP or SQL), OT infrastructures adopt a highly conservative update policy. Because OT systems require rigorous validation and recertification to guarantee absolute operational safety, patches are applied rarely and only during planned maintenance windows. Furthermore, the underlying network communication in OT utilizes deterministic, low-overhead protocols like Modbus or Profinet, which lack built-in security features such as encryption \cite{hwi_ot_definition}.
+
 \subsection{Attack Surface and Asset Identification} 
 \label{subsec:attack_surface_asset_identification} 
+
+
+
+
+
+
+
 
 
 \section{Regulatory and Standardization Framework} 
@@ -22,47 +70,47 @@
 \subsection{EU Machinery Regulation (EU) 2023/1230}
 \label{subsec:eu_machinery_regulation}
 
-With the publication of Regulation (EU) 2023/1230 (MVO) on June 29, 2023, in the Official Journal of the European Union, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \Cite[S. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[S. 38]{EU2023_1230}.
+With the publication of Regulation (EU) 2023/1230 (MVO) on June 29, 2023, in the Official Journal of the European Union, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
 
-The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \Cite[S. 32]{https://doi.org/10.1002/citp.202501012} \cite[S. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[S. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as  ``substantial modification'', formally clarifying when an alteration to an existing machine turns an operator legally into a manufacturer subject to full conformity assessment procedures \cite[S. 25]{EU2023_1230}.
+The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \cite[p. 32]{https://doi.org/10.1002/citp.202501012} \cite[p. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[p. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as  ``substantial modification'', formally clarifying when an alteration to an existing machine turns an operator legally into a manufacturer subject to full conformity assessment procedures \cite[p. 25]{EU2023_1230}.
 
-A key driver for this overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[S. 2]{EU2023_1230}. Consequently, the Regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \Cite[S. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, demonstrating that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
+A key driver for this overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the Regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, demonstrating that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
 
-This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions, establishing that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \Cite[S. 42 f]{EU2023_1230}. Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \Cite[S. 19]{EU2023_1230}.
+This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions, establishing that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \cite[p. 42 f]{EU2023_1230}. Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \cite[p. 19]{EU2023_1230}.
 
-Specific requirements apply to the components under Regulation (EU) 2023/1230 \cite[S. 44 ff]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
+Specific requirements apply to the components under Regulation (EU) 2023/1230 \cite[pp. 44]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
 \begin{itemize}
-	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[S. 48]{EU2023_1230}
+	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[p. 48]{EU2023_1230}
 	\item Hardware components transmitting signals or data relevant to safety-related software must be adequately protected against accidental or intentional corruption 
 	\item Software and data essential for compliance with safety requirements must be identified as such and adequately protected against corruption
-	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[S. 49]{EU2023_1230}
+	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[p. 49]{EU2023_1230}
 \end{itemize}
 
-Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems, requiring them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[S. 49]{EU2023_1230}.
+Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems, requiring them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[p. 49]{EU2023_1230}.
 
-Furthermore, Article 10(2) \cite[S. 18]{EU2023_1230} and Annex IV Part A \cite[S. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include the risk assessment, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[S. 83]{EU2023_1230}. Upon a reasoned request from competent national authorities, access to the source code or programming logic of safety-related software must also be provided \cite[S. 84]{EU2023_1230}.
+Furthermore, Article 10(2) \cite[p. 18]{EU2023_1230} and Annex IV Part A \cite[p. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include the risk assessment, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[p. 83]{EU2023_1230}. Upon a reasoned request from competent national authorities, access to the source code or programming logic of safety-related software must also be provided \cite[p. 84]{EU2023_1230}.
 
 
 \subsection{prEN 50742} 
 \label{subsec:pren_50742} 
 
-While the new MVO defines the overarching regulatory safety objectives regarding cybersecurity, the harmonized standard draft prEN 50742 (published in Germany as DIN EN 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a direct bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 (\textit{Protection against corruption}) and 1.2.1 (\textit{Safety and reliability of control systems}) \cite[S. 70]{prEN50742_2025}. PrEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[S. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not under any circumstances compromise or degrade the functional safety of the machine, for instance by introducing impermissible latencies in safety-critical communication loops \cite[S. 14]{prEN50742_2025}.
+While the new MVO defines the overarching regulatory safety objectives regarding cybersecurity, the harmonized standard draft prEN 50742 (published in Germany as DIN EN 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a direct bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 (\textit{Protection against corruption}) and 1.2.1 (\textit{Safety and reliability of control systems}) \cite[p. 70]{prEN50742_2025}. PrEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[p. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not under any circumstances compromise or degrade the functional safety of the machine, for instance by introducing impermissible latencies in safety-critical communication loops \cite[p. 14]{prEN50742_2025}.
 
-To accommodate different organizational prerequisites and product architectures, the standard defines two distinct conformity paths for manufacturers \cite[S. 15]{prEN50742_2025}. Approach A represents a standalone, machine-specific methodology directly linked to classical safety risk assessments according to EN ISO 12100 \cite[S. 16]{prEN50742_2025}. Under Approach A, the required strength of countermeasures is determined by calculating the Safety Related Security Level (SRSL 0 to 3), which is derived from the attack potential combined with the severity of potential safety-related harm \cite[S. 19 ff]{prEN50742_2025}. 
+To accommodate different organizational prerequisites and product architectures, the standard defines two distinct conformity paths for manufacturers \cite[p. 15]{prEN50742_2025}. Approach A represents a standalone, machine-specific methodology directly linked to classical safety risk assessments according to EN ISO 12100 \cite[p. 16]{prEN50742_2025}. Under Approach A, the required strength of countermeasures is determined by calculating the Safety Related Security Level (SRSL 0 to 3), which is derived from the attack potential combined with the severity of potential safety-related harm \cite[pp. 19]{prEN50742_2025}. 
 
-In contrast, Approach B is specifically designed for complex systems and components that are integrated into larger industrial communication networks. Instead of using the standalone SRSL framework, Approach B directly utilizes the established \hyperref[subsec:iec_62443]{EN IEC 62443 series} to define and verify technical security requirements \cite[S. 16 ff, S. 24 ff]{prEN50742_2025}. Under this approach, the system as a whole must comply with EN IEC 62443-3-3, while individual machine components must meet the technical security requirements of EN IEC 62443-4-2 at a specified Capability Security Level (typically SL-C 1 or SL-C 2) \cite[S. 24]{prEN50742_2025}.
+In contrast, Approach B is specifically designed for complex systems and components that are integrated into larger industrial communication networks. Instead of using the standalone SRSL framework, Approach B directly utilizes the established \hyperref[subsec:iec_62443]{EN IEC 62443 series} to define and verify technical security requirements \cite[pp. 16, pp. 24]{prEN50742_2025}. Under this approach, the system as a whole must comply with EN IEC 62443-3-3, while individual machine components must meet the technical security requirements of EN IEC 62443-4-2 at a specified Capability Security Level (typically SL-C 1 or SL-C 2) \cite[p. 24]{prEN50742_2025}.
 
-Despite their methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[S. 15]{prEN50742_2025}. Depending on the determined security level (SRSL under Approach A or SL-C under Approach B), both frameworks mandate equivalent critical mitigation measures. First, entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization to prevent unauthorized physical or logical access \cite[S. 17 ff, S. 24 ff]{prEN50742_2025}. Second, the integrity of safety-related application software (SRASW), embedded software (SRESW), and configuration data must be verified cryptographically (e.g., during secure boot or continuously during operation) \cite[S. 17 f]{prEN50742_2025}. Furthermore, the integrity of exchanged information across network boundaries must be secured to prevent spoofing or tampering, which includes a strict validation of input data at external interfaces \cite[S. 50]{prEN50742_2025}. Both approaches require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[S. 19, S. 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone. All implemented technical countermeasures must be structurally verified. Under Approach B, this verification directly maps to the testing of security functions defined by the EN IEC 62443 sub-standards \cite[S. 14]{prEN50742_2025}. 
+Despite their methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[p. 15]{prEN50742_2025}. Depending on the determined security level (SRSL under Approach A or SL-C under Approach B), both frameworks mandate equivalent critical mitigation measures. First, entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization to prevent unauthorized physical or logical access \cite[pp. 17, pp. 24]{prEN50742_2025}. Second, the integrity of safety-related application software (SRASW), embedded software (SRESW), and configuration data must be verified cryptographically (e.g., during secure boot or continuously during operation) \cite[p. 17 f]{prEN50742_2025}. Furthermore, the integrity of exchanged information across network boundaries must be secured to prevent spoofing or tampering, which includes a strict validation of input data at external interfaces \cite[p. 50]{prEN50742_2025}. Both approaches require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[p. 19, S. 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone. All implemented technical countermeasures must be structurally verified. Under Approach B, this verification directly maps to the testing of security functions defined by the EN IEC 62443 sub-standards \cite[p. 14]{prEN50742_2025}. 
 
 \subsection{EN IEC 62443 Series} 
 \label{subsec:iec_62443} 
 
 Within the landscape of industrial cybersecurity, the international standard series 
 IEC 62443 serves as the foundational framework for securing Industrial Automation 
-and Control Systems \cite[S. 13]{IEC62443-3-3}. 
+and Control Systems \cite[p. 13]{IEC62443-3-3}. 
 
 
-\textbf{IEC 62443-3-3} delineates the system-level security requirements, thereby bridging the gap between high-level organizational policies and technical implementation  \cite[S. 15]{IEC62443-3-3}. The primary objective of this standard is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[S. 6]{IEC62443-3-3}. 
+\textbf{IEC 62443-3-3} delineates the system-level security requirements, thereby bridging the gap between high-level organizational policies and technical implementation  \cite[p. 15]{IEC62443-3-3}. The primary objective of this standard is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[p. 6]{IEC62443-3-3}. 
 
 To achieve this objective, the standard establishes seven core pillars, referred to 
 as Foundational Requirements (FRs), which define the essential technical capabilities 
@@ -70,32 +118,32 @@ a system must possess:
 \begin{itemize}
 	\item \textbf{FR 1: Identification and Authentication Control (IAC):} Ensures that all 
 	users, software processes, and devices are uniquely identified and authenticated 
-	before being granted access to the system \cite[S. 29]{IEC62443-3-3}. 
+	before being granted access to the system \cite[p. 29]{IEC62443-3-3}. 
 	\item \textbf{FR 2: Use Control (UC):} Monitors and restricts the privileges of 
 	authenticated entities, ensuring they can only execute authorized actions 
-	in accordance with the principle of least privilege \cite[S. 41]{IEC62443-3-3}.
+	in accordance with the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
 	\item \textbf{FR 3: System Integrity (SI):} Protects the system, applications, and data 
 	from unauthorized or malicious modifications to guarantee the trustworthy 
-	operation of OT components \cite[S. 50]{IEC62443-3-3}.
+	operation of OT components \cite[p. 50]{IEC62443-3-3}.
 	\item \textbf{FR 4: Data Confidentiality (DC):} Safeguards sensitive information against 
-	unauthorized disclosure both at rest and in transit across communication channels \cite[S. 57]{IEC62443-3-3}.
+	unauthorized disclosure both at rest and in transit across communication channels \cite[p. 57]{IEC62443-3-3}.
 	\item \textbf{FR 5: Restricted Data Flow (RDF):} Segmentizes the industrial network into 
 	defined security zones and conduits, limiting data communication to the absolute 
-	necessary minimum to prevent lateral movement of threats \cite[S. 61]{IEC62443-3-3}.
+	necessary minimum to prevent lateral movement of threats \cite[p. 61]{IEC62443-3-3}.
 	\item \textbf{FR 6: Timely Response to Events (TRE):} Mandates continuous security monitoring, 
 	logging, and anomaly detection to facilitate rapid incident response and mitigation 
-	in the event of a breach \cite[S. 65]{IEC62443-3-3}.
+	in the event of a breach \cite[p. 65]{IEC62443-3-3}.
 	\item \textbf{FR 7: Resource Availability (RA):} Ensures that the system remains operational and critical functions are maintained even when subjected to faults or 
-	Denial-of-Service attacks \cite[S. 67]{IEC62443-3-3}.
+	Denial-of-Service attacks \cite[p. 67]{IEC62443-3-3}.
 \end{itemize}
 
 The fulfillment of these foundational requirements is evaluated through a granular 
 metric known as Security Levels (SL), which quantify the system's resilience 
-against various adversary profiles \cite[S. 16]{IEC62443-3-3}. These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
-utilizing significant resources \cite[S. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[S. 26]{IEC62443-3-3}.
+against various adversary profiles \cite[p. 16]{IEC62443-3-3}. These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
+utilizing significant resources \cite[p. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[p. 26]{IEC62443-3-3}.
 
 
-However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, I\textbf{EC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
+However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, I\textbf{EC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
 \begin{itemize}
 	\item \textbf{Practice 1: Security Management (SM):} Ensures that security activities are planned, documented, and governed throughout the entire product lifecycle \cite[Chapter:  Security Management]{DIN_EN_IEC_62443_4_1_2018}.
 	\item \textbf{Practice 2: Specification of Security Requirements (SR):} Defines functional and non-functional security requirements based on product intent and threat scenarios \cite[Chapter: Specification of Security Requirements]{DIN_EN_IEC_62443_4_1_2018}.
@@ -107,16 +155,16 @@ However, achieving and verifying system-level security requires not only technic
 	\item \textbf{Practice 8: Security Guidelines (SG):} Demands comprehensive documentation to enable end users to securely configure, deploy, and operate the component \cite[Chapter: Security Guidelines]{DIN_EN_IEC_62443_4_1_2018}.
 \end{itemize}
 
-To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}.
 
-Building upon these lifecycle practice, \textbf{IEC 62443-4-2} shifts the focus to the individual technical building blocks, specifying the technical security requirements for IACS components \cite[S. 18]{IEC62443-4-2}. The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
+Building upon these lifecycle practice, \textbf{IEC 62443-4-2} shifts the focus to the individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
 To achieve this, the standard maps the seven Foundational Requirements (FRs) defined in the system-level framework directly onto four distinct component types: software applications, embedded devices, host 
-devices, and network components \cite[S. 17]{IEC62443-4-2}. 
+devices, and network components \cite[p. 17]{IEC62443-4-2}. 
 
-Analogous to the system-level standard, the concrete technical specifications within IEC 62443-4-2 are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs)\cite[S. 32 ff]{IEC62443-4-2}. These CRs and REs are directly derived from the seven FRs, acting as the granular technical criteria that a component must satisfy to achieve a specific Component Security Level Capability (SL-C) \cite[S. 31 ff]{IEC62443-4-2}. 
+Analogous to the system-level standard, the concrete technical specifications within IEC 62443-4-2 are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs)\cite[pp. 32]{IEC62443-4-2}. These CRs and REs are directly derived from the seven FRs, acting as the granular technical criteria that a component must satisfy to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. 
 
 For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as the network component's ability to enforce logical isolation, manage access control lists, and securely route or filter traffic at the physical IT/OT interface 
-\cite[S. 61 ff]{IEC62443-4-2}. 
+\cite[pp. 61]{IEC62443-4-2}. 
 
 \section{Cybersecurity Fundamentals} 
 \label{sec:cybersecurity_fundamentals} 

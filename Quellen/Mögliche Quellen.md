@@ -6,8 +6,6 @@
 
 &#x09;- ISO/IEC 27005 (2022): Information security, cybersecurity and privacy protection — Guidance on managing information security risks.
 
-&#x09;- NIST Special Publication 800-160 Vol. 1 (2022): Systems Security Engineering: Considerations for a Multidisciplinary Approach in the Engineering of Trustworthy Secure Systems
-
 &#x09;- Sutton, M., Greene, A., \& Amini, P. (2007). Fuzzing: Brute Force Vulnerabilities. Addison-Wesley Professional --> Fuzzing
 
 &#x09;- Adam Shostack – Threat Modeling
