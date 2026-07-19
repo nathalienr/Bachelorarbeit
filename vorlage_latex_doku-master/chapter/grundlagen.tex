@@ -45,7 +45,7 @@ The technological convergence of IT and OT yields substantial operational and ec
 		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
 		Protocol Examples & TCP/IP, \newline HTTP(S),\newline SQL & Modbus, \newline Profinet \\ \addlinespace
 		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
-		\bottomrule  % Schöne untere Linie
+		\bottomrule  
 	\end{tabularx}
 \end{table}
 
@@ -59,7 +59,7 @@ This divergence further dictates how software maintenance and network communicat
 
 For a systematic assessment of Industrial Internet of Things components such as industrial gateways, a granular decomposition of the target architecture into hardware, software, and data assets throughout the entire product life cycle is required \cite[pp. 1]{liebl2024analyzingattacksurfacethreats}. 
 
-The hardware asset dimension comprises the physical enclosure. It may include tamper protection features, alongside the underlying printed circuit boards (PCB) and core microprocessors or microcontrollers . These processing units often embed specialized security mechanisms like Trusted Execution Environments, True Random Number Generators and cryptographic accelerators. Furthermore, hardware assets encompass volatile and non-volatile memory components such as SRAM and EEPROM structures, as well as removable storage like SD cards or USB sticks \cite{liebl2024analyzingattacksurfacethreats}. Dedicated secure cryptoprocessors, including Trusted Platform Modules and Secure Elements, are part of this domain, together with connectivity structures and various physical input and output elements \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
+The hardware asset dimension comprises the physical enclosure. It may include tamper protection features, alongside the underlying printed circuit boards (PCB) and core microprocessors or microcontrollers. These processing units often embed specialized security mechanisms like Trusted Execution Environments, True Random Number Generators and cryptographic accelerators. Furthermore, hardware assets encompass volatile and non-volatile memory components such as SRAM and EEPROM structures, as well as removable storage like SD cards or USB sticks \cite{liebl2024analyzingattacksurfacethreats}. Dedicated secure cryptoprocessors, including Trusted Platform Modules and Secure Elements, are part of this domain, together with connectivity structures and various physical input and output elements \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
 
 The software asset dimension is formed by the firmware providing low-level hardware access, the underlying operating system or real-time operating system, and software-based cryptographic libraries. It also contains integrated communication protocol stacks for local, internet, or automation environments, such as TCP/IP, PROFINET, or OPC UA, alongside local or remote smart services. At the top of this stack sits the specific application logic responsible for tasks like data pre-processing or controlling actuators \cite[p. 4]{liebl2024analyzingattacksurfacethreats}. 
 
@@ -177,20 +177,77 @@ For instance, while a system requires restricted data flow under FR 5, IEC 62443
 \section{Cybersecurity Fundamentals} 
 \label{sec:cybersecurity_fundamentals} 
 
+
+
 \subsection{Security Goals} 
 \label{subsec:security_goals} 
 
-\subsection{Secure Development Lifecycle} 
-\label{subsec:secure_development_lifecycle} 
+Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the \textit{CIA (Confidentiality-Integrity-Availability ) triad} \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
 
-\subsection{Threats, Vulnerabilities and Risks} 
+\begin{itemize}
+	\item \textbf{Confidentiality:} Focuses on ensuring that sensitive data and information are strictly protected from unauthorized access or disclosure to unintended individuals, entities, and processes \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. In the specific context of IACS, the maintenance of authorized restrictions on access becomes paramount to secure proprietary information, data configurations, and core operational parameters from illicit exposure \cite[p. 23]{IEC62443-3-3}.
+	\item \textbf{Integrity:} Revolves around the complete assurance that information and system components remain accurate, reliable, and trustworthy throughout their entire lifecycle \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. This objective actively safeguards digital assets against accidental or unauthorized modifications, deletions, and fabrications, which prevents erroneous decision-making or potential operational harm caused by altered data \cite[pp. 4]{Khanna2024}.
+	\item \textbf{Availability:} Guarantees that essential services, computing systems, and communication interfaces remain continuously accessible and operational for authorized users precisely when needed \cite[pp. 4]{Khanna2024} \cite[p. 3]{app16126260}. This dimension dictates the overall resilience of the architecture against malicious disruptions, ensuring that operations can be sustained or recovered quickly to maintain customer trust and minimize financial losses \cite[p. 5]{Khanna2024}.
+\end{itemize}
+
+
+In practical deployment, these three primary security goals do not operate in isolation but exhibit a complex dynamic where they concurrently work together and against each other, frequently necessitating deliberate design trade-offs to balance conflicting requirements. While this triad establishes an essential baseline for data protection, modern distributed network environments demand explicit extensions to the classical CIA framework to address sophisticated threat vectors comprehensively. Possible additions include the goals of authenticity, and usefulness. Authenticity focuses on verifying that the transmitted information or system state genuinely is what it claims to be and incontrovertibly originates from the expected, legitimate source. Utility demands that data remains in a structurally usable, meaningful, and actionable form rather than merely being technically accessible to the organization \cite{CIAtriadEICTA2026}.
+
+
+
+
+\subsection{Threats, Vulnerabilities and Attack Vectors} 
 \label{subsec:threats_vulnerabilities_risks} 
+
+A \textbf{threat} constitutes a circumstance, an event, or a various sequence of events capable of adversely affecting or compromising operations, including an organization's mission, functions, reputation, or standing. Furthermore, threats can directly target physical facilities, assets, automation and control systems, or individuals. These adverse impacts are typically realized through specific malicious actions, such as unauthorized access to data, its destruction, unauthorized disclosure, data alteration, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
+
+A \textbf{vulnerability} represents an flaw in a system's design, or operation and implementation that could be exploited to corrupt the system's integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are divided into several distinct types, the exact probability that an actor will utilize a specific vulnerability for a malicious attempt cannot be predicted. Crucially, vulnerabilities themselves cannot create new physical hazards. However, their exploitation can compromise integrated protective measures, which strictly necessitates the execution of a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, principles mandate a three-step mitigation hierarchy to be performed by the designer:
+\begin{enumerate}
+	\item Present vulnerabilities that can lead to hazardous situations must be eliminated entirely.
+	\item If complete elimination is not technically feasible, the designer shall actively mitigate them.
+	\item For any vulnerabilities that remain after these steps, the accompanying information for use must provide all necessary details regarding compensating countermeasures to be implemented by the operator \cite[p. 14]{prEN50742_2025}.
+\end{enumerate}
+
+An \textbf{attack vector} defines the specific method or means by which hackers gain unauthorized access to target systems in order to carry out a cyberattack. To ensure that no potential attack vectors are overlooked during the architectural analysis, a thorough, granular itemization of all hardware components, software components, and data types is required \cite[p. 2]{liebl2024analyzingattacksurfacethreats} \cite[p. 11]{liebl2024analyzingattacksurfacethreats}. Together, an organization's active attack vectors and its technical vulnerabilities constitute its total attack surface. In modern connected environments, this attack surface has continuously increased, exposing industrial assets to various common types of attack vectors utilized by adversaries, including:
+\begin{itemize}
+	\item Third-party and supply chain compromises
+	\item Denial-of-Service (DoS) attacks
+	\item Compromised credentials
+	\item Insider threats
+	\item Exploitation of unpatched software or hardware vulnerabilities
+	\item Injection and execution of malware
+	\item Physical attacks on the infrastructure 
+\end{itemize}
+Ultimately, the successful exploitation of these vectors allows attack actors to disable or destroy critical operational assets, which subsequently leads to significant business and economic disruptions \cite{IBM_AttackVector}.
 
 
 \section{Risk-Based Security Engineering} 
 \label{sec:risk_based_security_engineering} 
 
-\subsection{Threat Analysis and Risk Assessment (TARA)} \label{subsec:tara} 
+
+\subsection{Threat Analysis and Risk Assessment (TARA)} 
+\label{subsec:tara} 
+
+%To design and engineer resilient industrial components such as gateways, a reactive security posture based on historical vulnerability patching is insufficient. Instead, regulatory frameworks and international standards mandate a proactive, lifecycle-oriented methodology known as Threat Analysis and Risk Assessment (TARA) \cite{DIN_EN_IEC_62443_4_1_2018}. Originating heavily from automotive security engineering standards like ISO/SAE 21434, the TARA paradigm has increasingly converged with industrial automation workflows to systematically identify, quantify, and mitigate cybersecurity risks before a system is deployed on the shop floor \cite[p. 11]{liebl2024analyzingattacksurfacethreats}.
+%
+%The primary objective of a TARA is to provide engineering teams with a structured, repeatable framework to make informed, data-driven security decisions. It ensures that security mechanisms are neither under-engineered—leaving critical operational assets exposed—nor over-engineered, which would introduce unnecessary financial costs and potentially detrimental latencies into deterministic OT processes \cite{prEN50742_2025}. 
+%
+%Architecturally, the TARA workflow operates as an iterative, multi-stage pipeline that systematically transitions from abstract system definitions to concrete, technical security requirements. The standardized process is generally structured into four core sequential phases:
+%
+%\begin{enumerate}
+%	\item \textbf{Item Definition and Asset Identification:} The process initiates with a granular decomposition of the target system's boundaries, interfaces, and operational environment, building directly upon the asset itemization described in Section \ref{subsec:attack_surface_asset_identification}. Every identified hardware, software, and data asset is evaluated based on its value to the organization and the potential consequences if its confidentiality, integrity, or availability were compromised \cite[p. 2]{liebl2024analyzingattacksurfacethreats}.
+%	\item \textbf{Threat Identification:} In this phase, systematic brainstorming and modeling techniques are applied to discover potential malicious objectives and attack paths. Analysts determine how an adversary could exploit vulnerabilities within the system boundaries to cause operational or physical harm. This identification process is typically structured using established threat modeling taxonomies, such as the \hyperref[subsec:stride]{STRIDE methodology}.
+%	\item \textbf{Impact Assessment and Attack Feasibility Estimation:} Once threats are identified, they are evaluated along two independent dimensions. The \textit{Impact Assessment} quantifies the severity of the damage resulting from a successful exploit across multiple domains, most notably operational downtime, financial losses, regulatory non-compliance, and, crucially for OT environments, functional safety hazards affecting human life \cite{prEN50742_2025}. Concurrently, the \textit{Attack Feasibility Estimation} evaluates the likelihood of an exploit by measuring the required attacker profile, including necessary expertise, window of opportunity, specialized equipment, and overall financial cost to the adversary \cite[p. 19]{prEN50742_2025}.
+%	\item \textbf{Risk Determination and Treatment:} Finally, the resulting impact and feasibility values are mathematically aggregated or mapped via risk matrices to derive an objective risk level for each threat scenario. Depending on whether this level exceeds the organization's defined risk acceptance threshold, appropriate technical or organizational countermeasures are assigned.
+%\end{enumerate}
+%
+%Within risk-based security engineering, the TARA acts as the central source of truth. It translates high-level regulatory safety objectives, such as those imposed by the EU Machinery Regulation \cite{EU2023_1230}, into enforceable, verifiable technical capabilities at the component level, creating a traceable lineage from a latent threat to a concrete cryptographic implementation.
+
+
+
+\cite{doCarmo2026}
+
+
 
 \subsection{STRIDE Methodology} 
 \label{subsec:stride} 
@@ -202,8 +259,40 @@ For instance, while a system requires restricted data flow under FR 5, IEC 62443
 \label{subsec:risk_treatment_strategies} 
 
 
+
+
+
+
+
+
 \section{Security Testing Approaches} 
 \label{sec:security_testing_approaches} 
+
+Difference to classical functional testing: 
+Testfall:
+
+User gibt korrektes Passwort ein
+Login funktioniert
+
+Ergebnis:
+Test bestanden
+
+
+Testfälle:
+
+Falsches Passwort 100-mal eingeben
+Brute-Force-Versuch
+Session-Manipulation
+Replay-Angriffe
+Manipulierte Netzwerkpakete
+Privilege Escalation
+
+Ergebnis:
+
+Login muss weiterhin sicher bleiben
+
+Hier wird also bewusst versucht, das System zu brechen
+
 
 \subsection{Threat Mitigation Testing} 
 \label{subsec:threat_mitigation_testing} 
@@ -216,3 +305,4 @@ For instance, while a system requires restricted data flow under FR 5, IEC 62443
 
 \subsection{Functional Security Testing} 
 \label{subsec:functional_security_testing}
+

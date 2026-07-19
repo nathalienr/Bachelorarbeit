@@ -78,13 +78,7 @@
 			Threat Sources
 			Vulnerability Concepts
 			Exploitation Pathways
-		2.3.3 Security Controls and Mitigation Measures
-			Authentication
-			Authorization
-			Secure Configuration
-			Secure Communication
-			Logging
-			Firmware Integrity Protection
+
 
 	2.4 Risk-Based Security Engineering
 		2.4.1 Threat Analysis and Risk Assessment (TARA)
