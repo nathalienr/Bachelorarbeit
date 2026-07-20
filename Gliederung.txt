@@ -98,6 +98,8 @@
 			Mitigate
 			Transfer
 			Accept
+
+
 	2.5 Security Testing Approaches
 		2.5.1 Threat Mitigation Testing
 		2.5.2 Vulnerability Testing --> begründen, warum klassische Vulnerability-Tests und funktionale Security-Tests unterschiedliche Ziele verfolgen 

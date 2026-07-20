@@ -191,7 +191,7 @@ Within the domain of digital information security, the systemic alignment of cyb
 \end{itemize}
 
 
-In practical deployment, these three primary security goals do not operate in isolation but exhibit a complex dynamic where they concurrently work together and against each other, frequently necessitating deliberate design trade-offs to balance conflicting requirements. While this triad establishes an essential baseline for data protection, modern distributed network environments demand explicit extensions to the classical CIA framework to address sophisticated threat vectors comprehensively. Possible additions include the goals of authenticity, and usefulness. Authenticity focuses on verifying that the transmitted information or system state genuinely is what it claims to be and incontrovertibly originates from the expected, legitimate source. Utility demands that data remains in a structurally usable, meaningful, and actionable form rather than merely being technically accessible to the organization \cite{CIAtriadEICTA2026}.
+In practical deployment, these three primary security goals do not operate in isolation but exhibit a complex dynamic where they concurrently work together and against each other, frequently necessitating deliberate design trade-offs to balance conflicting requirements. While this triad establishes an essential baseline for data protection, modern distributed network environments demand explicit extensions to the classical CIA framework to address sophisticated threat vectors comprehensively. Possible additions include the goals of authenticity, and usefulness. Authenticity focuses on verifying that the transmitted information or system state genuinely is what it claims to be and incontrovertibly originates from the expected, legitimate source. Utility demands that data remains in a structurally usable, meaningful, and actionable form rather than merely being technically accessible to the organization \cite{CIAtriadEICTA2026} \cite[pp. 102]{doCarmo2025}.
 
 
 
@@ -201,12 +201,8 @@ In practical deployment, these three primary security goals do not operate in is
 
 A \textbf{threat} constitutes a circumstance, an event, or a various sequence of events capable of adversely affecting or compromising operations, including an organization's mission, functions, reputation, or standing. Furthermore, threats can directly target physical facilities, assets, automation and control systems, or individuals. These adverse impacts are typically realized through specific malicious actions, such as unauthorized access to data, its destruction, unauthorized disclosure, data alteration, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
 
-A \textbf{vulnerability} represents an flaw in a system's design, or operation and implementation that could be exploited to corrupt the system's integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are divided into several distinct types, the exact probability that an actor will utilize a specific vulnerability for a malicious attempt cannot be predicted. Crucially, vulnerabilities themselves cannot create new physical hazards. However, their exploitation can compromise integrated protective measures, which strictly necessitates the execution of a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, principles mandate a three-step mitigation hierarchy to be performed by the designer:
-\begin{enumerate}
-	\item Present vulnerabilities that can lead to hazardous situations must be eliminated entirely.
-	\item If complete elimination is not technically feasible, the designer shall actively mitigate them.
-	\item For any vulnerabilities that remain after these steps, the accompanying information for use must provide all necessary details regarding compensating countermeasures to be implemented by the operator \cite[p. 14]{prEN50742_2025}.
-\end{enumerate}
+
+A \textbf{vulnerability} represents a flaw in a system's design, implementation, or operation that can be exploited to corrupt system integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are categorized into distinct types, the exact probability of their malicious exploitation cannot be predicted. Crucially, vulnerabilities do not create new physical hazards on their own. However, their exploitation can compromise integrated protective measures, which necessitates a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, designers must adhere to a strict three-step mitigation hierarchy. First, present vulnerabilities that could cause hazardous situations must be eliminated entirely. Second, if complete elimination is technically unfeasible, the designer must actively mitigate the identified weakness. Finally, for any residual vulnerabilities, the information for use must provide the operator with detailed instructions for compensating countermeasures \cite[p. 14]{prEN50742_2025}.
 
 An \textbf{attack vector} defines the specific method or means by which hackers gain unauthorized access to target systems in order to carry out a cyberattack. To ensure that no potential attack vectors are overlooked during the architectural analysis, a thorough, granular itemization of all hardware components, software components, and data types is required \cite[p. 2]{liebl2024analyzingattacksurfacethreats} \cite[p. 11]{liebl2024analyzingattacksurfacethreats}. Together, an organization's active attack vectors and its technical vulnerabilities constitute its total attack surface. In modern connected environments, this attack surface has continuously increased, exposing industrial assets to various common types of attack vectors utilized by adversaries, including:
 \begin{itemize}
@@ -228,37 +224,128 @@ Ultimately, the successful exploitation of these vectors allows attack actors to
 \subsection{Threat Analysis and Risk Assessment (TARA)} 
 \label{subsec:tara} 
 
-%To design and engineer resilient industrial components such as gateways, a reactive security posture based on historical vulnerability patching is insufficient. Instead, regulatory frameworks and international standards mandate a proactive, lifecycle-oriented methodology known as Threat Analysis and Risk Assessment (TARA) \cite{DIN_EN_IEC_62443_4_1_2018}. Originating heavily from automotive security engineering standards like ISO/SAE 21434, the TARA paradigm has increasingly converged with industrial automation workflows to systematically identify, quantify, and mitigate cybersecurity risks before a system is deployed on the shop floor \cite[p. 11]{liebl2024analyzingattacksurfacethreats}.
-%
-%The primary objective of a TARA is to provide engineering teams with a structured, repeatable framework to make informed, data-driven security decisions. It ensures that security mechanisms are neither under-engineered—leaving critical operational assets exposed—nor over-engineered, which would introduce unnecessary financial costs and potentially detrimental latencies into deterministic OT processes \cite{prEN50742_2025}. 
-%
-%Architecturally, the TARA workflow operates as an iterative, multi-stage pipeline that systematically transitions from abstract system definitions to concrete, technical security requirements. The standardized process is generally structured into four core sequential phases:
-%
-%\begin{enumerate}
-%	\item \textbf{Item Definition and Asset Identification:} The process initiates with a granular decomposition of the target system's boundaries, interfaces, and operational environment, building directly upon the asset itemization described in Section \ref{subsec:attack_surface_asset_identification}. Every identified hardware, software, and data asset is evaluated based on its value to the organization and the potential consequences if its confidentiality, integrity, or availability were compromised \cite[p. 2]{liebl2024analyzingattacksurfacethreats}.
-%	\item \textbf{Threat Identification:} In this phase, systematic brainstorming and modeling techniques are applied to discover potential malicious objectives and attack paths. Analysts determine how an adversary could exploit vulnerabilities within the system boundaries to cause operational or physical harm. This identification process is typically structured using established threat modeling taxonomies, such as the \hyperref[subsec:stride]{STRIDE methodology}.
-%	\item \textbf{Impact Assessment and Attack Feasibility Estimation:} Once threats are identified, they are evaluated along two independent dimensions. The \textit{Impact Assessment} quantifies the severity of the damage resulting from a successful exploit across multiple domains, most notably operational downtime, financial losses, regulatory non-compliance, and, crucially for OT environments, functional safety hazards affecting human life \cite{prEN50742_2025}. Concurrently, the \textit{Attack Feasibility Estimation} evaluates the likelihood of an exploit by measuring the required attacker profile, including necessary expertise, window of opportunity, specialized equipment, and overall financial cost to the adversary \cite[p. 19]{prEN50742_2025}.
-%	\item \textbf{Risk Determination and Treatment:} Finally, the resulting impact and feasibility values are mathematically aggregated or mapped via risk matrices to derive an objective risk level for each threat scenario. Depending on whether this level exceeds the organization's defined risk acceptance threshold, appropriate technical or organizational countermeasures are assigned.
-%\end{enumerate}
-%
-%Within risk-based security engineering, the TARA acts as the central source of truth. It translates high-level regulatory safety objectives, such as those imposed by the EU Machinery Regulation \cite{EU2023_1230}, into enforceable, verifiable technical capabilities at the component level, creating a traceable lineage from a latent threat to a concrete cryptographic implementation.
+Threat Analysis and Risk Assessment (TARA) serves as a systematic methodology in cybersecurity to identify potential threats, assess associated risks, and formulate countermeasures to mitigate them to an acceptable level \cite[p. 37]{doCarmo2025}. Rather than relying on guesswork, TARA functions as a central tool to methodically derive concrete Cybersecurity Goals \cite{microtool_tara_2026}. As part of overall risk management, it plays a critical role in ensuring regulatory compliance and producing secure products. The process is universally applicable across domains. However, conducting a TARA requires deep knowledge of the target system combined with specialized cybersecurity expertise. While it uncovers vulnerabilities and weaknesses, a TARA cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}.
 
+Throughout the system lifecycle, TARA is implemented iteratively across four distinct phases \cite[p. 40]{doCarmo2025}. An initial TARA occurs during early requirements engineering to evaluate baseline risks and define high-level security goals for the architecture. Before implementation begins, a detailed development TARA identifies component-level risks or adapts existing assessments for reused parts. During production, TARA evaluates manufacturing environments to prevent introducing vulnerabilities into the physical product. Finally, post-release TARAs are triggered by software updates or newly discovered vulnerabilities to continuously keep the risk profile up to date \cite[p. 40]{doCarmo2025}.
 
+The general workflow executes a sequential multi-step process from Item Definition and Asset Identification to Threat Analysis, Impact Rating, Feasibility Assessment, Risk Determination, and Risk Treatment. Within this context, a threat describes a potential event violating a cybersecurity property (Confidentiality, Integrity, or Availability), whereas a vulnerability represents a concrete weakness in design or implementation enabling that threat \cite{microtool_tara_2026}.
 
-\cite{doCarmo2026}
-
+In practice, these workflow steps structure the primary operational domains of the assessment \cite[p. 47, 49]{doCarmo2025}. First, Asset Identification determines system assets, their required CIA properties, and prospective damage scenarios to establish an initial impact rating \cite[p. 46, 49]{doCarmo2025}\cite{microtool_tara_2026}. Next, Threat Scenario Analysis defines potential attack vectors alongside specific attack paths, which detail the sequential steps an adversary must execute \cite[p. 46]{doCarmo2025}\cite{microtool_tara_2026}. Because no single threat source is comprehensive, team brainstorming supported by catalogs and the \hyperref[subsec:stride]{STRIDE} methodology offers an efficient approach to threat identification \cite[p. 135, 137]{doCarmo2025}. Subsequently, Risk Evaluation combines the calculated impact ratings with attack feasibility metrics to derive overall risk levels \cite[p. 47, 49]{doCarmo2025}\cite{microtool_tara_2026}. Finally, the Risk Treatment Decision determines final Cybersecurity Controls, Goals, and Claims to effectively reduce identified risks \cite[p. 37, 49]{doCarmo2025}\cite{microtool_tara_2026}.
 
 
 \subsection{STRIDE Methodology} 
 \label{subsec:stride} 
 
+The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
+
+The acronym STRIDE represents six distinct threat categories:
+
+\begin{itemize}
+	\item \textbf{Spoofing:} The attacker pretends to be someone or something else. This involves illegally accessing and using another entity's authentication credentials, such as a username and password, or spoofing components and signals within embedded networks
+	
+	\item \textbf{Tampering:} Refers to the unauthorized, malicious modification of data or system functionalities. Examples include altering persistent data in a database, modifying firmware, or tampering with data in transit over an open network 
+	
+	\item \textbf{Repudiation:} Occurs when an attacker performs a prohibited action in a system that lacks the ability to trace or audit operations, allowing the actor to deny performing the action without the system having proof otherwise
+	
+	\item \textbf{Information Disclosure:} Involves the exposure of data to unauthorized individuals. This includes data breaches, unauthorized file access, or reading data in transit across network connections 
+	
+	\item \textbf{Denial of Service:} Threat actions aiming to disrupt system operation or deny access to legitimate users. Examples include making web servers temporarily unusable or flooding bus systems with traffic to block valid messages 
+	
+	\item \textbf{Elevation of Privilege:} An unprivileged attacker exploits vulnerabilities to gain higher access privileges than authorized. This allows the attacker to penetrate system defenses, access critical subsystems, and potentially compromise the entire system \cite{microsoft_stride_model} \cite[p. 144]{doCarmo2025}
+\end{itemize}
+
+To systematically analyze these threats, Table \ref{tab:stride_mapping} illustrates how each STRIDE category maps directly to the specific cybersecurity property it violates.
+
+\begin{table}[htbp]
+	\caption{Mapping of STRIDE Threat Categories to Violated Cybersecurity Properties \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}}
+	\label{tab:stride_mapping}
+	\centering
+	\begin{tabularx}{\textwidth}{X X}
+		\toprule
+		\textbf{Threat Category} & \textbf{Cybersecurity Property Violated} \\
+		\midrule
+		Spoofing & Authenticity \\
+		Tampering & Integrity \\
+		Repudiation & Non-repudiation \\
+		Information Disclosure & Confidentiality \\
+		Denial of Service & Availability \\
+		Elevation of Privilege & Authorization \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+As shown in Table \ref{tab:stride_mapping}, the STRIDE threat categories represent the direct opposite of fundamental security objectives. By systematically evaluating system components against these paired relationships, threat lists can be derived to identify potential attacker goals and define required security controls \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
+
+
+
 \subsection{Risk Evaluation} 
 \label{subsec:risk_evaluation} 
+
+Risk evaluation serves as the central mechanism to determine and quantify the overall risk level associated with identified threat scenarios. Fundamentally, risk is defined as a combination of the potential impact resulting from an attack and its corresponding likelihood or feasibility \cite[p. 196]{doCarmo2025}. In literature, this relationship is frequently expressed through formal mathematical models. For instance, the risk level ($R$) can be determined by multiplying the likelihood ($L$) by the severity ($S$) of the impact \cite[p. 648]{10.1007/978-3-030-85969-5_37}:
+\begin{equation}
+	R = L \cdot S
+\end{equation}
+
+To systematically assess the impact parameter ($I$), criteria are established based on operational and safety domains. In safety-critical industrial environments, the impact rating evaluates potential physical harm to humans across four distinct levels \cite[p. 106]{doCarmo2025}:
+\begin{itemize}
+	\item \textbf{Severe (S3):} Fatal injuries or severe, life-threatening injuries where survival is uncertain
+	\item \textbf{Major (S2):} Severe and life-threatening injuries where survival is probable
+	\item \textbf{Moderate (S1):} Light to moderate physical injuries
+	\item \textbf{Negligible (S0):} No physical injuries occur
+\end{itemize}
+
+Complementarily, the feasibility evaluation ($F$) determines the probability of occurrence by analyzing the technical effort and capabilities required for an adversary to execute specific attack paths \cite[p. 135]{doCarmo2025}. Attack feasibility is categorized into four distinct ratings \cite[p. 151]{doCarmo2025}:
+\begin{itemize}
+	\item \textbf{High:} The attack path can be accomplished utilizing low effort
+	\item \textbf{Medium:} The attack path can be accomplished utilizing medium effort
+	\item \textbf{Low:} The attack path can be accomplished utilizing high effort
+	\item \textbf{Very Low:} The attack path can be accomplished utilizing very high effort
+\end{itemize}
+
+For the final evaluation, assets, threat scenarios, attack paths, and resulting damage scenarios are combined into a structured matrix \cite[p. 180]{doCarmo2025}. By mapping the discrete impact ratings against the corresponding attack feasibility levels in a standardized risk matrix, the final numerical risk value is calculated. For instance, a damage scenario categorized with a \textit{moderate} impact rating and a \textit{high} attack feasibility yields a resulting risk value of three \cite[p. 180]{doCarmo2025}. Depending on specific institutional requirements and risk tolerance thresholds, individual organizations can make tailored adjustments to the underlying risk matrix structures \cite[p. 182]{doCarmo2025}.
+
+
+
 
 \subsection{Risk Treatment Strategies} 
 \label{subsec:risk_treatment_strategies} 
 
+Following the evaluation of identified risks, appropriate risk treatment strategies must be defined. Generally, four primary strategies are available to address identified risks: risk reduction, risk avoidance, risk sharing, and risk acceptance \cite[pp. 200]{doCarmo2025}.
 
+\textbf{Risk Reduction:} Risk reduction aims to decrease either the impact or the likelihood of a threat scenario. This is achieved by implementing technical countermeasures, also known as cybersecurity controls, which are typically derived from standardized or corporate catalogs \cite[p. 200]{doCarmo2025}. Table \ref{tab:stride_mitigations} summarizes standard technical mitigation techniques mapped to the corresponding \hyperref[subsec:stride]{STRIDE} threat categories \cite{owasp_threat_modeling_process}.
+
+\begin{table}[htbp]
+	\caption{Technical Mitigation Techniques Mapped to STRIDE Threat Categories \cite{owasp_threat_modeling_process}}
+	\label{tab:stride_mitigations}
+	\centering
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{Threat Type} & \textbf{Mitigation Techniques} \\
+		\midrule
+		Spoofing Identity & Appropriate authentication, protection of secret data, avoiding secret storage \\ \addlinespace
+		Tampering & Appropriate authorization, cryptographic hashes, MACs, digital signatures, tamper-resistant protocols \\ \addlinespace
+		Repudiation & Digital signatures, timestamps, audit trails \\ \addlinespace
+		Information Disclosure & Authorization, privacy-enhanced protocols, encryption, protection or non-storage of secrets \\ \addlinespace
+		Denial of Service & Appropriate authentication and authorization, traffic filtering, throttling, Quality of Service \\ \addlinespace
+		Elevation of Privilege & Execution under the principle of least privilege \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+		
+		\textbf{Risk Avoidance:} Risk avoidance involves modifying the fundamental design of the system component to eliminate the source of the risk entirely \cite[p. 200]{doCarmo2025}.
+		
+		\textbf{Risk Sharing:} Risk sharing distributes the risk among other stakeholders via contractual agreements or transfers it through insurance policies. In this case, a formal rationale in the form of a cybersecurity claim must be documented \cite[p. 201]{doCarmo2025}.
+		
+		\textbf{Risk Acceptance:} If the resulting risk level, impact, or attack feasibility is sufficiently low, accepting the risk represents a valid decision. Risk acceptance does not mean ignoring the threat. It strictly requires a documented rationale and cybersecurity claim to justify the acceptance \cite[p. 201]{doCarmo2025}.
+		
+Once potential threats and corresponding countermeasures are established, a system threat profile can be derived into three distinct levels of mitigation \cite{owasp_threat_modeling_process}:
+	\begin{itemize}
+		\item \textbf{Non-mitigated threats:} Threats without countermeasures that expose fully exploitable vulnerabilities.
+		\item \textbf{Partially mitigated threats:} Threats partially addressed by controls, resulting in limited exploitability and impact.
+		\item \textbf{Fully mitigated threats:} Threats with adequate countermeasures in place that leave no exposed vulnerabilities.
+	\end{itemize}
+		
+Even after implementing technical controls, a residual risk, may remain high. Residual risk represents the actual risk level present when an adversary attempts an attack path while active technical controls are in place \cite[pp. 200]{doCarmo2025}.
 
 
 
@@ -266,7 +353,19 @@ Ultimately, the successful exploitation of these vectors allows attack actors to
 
 
 \section{Security Testing Approaches} 
-\label{sec:security_testing_approaches} 
+\label{sec:security_testing_approaches}
+
+
+\cite{1341418}
+
+\cite{tauqeer2021analysis}
+
+
+
+
+
+
+ 
 
 Difference to classical functional testing: 
 Testfall:
