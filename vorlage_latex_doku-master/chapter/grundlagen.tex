@@ -352,56 +352,87 @@ Even after implementing technical controls, a residual risk, may remain high. Re
 
 
 
-\section{Security Testing Approaches} 
+\section{Security Testing Approaches}
 \label{sec:security_testing_approaches}
 
+Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses \cite[p. 291]{tauqeer2021analysis}.
 
-\cite{1341418}
+Software security testing activities are divided into functional security testing and security vulnerability testing. Functional security testing verifies the correct operation of planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Vulnerability testing aims to discover unaddressed design flaws and implementation bugs \cite[p. 8]{richier2011security}. A comprehensive testing strategy must combine both approaches to validate security features while simulating realistic attack scenarios \cite[p. 81 f]{1341418}.
 
-\cite{tauqeer2021analysis}
+\subsection{Taxonomy of Testing Methodologies}
+\label{subsec:testing_taxonomy}
 
+Security testing approaches are categorized by the level of internal system knowledge available to the tester \cite[p. 296]{tauqeer2021analysis}:
 
+\begin{itemize}
+	\item \textbf{Black-Box Testing:} The tester has no knowledge of the internal system structure \cite[p. 296]{tauqeer2021analysis}. Testing evaluates external software interfaces by executing the program with various inputs \cite[p. 82]{1341418}. Subcategories include fuzzy testing, which injects randomly generated data to infect or damage a system, and property-based testing, a model-based approach converting security properties into specifications via program slicing \cite[p. 296]{tauqeer2021analysis}.
+	
+	\item \textbf{White-Box Testing:} The evaluator has full access to the source code, logical paths, and architectural design. It enables manual code reviews, model-based techniques that check system models against security requirements, and fault injection to test interaction limits under malicious commands \cite[p. 296]{tauqeer2021analysis}.
+	
+	\item \textbf{Grey-Box Testing:} Tests are conducted with limited knowledge of the internal architecture by combining white-box and black-box techniques across multiple system layers \cite[p. 296]{tauqeer2021analysis}.
+\end{itemize}
 
-
-
-
- 
-
-Difference to classical functional testing: 
-Testfall:
-
-User gibt korrektes Passwort ein
-Login funktioniert
-
-Ergebnis:
-Test bestanden
+Techniques that cannot be strictly categorized into these paradigms include ethical hacking, penetration testing, and security regression testing. Penetration testing mimics actual attacker behavior to exploit system vulnerabilities. Ethical hacking expands this focus to evaluate weak points across the entire environment, including human operators and clients. Security regression testing specifically verifies that system upgrades or changes do not introduce new vulnerabilities \cite[p. 296]{tauqeer2021analysis}.
 
 
-Testfälle:
+\subsection{Static and Dynamic Analysis}
+\label{subsec:static_dynamic_analysis}
 
-Falsches Passwort 100-mal eingeben
-Brute-Force-Versuch
-Session-Manipulation
-Replay-Angriffe
-Manipulierte Netzwerkpakete
-Privilege Escalation
+Security analysis techniques are structured into static and dynamic execution paradigms. Static analysis inspects source code or control and data flow graphs using checklists without exercising the system with real runtime data \cite[p. 35]{richier2011security}. It detects errors early in development, but may miss runtime flaws \cite[p. 1]{cong2024overview}. Conversely, dynamic analysis evaluates system behavior during runtime under different configurations and input data, comparing actual outputs against formal specifications \cite[p. 35]{richier2011security}. Dynamic testing provides real-world validation, it can disrupt system operations \cite[p. 1]{cong2024overview}.
 
-Ergebnis:
+\textbf{Static Analysis Mechanisms:} Static Application Security Testing (SAST) examines source code or binaries without execution \cite{GeeksforGeeksSecurityTesting}. As shown in Table \ref{tab:static_analysis_comparison}, static detection primarily relies on code similarity-based and code pattern-based approaches \cite[pp. 3]{cong2024overview}:
 
-Login muss weiterhin sicher bleiben
+\begin{itemize}
+	\item \textbf{Code Similarity-Based Detection:} Identifies potential vulnerabilities by searching for known vulnerable code clones via string comparison, syntax analysis, or machine learning \cite[p. 3]{cong2024overview}. Grammar-based techniques analyze grammatical code structures, whereas semantic-based techniques evaluate control and data flows to determine code meaning \cite[pp. 4 ]{cong2024overview}. This approach requires less training data but cannot detect novel vulnerabilities \cite[p. 8]{cong2024overview}.
+	
+	\item \textbf{Code Pattern-Based Detection:} Utilizes machine learning and deep learning during a training and detection phase to recognize specific vulnerable code patterns \cite[p. 5]{cong2024overview}. While dependent on data, it can discover new vulnerabilities \cite[p. 8]{cong2024overview}.
+\end{itemize}
 
-Hier wird also bewusst versucht, das System zu brechen
+Combining both static approaches increases overall vulnerability detection effectiveness \cite[p. 8]{cong2024overview}.
+
+\begin{table}[htbp]
+	\caption{Comparison of Static Analysis Detection Approaches \cite[p. 3, 8]{cong2024overview}}
+	\label{tab:static_analysis_comparison}
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
+			\toprule
+			\textbf{Property} & \textbf{Code Similarity-Based} & \textbf{Code Pattern-Based} \\
+			\midrule
+			Operating Principle & Searches for similar code clones & Identifies specific code patterns \\ \addlinespace
+			Techniques Used & String comparison, syntax and semantic analysis & Machine learning, deep learning \\ \addlinespace
+			Advantages & Less dependent on training data & Capable of detecting new vulnerabilities \\ \addlinespace
+			Disadvantages & Unable to detect new vulnerabilities & Highly dependent on training data \\
+			\bottomrule
+		\end{tabularx}
+\end{table}
+
+\textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
 
 
-\subsection{Threat Mitigation Testing} 
-\label{subsec:threat_mitigation_testing} 
 
-\subsection{Vulnerability Testing} 
-\label{subsec:vulnerability_testing} 
 
-\subsection{Penetration Testing} 
-\label{subsec:penetration_testing} 
+\subsection{Vulnerability Assessment, Robustness, and Penetration Testing}
+\label{subsec:vulnerabilities_fuzzing_pentesting}
 
-\subsection{Functional Security Testing} 
-\label{subsec:functional_security_testing}
+
+A comprehensive testing framework requires evaluating feature functionality, performance, and robustness \cite[p. 48]{richier2011security}:
+
+\begin{itemize}
+	\item \textbf{Vulnerability Scanning:} Automated tools scan hosts, open ports, and operating systems to match system configurations against databases of known vulnerabilities \cite[p. 27]{nist_sp800_115}.
+	
+	\item \textbf{Robustness Testing and Fuzzing:} Robustness measures a system's ability to operate correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness testing technique that repeatedly injects invalid, random, or unexpected inputs into target interfaces to provoke data handling errors or crashes. Fuzzing varies by input generation: ``dumb'' fuzzing performs random mutations without input format knowledge, while ``smart'' fuzzing uses input models. Based on system access, white-box fuzzing utilizes program analysis, grey-box fuzzing uses lightweight instrumentation, and black-box fuzzing operates without internal knowledge \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}.
+	
+	\item \textbf{Penetration Testing:} Evaluators mimic real-world cyberattacks to identify exploitable vulnerability combinations \cite[p. 296]{tauqeer2021analysis}. According to NIST SP 800-115, penetration testing follows four stages: \textit{Planning}, \textit{Discovery}, \textit{Attack}, and \textit{Reporting} \cite[p. 37]{nist_sp800_115}.
+	
+	\item \textbf{Fault Injection and Mutation Testing:} Fault injection evaluates interaction points by forcing the system to process malicious commands \cite[p. 296]{tauqeer2021analysis}. Mutation testing evaluates test suite effectiveness by injecting single syntactic changes, such as variable renaming or operator replacements, to create faulty software versions. It relies on three core assumptions: competent programmers make small errors, selected mutation operators represent typical human errors, and a coupling effect allows simple mutations to uncover subtle bugs \cite[p. 50]{richier2011security}.
+\end{itemize}
+
+
+	
+	
+	
+
+
+
+
 

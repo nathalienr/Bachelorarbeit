@@ -92,8 +92,8 @@
 			Impact
 			Likelihood
 			Risk Matrix
-			Mitigation Strategies
 		2.4.4 Risk Treatment Strategies
+			Mitigation Strategies
 			Avoid
 			Mitigate
 			Transfer
