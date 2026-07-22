@@ -1,0 +1,115 @@
+A. Hoch relevant
+
+1. PROFINET / Ethernet Fieldbus (OT-Schnittstelle)
+ --> Das Gerät kommuniziert als PROFINET IO Device über zwei Ethernet-Ports.
+
+	Sicherheitsrelevante Testfälle
+		Netzwerk-Scan
+		Port Scanning
+		DCP-Manipulation
+		Device Discovery
+		Manipulation von PROFINET-Telegrammen
+		Flooding / Denial-of-Service
+		Netzwerk-Redundanz (MRP)
+		IRT-Verhalten unter Last
+		Manipulation von Diagnosedaten
+
+2. IoTCore (HTTP) (IT-Schnittstelle)
+ --> Das Gerät bietet eine IoTCore-Schnittstelle mit HTTP-Zugriff. HTTPS wird ausdrücklich nicht unterstützt.
+
+	Sicherheitsrelevante Testfälle
+		Authentifizierung
+		Session Handling
+		Web-Security
+		Parameter Manipulation
+		Information Disclosure
+		Rate Limiting
+		Directory Traversal
+		Input Validation
+		Device Enumeration
+
+3. Firmware-Update-Schnittstelle
+ --> Firmware-Updates über IoTCore inklusive Blob Upload und Install-Service.
+
+	Sicherheitsrelevante Testfälle
+		Unsignierte Firmware
+		Manipulierte Firmware
+		Downgrade-Angriffe
+		Rollback-Angriffe
+		Integritätsprüfung
+		Unterbrochene Updates
+		Upload von Nicht-Firmware-Dateien
+
+4. Debug / Programming Interface
+ --> Debug-Interface auf der Leiterplatte.
+
+	Sicherheitsrelevante Testfälle
+		Unautorisierte Firmware-Auslese
+		Flash-Dump
+		EEPROM-Auslese
+		Secure Boot Bypass
+		Produktionsmodus vs. Servicemodus
+		Zugriff auf Debug Pins
+
+5. Netzwerk-Konfiguration
+
+	Über IoTCore verfügbar:
+		IP-Adresse
+		MAC-Adresse
+		Hostname
+		Gateway
+		DHCP-Informationen
+
+	Sicherheitsrelevante Testfälle
+		Änderung von Kommunikationsparametern
+		Netzwerk-Rekonfiguration
+		Hostname Spoofing
+		DHCP-bezogene Angriffe
+
+B. Mittel relevant
+
+DCP
+ --> PROFINET Discovery & Configuration Protocol.
+
+	Typische Tests
+		Device Renaming
+		IP-Änderungen
+		Factory Reset
+		Relevanz
+
+MRP
+ --> Media Redundancy Protocol.
+
+	Typische Tests
+		Ring-Break
+		Redundanzumschaltung
+		Verfügbarkeit
+
+SysCom
+--> Interne Verbindung zwischen COM und Safe CPU.
+
+
+C. Für die Arbeit eher NICHT relevant
+
+SPI
+QSPI / TQSPI
+ --> CPU3 ↔ netX90 Kommunikation
+I²C
+ --> Temperatursensoren
+ --> Monitoring-Komponenten
+IPC
+ --> CPU1 ↔ CPU2 Kommunikation
+DIRQ / SIRQ
+ --> Interne Interrupt-Leitungen.
+
+Boot Select
+ --> Interne Bootmodus-Steuerung.
+
+F-DI / F-DO Prozessanschlüsse
+ --> sind zwar OT-Schnittstellen, aber keine klassischen Cybersecurity-Schnittstellen.
+
+	Sie wären nur relevant, wenn du auch:
+		Manipulation physischer Sensoren
+		Spoofing von Sicherheitssignalen
+		Sabotageversuche
+	untersuchen möchtest.
