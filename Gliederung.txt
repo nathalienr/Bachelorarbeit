@@ -133,10 +133,7 @@
 			IEC 62443
 			TARA
 	3.4 Development of the Functional Security Testing Methodology
-		3.4.1 Testing Framework Concept
-			Test Matrix Structure: 
-				Requirement --> Threat -->  Risk --> Countermeasure --> Test Category --> Test Case --> Evidence
-		3.4.2 Security Test Categories
+		3.4.1 Security Test Categories
 			Interface Exposure
 			Authentication
 			Authorization --> Firewall, Whitelisting, Zone Separation
@@ -146,7 +143,9 @@
 			Logging and Traceability
 			Robustness / Negative Testing
 			Principles: Completeness, and Abstraction
-		3.4.3 Test Case Structure
+		3.4.2 Test Case Structure
+			Test Matrix Structure: 
+				Requirement --> Threat -->  Risk --> Countermeasure --> Test Category --> Test Case --> Evidence
 			Beispielsweise:
 				Requirement
 				Threat
@@ -155,7 +154,7 @@
 				Procedure
 				Expected Result
 				Evidence
-		3.4.4 Roles and Responsibilities in Verification
+		3.4.3 Roles and Responsibilities in Verification
 			Organizational Roles and RACI Matrix in Verification
 	3.5 Evaluation Criteria
 		PASS / FAIL / PARTIAL / NOT APPLICABLE

@@ -1,5 +1,92 @@
 \chapter{Implementation, Results, and Evaluation} 
 \label{chap:implementation_results_evaluation} 
+Attack Surface Analyse des Gateways
+
+PROFIsafe
+
+PROFINET/ Ethernet
+
+\textbf{Firmware Update Mechanism} über IoT Core: Angriff: Upload einer manipulierten Firmware
+
+Debug/Service Schnittstelle --> Debug durch Hardware (Gehäuse) eigentlich nicht zugänglich
+
+IoT Core (HTTP) 
+--> Netzwerkkonfiguration
+
+\textbf{PROFINET DCP Konfigurationsschnittstelle}: Angreifer setzt neue IP-Adresse und neuen Gerätenamen mittels DCP-Set --> IEC 62443: FR1, FR2, FR5 
+
+Rotary Switch
+
+GSD-Datei --> Abgesichert durch CRC
+
+(Power Supply)
+
+Digitale Ein-/ und Ausgänge ?
+
+
+Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT --> nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
+
+
+Assets:
+Sichere Ein-/ Ausgangsfunktion (F-DI, F-DO, PROFIsafe Kommunikation --> Auswirkung bei Kompromittierung: Maschinenstillstand, Verlust der Sicherheitsfunktion, Gefährdung von Personen)
+Gerätekonfiguration (F-Adresse, PROFIsafe-Parameter, Netzwerkparameter, DCP-Konfiguration)
+Firmware (COM, SCPU-Firmware, Bootloader)
+Diagnosedaten (Error Logs, IoT-Core-Daten)
+
+
+Mapping Attack Surface --> Testverfahren
+Attack Surface		Threat		Test Method
+Web Interface		Spoofing	Authentication Test
+REST API			Tampering	API Security Test
+Modbus Interface	Replay		Protocol Test
+Firmware Update		Tampering	Integrity Test
+Ethernet Port		DoS			Robustness Test
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
+		\toprule
+		FR & Name & Relevant Gateway Assets \\
+		\midrule
+		FR1 & Identification and Authentication Control (IAC) & IoT Core, Firmware Update \\
+		FR2 & Use Control (UC) & IoT Core, Configuration functions \\
+		\textbf{FR3} & System Integrity (SI) & Firmware Update, PROFIsafe, Configuration \\
+		FR4 & Data Confidentiality (DC) & HTTP Interface, Configuration data \\
+		FR5 & Restricted Data Flow (RDF) & Ethernet, PROFINET, IoT Core \\
+		FR6 & Timely Response to Events (TRE) & Error Log, Diagnostics \\
+		FR7 & Resource Availability (RA) & Ethernet, PROFINET, DCP \\
+		\bottomrule
+	\end{tabularx}
+	\caption{Foundational Requirements and Relevant Gateway Assets}
+	\label{tab:fr_gateway_assets}
+\end{table}
+
+Ethernet Port 1
+Ethernet Port 2
+PROFINET
+PROFIsafe
+IoT Core
+HTTP Server
+Visualizer
+Firmware Update Service
+Firmware Image
+Fieldbus COnfiguration
+F-Parameter
+iParameter
+Device Information
+MAC-Address
+Ip-Address
+Hostname
+Error Log
+ Diagnostic Events
+ Debug Interface
+ Programming Interface
+ DCP Set Parameters
+ DCP Factory Reset
+ Device Identification
+
+
 
 \section{Test Environment} 
 \label{sec:test_environment} 

@@ -39,3 +39,187 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\acrsho
 		\hline 
 	\end{tabular} 
 \end{table}
+
+%\chapter{Asset Analysis and Security Tests}
+%\label{ch:appendix_asset_analysis}
+%
+%% ==========================================
+%% TABLE 1: HARDWARE ASSETS
+%% ==========================================
+%\section{Hardware Assets}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X X l}
+%		\toprule
+%		Category & Asset & Description & Security Relevance \\
+%		\midrule
+%		Hardware & STM32F777 Host CPU (CPU3) & COM module, IoTCore, Fieldbus Application & High \\
+%		Hardware & Safe CPU1 & PROFIsafe Processing & High \\
+%		Hardware & Safe CPU2 & Redundant safety processing & High \\
+%		Hardware & netX90 & PROFINET Stack and Ethernet communication & High \\
+%		Hardware & EEPROM & Persistent configuration data & High \\
+%		Hardware & Update Flash & Firmware update memory & High \\
+%		Hardware & Ethernet Port 1 & Fieldbus and IoT access & High \\
+%		Hardware & Ethernet Port 2 & Fieldbus and IoT access & High \\
+%		Hardware & Rotary Switches & F-address, update mode & Medium \\
+%		Hardware & Debug Interface & Development / diagnostic interface & Very High \\
+%		Hardware & SPI / SysCom Interface & Communication between COM and SCPU & High \\
+%		Hardware & DI Ports ($6\times$) & Safety-relevant inputs & High \\
+%		Hardware & DO Ports ($2\times$) & Safety-relevant outputs & High \\
+%		Hardware & Power Input & Power supply & Medium \\
+%		Hardware & Power Output & Daisy chaining & Medium \\
+%		Hardware & LEDs/HMI & Status information & Low \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Hardware Assets and Security Relevance}
+%	\label{tab:hardware_assets}
+%\end{table}
+%
+%% ==========================================
+%% TABLE 2: SOFTWARE ASSETS
+%% ==========================================
+%\section{Software Assets}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X X l}
+%		\toprule
+%		Category & Asset & Description & Security Relevance \\
+%		\midrule
+%		Software & IoT Core & Web-based device interface & Very High \\
+%		Software & IoT Core Visualizer & Browser access to device data & High \\
+%		Software & HTTP Server & IoT Core access via HTTP & Very High \\
+%		Software & PROFINET Stack & Fieldbus communication & High \\
+%		Software & PROFIsafe Stack & Safe communication & Very High \\
+%		Software & Fieldbus Application & Process data processing & High \\
+%		Software & Firmware Update Service & Update function & Very High \\
+%		Software & SysCom Protocol & Internal communication COM $\leftrightarrow$ SCPU & High \\
+%		Software & Error Handling Service & Logging and diagnostics & Medium \\
+%		Software & Device Delegator & Device configuration & Medium \\
+%		Software & IO Delegator & Process data management & High \\
+%		Software & NVMEM Delegator & EEPROM access & High \\
+%		Software & eRPC Service Interface & Service communication & High \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Software Assets and Security Relevance}
+%	\label{tab:software_assets}
+%\end{table}
+%
+%% ==========================================
+%% TABLE 3: NETWORK ASSETS
+%% ==========================================
+%\section{Network Assets}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X l}
+%		\toprule
+%		Category & Asset & Description / Network Type \\
+%		\midrule
+%		Network & PROFINET & OT Network \\
+%		Network & PROFIsafe & OT Network \\
+%		Network & HTTP & IT Network \\
+%		Network & IoT Core API & IT Network \\
+%		Network & Firmware Upload Channel & IT Network \\
+%		Network & DCP Services & OT Network \\
+%		Network & MRP & OT Network \\
+%		Network & SysCom & Internal \\
+%		Network & SPI Communication & Internal \\
+%		Network & Shared Memory Data Exchange & Internal \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Network Assets and Classification}
+%	\label{tab:network_assets}
+%\end{table}
+%
+%% ==========================================
+%% TABLE 4: DATA ASSETS
+%% ==========================================
+%\section{Data Assets}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X X}
+%		\toprule
+%		Category & Asset & Description \\
+%		\midrule
+%		Data & Firmware Image & Executable code \\
+%		Data & Bootloader Version & Firmware identity \\
+%		Data & SCPU Firmware Version & Firmware identity \\
+%		Data & Device Configuration & Device parameters \\
+%		Data & Fieldbus Configuration & PROFINET configuration \\
+%		Data & F-Parameter & PROFIsafe configuration \\
+%		Data & iParameter & Safety configuration \\
+%		Data & F-Address & Safety address \\
+%		Data & IP Address & Network setting \\
+%		Data & net Mask & Network setting \\
+%		Data & MAC Address & Device identity \\
+%		Data & Hostname & Device identity \\
+%		Data & Device Tag & User configuration \\
+%		Data & Error Log & Safety-relevant events \\
+%		Data & Error Events & Diagnostic information \\
+%		Data & Device Status & Operating state \\
+%		Data & Temperature Values & Diagnostic values \\
+%		Data & Voltage Values & Diagnostic values \\
+%		Data & Current Values & Diagnostic values \\
+%		Data & Process Data Inputs & F-DI states \\
+%		Data & Process Data Outputs & F-DO states \\
+%		Data & Diagnostic Records & Maintenance information \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Data Assets and Descriptions}
+%	\label{tab:data_assets}
+%\end{table}
+%
+%% ==========================================
+%% TABLE 5: SECURITY FUNCTIONS
+%% ==========================================
+%\section{Security Functions}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{X X}
+%		\toprule
+%		Security Function & Associated Assets \\
+%		\midrule
+%		Firmware Update Protection & Firmware Image, Update Service \\
+%		Configuration Integrity & F-Parameter, iParameter \\
+%		Error Logging & Error Log, Error Events \\
+%		Auditability & Error Logs \\
+%		Communication Integrity & PROFIsafe \\
+%		Resource Availability & PROFINET, SysCom \\
+%		Device Identification & MAC, Hostname, DeviceInfo \\
+%		Access Restriction & IoT Core \\
+%		Safe State on Communication Loss & PROFIsafe, DO Channels \\
+%		Configuration Validation & CRC, iParCRC, F\_ParCRC \\
+%		Factory Reset & DCP Reset \\
+%		Diagnostic Monitoring & Temperature, Voltage, Current \\
+%		Secure Firmware Installation & Firmware Container \\
+%		Update Authorization (DIL-Switch) & Rotary Switch Interface \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Security Functions and Associated Assets}
+%	\label{tab:security_functions}
+%\end{table}
+%
+%% ==========================================
+%% TABLE 6: ENTRY POINTS AND SECURITY TESTS
+%% ==========================================
+%\section{Entry Points and Security Tests}
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{X X}
+%		\toprule
+%		Entry Point & Security Tests \\
+%		\midrule
+%		HTTP / IoT Core & Authentication, Authorization, Session Tests \\
+%		Firmware Update & Integrity, Tampering Tests \\
+%		PROFINET & Robustness, Protocol Tests \\
+%		PROFIsafe & Integrity, Replay Tests \\
+%		DCP Services & Configuration Manipulation Tests \\
+%		Ethernet Ports & DoS Tests \\
+%		Debug Interface & Physical Access Tests \\
+%		EEPROM & Configuration Integrity Tests \\
+%		SysCom & Fault Injection Tests \\
+%		Error Logging & Audit Trail Tests \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Entry Points and Corresponding Security Tests}
+%	\label{tab:security_tests}
+%\end{table}

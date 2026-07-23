@@ -1,9 +1,48 @@
 \chapter{Methodology} 
 \label{chap:methodology} 
 
+Security Requirements for Industrial Gateways
 
-In the context of industrial gateways, which act as critical boundaries at the IT/OT interface, these 
-devices are primarily evaluated under the stringent requirements for network components.
+Hier leitest du aus den Normen die tatsächlich testbaren Security-Funktionen ab.
+
+
+Requirement 			SourceRequirement
+MVO Annex III 1.1.9		Schutz vor Manipulation
+MVO Annex III 1.2.1		Schutz gegen Angriffe Dritter
+IEC 62443 FR1			Authentication
+IEC 62443 FR2			Authorization
+IEC 62443 FR3			Integrity
+IEC 62443 FR6			Logging
+IEC 62443 FR7			Availabiliy
+
+
+
+Requirement			Security Function
+Authentication		Login Mechanismus
+Authorization		Rollen- und Rechtekonzept
+Integrity			Secure Boot
+Integrity			Signed Firmware
+Confidentiality		TLS
+Availability		DoS Protection
+Logging				Audit Trail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -12,25 +51,117 @@ devices are primarily evaluated under the stringent requirements for network com
 \label{sec:gateway_security_context} 
 
 
+
+
+
+
 \section{Derivation of Security Requirements} 
 \label{sec:security_requirements} 
+Welche Funktionen müssen getestet werden?
+Testziele ableiten
 
+ Ableitung aus:
+	 Machinery Regulation
+	 IEC 62443
+	 TARA
 
 \section{Development of the Functional Security Testing Methodology}
 \label{sec:testing_methodology_development} 
 
-\subsection{Testing Framework Concept} 
-\label{subsec:testing_framework_concept} 
 
-\subsection{Security Test Categories} 
-\label{subsec:security_test_categories} 
+Problem aktueller Methodiken: 
+- klassischer Funktionale Ansatz (Black-Box-Ansatz): Prüft nur Soll-Verhalten, Keine Aussage über Angriffswiderstand --> Für Nachweisführung regulatorischer Anforderungen allein nicht ausreichend
+- Security Verificaton nach IEC 62443: Abstrakt, liefert keine konkreten Testfälle --> bietet aber Grundlage für die Ableitung systematischer Testfälle
+- Penetration Testing: Geringe Reproduzierbarkeit, Ergebnis abhängig vom Tester -->  Für die Maschinenverordnung liefern Penetration Tests starke Evidenz, ersetzen jedoch keine strukturierte Verifikationsmethodik.
+- Fuzz Testing: Erfordert spezialisiertes Testsetup, schwierige Ergebnisanalyse --> geeignet für Prüfung robuster Kommunikation und Fehlerbehandlung nach IEC 62443
+- Protocol Security Testing
+- OWASP IoT Security Testing Guide: nicht speziell für OT entwickelt
+- Risk-based Security Testing: Aufwendige Riskoanalyse notwendig
 
-\subsection{Test Case Structure} 
-\label{subsec:test_case_structure} 
 
-\subsection{Roles and Responsibilities in Verification} 
-\label{subsec:roles_responsibilities_verification} 
+
+In the context of industrial gateways, which act as critical boundaries at the IT/OT interface, these 
+devices are primarily evaluated under the stringent requirements for network components.
+
+
+
+
+
+
+Funktionale Tests prüfen, ob das System tut, was es soll. Security Tests prüfen, ob das System auch das unterlässt, was es nicht tun darf.
+
+
+
+
+Deswegen kombiniertes Testframework:
+
+1. Risk Assessment / Threat Modelling
+2. Ableitung von Security Requirements
+3. Funktionale Security Tests
+4. Protocol Security Tests
+5. Fuzz Testing
+6. Gezielte Penetration Tests
+7. Compliance-Mapping auf EU-Maschinenverordnung und IEC 62443
+
+
+Testframework
+1. Requirement Analysis
+
+2. Asset Identification
+
+3. Threat Modeling (TARA + STRIDE)
+
+4. Mapping to IEC 62443 Requirements
+
+5. Definition of Security Test Objectives
+
+6. Test Implementation
+
+7. Result Evaluation
+
+8. Compliance Evidence
+
+
+
+
+\section{Security Test Categories} 
+\label{sec:security_test_categories} 
+
+\section{Test Case Structure} 
+\label{sec:test_case_structure} 
+
+Test Matrix Structure: 
+Requirement --> Threat -->  Risk --> Countermeasure --> Test Category --> Test Case --> Evidence
+
+Requirement
+
+Threat
+
+Objective
+
+Preconditions
+
+Procedure
+
+Expected Result
+
+Evidence
+
+
+\section{Roles and Responsibilities in Verification} 
+\label{sec:roles_responsibilities_verification} 
+
+RACI Matrix
 
 
 \section{Evaluation Criteria} 
 \label{sec:evaluation_criteria}
+
+
+Pass 
+
+Fail 
+
+Partial
+
+Not Applicable

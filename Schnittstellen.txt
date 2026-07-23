@@ -1,3 +1,24 @@
+PROFIsafe
+
+PROFINET/ Ethernet
+
+Firmware Update Mechanism
+
+Debug/Service Schnittstelle --> Debug durch Hardware (Gehäuse) eigentlich nicht zugänglich
+
+IoT Core (HTTP) 
+--> Netzwerkkonfiguration
+
+PROFINET DCP Konfigurationschnittstelle
+
+Rotary Switch
+
+GSD-Datei --> Abgesichert durch CRC
+
+(Power Supply)
+
+
+
 A. Hoch relevant
 
 1. PROFINET / Ethernet Fieldbus (OT-Schnittstelle)
