@@ -17,7 +17,12 @@ GSD-Datei --> Abgesichert durch CRC
 
 (Power Supply)
 
-
+Digitale Ein-/ und Ausgänge ?
+	Sie wären nur relevant, wenn du auch:
+		Manipulation physischer Sensoren
+		Spoofing von Sicherheitssignalen
+		Sabotageversuche
+	untersuchen möchtest
 
 A. Hoch relevant
 
@@ -110,27 +115,199 @@ SysCom
 --> Interne Verbindung zwischen COM und Safe CPU.
 
 
-C. Für die Arbeit eher NICHT relevant
+
+
+
+
+
+OT-Schnittstellen
+1. PROFINET / PROFIsafe
+2 × M12 D-codierte Ethernet-Ports
+Kommunikation zur SPS/F-PLC
+PROFINET für Standarddaten
+PROFIsafe für sicherheitsgerichtete Daten (Black-Channel über PROFINET)
+
+OT-Rolle: Steuerung, Prozessdaten, Sicherheitskommunikation.
+
+2. Digitale Ein- und Ausgänge
+6 × sichere DI-Ports (6x2 F-DI)
+2 × sichere DO-Ports (2x2 F-DO)
+Anschluss von Not-Halt, Lichtgitter, Schutztürschaltern, Aktoren usw.
+
+OT-Rolle: Direkte Anbindung von Feldgeräten.
+
+3. Spannungsversorgung
+M12 L-codiert
+Power In / Power Out (Daisy Chain)
+Versorgung von Sensoren und Aktoren
+
+OT-Rolle: Infrastruktur der Anlage.
+
+IT-Schnittstellen
+1. IoT Core (Webserver)
+HTTP-basierte Schnittstelle
+Zugriff per IP-Adresse über Browser
+Device Visualizer
+Firmware-Updates
+Diagnose- und Zustandsdaten
+Netzwerkparameter (IP-Adresse, Hostname, MAC-Adresse) lesbar
+
+IT-Rolle: Asset Management, Diagnose, Wartung.
+
+2. Firmware Update Interface
+Update über IoT Core
+Upload von Firmware-Containern
+Web-basierter Zugriff
+
+IT-Rolle: Lifecycle Management.
+
+Interne IT/OT-Brücke
+SysCom
+SPI-Kommunikation zwischen:
+COM-Modul (PROFINET / IoT)
+SCPU (Safety CPU)
+Transportiert:
+PROFIsafe-Daten
+Diagnosen
+IoT-Daten
+Konfigurationen
+
+
+
+Ethernet/PROFINET Interface:
+Angriffsvektoren:
+
+Manipulation von DCP (IP-Adresse, Station Name)
+Manipulation von PROFINET-Parametern
+Missbrauch azyklischer Read/Write Services
+DoS durch Kommunikationsüberlast
+Manipulation von Diagnoseinformationen
+Netzwerk-Scanning und Geräteidentifikation
+Schwachstellen im NetX90-Stack
+
+Azyklische PROFINET Datensätze:
+Angriffsvektoren:
+
+Manipulation von Parametern
+Inkonsistente Konfiguration
+Speicherüberläufe durch malformed Records
+Parser-Angriffe
+
+IoT Core Webeserver:
+Angriffsvektoren:
+
+Unverschlüsselte HTTP-Kommunikation
+Session Hijacking im lokalen Netz
+Manipulation von HTTP Requests
+Information Disclosure:
+Seriennummer
+FW-Version
+Netzwerkparameter
+Fehlerlogs
+Schwachstellen im IoT-Core-Webserver
+
+IoT-Core Services
+Angriffsvektoren:
+
+Missbrauch von Service Calls
+Triggern von Zustandswechseln
+Auslösen von FIT/Fault Injection Funktionen
+Ressourcenverbrauch
+
+
+Firmware Update Interface:
+Angriffsvektoren:
+
+Manipulierte Firmware
+Unsichere Update-Authentifizierung
+Replay alter Firmwarestände
+DoS durch unvollständige Uploads
+Missbrauch des Update-Modus
+
+PROFINET DCP:
+Angriffsvektoren:
+
+Umadressierung des Geräts
+Kommunikationsverlust
+Factory Reset
+Netzwerkstörung
+
+
+Debug/ Programming Interface
+Angriffsvektoren:
+
+Firmware Extraction
+Firmware Manipulation
+Memory Readout
+Debugger Attach
+
+
+
+SysCom (COM ↔ SCPU)
+
+Intern, aber sicherheitsrelevant.
+
+Verbindungen:
 
 SPI
-QSPI / TQSPI
- --> CPU3 ↔ netX90 Kommunikation
-I²C
- --> Temperatursensoren
- --> Monitoring-Komponenten
-IPC
- --> CPU1 ↔ CPU2 Kommunikation
-DIRQ / SIRQ
- --> Interne Interrupt-Leitungen.
+PROFIsafe Frame Transfer
+Error Events
+Configuration Data
 
-Boot Select
- --> Interne Bootmodus-Steuerung.
+→ Angriffsvektoren:
 
-F-DI / F-DO Prozessanschlüsse
- --> sind zwar OT-Schnittstellen, aber keine klassischen Cybersecurity-Schnittstellen.
+Manipulation über kompromittiertes COM
+Falsche Parameterweitergabe
+Frame-Manipulation
+DoS auf die sichere CPU
 
-	Sie wären nur relevant, wenn du auch:
-		Manipulation physischer Sensoren
-		Spoofing von Sicherheitssignalen
-		Sabotageversuche
-	untersuchen möchtest.
+Extern normalerweise nicht direkt erreichbar, aber wichtig für die Trust Boundary.
+
+Attack Surface: Mittel (interne Schnittstelle)
+
+EEPROM / NVMEM
+
+Speichert:
+
+Device Daten
+Persistente Informationen
+Konfiguration
+
+→ Angriffsvektoren:
+
+Manipulation persistenter Daten
+Rollback
+Identitätsänderungen
+
+Attack Surface: Mittel
+
+
+Rotary Switches (F-Adresse)
+
+Externe physische Eingabe.
+
+→ Angriffsvektoren:
+
+Änderung der F-Destination-Adresse
+Fehlparametrierung
+Sabotage durch physischen Zugriff
+
+Attack Surface: Niedrig bis mittel
+
+Information Disclosure Surface
+
+Über IoT-Core und PROFINET abrufbar:
+
+Seriennummer
+Softwarestände
+Bootloaderstände
+IP-Adresse
+MAC-Adresse
+Fehlerlogs
+Temperaturwerte
+Spannungen
+Betriebszustand
+
+→ Ideal für Reconnaissance.
+
+Attack Surface: Mittel

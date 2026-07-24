@@ -1,6 +1,222 @@
 \chapter{Methodology} 
 \label{chap:methodology} 
 
+\section{Regulatory Analysis under the EU Machinery Regulation}
+\label{sec:regulatory_analysis}
+
+To bridge the gap between abstract legal mandates and practical security testing for industrial gateways, a rigorous analysis of \hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230} is required. The primary objective is to extract and formalize all mandatory cybersecurity requirements that apply to components operating at the physical and logical IT/OT boundary. While the Machinery Regulation addresses product safety holistically, cybersecurity requirements are predominantly anchored in Annex III, Sections 1.1.9 (\textit{Protection against corruption}) and 1.2.1 (\textit{Safety and reliability of control systems}). For an industrial gateway, which routes, translates, and filters data between untrusted IT networks and safety-critical OT domains, these provisions impose explicit technical duties on the manufacturer.
+
+Under Annex III, Section 1.1.9, the regulation establishes four core mandates to prevent digital manipulation from impairing safety functions. First, the connection of any external device must not create a hazardous situation under any operational state. Second, hardware components transmitting safety-relevant data or control signals must be resilient against accidental or deliberate corruption. Third, software applications, firmware, and configuration datasets essential for compliance with safety requirements must be identified and protected against unauthorized alteration or corruption using mechanisms. Fourth, the system must actively collect and retain immutable evidence regarding legitimate and illegitimate interventions, configuration changes, or access attempts to ensure complete auditability.
+
+Complementarily, Section 1.2.1 explicitly addresses the operational behavior of control systems under malicious conditions. Because industrial gateways frequently act as front-line communication proxies for underlying Programmable Logic Controllers (PLCs), the control systems and their associated gateway interfaces must be engineered to withstand reasonably foreseeable malicious attempts by third parties without inducing a hazardous state. Furthermore, any loss, corruption, or disruption of network data transmission must be handled gracefully, ensuring that communication failures default to a predefined safe state.
+
+Beyond functional implementation, Regulation (EU) 2023/1230 fundamentally alters the requirements for conformity assessment and technical documentation under Article 10(2) and Annex IV, Part A. Manufacturers can no longer rely solely on passive self-declarations regarding software integrity. To demonstrate compliance during the conformity assessment process, manufacturers must provide concrete, empirical evidence within the technical documentation. This documentation must encompass a formal cybersecurity threat and risk assessment covering the entire lifecycle, detailed technical specifications of all implemented protective measures, and empirical test reports proving that the implemented security controls effectively mitigate identified threats under realistic operational conditions.
+
+To make these qualitative regulatory requirements actionable for technical verification, they are translated into a structured catalog of regulatory requirements ($\text{REQ-REG}$). Table~\ref{tab:regulatory_requirements} summarizes these consolidated requirements, which serve as the baseline input for subsequent normative mapping and test case derivation.
+
+
+\begin{longtable}{l p{3.4cm} p{8.6cm}}
+	\caption{Regulatory Cybersecurity Requirements for Industrial Gateways derived from Regulation (EU) 2023/1230} \label{tab:regulatory_requirements} \\
+	\toprule
+	\textbf{REQ ID} & \textbf{MVO Reference} & \textbf{Regulatory Core Mandate} \\
+	\midrule
+	\endfirsthead
+	
+	\multicolumn{3}{c}{\small\itshape - Continued from previous page -} \\[0.5em]
+	\toprule
+	\textbf{REQ ID} & \textbf{MVO Reference} & \textbf{Regulatory Core Mandate} \\
+	\midrule
+	\endhead
+	
+	\midrule
+	\multicolumn{3}{r}{\small\itshape Continued on next page --} \\
+	\endfoot
+	
+	\bottomrule
+	\endlastfoot
+	
+	\textbf{REQ-REG-01} & Annex III, \newline Sec. 1.1.9 & External device connections and remote access facilities must not cause hazardous situations. \\ \addlinespace
+	\textbf{REQ-REG-02} & Annex III, \newline Sec. 1.1.9 & Hardware components transmitting safety-critical signals/data must be protected against intentional or accidental corruption. \\ \addlinespace
+	\textbf{REQ-REG-03} & Annex III, \newline Sec. 1.1.9 & Mandatory collection of evidence/logs regarding legitimate or illegitimate access/interventions in safety-relevant hardware. \\ \addlinespace
+	\textbf{REQ-REG-04} & Annex III, \newline Sec. 1.1.9 & Explicit identification and corruption protection of software and data critical for health and safety compliance. \\ \addlinespace
+	\textbf{REQ-REG-05} & Annex III, \newline Sec. 1.1.9 & Mandatory identification and continuous, accessible display of installed safety-critical software versions. \\ \addlinespace
+	\textbf{REQ-REG-06} & Annex III, \newline Sec. 1.1.9 & Evidence logging of any legitimate or illegitimate modifications to installed software or machine configuration. \\ \addlinespace
+	\textbf{REQ-REG-07} & Annex III, \newline Sec. 1.2.1(a) & Control system resilience against operational stresses, external influences, and foreseeable malicious third-party attacks. \\ \addlinespace
+	\textbf{REQ-REG-08} & Annex III, \newline Sec. 1.2.1(b, c, e) & Fault tolerance ensuring hardware/software defects, logic errors, or foreseeable operator errors do not lead to hazardous situations. \\ \addlinespace
+	\textbf{REQ-REG-09} & Annex III, \newline Sec. 1.2.1(d) & Strict prevention of unauthorized setting or rule modifications (including during learning phases) that could cause hazards. \\ \addlinespace
+	\textbf{REQ-REG-10} & Annex III, \newline Sec. 1.2.1(f) & Mandatory retention of audit trails for software interventions and uploaded safety software versions for 5 years. \\ \addlinespace
+	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements. \\
+\end{longtable}
+
+
+
+
+
+
+
+\section{Normative Mapping and Technical Security Requirements}
+\label{sec:normative_mapping}
+
+To bridge the gap between high-level legal mandates and verifiable technical properties, the regulatory requirements ($\text{REQ-REG}$) are operationalized using established cybersecurity standards. While \hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230} defines mandatory safety and security goals, it lacks technical criteria for implementation and verification. Because an industrial gateway is an IACS component operating at the IT/OT boundary, compliance is verified against the Component Requirements (CRs) of IEC 62443-4-2, supported by testing methodologies from NIST SP 800-115 and OWASP WSTG, and aligned with the lifecycle verification practices of IEC 62443-4-1 (SVV-3).
+
+To establish complete traceability from legal obligations to functional test execution, the regulatory requirements are synthesized into four core technical security capability domains ($\text{REQ-SEC}$):
+%
+%\begin{itemize}
+%	\item \textbf{Access Control and Authentication (FR 1 \& FR 2):} Satisfying $\text{REQ-REG-01}$ and $\text{REQ-REG-09}$ requires robust identification and authentication mechanisms (CR 1.1) for both human operators and interconnected machine nodes, alongside Role-Based Access Control (CR 2.1) to enforce least-privilege access across the IT/OT boundary.
+%	\item \textbf{System and Data Integrity (FR 3):} Implementing $\text{REQ-REG-02}$ and $\text{REQ-REG-04}$ mandates cryptographic root-of-trust mechanisms, such as Secure Boot (CR 3.10) and digital signature verification for firmware and configuration files (CR 3.4), to prevent unauthorized modifications.
+%	\item \textbf{Audit Logging and Traceability (FR 6):} Fulfilling $\text{REQ-REG-03}$, $\text{REQ-REG-06}$, and $\text{REQ-REG-10}$ demands an immutable, tamper-resistant audit trail (CR 6.1, CR 6.2). The gateway must record login attempts, configuration changes, and software interventions with NTP-synchronized timestamps.
+%	\item \textbf{Network Isolation and Resilience (FR 5 \& FR 7):} $\text{REQ-REG-07}$ and $\text{REQ-REG-08}$ necessitate physical and logical network segregation (CR 5.1), ingress/egress traffic filtering, and Denial-of-Service (DoS) resilience (CR 7.1, CR 7.2) to ensure graceful degradation and safe-state triggering upon network anomalies.
+%\end{itemize}
+%
+%Table~\ref{tab:normative_mapping_matrix} consolidates these derived technical security requirements ($\text{REQ-SEC}$) and establishes explicit alignment between the legal mandates, normative IEC 62443 capabilities, and designated functional verification methods.
+%
+%\begin{longtable}{p{2.2cm} p{2.0cm} p{2.8cm} p{4.8cm} p{2.7cm}}
+%	\caption{Translation of Regulatory Mandates into Technical Requirements and Verification Methods} \label{tab:normative_mapping_matrix} \\
+%	\toprule
+%	\textbf{REQ-SEC ID} & \textbf{REG Ref.} & \textbf{Normative Ref.} & \textbf{Technical Security Requirement} & \textbf{Verification Method} \\
+%	\midrule
+%	\endfirsthead
+%	
+%	\multicolumn{5}{c}{\small\itshape - Continued from previous page -} \\[0.5em]
+%	\toprule
+%	\textbf{REQ-SEC ID} & \textbf{REG Ref.} & \textbf{Normative Ref.} & \textbf{Technical Security Requirement} & \textbf{Verification Method} \\
+%	\midrule
+%	\endhead
+%	
+%	\midrule
+%	\multicolumn{5}{r}{\small\itshape Continued on next page --} \\
+%	\endfoot
+%	
+%	\bottomrule
+%	\endlastfoot
+%	
+%	\textbf{REQ-SEC-01} & REQ-REG-01 \newline REQ-REG-09 & IEC 62443-4-2: \newline CR 1.1, CR 2.1 & Mandatory authentication and Role-Based Access Control (RBAC) for all management, remote access, and configuration interfaces. & OWASP WSTG \newline Auth Bypass \& Interface Testing \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-02} & REQ-REG-02 \newline REQ-REG-04 & IEC 62443-4-2: \newline CR 3.4, CR 3.10 & Cryptographic root-of-trust, including Secure Boot and mandatory signature verification for firmware and configuration updates. & NIST SP 800-115 \newline Tamper Testing \& Image Injection \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-03} & REQ-REG-03 \newline REQ-REG-06 \newline REQ-REG-10 & IEC 62443-4-2: \newline CR 6.1, CR 6.2 & Tamper-resistant, timestamped audit logging for security-relevant events, access attempts, and configuration changes. & Log Injection \& Event Triggering Analysis \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-04} & REQ-REG-05 & IEC 62443-4-2: \newline CR 7.8 & Automated runtime capability to query, verify, and display installed safety-critical software and firmware versions. & API / CLI Version Query Inspection \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-05} & REQ-REG-07 & IEC 62443-4-2: \newline CR 5.1, CR 7.1 & Strict physical and logical IT/OT interface isolation, traffic filtering, and rate-limiting to prevent DoS propagation. & Protocol Fuzzing \& Traffic Flooding \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-06} & REQ-REG-08 & IEC 62443-4-2: \newline CR 7.2 & Graceful degradation and deterministic safe-state triggering upon communication failure or corrupted data packets. & Network Fault Injection \& Disconnection \\ \addlinespace
+%	
+%	\textbf{REQ-SEC-07} & REQ-REG-16 & IEC 62443-4-1: \newline SVV-3 & Empirical test coverage documentation, automated execution logs, and vulnerability assessment reports for technical auditability. & Continuous Test Traceability Audit \\
+%\end{longtable}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Notizen (löschen in FINAL)}
+\section{Description of the system}
+\subsection{Overview Architecture}
+SRIO is a fieldbus device that:
+
+Detects binary 24V input signals and transmits them to the higher-level controller via fieldbus.
+Receives output commands from the controller and actuates outputs using binary 24V signals.
+Covered functional safety behavior:
+
+Safe input path: sensor state acquisition and transmission via bus.
+Safe output path: forced switch-off and maintained OFF state in case of dangerous internal failures.
+
+
+COM			Ethernetbased communication PROFINET, IoTCore
+SysCom		SPI based communication between COM / CPU3 and SCPU
+SCPU		Safe Core containing both SPCUs, rotary switch and Watchdog. Safety functions are implemented in a 1oo2 architecture 	
+via SCPU1, SCPU2, the crosscomunication IPC and Watchdog
+PS			Power Supply, supplies all system components
+DI			Safe Digital Inputs
+DO			Safe Digital Outputs
+
+\subsection{Overview of interfaces (internal and external) and the available communication protocols}
+External interfaces:
+
+Ethernet / COM module:
+- PROFINET communication to PLC/F-Host.
+- IoTCore communication interface.
+
+Power supply:
+- Device supply (including daisychaining).
+
+Rotary switches:
+- Local selection of specific device functions (for example update mode / addressing).
+
+Safety I/O terminals:
+- 6x F-DI and 2x F-DO signal interfaces.
+
+LEDs:
+- Local status indication.
+
+
+Internal interfaces, listed for completeness, physically protected by encapsulated hardware design:
+- SysCom: COM <-> SCPU
+- IPC: SCPU1 <-> SCPU2
+- JTAG interfaces per CPU
+
+Network/protocol context:
+- PROFINET over Ethernet (M12 D-coded), bidirectional SRIO <-> PLC/F-Host.
+- PROFIsafe as black-channel protocol over PROFINET for safety-relevant communication.
+- IoTCore via HTTP/JSON for non-safety service functions (diagnostics, monitoring, error log, firmware update handling).
+
+Field/local interface context:
+- Field side: DI/DO plus associated supply paths (US/UA), according to intended port use.
+- Local side: rotary switches, LEDs, firmware update mode.
+
+
+
+\section{Classification of the System under consideration}
+\subsection{Determination of the scope of application and the target group}
+\subsection{Intended use/reasonably foreseeable misuse}
+\subsection{Device Type classification}
+\subsection{Overview of critical resources and ``assets''}
+\subsection{Data classification}
+\subsection{Memory classification}
+\subsection{Other non specific properties}
+\subsection {Exposure Level}
+\subsection{Definition of communication capabilities}
+\subsection{Definition of protection objectives}
+\subsection{Definition of Attackers and their motivation}
+\subsection{Determination of life cycle and the related users and other dependencies, based on customer journey}
+\subsection{Determination of what is not part of the system}
+\subsection{Setting the Trust Boundaries of the SUC}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Security Requirements for Industrial Gateways
 
 Hier leitest du aus den Normen die tatsächlich testbaren Security-Funktionen ab.
@@ -25,25 +241,6 @@ Integrity			Signed Firmware
 Confidentiality		TLS
 Availability		DoS Protection
 Logging				Audit Trail
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

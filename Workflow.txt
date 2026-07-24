@@ -1,0 +1,130 @@
+
+Phase 1: Regulatory Analysis
+	Ziel: Verstehen, welche Cybersecurity-Anforderungen überhaupt nachgewiesen werden müssen.
+
+	Aktivitäten:
+		- Analyse der Machinery Regulation (EU) 2023/1230
+		- Identifikation relevanter Cybersecurity-Anforderungen
+		- Identifikation von Anforderungen an Konformitätsbewertung und Verifikation
+	Ergebnis: Liste regulatorischer Anforderungen.
+
+
+Phase 2: Normative Konkretisierung
+	Ziel: Die regulatorischen Anforderungen technisch konkret machen.
+
+	Aktivitäten: 
+		Analyse von:
+			- IEC 62443
+			- OWASP Testing Guide
+			- NIST SP 800-115
+
+	Ergebnis:
+		Mapping: Regulatorische Anforderung --> Technische Security-Anforderung
+			z. B.: Unauthorized Access --> 	Authentication
+							Authorization
+							Session Management
+
+
+Phase 3: System Analysis
+	Ziel:
+		Verstehen:
+			- Was besitzt das Gateway? 
+			- Wo kann es angegriffen werden?
+
+	Aktivitäten:
+		Architektur:
+			- Gateway (Architektur)
+			- Netzwerkschnittstellen  (IT/OT Schnittstellen)
+			- Webserver
+			- APIs
+			- Firmware Update Mechanismus
+		Assets:
+			- Konfiguration
+			- Benutzerkonten
+			- Firmware
+			- Logdaten
+			- Produktionsdaten
+		Interfaces: 
+			- HTTP/HTTPS
+			- REST API
+			- Ethernet
+			- MQTT
+			- OPC UA
+	Ergebnis: Systembeschreibung und Attack Surface.
+
+
+
+Phase 4: Threat Identification
+	Ziel:
+		Bestimmen: Was muss getestet werden? (STRIDE auf Basis von IEC 62443)
+		Nicht: Was muss implementiert werden?
+
+		Beispiel HTTP Interface:
+			Unauthorised Access, Session Hijacking, Request Manipulation, Brute Force, DoS
+
+	Ergebnis: Threat Catalogue.
+
+
+
+Phase 5: Mapping Threat --> Test Objective
+
+	Ziel:  Welcher Nachweis muss erbracht werden, damit ich zeigen kann, dass die Bedrohung mitigiert wurde?
+
+		Beispiel Threat:
+			Unauthorised HTTP Access
+
+			Test Objective:
+				Verify that unauthorised users cannot access protected resources.
+
+
+Phase 6: Research of Test Methods
+	Ziel:  Welche Security-Testmethoden existieren für diese Bedrohungen?
+
+	Beispiel Authentication Testing
+
+		Testen von:
+			Login-Funktionen
+			Passwortregeln
+			Zugriffskontrollen
+			
+	Ergebnis: Katalog verfügbarer Testmethoden.
+
+
+Phase 7: Development of Security Testing Methodology
+	Ziel: Definition von strukturierten Prozess
+
+		Beispiel: Regulation 	--> Threat 		--> Test Objective 		--> Test Category		--> Test Method 		--> Test Case --> Acceptance Criteria
+					    HTTP Interface	--> Unauthorized Access 	--> Authentication Verification --> Access Control Testing 	--> Test Cases
+
+
+Phase 8: Creation of Test Catalogue
+	Ziel: praktische Ergebnis
+
+	Beispiel HTTP:
+		Test Case 1
+			Access protected resource without authentication
+			Expected Result: Access denied
+		Test Case 2
+			Manipulate session cookie
+			Expected Result: Session invalidated
+		Test Case 3
+			Repeated login attempts
+			Expected Result: Protection mechanism activated
+
+Phase 9: Validation on Industrial Gateway
+	Ziel: Zeigen, dass die Methodik praktisch anwendbar ist.
+
+	Durchführung
+		Wählen z.B.:
+			HTTP Interface
+			Firmware Interface
+			User Management
+		und aufzeigen beispielhaft:
+		Methodik --> Threat --> Testfall --> Durchführung
+
+Phase 10: Evaluation
+	Bewertung:
+		- Completeness: Deckt die Methodik alle relevanten Threats ab?
+		- Applicability: Kann sie von Testingenieuren verwendet werden?
+		- Regulatory Compliance: Unterstützt sie den Nachweis gegenüber der Maschinenverordnung?
+
