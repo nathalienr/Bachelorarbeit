@@ -1,0 +1,11 @@
+	\textbf{REQ-REG-01} & Annex III, \newline Sec. 1.1.9 & External device connections and remote access facilities must not cause hazardous situations. \\ \addlinespace
+	\textbf{REQ-REG-02} & Annex III, \newline Sec. 1.1.9 & Hardware components transmitting safety-critical signals/data must be protected against intentional or accidental corruption. \\ \addlinespace
+	\textbf{REQ-REG-03} & Annex III, \newline Sec. 1.1.9 & Mandatory collection of evidence/logs regarding legitimate or illegitimate access/interventions in safety-relevant hardware. \\ \addlinespace
+	\textbf{REQ-REG-04} & Annex III, \newline Sec. 1.1.9 & Explicit identification and corruption protection of software and data critical for health and safety compliance. \\ \addlinespace
+	\textbf{REQ-REG-05} & Annex III, \newline Sec. 1.1.9 & Mandatory identification and continuous, accessible display of installed safety-critical software versions. \\ \addlinespace
+	\textbf{REQ-REG-06} & Annex III, \newline Sec. 1.1.9 & Evidence logging of any legitimate or illegitimate modifications to installed software or machine configuration. \\ \addlinespace
+	\textbf{REQ-REG-07} & Annex III, \newline Sec. 1.2.1(a) & Control system resilience against operational stresses, external influences, and foreseeable malicious third-party attacks. \\ \addlinespace
+	\textbf{REQ-REG-08} & Annex III, \newline Sec. 1.2.1(b, c, e) & Fault tolerance ensuring hardware/software defects, logic errors, or foreseeable operator errors do not lead to hazardous situations. \\ \addlinespace
+	\textbf{REQ-REG-09} & Annex III, \newline Sec. 1.2.1(d) & Strict prevention of unauthorized setting or rule modifications (including during learning phases) that could cause hazards. \\ \addlinespace
+	\textbf{REQ-REG-10} & Annex III, \newline Sec. 1.2.1(f) & Mandatory retention of audit trails for software interventions and uploaded safety software versions for 5 years. \\ \addlinespace
+	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements.

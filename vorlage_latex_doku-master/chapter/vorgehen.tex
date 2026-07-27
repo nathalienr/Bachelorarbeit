@@ -60,50 +60,197 @@ To make these qualitative regulatory requirements actionable for technical verif
 To bridge the gap between high-level legal mandates and verifiable technical properties, the regulatory requirements ($\text{REQ-REG}$) are operationalized using established cybersecurity standards. While \hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230} defines mandatory safety and security goals, it lacks technical criteria for implementation and verification. Because an industrial gateway is an IACS component operating at the IT/OT boundary, compliance is verified against the Component Requirements (CRs) of IEC 62443-4-2, supported by testing methodologies from NIST SP 800-115 and OWASP WSTG, and aligned with the lifecycle verification practices of IEC 62443-4-1 (SVV-3).
 
 To establish complete traceability from legal obligations to functional test execution, the regulatory requirements are synthesized into four core technical security capability domains ($\text{REQ-SEC}$):
-%
-%\begin{itemize}
-%	\item \textbf{Access Control and Authentication (FR 1 \& FR 2):} Satisfying $\text{REQ-REG-01}$ and $\text{REQ-REG-09}$ requires robust identification and authentication mechanisms (CR 1.1) for both human operators and interconnected machine nodes, alongside Role-Based Access Control (CR 2.1) to enforce least-privilege access across the IT/OT boundary.
-%	\item \textbf{System and Data Integrity (FR 3):} Implementing $\text{REQ-REG-02}$ and $\text{REQ-REG-04}$ mandates cryptographic root-of-trust mechanisms, such as Secure Boot (CR 3.10) and digital signature verification for firmware and configuration files (CR 3.4), to prevent unauthorized modifications.
-%	\item \textbf{Audit Logging and Traceability (FR 6):} Fulfilling $\text{REQ-REG-03}$, $\text{REQ-REG-06}$, and $\text{REQ-REG-10}$ demands an immutable, tamper-resistant audit trail (CR 6.1, CR 6.2). The gateway must record login attempts, configuration changes, and software interventions with NTP-synchronized timestamps.
-%	\item \textbf{Network Isolation and Resilience (FR 5 \& FR 7):} $\text{REQ-REG-07}$ and $\text{REQ-REG-08}$ necessitate physical and logical network segregation (CR 5.1), ingress/egress traffic filtering, and Denial-of-Service (DoS) resilience (CR 7.1, CR 7.2) to ensure graceful degradation and safe-state triggering upon network anomalies.
-%\end{itemize}
-%
-%Table~\ref{tab:normative_mapping_matrix} consolidates these derived technical security requirements ($\text{REQ-SEC}$) and establishes explicit alignment between the legal mandates, normative IEC 62443 capabilities, and designated functional verification methods.
-%
-%\begin{longtable}{p{2.2cm} p{2.0cm} p{2.8cm} p{4.8cm} p{2.7cm}}
-%	\caption{Translation of Regulatory Mandates into Technical Requirements and Verification Methods} \label{tab:normative_mapping_matrix} \\
-%	\toprule
-%	\textbf{REQ-SEC ID} & \textbf{REG Ref.} & \textbf{Normative Ref.} & \textbf{Technical Security Requirement} & \textbf{Verification Method} \\
-%	\midrule
-%	\endfirsthead
-%	
-%	\multicolumn{5}{c}{\small\itshape - Continued from previous page -} \\[0.5em]
-%	\toprule
-%	\textbf{REQ-SEC ID} & \textbf{REG Ref.} & \textbf{Normative Ref.} & \textbf{Technical Security Requirement} & \textbf{Verification Method} \\
-%	\midrule
-%	\endhead
-%	
-%	\midrule
-%	\multicolumn{5}{r}{\small\itshape Continued on next page --} \\
-%	\endfoot
-%	
-%	\bottomrule
-%	\endlastfoot
-%	
-%	\textbf{REQ-SEC-01} & REQ-REG-01 \newline REQ-REG-09 & IEC 62443-4-2: \newline CR 1.1, CR 2.1 & Mandatory authentication and Role-Based Access Control (RBAC) for all management, remote access, and configuration interfaces. & OWASP WSTG \newline Auth Bypass \& Interface Testing \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-02} & REQ-REG-02 \newline REQ-REG-04 & IEC 62443-4-2: \newline CR 3.4, CR 3.10 & Cryptographic root-of-trust, including Secure Boot and mandatory signature verification for firmware and configuration updates. & NIST SP 800-115 \newline Tamper Testing \& Image Injection \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-03} & REQ-REG-03 \newline REQ-REG-06 \newline REQ-REG-10 & IEC 62443-4-2: \newline CR 6.1, CR 6.2 & Tamper-resistant, timestamped audit logging for security-relevant events, access attempts, and configuration changes. & Log Injection \& Event Triggering Analysis \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-04} & REQ-REG-05 & IEC 62443-4-2: \newline CR 7.8 & Automated runtime capability to query, verify, and display installed safety-critical software and firmware versions. & API / CLI Version Query Inspection \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-05} & REQ-REG-07 & IEC 62443-4-2: \newline CR 5.1, CR 7.1 & Strict physical and logical IT/OT interface isolation, traffic filtering, and rate-limiting to prevent DoS propagation. & Protocol Fuzzing \& Traffic Flooding \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-06} & REQ-REG-08 & IEC 62443-4-2: \newline CR 7.2 & Graceful degradation and deterministic safe-state triggering upon communication failure or corrupted data packets. & Network Fault Injection \& Disconnection \\ \addlinespace
-%	
-%	\textbf{REQ-SEC-07} & REQ-REG-16 & IEC 62443-4-1: \newline SVV-3 & Empirical test coverage documentation, automated execution logs, and vulnerability assessment reports for technical auditability. & Continuous Test Traceability Audit \\
-%\end{longtable}
+
+
+
+FR1, FR2, FR5: Zugriffssteuerung \& Netz
+FR3, FR4: Integrität \& Datenschutz
+FR6, FR7: Resilenz \& Verfügbarkeit
+
+FR1: Wer darf auf das System zugreifen?
+FR2: Was darf ein Benutzer tun?
+FR3: Kann das System manipuliert werden?
+FR4: Können Daten mitgelesen werden?
+FR5: Können Kommunikationswege kontrolliert werden?
+FR6: Werden Sicherheitsereignisse erkannt und protokolliert?
+FR7: Bleibt das System auch unter Angriffen funktionsfähig?
+
+REQ-REG 1: FR1 (FR2, FR4, FR5, FR7)
+REQ-REG 2: FR3
+REQ-REG 3: FR6
+REQ-REG 4: FR3
+REQ-REG 5: (FR3)
+REQ-REG 6: (FR2, FR3) FR6
+REQ-REG 7: (FR3) FR5, FR7
+REQ-REG 8: (FR3), FR7
+REQ-REG 9: FR1, FR2, (FR3)
+REQ-REG 10: FR6
+REQ-REG 11: IEC 62443-4-1
+
+
+REQ-REG 1: 1.1, 1.2, 2.1, 5.1, 5.2
+REQ-REG 2: 3.1, 3.8
+REQ-REG 3: 6.1, 6.2
+REQ-REG 4: 3.4
+REQ-REG 5: 3.4 (1.2)
+REQ-REG 6: 6.1, 6.2
+REQ-REG 7: 7.1, 7.2, 7.3
+REQ-REG 8: 3.3, 7.1, 7.2
+REQ-REG 9: 1.1, 2.1, (3.3) 3.4
+REQ-REG 10: 6.1, 6.2
+REQ-REG 11: SVV1, SVV2, SVV3, SVV4, DM1, DM2
+
+SR: Generelle Anforderungen an den Betrieb und das Gesamtsystem
+CR: Produktspezifische Anforderungen unterteilt nach Komponententyp
+
+
+Eine technische Anforderung darf immer nur ein einziges Ziel adressieren.
+vier Säulen des Security-Lebenszyklus auf: (PDCA)
+
+Planung: Identifikation \& Zugang 
+
+Umsetzung: Integrität \& Vertraulichkeit 
+
+Erfolgskontrolle: Erkennung \& Reaktion 
+
+Handeln/ Verbessern: Robustheit \& Persistenz
+
+REQ-REG 1: 
+1. Jede externe Geräteverbindung muss vor der Nutzung authentifiziert werden
+2. Der Zugriff über Fernwartungs- oder Remote-Zugänge muss auf autorisierte Benutzer, Systeme oder Geräte beschränkt sein
+3. Externe Verbindungen dürfen keine unautorisierten Änderungen sicherheitsrelevanter Funktionen ermöglichen.
+4. Remote-Zugriffe und Verbindungen müssen protokolliert werden
+
+
+REQ-REG 2: 
+1. Die Integrität sicherheitsrelevanter Signale und Daten muss auf Hardware-Ebne während Speicherung, Verarbeitung und Übertragung gewährleistet sein.
+2. Gezielte oder böswillige Manipulationen der Hardware-Übertragungswege und Signalleitungen müssen sicher erkannt werden.
+3. Unbeabsichtigte Datenkorruption muss erkannt und behandelt werden.
+4. Die Maschine darf auf erkannte Integritätsverletzungen nur mit einem sicheren Systemverhalten reagieren.
+
+
+REQ-REG 3:
+1. Alle Zugriffe auf sicherheitsrelevante Hardware müssen nachvollziehbar protokolliert werden.
+2. Sowohl erfolgreiche als auch fehlgeschlagene Zugriffsversuche müssen erfasst werden.
+3. Jeder Logeintrag muss Benutzeridentität, Zeitstempel und Ereignistyp enthalten.
+4. Protokolldaten müssen gegen unautorisierte Manipulation, Löschung und Fälschung geschützt werden.
+
+
+REQ-REG 4: 
+1. Sicherheitsrelevante Software und Daten müssen eindeutig identifizierbar sein.
+2. Sicherheitsrelevante Software und Daten müssen gegen unautorisierte Änderungen geschützt werden
+3. Integritätsverletzungen sicherheitsrelevanter Software und Daten müssen erkannt werden
+4. Die Ausführung manipulierter sicherheitsrelevanter Software muss verhindert werden
+
+
+
+REQ-REG 5:
+1. Die installierte Version jeder sicherheitsrelevanten Software und Firmware muss eindeutig identifizierbar sein.
+2. Versionsinformationen müssen autorisierten Benutzern jederzeit zugänglich sein
+3. Versionsinformationen müssen den tatsächlich installierten Softwarestand korrekt wiedergeben.
+4. Änderungen des Softwarestands müssen nachvollziehbar dokumentiert werden.
+
+
+REQ-REG 6: 
+1. Alle Änderungen an Software, Firmware und Konfiguration müssen protokolliert werden.
+2. Sowohl autorisierte als auch nicht autorisierte Änderungsversuche müssen dokumentiert werden.
+3. Jeder Änderungsnachweis muss Benutzer, Zeit, betroffene Objekte sowie Art der Änderung enthalten.
+4. Änderungsprotokolle müssen gegen Manipulation geschützt werden
+
+
+REQ-REG 7: 
+1. Das Steuerungssystem muss seine sicherheitsrelevanten Funktionen auch unter vorhersehbaren Cyberangriffen, Netzwerkanomalien und betrieblichen Überlastungen aufrechterhalten.
+2. Das Steuerungssystem muss Störungen und Anomalien erkennen können.
+3. Das Steuerungssystem muss bei erkannten Angriffen in einen sicheren Zustand übergehen oder seine Sicherheitsfunktion aufrechterhalten.
+4. Sicherheitsrelevante Funktionen dürfen durch einzelne Angriffe oder externe Einflüsse nicht unkontrolliert beeinträchtigt werden.
+
+
+REQ-REG 8: 
+1. Fehler in Hardware, Software oder Konfigurationsdaten müssen erkannt werden können.
+2. Das System muss auf erkannte Fehler mit einem sicheren Betriebsverhalten reagieren.
+3. Vorhersehbare Bedienfehler dürfen nicht unmittelbar zu gefährlichen Situationen führen
+4. Sicherheitsrelevante Funktionen müssen auch bei Einzelkomponentenfehlern erhalten bleiben oder kontrolliert in einen sicheren Zustand übergehen.
+
+
+REQ-REG 9: 
+1. Änderungen sicherheitsrelevanter Parameter dürfen nur von autorisierten Benutzern durchgeführt werden
+2. Vor jeder Änderung sicherheitsrelevanter Einstellungen muss die Identität des Benutzers verifiziert werden.
+3. Unautorisierte Änderungsversuche müssen verhindert, gemeldet und protokolliert werden.
+4. Die Integrität von Regeln, Parametern und Lernmodellen muss gegen unautorisierte Veränderungen geschützt werden.
+
+
+REQ-REG 10: 
+1. Audit-Trails zu Softwareeingriffen und Softwareupdates müssen aufgezeichnet werden.
+2. Audit-Trails müssen mindestens fünf Jahre verfügbar bleiben.
+3. Archivierte Audit-Trails müssen gegen Verlust, Manipulation und unautorisierte Löschung geschützt werden.
+4. Aufbewahrte Audit-Trails müssen lesbar und für Prüfzwecke abrufbar bleiben.
+
+REQ-REG 11:
+1. Für jede Cybersecurity-Anforderung muss ein dokumentierter Verifikations- oder Validierungsnachweis vorliegen.
+2. Cybersecurity-Tests müssen reproduzierbar dokumentiert werden.
+3. Testergebnisse müssen die Erfüllung der festgelegten Sicherheitsanforderungen nachweisen.
+4. Die technische Dokumentation muss alle relevanten Cybersecurity-Testberichte enthalten
+
+
+
+
+REQ-REG 1: 
+Umsetzungsmaßnahmen:
+- VPN
+- MFA
+- Firewall
+- Jump Host
+- Netzwerksegmentierung
+
+Prüfverfahren:
+OWASP:
+- Authentication Testing
+- Session Managment Testing
+- MFA Testing
+
+NIST 800-115:
+- Network Scanning
+- Firewall Rule Review
+- Remote Access Penetration Test
+
+
+REQ-REG 9: 
+Umsetzungsmaßnahmen:
+- Benutzerkonten statt Shared-Accounts
+- Passwort-Policy
+- Role-based-access-Control
+- Change Management
+- Audit Logging
+- Signierung von Konfigurationen
+
+OWASP:
+- Test von Authentication Mechanisms
+- Test von Authorization Validation
+- Privilege Escalation Testing
+
+NIST SP 800-115:
+- Role Tesing
+- Access Control Validation
+- Configuration Review
+
+
+REQ-REG 6:
+Umsetzungsmaßnahmen:
+- SysLog
+- Audit Trail
+- Signed Logs
+- Änderungsdatenbank
+- Zeitsynchronisation (NTP)
+
+Prüfverfahren:
+OWASP:
+- Logging Testing
+- Log Injection Testing
+- Log Integrity Verification
+NIST SP 800-115:
+- Security Configuration Review
+- Audit Review
+- File Integrity Verification
 
 
 

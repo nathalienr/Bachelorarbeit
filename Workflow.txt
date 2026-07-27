@@ -25,6 +25,27 @@ Phase 2: Normative Konkretisierung
 							Session Management
 
 
+
+
+	Regulatorische Anforderung
+		↓
+	IEC 62443 Foundational Requirement(s)
+	(FR1–FR7)
+		↓
+	IEC 62443 System/Component Requirements
+	(SR/CR)
+
+↓
+Abgeleitete technische Security-Anforderungen
+
+↓
+Umsetzungsmaßnahmen
+
+↓
+Prüfverfahren
+(OWASP Testing Guide / NIST SP 800-115)
+
+
 Phase 3: System Analysis
 	Ziel:
 		Verstehen:
