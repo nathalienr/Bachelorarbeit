@@ -45,12 +45,68 @@ To make these qualitative regulatory requirements actionable for technical verif
 	\textbf{REQ-REG-08} & Annex III, \newline Sec. 1.2.1(b, c, e) & Fault tolerance ensuring hardware/software defects, logic errors, or foreseeable operator errors do not lead to hazardous situations. \\ \addlinespace
 	\textbf{REQ-REG-09} & Annex III, \newline Sec. 1.2.1(d) & Strict prevention of unauthorized setting or rule modifications (including during learning phases) that could cause hazards. \\ \addlinespace
 	\textbf{REQ-REG-10} & Annex III, \newline Sec. 1.2.1(f) & Mandatory retention of audit trails for software interventions and uploaded safety software versions for 5 years. \\ \addlinespace
-	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements. \\
+	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements
+	 \\
+	\textbf{REQ-REG-12} &  Annex III, \newline Sec. 1.2.6 & Interruption, fluctuation, or re-establishment of communication network connections must not lead to hazardous situations. \\
+	\textbf{REQ-REG-13} & Annex III, \newline Sec. 3.3.3 \& 5.2.4 & Interruption or loss of wireless/remote communication signals must automatically trigger a safe state (e.g., safe stop). \\ \addlinespace
+	\textbf{REQ-REG-14} & Annex IV Part A, \newline Sec. 1(v) & Technical documentation must include safety-related software architecture, programming logic/source code, and validation results. \\ \addlinespace
+	\textbf{REQ-REG-15} & Art. 3 \& \newline Annex II & Standalone safety software carrying out safety functions must undergo dedicated conformity assessment as a safety component. \\ \addlinespace
 \end{longtable}
 
-
-
-
+% % Muss noch überprüft werden
+%Hinblick PrEn 50742:
+%
+%
+%\begin{longtable}{l p{3.4cm} p{8.6cm}}
+%	\caption{Normative Refinements and Technical Specifications according to prEN 50742} \label{tab:regulatoryrequirements50742} \\
+%	\toprule
+%	\textbf{REQ ID} & \textbf{prEN 50742 Reference} & \textbf{Normative Refinements \& Technical Specifications} \\
+%	\midrule
+%	\endfirsthead
+%	
+%	\multicolumn{3}{c}{\small\itshape - Continued from previous page -} \\[0.5em]
+%	\toprule
+%	\textbf{REQ ID} & \textbf{prEN 50742 Reference} & \textbf{Normative Refinements \& Technical Specifications} \\
+%	\midrule
+%	\endhead
+%	
+%	\midrule
+%	\multicolumn{3}{r}{\small\itshape Continued on next page -} \\
+%	\endfoot
+%	
+%	\bottomrule
+%	\endlastfoot
+%	
+%	\textbf{REQ-REG-01} & Clause 5.2, \newline Annex B (Exposure Level) & Definition of Exposure Levels (EL 0-4) for all physical/logical interfaces. Mandatory port hardening (disabling unused USB/Ethernet ports, 802.1X). Remote access must not grant direct write access to safety logic without local physical enabling (e.g., local key-switch / HMI confirmation). \\ \addlinespace
+%	
+%	\textbf{REQ-REG-02} & Clause 6.2 / \newline IEC 62443-4-2 & Cryptographic integrity protection (e.g., HMACs, digital signatures, CRCs) on safety-critical hardware buses to prevent signal injection or altering. Physical protection via tamper-evident seals and lockable enclosures for diagnostic/safety hardware. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-03} & Clause 7.1, 7.2 \& \newline Annex A & Mandatory automated, non-bypassable logging of physical and logical access to safety-related hardware (SRP/CS). Requires standardized formats (Syslog/CEF) including timestamps, actor IDs, and event types. Physical tamper-evident seals allowed if digital logging is infeasible. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-04} & Clause 6.3 \& 6.4 & Logical segregation and memory isolation of safety software (SRASW/SRESW) from non-safety application code. Mandatory Secure Boot and cryptographic signature/hash verification before loading or executing safety logic and parameters. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-05} & Clause 6.5 \& 8.2 & Display or 1-click retrieval of installed safety software version IDs and build hashes via HMI/diagnostics without special tools. Automated boot-time comparison against golden reference hashes with start-interlock upon mismatch. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-06} & Clause 7.2 \& 7.3 & Automated generation of immutable audit trails logging all legitimate and illegitimate modifications to software binaries, safety parameters, or machine configurations, capturing actor identity, timestamp, and delta values. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-07} & Clause 4.2 \& 5.3 \newline (SRSL Classification) & Mandatory Threat Modeling (e.g., STRIDE) integrated into EN ISO 12100 risk assessment to determine Safety-Related Security Levels (SRSL 0--3). Implementation of Defense-in-Depth and resilience against network Denial-of-Service (DoS) attacks. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-08} & Clause 5.4 \& 6.1 & Fail-safe control architecture incorporating strict input sanitization, boundary checking, and plausibility verification. Ensures corrupted logic states or invalid input parameters fail safely without loss of safety functions. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-09} & Clause 6.4.2 & Enforced Role-Based Access Control (RBAC) and physical/cryptographic boundaries for parameter adjustments. For AI/ML learning systems, non-modifiable, hardcoded safety envelopes must override any unsafe learning-derived rule changes. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-10} & Clause 7.4 & Tamper-proof, append-only non-volatile memory storage (NVRAM/eMMC) for audit trails and update logs, guaranteeing a mandatory 5-year retention period and offering standardized read-only export interfaces for surveillance authorities. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-11} & Clause 8.1 \& 8.3 & Inclusion of empirical security verification and validation test reports in the technical file, specifically static application security testing (SAST), vulnerability scans, interface fuzzing, and penetration test reports. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-12} & Clause 6.6 & Application of Black Channel principles (e.g., IEC 61784-3). Control systems must handle network latency, jitter, packet loss, or connection re-establishment deterministically via sequence counting and watchdogs without safety degradation. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-13} & Clause 6.6.3 & Monitoring of max communication timeout ($T_{\text{max}}$). Signal loss or corruption on wireless/remote links must trigger an immediate safe state (e.g., Safe Torque Off). Automatic restarts upon signal recovery are strictly forbidden. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-14} & Clause 8.2 \& \newline Annex D & Technical file must contain detailed safety software architecture diagrams, data flow models, source code/logic structure (SRASW/SRESW), toolchain qualification proof, Security Context definitions, and validation logs. \\ \addlinespace
+%	
+%	\textbf{REQ-REG-15} & Clause 4.1 \& 6.7 / \newline IEC 62443-4-1 & Standalone safety software functions marketed independently must undergo a certified Secure Software Development Lifecycle (SDLC), including threat modeling, secure coding guidelines, SBOM management, and patch management processes. \\
+%\end{longtable}
 
 
 
@@ -86,6 +142,12 @@ REQ-REG 8: (FR3), FR7
 REQ-REG 9: FR1, FR2, (FR3)
 REQ-REG 10: FR6
 REQ-REG 11: IEC 62443-4-1
+%\textit{ % Muss noch überprüft werden
+%	REQ-REG 12: FR7, (FR3, FR5)
+%	REQ-REG 13: FR7 (, FR3)
+%	REQ-REG 14: IEC-62443-4-1
+%	REQ-REG 15: IEC-62443-4-1/ IEC-62443-4-2}
+
 
 
 REQ-REG 1: 1.1, 1.2, 2.1, 5.1, 5.2
@@ -99,165 +161,407 @@ REQ-REG 8: 3.3, 7.1, 7.2
 REQ-REG 9: 1.1, 2.1, (3.3) 3.4
 REQ-REG 10: 6.1, 6.2
 REQ-REG 11: SVV1, SVV2, SVV3, SVV4, DM1, DM2
+%\textit{ % Muss noch überprüft werden
+%	REQ-REG 12: 7.1, 7.2, 7.3, (5.1)
+%	REQ-REG 13: 7.1 , 7.3
+%	REQ-REG 14: SD1, SD2, SI1, SVV1, SVV2, SVV3, DM1, DM2
+%	REQ-REG 15: SM1, SD1, SVV1, DM1 (Typ: Software Application)}
+
+
 
 SR: Generelle Anforderungen an den Betrieb und das Gesamtsystem
 CR: Produktspezifische Anforderungen unterteilt nach Komponententyp
 
 
-Eine technische Anforderung darf immer nur ein einziges Ziel adressieren.
-vier Säulen des Security-Lebenszyklus auf: (PDCA)
-
-Planung: Identifikation \& Zugang 
-
-Umsetzung: Integrität \& Vertraulichkeit 
-
-Erfolgskontrolle: Erkennung \& Reaktion 
-
-Handeln/ Verbessern: Robustheit \& Persistenz
-
-REQ-REG 1: 
-1. Jede externe Geräteverbindung muss vor der Nutzung authentifiziert werden
-2. Der Zugriff über Fernwartungs- oder Remote-Zugänge muss auf autorisierte Benutzer, Systeme oder Geräte beschränkt sein
-3. Externe Verbindungen dürfen keine unautorisierten Änderungen sicherheitsrelevanter Funktionen ermöglichen.
-4. Remote-Zugriffe und Verbindungen müssen protokolliert werden
+%Eine technische Anforderung darf immer nur ein einziges Ziel adressieren.
+%vier Säulen des Security-Lebenszyklus auf: (PDCA)
+%
+%Planung: Identifikation \& Zugang 
+%
+%Umsetzung: Integrität \& Vertraulichkeit 
+%
+%Erfolgskontrolle: Erkennung \& Reaktion 
+%
+%Handeln/ Verbessern: Robustheit \& Persistenz
 
 
-REQ-REG 2: 
-1. Die Integrität sicherheitsrelevanter Signale und Daten muss auf Hardware-Ebne während Speicherung, Verarbeitung und Übertragung gewährleistet sein.
-2. Gezielte oder böswillige Manipulationen der Hardware-Übertragungswege und Signalleitungen müssen sicher erkannt werden.
-3. Unbeabsichtigte Datenkorruption muss erkannt und behandelt werden.
-4. Die Maschine darf auf erkannte Integritätsverletzungen nur mit einem sicheren Systemverhalten reagieren.
+%\begin{longtable}{l l l p{8.0cm}}
+%	\caption{Derived Technical Security Requirements (TSR) mapped to EU Machinery Regulation (2023/1230) and IEC 62443} \label{tab:technical_security_requirements} \\
+%	\toprule
+%	\textbf{TSR ID} & \textbf{MVO Ref.} & \textbf{IEC 62443 Ref.} & \textbf{Technical Security Requirement} \\
+%	\midrule
+%	\endfirsthead
+%	
+%	\multicolumn{4}{c}{\small\itshape - Continued from previous page -} \\[0.5em]
+%	\toprule
+%	\textbf{TSR ID} & \textbf{MVO Ref.} & \textbf{IEC 62443 Ref.} & \textbf{Technical Security Requirement} \\
+%	\midrule
+%	\endhead
+%	
+%	\midrule
+%	\multicolumn{4}{r}{\small\itshape Continued on next page} \\
+%	\endfoot
+%	
+%	\bottomrule
+%	\endlastfoot
+%	
+%
+%	\multicolumn{4}{l}{\textbf{Domain 1: Access Control \& Remote Connections}} \\ \midrule
+%	\textbf{TSR-01.1} & REQ-REG-01 & CR 1.1 & The gateway must uniquely authenticate all users and external systems on external interfaces prior to granting access. \\ \addlinespace
+%	\textbf{TSR-01.2} & REQ-REG-01 & CR 2.1 & The gateway must enforce Role-Based Access Control (RBAC) for all remote maintenance and configuration accesses. \\ \addlinespace
+%	\textbf{TSR-01.3} & REQ-REG-01 & CR 5.1 & The gateway must protect the confidentiality and integrity of remote access sessions using cryptographic encryption (e.g., TLS 1.3, IPsec). \\ \addlinespace
+%	\textbf{TSR-01.4} & REQ-REG-01 & CR 5.2 & The gateway MUST enforce logical separation (e.g., firewall, VLAN) between external network interfaces and internal safety-relevant bus systems. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 2: Hardware \& Signal Integrity}} \\ \midrule
+%	\textbf{TSR-02.1} & REQ-REG-02 & CR 3.1 & The gateway MUST utilize a hardware Root-of-Trust to cryptographically verify the boot process (Secure Boot). \\ \addlinespace
+%	\textbf{TSR-02.2} & REQ-REG-02 & CR 3.8 & The gateway MUST secure the integrity of transmitted safety-critical signals using cryptographic message authentication (e.g., HMAC). \\ \addlinespace
+%	\textbf{TSR-03.1} & REQ-REG-03 & CR 6.1 & The gateway MUST log every physical or logical access attempt to safety-relevant hardware interfaces on an event basis. \\ \addlinespace
+%	\textbf{TSR-03.2} & REQ-REG-03 & CR 6.2 & The gateway MUST protect audit logs against unauthorized tampering and deletion. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 3: Software \& Data Integrity}} \\ \midrule
+%	\textbf{TSR-04.1} & REQ-REG-04 & CR 3.4 & The gateway MUST verify the digital signature of safety-critical software prior to execution. \\ \addlinespace
+%	\textbf{TSR-04.2} & REQ-REG-04 & CR 3.4 & The gateway MUST periodically verify the integrity of safety-critical configuration data during runtime. \\ \addlinespace
+%	\textbf{TSR-05.1} & REQ-REG-05 & CR 1.2 & The gateway MUST provide an authenticated interface to read out the currently installed versions of all safety-critical software components. \\ \addlinespace
+%	\textbf{TSR-05.2} & REQ-REG-05 & CR 3.4 & The gateway MUST continuously provide the revision number or cryptographic hash of active safety software for diagnostic displays. \\ \addlinespace
+%	\textbf{TSR-06.1} & REQ-REG-06 & CR 6.1 & The gateway MUST log any modification to software or machine configuration in the audit log with a timestamp and user ID. \\ \addlinespace
+%	\textbf{TSR-06.2} & REQ-REG-06 & CR 6.1 & The gateway MUST log failed or unauthorized tampering attempts targeting software and configuration. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 4: System Resilience \& Fault Tolerance}} \\ \midrule
+%	\textbf{TSR-07.1} & REQ-REG-07 & CR 7.1 & The gateway MUST inspect incoming data packets on network interfaces for rate limiting to mitigate Denial-of-Service (DoS) attacks. \\ \addlinespace
+%	\textbf{TSR-07.2} & REQ-REG-07 & CR 7.3 & The gateway MUST validate syntax and value ranges for all interface inputs to prevent buffer overflows and injection attacks. \\ \addlinespace
+%	\textbf{TSR-07.3} & REQ-REG-07 & CR 7.2 & The gateway MUST protect safety-critical processes against resource exhaustion through resource isolation (e.g., process prioritization, memory isolation). \\ \addlinespace
+%	\textbf{TSR-08.1} & REQ-REG-08 & CR 7.1 & The gateway MUST feature an independent hardware watchdog that detects software locks and transitions the system to a defined state. \\ \addlinespace
+%	\textbf{TSR-08.2} & REQ-REG-08 & CR 7.2 & The gateway MUST handle logical runtime errors in application software without causing safety-critical outputs to enter an indeterminate state. \\ \addlinespace
+%	\textbf{TSR-09.1} & REQ-REG-09 & CR 1.1, CR 2.1 & The gateway MUST restrict parameter changes in runtime or learning mode via dedicated authorization (e.g., key switch or two-factor authentication). \\ \addlinespace
+%	\textbf{TSR-09.2} & REQ-REG-09 & CR 3.4 & The gateway MUST enforce boundary checks on automatically learned parameters to mathematically rule out hazardous control states. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 5: Audit Log Retention}} \\ \midrule
+%	\textbf{TSR-10.1} & REQ-REG-10 & CR 6.1 & The gateway MUST store log data locally in non-volatile memory with ring-buffer logic to prevent data loss during power outages. \\ \addlinespace
+%	\textbf{TSR-10.2} & REQ-REG-10 & CR 6.2 & The gateway MUST provide a secured export interface (e.g., Syslog over TLS) to enable external 5-year log archiving as required by the Machinery Regulation. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 6: Communication Failure \& Safe State}} \\ \midrule
+%	\textbf{TSR-12.1} & REQ-REG-12 & CR 7.1 & The gateway MUST continuously monitor network connections on safety-relevant interfaces using periodic heartbeat signals. \\ \addlinespace
+%	\textbf{TSR-12.2} & REQ-REG-12 & CR 7.2 & The gateway MUST react deterministically to network fluctuations or connection losses without generating unintended switching states at outputs. \\ \addlinespace
+%	\textbf{TSR-13.1} & REQ-REG-13 & CR 7.1 & The gateway MUST automatically trigger a transition to a safe state upon signal loss of a wireless connection within a defined maximum timeout period ($T_{\text{timeout}}$). \\ \addlinespace
+%	\textbf{TSR-13.2} & REQ-REG-13 & CR 7.3 & The gateway MUST prevent automatic restarting of hazardous movements following a wireless disconnection without explicit acknowledgement. \\ \midrule
+%	
+%	\multicolumn{4}{l}{\textbf{Domain 7: Lifecycle \& Process Requirements (IEC 62443-4-1)}} \\ \midrule
+%	\textbf{TSR-11.1} & REQ-REG-11 & SVV 1--4 & Automated penetration testing and protocol-level robustness testing (fuzzing) MUST be conducted and documented during the gateway's testing process. \\ \addlinespace
+%	\textbf{TSR-14.1} & REQ-REG-14 & SD 1, SD 2 & The architecture of the safety software MUST feature strict modular encapsulation (threat-modeling-based Zone and Conduit model). \\ \addlinespace
+%	\textbf{TSR-14.2} & REQ-REG-14 & SI 1 & Source code of safety software MUST undergo automated Static Application Security Testing (SAST) to identify vulnerabilities. \\ \addlinespace
+%	\textbf{TSR-15.1} & REQ-REG-15 & CR 7.2 (App) & Standalone safety software MUST execute within an isolated execution environment (e.g., MPU / TrustZone) to prevent interference from non-safety software. \\
+%\end{longtable}
+%
+%	
+%\subsection{REQ-REG-01: Domain 1 - Access Control \& Remote Connections} 
+%
+%
+%\begin{longtable}{p{2.8cm} p{2.6cm} p{9.2cm}} \caption{Mandatory Technical Security Requirements for REQ-REG-01 -- Access Control \& Remote Connections} \label{tab:req-reg-01-mandatory} \\ 
+%	\toprule \textbf{TSR ID} & \textbf{IEC 62443 Reference} & \textbf{Technical Security Requirement} \\ \midrule \endfirsthead \multicolumn{3}{c}{\small\itshape -- Continued from previous page --} \\[0.5em] \toprule \textbf{TSR ID} & \textbf{IEC 62443 Reference} & \textbf{Technical Security Requirement} \\ \midrule \endhead \midrule \multicolumn{3}{r}{\small\itshape Continued on next page --} \\ \endfoot \bottomrule \endlastfoot \textbf{TSR-01-001} & SR 1.1 & The gateway shall require authentication before granting access to any remote management interface. \\ \addlinespace \textbf{TSR-01-002} & SR 1.1 & The gateway shall uniquely identify each human user accessing the system remotely. \\ \addlinespace \textbf{TSR-01-004} & SR 1.2 & The gateway shall authenticate connected devices before establishing a communication session. \\ \addlinespace \textbf{TSR-01-006} & SR 2.1 & The gateway shall enforce authorization policies for all remote users. \\ \addlinespace \textbf{TSR-01-007} & SR 2.1 & The gateway shall restrict administrative functions to authorized roles. \\ \addlinespace \textbf{TSR-01-010} & SR 5.1 & The gateway shall support logical separation between external networks and safety-relevant network segments. \\ \addlinespace \textbf{TSR-01-012} & SR 5.2 & The gateway shall enforce filtering of traffic crossing network boundaries. \\ \addlinespace \textbf{TSR-01-013} & SR 5.2 & The gateway shall only permit explicitly authorized communication flows between network zones. \\ \addlinespace \textbf{TSR-01-014} & SR 5.2 & The gateway shall block unauthorized inbound communications from external networks. \\ \addlinespace \textbf{TSR-01-018} & FR 7 & The gateway shall maintain a defined secure state if a remote management session is unexpectedly interrupted. \\ \end{longtable} 
+%	
+%\subsubsection{Enhancement Requirements} 
+%\begin{longtable}{p{2.8cm} p{2.6cm} p{9.2cm}} \caption{Enhancement Technical Security Requirements for REQ-REG-01 -- Access Control \& Remote Connections} \label{tab:req-reg-01-enhancement} \\ \toprule \textbf{TSR ID} & \textbf{IEC 62443 Reference} & \textbf{Technical Security Requirement} \\ \midrule \endfirsthead \multicolumn{3}{c}{\small\itshape -- Continued from previous page --} \\[0.5em] \toprule \textbf{TSR ID} & \textbf{IEC 62443 Reference} & \textbf{Technical Security Requirement} \\ \midrule \endhead \midrule \multicolumn{3}{r}{\small\itshape Continued on next page --} \\ \endfoot \bottomrule \endlastfoot \textbf{TSR-01-003} & SR 1.1 & The gateway shall reject anonymous remote access sessions. \\ \addlinespace \textbf{TSR-01-005} & SR 1.2 & The gateway shall authenticate software services communicating through external interfaces. \\ \addlinespace \textbf{TSR-01-008} & SR 2.1 & The gateway shall restrict modification of security-relevant parameters to authorized users. \\ \addlinespace \textbf{TSR-01-009} & SR 2.1 & The gateway shall deny access requests that exceed assigned privileges. \\ \addlinespace \textbf{TSR-01-011} & SR 5.1 & The gateway shall support configurable network zones. \\ \addlinespace \textbf{TSR-01-015} & SR 5.2 & The gateway shall block unauthorized outbound communications to external networks. \\ \addlinespace \textbf{TSR-01-016} & FR 7 & The gateway shall terminate inactive remote sessions after a configurable timeout period. \\ \addlinespace \textbf{TSR-01-017} & FR 7 & The gateway shall limit the number of concurrent remote management sessions. \\ \end{longtable}
 
 
-REQ-REG 3:
-1. Alle Zugriffe auf sicherheitsrelevante Hardware müssen nachvollziehbar protokolliert werden.
-2. Sowohl erfolgreiche als auch fehlgeschlagene Zugriffsversuche müssen erfasst werden.
-3. Jeder Logeintrag muss Benutzeridentität, Zeitstempel und Ereignistyp enthalten.
-4. Protokolldaten müssen gegen unautorisierte Manipulation, Löschung und Fälschung geschützt werden.
+%REQ-REG 1: 
+%1. Jede externe Geräteverbindung muss vor der Nutzung authentifiziert werden
+%2. Der Zugriff über Fernwartungs- oder Remote-Zugänge muss auf autorisierte Benutzer, Systeme oder Geräte beschränkt sein
+%3. Externe Verbindungen dürfen keine unautorisierten Änderungen sicherheitsrelevanter Funktionen ermöglichen.
+%4. Remote-Zugriffe und Verbindungen müssen protokolliert werden
+%
+%
+%REQ-REG 2: 
+%1. Die Integrität sicherheitsrelevanter Signale und Daten muss auf Hardware-Ebne während Speicherung, Verarbeitung und Übertragung gewährleistet sein.
+%2. Gezielte oder böswillige Manipulationen der Hardware-Übertragungswege und Signalleitungen müssen sicher erkannt werden.
+%3. Unbeabsichtigte Datenkorruption muss erkannt und behandelt werden.
+%4. Die Maschine darf auf erkannte Integritätsverletzungen nur mit einem sicheren Systemverhalten reagieren.
+%
+%
+%REQ-REG 3:
+%1. Alle Zugriffe auf sicherheitsrelevante Hardware müssen nachvollziehbar protokolliert werden.
+%2. Sowohl erfolgreiche als auch fehlgeschlagene Zugriffsversuche müssen erfasst werden.
+%3. Jeder Logeintrag muss Benutzeridentität, Zeitstempel und Ereignistyp enthalten.
+%4. Protokolldaten müssen gegen unautorisierte Manipulation, Löschung und Fälschung geschützt werden.
+%
+%
+%REQ-REG 4: 
+%1. Sicherheitsrelevante Software und Daten müssen eindeutig identifizierbar sein.
+%2. Sicherheitsrelevante Software und Daten müssen gegen unautorisierte Änderungen geschützt werden
+%3. Integritätsverletzungen sicherheitsrelevanter Software und Daten müssen erkannt werden
+%4. Die Ausführung manipulierter sicherheitsrelevanter Software muss verhindert werden
+%
+%
+%REQ-REG 5:
+%1. Die installierte Version jeder sicherheitsrelevanten Software und Firmware muss eindeutig identifizierbar sein.
+%2. Versionsinformationen müssen autorisierten Benutzern jederzeit zugänglich sein
+%3. Versionsinformationen müssen den tatsächlich installierten Softwarestand korrekt wiedergeben.
+%4. Änderungen des Softwarestands müssen nachvollziehbar dokumentiert werden.
+%
+%
+%REQ-REG 6: 
+%1. Alle Änderungen an Software, Firmware und Konfiguration müssen protokolliert werden.
+%2. Sowohl autorisierte als auch nicht autorisierte Änderungsversuche müssen dokumentiert werden.
+%3. Jeder Änderungsnachweis muss Benutzer, Zeit, betroffene Objekte sowie Art der Änderung enthalten.
+%4. Änderungsprotokolle müssen gegen Manipulation geschützt werden
+%
+%
+%REQ-REG 7: 
+%1. Das Steuerungssystem muss seine sicherheitsrelevanten Funktionen auch unter vorhersehbaren Cyberangriffen, Netzwerkanomalien und betrieblichen Überlastungen aufrechterhalten.
+%2. Das Steuerungssystem muss Störungen und Anomalien erkennen können.
+%3. Das Steuerungssystem muss bei erkannten Angriffen in einen sicheren Zustand übergehen oder seine Sicherheitsfunktion aufrechterhalten.
+%4. Sicherheitsrelevante Funktionen dürfen durch einzelne Angriffe oder externe Einflüsse nicht unkontrolliert beeinträchtigt werden.
+%
+%
+%REQ-REG 8: 
+%1. Fehler in Hardware, Software oder Konfigurationsdaten müssen erkannt werden können.
+%2. Das System muss auf erkannte Fehler mit einem sicheren Betriebsverhalten reagieren.
+%3. Vorhersehbare Bedienfehler dürfen nicht unmittelbar zu gefährlichen Situationen führen
+%4. Sicherheitsrelevante Funktionen müssen auch bei Einzelkomponentenfehlern erhalten bleiben oder kontrolliert in einen sicheren Zustand übergehen.
+%
+%
+%REQ-REG 9: 
+%1. Änderungen sicherheitsrelevanter Parameter dürfen nur von autorisierten Benutzern durchgeführt werden
+%2. Vor jeder Änderung sicherheitsrelevanter Einstellungen muss die Identität des Benutzers verifiziert werden.
+%3. Unautorisierte Änderungsversuche müssen verhindert, gemeldet und protokolliert werden.
+%4. Die Integrität von Regeln, Parametern und Lernmodellen muss gegen unautorisierte Veränderungen geschützt werden.
+%
+%
+%REQ-REG 10: 
+%1. Audit-Trails zu Softwareeingriffen und Softwareupdates müssen aufgezeichnet werden.
+%2. Audit-Trails müssen mindestens fünf Jahre verfügbar bleiben.
+%3. Archivierte Audit-Trails müssen gegen Verlust, Manipulation und unautorisierte Löschung geschützt werden.
+%4. Aufbewahrte Audit-Trails müssen lesbar und für Prüfzwecke abrufbar bleiben.
+%
+%REQ-REG 11:
+%1. Für jede Cybersecurity-Anforderung muss ein dokumentierter Verifikations- oder Validierungsnachweis vorliegen.
+%2. Cybersecurity-Tests müssen reproduzierbar dokumentiert werden.
+%3. Testergebnisse müssen die Erfüllung der festgelegten Sicherheitsanforderungen nachweisen.
+%4. Die technische Dokumentation muss alle relevanten Cybersecurity-Testberichte enthalten
 
 
-REQ-REG 4: 
-1. Sicherheitsrelevante Software und Daten müssen eindeutig identifizierbar sein.
-2. Sicherheitsrelevante Software und Daten müssen gegen unautorisierte Änderungen geschützt werden
-3. Integritätsverletzungen sicherheitsrelevanter Software und Daten müssen erkannt werden
-4. Die Ausführung manipulierter sicherheitsrelevanter Software muss verhindert werden
+%REQ-REG 1: 
+%Umsetzungsmaßnahmen:
+%- VPN
+%- MFA
+%- Firewall
+%- Jump Host
+%- Netzwerksegmentierung
+%
+%Prüfverfahren:
+%OWASP:
+%- Authentication Testing
+%- Session Managment Testing
+%- MFA Testing
+%
+%NIST 800-115:
+%- Network Scanning
+%- Firewall Rule Review
+%- Remote Access Penetration Test
+%
+%
+%REQ-REG 9: 
+%Umsetzungsmaßnahmen:
+%- Benutzerkonten statt Shared-Accounts
+%- Passwort-Policy
+%- Role-based-access-Control
+%- Change Management
+%- Audit Logging
+%- Signierung von Konfigurationen
+%
+%OWASP:
+%- Test von Authentication Mechanisms
+%- Test von Authorization Validation
+%- Privilege Escalation Testing
+%
+%NIST SP 800-115:
+%- Role Tesing
+%- Access Control Validation
+%- Configuration Review
+%
+%
+%REQ-REG 6:
+%Umsetzungsmaßnahmen:
+%- SysLog
+%- Audit Trail
+%- Signed Logs
+%- Änderungsdatenbank
+%- Zeitsynchronisation (NTP)
+%
+%Prüfverfahren:
+%OWASP:
+%- Logging Testing
+%- Log Injection Testing
+%- Log Integrity Verification
+%NIST SP 800-115:
+%- Security Configuration Review
+%- Audit Review
+%- File Integrity Verification
 
 
 
-REQ-REG 5:
-1. Die installierte Version jeder sicherheitsrelevanten Software und Firmware muss eindeutig identifizierbar sein.
-2. Versionsinformationen müssen autorisierten Benutzern jederzeit zugänglich sein
-3. Versionsinformationen müssen den tatsächlich installierten Softwarestand korrekt wiedergeben.
-4. Änderungen des Softwarestands müssen nachvollziehbar dokumentiert werden.
+\section{System Analysis} 
+\label{sec:system_analysis}
+The purpose of the system analysis is to establish a detailed understanding of the System Under Consideration (SUC). This includes the system architecture, available interfaces, communication mechanisms, critical assets, trust boundaries, and the overall attack surface. 
+
+\subsection{System Overview} 
+\label{subsec:system_overview}
+
+ The Safe Remote I/O (SRIO) is a fieldbus-based safety device used within industrial automation systems. It acquires binary 24 V input signals from safety sensors and transmits them to a higher-level safety controller (F-Host) via PROFIsafe communication. In addition, the device receives output commands from the F-Host and controls connected actuators through safety-related digital outputs. The device supports both safety-related and non-safety-related communication functions. The system consists of the following main components: 
+ \begin{itemize} 
+ 	\item \textbf{Communication Module (COM):} Provides Ethernet-based communication, PROFINET connectivity, IoTCore functionality, web services, firmware update handling, and data storage access
+ 	\item \textbf{System Communication (SysCom):} Internal SPI-based communication channel between COM and SCPU
+ 	\item \textbf{Safety CPU Module (SCPU):} Implements the safety functions using a 1oo2 architecture consisting of two independent safety controllers, cross-communication mechanisms, and a watchdog
+ 	\item \textbf{Power Supply Module (PS):} Supplies all internal system components.
+ 	\item \textbf{Digital Input Module (DI):} Provides six safe digital input channels.
+ 	\item \textbf{Digital Output Module (DO):} Provides two safe digital output channels.
+ \end{itemize} 
+ 
+ \subsection{System Architecture} 
+ The SRIO architecture separates safety-related and non-safety-related functionality. The COM module acts as the communication gateway. It handles PROFINET communication, the IoTCore web interface, firmware update services, and network management functions. The COM module is based on a dedicated communication processor and a fieldbus controller. The SCPU module implements the safety application. Two independent safety controllers execute the safety logic and exchange diagnostic information through internal communication channels. A watchdog mechanism supervises correct system operation. Communication between COM and SCPU is performed via the SysCom interface. Safety-relevant communication is transmitted using the black-channel principle, where PROFIsafe messages are transported over standard PROFINET communication. 
+ 
+ \subsection{Interfaces and Communication Channels} 
+ The SRIO exposes several external and internal interfaces. 
+ 
+ \subsubsection{External Interfaces} 
+ 
+ \begin{itemize} 
+ 	\item Ethernet interface for PROFINET and IoTCore communication
+ 	\item Power supply connectors including daisy-chain functionality
+ 	\item Rotary switches for addressing and special operating modes
+ 	\item Safe digital input interfaces (F-DI)
+ 	\item Safe digital output interfaces (F-DO)
+ 	\item LED indicators for device status visualization
+ \end{itemize} 
+ 
+ \subsubsection{Internal Interfaces} 
+ 
+ \begin{itemize} 
+ 	\item SysCom interface between COM and SCPU
+ 	\item IPC interface between SCPU1 and SCPU2
+ 	\item JTAG debugging interfaces for development and maintenance purposes
+ \end{itemize} 
+ 
+ 
+ \subsection{Communication Protocols} 
+ The following communication protocols are supported by the system: 
+ \begin{itemize} 
+ 	\item \textbf{PROFINET:} Industrial Ethernet protocol used for process communication between the SRIO and the F-Host
+ 	\item \textbf{PROFIsafe:} Safety communication protocol operating on top of PROFINET according to the black-channel principle
+ 	\item \textbf{HTTP/JSON:} Used by the IoTCore for diagnostics, monitoring, device information, and firmware update handling 
+ \end{itemize} 
+ The system supports HTTP communication only. HTTPS, MQTT, and WebSocket communication are not implemented. 
+ 
+ \subsection{System Classification} 
+ The SRIO is classified as a safety-related industrial automation component. 
+ \begin{itemize} 
+ 	\item IEC 61508 SIL 3 
+ 	\item EN ISO 13849-1 Performance Level e (PL e), Category 4 
+ \end{itemize} The device serves as a safety gateway between field devices and a safety PLC within a PROFINET/PROFIsafe environment. 
+ 
+ 
+\subsection{Assets} 
+Assets are resources that require protection against unauthorized modification, disclosure, or disruption. 
+
+\subsubsection{Configuration Data}
+\begin{itemize} 
+	\item IP address 
+	\item MAC address 
+	\item Hostname 
+	\item Network settings 
+	\item F-Address 
+	\item PROFIsafe parameters 
+	\item iPar parameters 
+	\item DCP configuration data 
+\end{itemize} 
+These parameters are stored in persistent memory such as EEPROM and NVMEM. 
+
+\subsubsection{Firmware} 
+The firmware asset consists of: 
+\begin{itemize} 
+	\item COM firmware 
+	\item SCPU firmware 
+	\item Bootloader 
+	\item NetX90 firmware 
+\end{itemize} 
+Firmware updates are performed through the IoTCore update mechanism. 
+
+\subsubsection{Safety Configuration} 
+\begin{itemize} 
+	\item F-Parameters 
+	\item iPar configuration 
+	\item Safety mappings 
+	\item Safe input parameters 
+	\item Safe output parameters 
+\end{itemize} 
+The integrity of these parameters directly affects the execution of safety functions. 
+
+\subsubsection{Process Data} 
+\begin{itemize} 
+	\item Input process data 
+	\item Output process data 
+	\item F-DI states 
+	\item F-DO commands 
+	\item Qualifier information 
+\end{itemize} 
+
+\subsubsection{Diagnostic and Service Data} 
+\begin{itemize} 
+	\item Error logs 
+	\item Error events 
+	\item Diagnostic data 
+	\item Device status information 
+	\item Uptime information 
+\end{itemize} 
+
+\subsubsection{Device Identity Data} 
+Via IoT-Core
+\begin{itemize} 
+	\item Serial number 
+	\item Production date 
+	\item Hardware version 
+	\item Software version 
+	\item Device tag 
+\end{itemize} 
 
 
-REQ-REG 6: 
-1. Alle Änderungen an Software, Firmware und Konfiguration müssen protokolliert werden.
-2. Sowohl autorisierte als auch nicht autorisierte Änderungsversuche müssen dokumentiert werden.
-3. Jeder Änderungsnachweis muss Benutzer, Zeit, betroffene Objekte sowie Art der Änderung enthalten.
-4. Änderungsprotokolle müssen gegen Manipulation geschützt werden
+\subsection{Trust Boundaries} 
+The following trust boundaries are identified: 
 
+\begin{itemize} 
+	\item \textbf{TB1:} F-Host/PROFINET network and SRIO. 
+	\item \textbf{TB2:} IoTCore client and SRIO. 
+	\item \textbf{TB3:} COM module and SCPU module. 
+	\item \textbf{TB4:} Firmware update source and SRIO. 
+\end{itemize} 
 
-REQ-REG 7: 
-1. Das Steuerungssystem muss seine sicherheitsrelevanten Funktionen auch unter vorhersehbaren Cyberangriffen, Netzwerkanomalien und betrieblichen Überlastungen aufrechterhalten.
-2. Das Steuerungssystem muss Störungen und Anomalien erkennen können.
-3. Das Steuerungssystem muss bei erkannten Angriffen in einen sicheren Zustand übergehen oder seine Sicherheitsfunktion aufrechterhalten.
-4. Sicherheitsrelevante Funktionen dürfen durch einzelne Angriffe oder externe Einflüsse nicht unkontrolliert beeinträchtigt werden.
+The interfaces between SCPU1 and SCPU2, as well as the binary sensor and actuator interfaces, are considered internal implementation details and are therefore excluded from the primary trust boundary analysis. 
 
+\subsection{Exposure Level} 
+The SRIO is typically deployed within industrial automation networks. 
+\begin{itemize} 
+	\item Zone Level 1: Field level. 
+	\item Zone Level 2: Cell or machine network. 
+	\item Direct Internet exposure is not intended. 
+\end{itemize} 
+Despite this assumption, the IoTCore interface can be reached by any system with network access to the device. 
 
-REQ-REG 8: 
-1. Fehler in Hardware, Software oder Konfigurationsdaten müssen erkannt werden können.
-2. Das System muss auf erkannte Fehler mit einem sicheren Betriebsverhalten reagieren.
-3. Vorhersehbare Bedienfehler dürfen nicht unmittelbar zu gefährlichen Situationen führen
-4. Sicherheitsrelevante Funktionen müssen auch bei Einzelkomponentenfehlern erhalten bleiben oder kontrolliert in einen sicheren Zustand übergehen.
+\subsection{Attack Surface} 
+The attack surface consists of all externally reachable interfaces and functions that may provide an entry point for an attacker. The following attack surfaces were identified: 
 
-
-REQ-REG 9: 
-1. Änderungen sicherheitsrelevanter Parameter dürfen nur von autorisierten Benutzern durchgeführt werden
-2. Vor jeder Änderung sicherheitsrelevanter Einstellungen muss die Identität des Benutzers verifiziert werden.
-3. Unautorisierte Änderungsversuche müssen verhindert, gemeldet und protokolliert werden.
-4. Die Integrität von Regeln, Parametern und Lernmodellen muss gegen unautorisierte Veränderungen geschützt werden.
-
-
-REQ-REG 10: 
-1. Audit-Trails zu Softwareeingriffen und Softwareupdates müssen aufgezeichnet werden.
-2. Audit-Trails müssen mindestens fünf Jahre verfügbar bleiben.
-3. Archivierte Audit-Trails müssen gegen Verlust, Manipulation und unautorisierte Löschung geschützt werden.
-4. Aufbewahrte Audit-Trails müssen lesbar und für Prüfzwecke abrufbar bleiben.
-
-REQ-REG 11:
-1. Für jede Cybersecurity-Anforderung muss ein dokumentierter Verifikations- oder Validierungsnachweis vorliegen.
-2. Cybersecurity-Tests müssen reproduzierbar dokumentiert werden.
-3. Testergebnisse müssen die Erfüllung der festgelegten Sicherheitsanforderungen nachweisen.
-4. Die technische Dokumentation muss alle relevanten Cybersecurity-Testberichte enthalten
-
-
-
-
-REQ-REG 1: 
-Umsetzungsmaßnahmen:
-- VPN
-- MFA
-- Firewall
-- Jump Host
-- Netzwerksegmentierung
-
-Prüfverfahren:
-OWASP:
-- Authentication Testing
-- Session Managment Testing
-- MFA Testing
-
-NIST 800-115:
-- Network Scanning
-- Firewall Rule Review
-- Remote Access Penetration Test
-
-
-REQ-REG 9: 
-Umsetzungsmaßnahmen:
-- Benutzerkonten statt Shared-Accounts
-- Passwort-Policy
-- Role-based-access-Control
-- Change Management
-- Audit Logging
-- Signierung von Konfigurationen
-
-OWASP:
-- Test von Authentication Mechanisms
-- Test von Authorization Validation
-- Privilege Escalation Testing
-
-NIST SP 800-115:
-- Role Tesing
-- Access Control Validation
-- Configuration Review
-
-
-REQ-REG 6:
-Umsetzungsmaßnahmen:
-- SysLog
-- Audit Trail
-- Signed Logs
-- Änderungsdatenbank
-- Zeitsynchronisation (NTP)
-
-Prüfverfahren:
-OWASP:
-- Logging Testing
-- Log Injection Testing
-- Log Integrity Verification
-NIST SP 800-115:
-- Security Configuration Review
-- Audit Review
-- File Integrity Verification
-
-
-
-
-
-
-
+\begin{itemize} 
+	\item HTTP-based IoTCore web interface 
+	\item REST-API IoTCore services
+	\item Firmware update mechanism
+	\item Ethernet communication interfaces 
+	\item PROFINET communication services
+	\item PROFIsafe communication services
+	\item PROFINET DCP configuration services
+	\item Rotary switch interface
+	\item EEPROM and persistent configuration storage
+	\item Debug and programming interfaces (JTAG)
+	\item Power supply interface
+\end{itemize} 
+Particular attention is given to the firmware update process, IoTCore services, network communication interfaces, and persistent configuration storage because they provide direct access to critical assets.
 
 
 
@@ -265,104 +569,8 @@ NIST SP 800-115:
 
 
 \chapter{Notizen (löschen in FINAL)}
-\section{Description of the system}
-\subsection{Overview Architecture}
-SRIO is a fieldbus device that:
 
-Detects binary 24V input signals and transmits them to the higher-level controller via fieldbus.
-Receives output commands from the controller and actuates outputs using binary 24V signals.
-Covered functional safety behavior:
-
-Safe input path: sensor state acquisition and transmission via bus.
-Safe output path: forced switch-off and maintained OFF state in case of dangerous internal failures.
-
-
-COM			Ethernetbased communication PROFINET, IoTCore
-SysCom		SPI based communication between COM / CPU3 and SCPU
-SCPU		Safe Core containing both SPCUs, rotary switch and Watchdog. Safety functions are implemented in a 1oo2 architecture 	
-via SCPU1, SCPU2, the crosscomunication IPC and Watchdog
-PS			Power Supply, supplies all system components
-DI			Safe Digital Inputs
-DO			Safe Digital Outputs
-
-\subsection{Overview of interfaces (internal and external) and the available communication protocols}
-External interfaces:
-
-Ethernet / COM module:
-- PROFINET communication to PLC/F-Host.
-- IoTCore communication interface.
-
-Power supply:
-- Device supply (including daisychaining).
-
-Rotary switches:
-- Local selection of specific device functions (for example update mode / addressing).
-
-Safety I/O terminals:
-- 6x F-DI and 2x F-DO signal interfaces.
-
-LEDs:
-- Local status indication.
-
-
-Internal interfaces, listed for completeness, physically protected by encapsulated hardware design:
-- SysCom: COM <-> SCPU
-- IPC: SCPU1 <-> SCPU2
-- JTAG interfaces per CPU
-
-Network/protocol context:
-- PROFINET over Ethernet (M12 D-coded), bidirectional SRIO <-> PLC/F-Host.
-- PROFIsafe as black-channel protocol over PROFINET for safety-relevant communication.
-- IoTCore via HTTP/JSON for non-safety service functions (diagnostics, monitoring, error log, firmware update handling).
-
-Field/local interface context:
-- Field side: DI/DO plus associated supply paths (US/UA), according to intended port use.
-- Local side: rotary switches, LEDs, firmware update mode.
-
-
-
-\section{Classification of the System under consideration}
-\subsection{Determination of the scope of application and the target group}
-\subsection{Intended use/reasonably foreseeable misuse}
-\subsection{Device Type classification}
-\subsection{Overview of critical resources and ``assets''}
-\subsection{Data classification}
-\subsection{Memory classification}
-\subsection{Other non specific properties}
-\subsection {Exposure Level}
-\subsection{Definition of communication capabilities}
-\subsection{Definition of protection objectives}
-\subsection{Definition of Attackers and their motivation}
-\subsection{Determination of life cycle and the related users and other dependencies, based on customer journey}
-\subsection{Determination of what is not part of the system}
-\subsection{Setting the Trust Boundaries of the SUC}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Engineering Environment} The engineering environment represents an indirect attack surface. This includes GSDML files, parameter data, engineering tools and CRC generation tools used during commissioning and configuration. Manipulation of these artifacts may result in incorrect device configuration or unsafe system behaviour
 
 Security Requirements for Industrial Gateways
 
@@ -394,11 +602,6 @@ Logging				Audit Trail
 \section{Analysis of the Gateway Security Context} 
 \label{sec:gateway_security_context} 
 
-
-
-
-
-
 \section{Derivation of Security Requirements} 
 \label{sec:security_requirements} 
 Welche Funktionen müssen getestet werden?
@@ -422,20 +625,11 @@ Problem aktueller Methodiken:
 - OWASP IoT Security Testing Guide: nicht speziell für OT entwickelt
 - Risk-based Security Testing: Aufwendige Riskoanalyse notwendig
 
-
-
 In the context of industrial gateways, which act as critical boundaries at the IT/OT interface, these 
 devices are primarily evaluated under the stringent requirements for network components.
 
 
-
-
-
-
 Funktionale Tests prüfen, ob das System tut, was es soll. Security Tests prüfen, ob das System auch das unterlässt, was es nicht tun darf.
-
-
-
 
 Deswegen kombiniertes Testframework:
 
@@ -464,8 +658,6 @@ Testframework
 7. Result Evaluation
 
 8. Compliance Evidence
-
-
 
 
 \section{Security Test Categories} 

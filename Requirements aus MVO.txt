@@ -8,4 +8,9 @@
 	\textbf{REQ-REG-08} & Annex III, \newline Sec. 1.2.1(b, c, e) & Fault tolerance ensuring hardware/software defects, logic errors, or foreseeable operator errors do not lead to hazardous situations. \\ \addlinespace
 	\textbf{REQ-REG-09} & Annex III, \newline Sec. 1.2.1(d) & Strict prevention of unauthorized setting or rule modifications (including during learning phases) that could cause hazards. \\ \addlinespace
 	\textbf{REQ-REG-10} & Annex III, \newline Sec. 1.2.1(f) & Mandatory retention of audit trails for software interventions and uploaded safety software versions for 5 years. \\ \addlinespace
-	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements.
+	\textbf{REQ-REG-11} & Article 10(2) \& Annex IV Part A & Technical documentation must include empirical test reports proving compliance with cybersecurity requirements
+	 \\
+	\textbf{REQ-REG-12} &  Annex III, \newline Sec. 1.2.6 & Interruption, fluctuation, or re-establishment of communication network connections must not lead to hazardous situations. \\
+	\textbf{REQ-REG-13} & Annex III, \newline Sec. 3.3.3 \& 5.2.4 & Interruption or loss of wireless/remote communication signals must automatically trigger a safe state (e.g., safe stop). \\ \addlinespace
+	\textbf{REQ-REG-14} & Annex IV Part A, \newline Sec. 1(v) & Technical documentation must include safety-related software architecture, programming logic/source code, and validation results. \\ \addlinespace
+	\textbf{REQ-REG-15} & Art. 3 \& \newline Annex II & Standalone safety software carrying out safety functions must undergo dedicated conformity assessment as a safety component. \\ \addlinespace

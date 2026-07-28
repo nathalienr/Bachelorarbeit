@@ -1,46 +1,10 @@
 \chapter{Implementation, Results, and Evaluation} 
 \label{chap:implementation_results_evaluation} 
-Attack Surface Analyse des Gateways
-
-PROFIsafe
-
-PROFINET/ Ethernet
-
-\textbf{Firmware Update Mechanism} über IoT Core: Angriff: Upload einer manipulierten Firmware
-
-Debug/Service Schnittstelle --> Debug durch Hardware (Gehäuse) eigentlich nicht zugänglich
-
-IoT Core (HTTP) 
---> Netzwerkkonfiguration
-
-\textbf{PROFINET DCP Konfigurationsschnittstelle}: Angreifer setzt neue IP-Adresse und neuen Gerätenamen mittels DCP-Set --> IEC 62443: FR1, FR2, FR5 
-
-Rotary Switch
-
-GSD-Datei --> Abgesichert durch CRC
-
-(Power Supply)
-
-Digitale Ein-/ und Ausgänge ?
-
 
 Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT --> nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
 
 
-Assets:
-Sichere Ein-/ Ausgangsfunktion (F-DI, F-DO, PROFIsafe Kommunikation --> Auswirkung bei Kompromittierung: Maschinenstillstand, Verlust der Sicherheitsfunktion, Gefährdung von Personen)
-Gerätekonfiguration (F-Adresse, PROFIsafe-Parameter, Netzwerkparameter, DCP-Konfiguration)
-Firmware (COM, SCPU-Firmware, Bootloader)
-Diagnosedaten (Error Logs, IoT-Core-Daten)
 
-
-Mapping Attack Surface --> Testverfahren
-Attack Surface		Threat		Test Method
-Web Interface		Spoofing	Authentication Test
-REST API			Tampering	API Security Test
-Modbus Interface	Replay		Protocol Test
-Firmware Update		Tampering	Integrity Test
-Ethernet Port		DoS			Robustness Test
 
 
 \begin{table}[H]
@@ -62,33 +26,13 @@ Ethernet Port		DoS			Robustness Test
 	\label{tab:fr_gateway_assets}
 \end{table}
 
-Ethernet Port 1
-Ethernet Port 2
-PROFINET
-PROFIsafe
-IoT Core
-HTTP Server
-Visualizer
-Firmware Update Service
-Firmware Image
-Fieldbus COnfiguration
-F-Parameter
-iParameter
-Device Information
-MAC-Address
-Ip-Address
-Hostname
-Error Log
- Diagnostic Events
- Debug Interface
- Programming Interface
- DCP Set Parameters
- DCP Factory Reset
- Device Identification
- 
- 
- 
- GSD-File: alleine durch das iPar-CRC tool stellen wir aber schon sicher, dass keine andere verwendet werden kann, Hohe Relevanz für Integrität und Fehlkonfiguration, mittlere Relevanz für direkte Gerätekompromittierung, hohe Relevanz für Supply-Chain- und Safety-Security-Interaktio, GSDML eines PROFIsafe-Gerätes ist ein legitimer Angriffsvektor, aber primär indirekt über Engineering, Supply Chain, Konfiguration und Tooling, nicht typischerweise als direkter Runtime-Angriff auf das Feldgerät.
+Mapping Attack Surface --> Testverfahren
+Attack Surface		Threat		Test Method
+Web Interface		Spoofing	Authentication Test
+REST API			Tampering	API Security Test
+Modbus Interface	Replay		Protocol Test
+Firmware Update		Tampering	Integrity Test
+Ethernet Port		DoS			Robustness Test
 
 
 
