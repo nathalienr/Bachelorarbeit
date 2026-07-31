@@ -1,218 +1,218 @@
 \chapter{Implementation, Results, and Evaluation} 
 \label{chap:implementation_results_evaluation} 
 
-Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT --> nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
-
-
-
-
-
-\begin{table}[H]
-	\centering
-	\begin{tabularx}{\textwidth}{l X X}
-		\toprule
-		FR & Name & Relevant Gateway Assets \\
-		\midrule
-		FR1 & Identification and Authentication Control (IAC) & IoT Core, Firmware Update \\
-		FR2 & Use Control (UC) & IoT Core, Configuration functions \\
-		\textbf{FR3} & System Integrity (SI) & Firmware Update, PROFIsafe, Configuration \\
-		FR4 & Data Confidentiality (DC) & HTTP Interface, Configuration data \\
-		FR5 & Restricted Data Flow (RDF) & Ethernet, PROFINET, IoT Core \\
-		FR6 & Timely Response to Events (TRE) & Error Log, Diagnostics \\
-		FR7 & Resource Availability (RA) & Ethernet, PROFINET, DCP \\
-		\bottomrule
-	\end{tabularx}
-	\caption{Foundational Requirements and Relevant Gateway Assets}
-	\label{tab:fr_gateway_assets}
-\end{table}
-
-Mapping Attack Surface --> Testverfahren
-Attack Surface		Threat		Test Method
-Web Interface		Spoofing	Authentication Test
-REST API			Tampering	API Security Test
-Modbus Interface	Replay		Protocol Test
-Firmware Update		Tampering	Integrity Test
-Ethernet Port		DoS			Robustness Test
-
-
-
-STRIDE-Mapping auf IEC 62443 / MaschVO:
-
-Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1)
-
-Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III)
-
-Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6)
-
-Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4)
-
-Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7)
-
-Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2)
-
-
-
-Beispiel 1: HTTP-based IoTCore / REST-API Interface
-Involved Assets: Configuration Data, Firmware, Device Identity Data.
-
-Threat Identification (STRIDE):
-
-Spoofing: Unauthenticated access using default/weak credentials.
-
-Tampering: Request Manipulation (Parameter Tampering) to alter network/IP configurations without proper authorization.
-
-Information Disclosure: Unencrypted transport of credentials or device identity data.
-
-Denial of Service: HTTP/REST API flooding (Resource Exhaustion).
-
-Elevation of Privilege: Broken Access Control (Bypassing authentication to reach administrative endpoints).
-
-\subsubsection{HTTP-Based IoTCore Web Interface} 
-\begin{table}[H] 
-	\centering 
-	\begin{tabular}{|l|l|} \hline 
-		STRIDE Category & Identified Threat \\ \hline 
-		Spoofing & Unauthorized Access \\ 
-		Spoofing & Session Spoofing \\ Tampering & Request Manipulation \\ Tampering & Configuration Manipulation \\ Repudiation & Missing Audit Trail \\ Information Disclosure & Disclosure of Device Information \\ Information Disclosure & Disclosure of Diagnostic Data \\ Denial of Service & HTTP Flooding \\ Denial of Service & Resource Exhaustion \\ Elevation of Privilege & Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the IoTCore web interface} \end{table}
-
-\subsubsection{REST API} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Unauthorized API Access \\ Tampering & Parameter Manipulation \\ Tampering & API Request Manipulation \\ Repudiation & Missing Request Logging \\ Information Disclosure & Exposure of Device Information \\ Information Disclosure & Exposure of Log Data \\ Denial of Service & API Flooding \\ Elevation of Privilege & Access to Restricted Functions \\ \hline \end{tabular} \caption{Threats identified for the REST API} \end{table}
-
-\subsubsection{Firmware Update Mechanism} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake Update Source \\ Tampering & Modified Firmware \\ Tampering & Firmware Downgrade \\ Tampering & Corrupted Firmware Package \\ Repudiation & Missing Update Traceability \\ Information Disclosure & Firmware Extraction \\ Denial of Service & Interrupted Update Process \\ Denial of Service & Invalid Firmware Installation \\ Elevation of Privilege & Execution of Unauthorized Firmware \\ \hline \end{tabular} \caption{Threats identified for firmware updates} \end{table}
-
-
-\subsubsection{PROFINET Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Device Spoofing \\ Spoofing & Faked PLC/F-Host \\ Tampering & Process Data Manipulation \\ Tampering & DCP Parameter Manipulation \\ Repudiation & Missing Configuration Traceability \\ Information Disclosure & Network Enumeration \\ Information Disclosure & Device Discovery \\ Denial of Service & Network Flooding \\ Denial of Service & Communication Disruption \\ Elevation of Privilege & Unauthorized Configuration Changes \\ \hline \end{tabular} \caption{Threats identified for PROFINET communication} \end{table}
-
-
-\subsubsection{PROFIsafe Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake F-Host \\ Tampering & Safety Telegram Manipulation \\ Tampering & Safety Parameter Manipulation \\ Repudiation & Missing Safety Event Logging \\ Information Disclosure & Disclosure of Safety Parameters \\ Denial of Service & Communication Timeout Attack \\ Denial of Service & Message Flooding \\ Elevation of Privilege & Unauthorized Safety Functions \\ \hline \end{tabular} \caption{Threats identified for PROFIsafe communication} \end{table}
-
-
-
-\subsubsection{Persistent Storage} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Identity Data Manipulation \\ Tampering & Configuration Tampering \\ Tampering & Safety Parameter Tampering \\ Information Disclosure & Extraction of Stored Data \\ Denial of Service & Corrupted Configuration Data \\ \hline \end{tabular} \caption{Threats identified for persistent storage} \end{table}
-
-
-\subsubsection{Debug Interface} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Tampering & Firmware Modification \\ Tampering & Memory Manipulation \\ Information Disclosure & Firmware Extraction \\ Information Disclosure & Memory Dump \\ Denial of Service & Device Lockup \\ Elevation of Privilege & Debug-Based Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the debug interface} \end{table}
-
-\subsubsection{Engineering Environment} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Malicious Engineering Station \\ Tampering & Manipulated GSDML File \\ Tampering & Manipulated Parameter Set \\ Tampering & Manipulated CRC Tool Output \\ Repudiation & Missing Change Tracking \\ Information Disclosure & Disclosure of Engineering Data \\ Denial of Service & Invalid Device Configuration \\ Elevation of Privilege & Unauthorized Engineering Changes \\ \hline \end{tabular} \caption{Threats identified for engineering assets} \end{table}
-
-Threat Catalogue:
-\begin{itemize} 
-	\item Unauthorized access to the IoTCore web interface 
-	\item Authentication bypass 
-	\item Session hijacking 
-	\item Brute-force login attempts 
-	\item REST API request manipulation 
-	\item Unauthorized configuration changes 
-	\item Firmware manipulation 
-	\item Unauthorized firmware updates 
-	\item Firmware downgrade attacks 
-	\item Denial-of-Service against network services 
-	\item Ethernet packet manipulation 
-	\item PROFINET device spoofing 
-	\item Replay attacks on industrial communication 
-	\item Manipulation of safety-related parameters 
-	\item Unauthorized access to persistent configuration storage 
-	\item Disclosure of device identity information 
-\end{itemize}
-
-
-Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs-Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
-
-Beispiel 1: Unauthorised Access auf IoTCore Web Interface
-Feld	InhaltThreat ID	T-001
-Asset ID	A-001
-Asset Name	Configuration Data
-Description	Network and device configuration parameters
-Threat	Unauthorized Access
-Threat description	Attacker gains access to configuration functions without authorization
-Protection Goal	Integrity, Confidentiality
-Attacker / Skill-Level	Low
-Rationale	Web interface reachable via Ethernet
-predefined likelihood	Medium
-Exposure Level	High
-Exploitability	Medium
-Likelihood based on Matrix	High
-Impact	High
-Risk	High
-Weakness	Missing or weak authentication
-Mitigation	Role-based authentication and password policy
-Mitigation-ID	M-001
-Risk strategy	Reduce
-predefined Risk	High
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	High
-Risk after mitigation	Medium
-
-
-Beispiel 2: Firmware Manipulation
-Feld	InhaltThreat ID	T-002
-Asset ID	A-002
-Asset Name	Firmware
-Description	COM, SCPU, Bootloader and NetX90 firmware
-Threat	Firmware Manipulation
-Threat description	Modified firmware is uploaded and executed
-Protection Goal	Integrity, Authenticity
-Attacker / Skill-Level	Medium
-Rationale	Firmware update mechanism accessible via IoTCore
-predefined likelihood	Medium
-Exposure Level	High
-Exploitability	Medium
-Likelihood based on Matrix	High
-Impact	Very High
-Risk	Critical
-Weakness	Missing firmware signature validation
-Mitigation	Digital signature verification
-Mitigation-ID	M-002
-Risk strategy	Reduce
-predefined Risk	Critical
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	Very High
-Risk after mitigation	Medium
-Beispiel 3: REST API Parameter Manipulation
-Feld	InhaltThreat ID	T-003
-Asset ID	A-001
-Asset Name	Configuration Data
-Description	Device configuration accessible through REST API
-Threat	Request Manipulation
-Threat description	Manipulated API requests modify configuration values
-Protection Goal	Integrity
-Attacker / Skill-Level	Low
-Rationale	REST API exposed over Ethernet
-predefined likelihood	High
-Exposure Level	High
-Exploitability	High
-Likelihood based on Matrix	High
-Impact	High
-Risk	High
-Weakness	Missing input validation
-Mitigation	Server-side validation and authorization checks
-Mitigation-ID	M-003
-Risk strategy	Reduce
-predefined Risk	High
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	High
-Risk after mitigation	Medium
-Beispiel 4: Replay Attack auf PROFINET / PROFIsafe
-Feld	InhaltThreat ID	T-004
-Asset ID	A-004
-Asset Name	Process Data
-Description
-
-
-
-Threat	Functional TestUnauthorized Access	Zugriff ohne gültige Anmeldung prüfen
-Request Manipulation	Manipulierte API Requests senden
-Brute Force	Mehrfache Logins testen
-Firmware Manipulation	Modifizierte Firmware hochladen
-Replay Attack	Aufgezeichnete Telegramme erneut senden
-Unauthorized Configuration Change	Konfiguration ohne Berechtigung ändern
-DoS	Hohe Anzahl Requests senden
-Session Hijacking	Session Token wiederverwenden
+%Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT --> nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
+%
+%
+%
+%
+%
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X X}
+%		\toprule
+%		FR & Name & Relevant Gateway Assets \\
+%		\midrule
+%		FR1 & Identification and Authentication Control (IAC) & IoT Core, Firmware Update \\
+%		FR2 & Use Control (UC) & IoT Core, Configuration functions \\
+%		\textbf{FR3} & System Integrity (SI) & Firmware Update, PROFIsafe, Configuration \\
+%		FR4 & Data Confidentiality (DC) & HTTP Interface, Configuration data \\
+%		FR5 & Restricted Data Flow (RDF) & Ethernet, PROFINET, IoT Core \\
+%		FR6 & Timely Response to Events (TRE) & Error Log, Diagnostics \\
+%		FR7 & Resource Availability (RA) & Ethernet, PROFINET, DCP \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Foundational Requirements and Relevant Gateway Assets}
+%	\label{tab:fr_gateway_assets}
+%\end{table}
+%
+%Mapping Attack Surface --> Testverfahren
+%Attack Surface		Threat		Test Method
+%Web Interface		Spoofing	Authentication Test
+%REST API			Tampering	API Security Test
+%Modbus Interface	Replay		Protocol Test
+%Firmware Update		Tampering	Integrity Test
+%Ethernet Port		DoS			Robustness Test
+%
+%
+%
+%STRIDE-Mapping auf IEC 62443 / MaschVO:
+%
+%Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1)
+%
+%Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III)
+%
+%Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6)
+%
+%Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4)
+%
+%Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7)
+%
+%Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2)
+%
+%
+%
+%Beispiel 1: HTTP-based IoTCore / REST-API Interface
+%Involved Assets: Configuration Data, Firmware, Device Identity Data.
+%
+%Threat Identification (STRIDE):
+%
+%Spoofing: Unauthenticated access using default/weak credentials.
+%
+%Tampering: Request Manipulation (Parameter Tampering) to alter network/IP configurations without proper authorization.
+%
+%Information Disclosure: Unencrypted transport of credentials or device identity data.
+%
+%Denial of Service: HTTP/REST API flooding (Resource Exhaustion).
+%
+%Elevation of Privilege: Broken Access Control (Bypassing authentication to reach administrative endpoints).
+%
+%\subsubsection{HTTP-Based IoTCore Web Interface} 
+%\begin{table}[H] 
+%	\centering 
+%	\begin{tabular}{|l|l|} \hline 
+%		STRIDE Category & Identified Threat \\ \hline 
+%		Spoofing & Unauthorized Access \\ 
+%		Spoofing & Session Spoofing \\ Tampering & Request Manipulation \\ Tampering & Configuration Manipulation \\ Repudiation & Missing Audit Trail \\ Information Disclosure & Disclosure of Device Information \\ Information Disclosure & Disclosure of Diagnostic Data \\ Denial of Service & HTTP Flooding \\ Denial of Service & Resource Exhaustion \\ Elevation of Privilege & Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the IoTCore web interface} \end{table}
+%
+%\subsubsection{REST API} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Unauthorized API Access \\ Tampering & Parameter Manipulation \\ Tampering & API Request Manipulation \\ Repudiation & Missing Request Logging \\ Information Disclosure & Exposure of Device Information \\ Information Disclosure & Exposure of Log Data \\ Denial of Service & API Flooding \\ Elevation of Privilege & Access to Restricted Functions \\ \hline \end{tabular} \caption{Threats identified for the REST API} \end{table}
+%
+%\subsubsection{Firmware Update Mechanism} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake Update Source \\ Tampering & Modified Firmware \\ Tampering & Firmware Downgrade \\ Tampering & Corrupted Firmware Package \\ Repudiation & Missing Update Traceability \\ Information Disclosure & Firmware Extraction \\ Denial of Service & Interrupted Update Process \\ Denial of Service & Invalid Firmware Installation \\ Elevation of Privilege & Execution of Unauthorized Firmware \\ \hline \end{tabular} \caption{Threats identified for firmware updates} \end{table}
+%
+%
+%\subsubsection{PROFINET Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Device Spoofing \\ Spoofing & Faked PLC/F-Host \\ Tampering & Process Data Manipulation \\ Tampering & DCP Parameter Manipulation \\ Repudiation & Missing Configuration Traceability \\ Information Disclosure & Network Enumeration \\ Information Disclosure & Device Discovery \\ Denial of Service & Network Flooding \\ Denial of Service & Communication Disruption \\ Elevation of Privilege & Unauthorized Configuration Changes \\ \hline \end{tabular} \caption{Threats identified for PROFINET communication} \end{table}
+%
+%
+%\subsubsection{PROFIsafe Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake F-Host \\ Tampering & Safety Telegram Manipulation \\ Tampering & Safety Parameter Manipulation \\ Repudiation & Missing Safety Event Logging \\ Information Disclosure & Disclosure of Safety Parameters \\ Denial of Service & Communication Timeout Attack \\ Denial of Service & Message Flooding \\ Elevation of Privilege & Unauthorized Safety Functions \\ \hline \end{tabular} \caption{Threats identified for PROFIsafe communication} \end{table}
+%
+%
+%
+%\subsubsection{Persistent Storage} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Identity Data Manipulation \\ Tampering & Configuration Tampering \\ Tampering & Safety Parameter Tampering \\ Information Disclosure & Extraction of Stored Data \\ Denial of Service & Corrupted Configuration Data \\ \hline \end{tabular} \caption{Threats identified for persistent storage} \end{table}
+%
+%
+%\subsubsection{Debug Interface} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Tampering & Firmware Modification \\ Tampering & Memory Manipulation \\ Information Disclosure & Firmware Extraction \\ Information Disclosure & Memory Dump \\ Denial of Service & Device Lockup \\ Elevation of Privilege & Debug-Based Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the debug interface} \end{table}
+%
+%\subsubsection{Engineering Environment} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Malicious Engineering Station \\ Tampering & Manipulated GSDML File \\ Tampering & Manipulated Parameter Set \\ Tampering & Manipulated CRC Tool Output \\ Repudiation & Missing Change Tracking \\ Information Disclosure & Disclosure of Engineering Data \\ Denial of Service & Invalid Device Configuration \\ Elevation of Privilege & Unauthorized Engineering Changes \\ \hline \end{tabular} \caption{Threats identified for engineering assets} \end{table}
+%
+%Threat Catalogue:
+%\begin{itemize} 
+%	\item Unauthorized access to the IoTCore web interface 
+%	\item Authentication bypass 
+%	\item Session hijacking 
+%	\item Brute-force login attempts 
+%	\item REST API request manipulation 
+%	\item Unauthorized configuration changes 
+%	\item Firmware manipulation 
+%	\item Unauthorized firmware updates 
+%	\item Firmware downgrade attacks 
+%	\item Denial-of-Service against network services 
+%	\item Ethernet packet manipulation 
+%	\item PROFINET device spoofing 
+%	\item Replay attacks on industrial communication 
+%	\item Manipulation of safety-related parameters 
+%	\item Unauthorized access to persistent configuration storage 
+%	\item Disclosure of device identity information 
+%\end{itemize}
+%
+%
+%Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs-Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
+%
+%Beispiel 1: Unauthorised Access auf IoTCore Web Interface
+%Feld	InhaltThreat ID	T-001
+%Asset ID	A-001
+%Asset Name	Configuration Data
+%Description	Network and device configuration parameters
+%Threat	Unauthorized Access
+%Threat description	Attacker gains access to configuration functions without authorization
+%Protection Goal	Integrity, Confidentiality
+%Attacker / Skill-Level	Low
+%Rationale	Web interface reachable via Ethernet
+%predefined likelihood	Medium
+%Exposure Level	High
+%Exploitability	Medium
+%Likelihood based on Matrix	High
+%Impact	High
+%Risk	High
+%Weakness	Missing or weak authentication
+%Mitigation	Role-based authentication and password policy
+%Mitigation-ID	M-001
+%Risk strategy	Reduce
+%predefined Risk	High
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	High
+%Risk after mitigation	Medium
+%
+%
+%Beispiel 2: Firmware Manipulation
+%Feld	InhaltThreat ID	T-002
+%Asset ID	A-002
+%Asset Name	Firmware
+%Description	COM, SCPU, Bootloader and NetX90 firmware
+%Threat	Firmware Manipulation
+%Threat description	Modified firmware is uploaded and executed
+%Protection Goal	Integrity, Authenticity
+%Attacker / Skill-Level	Medium
+%Rationale	Firmware update mechanism accessible via IoTCore
+%predefined likelihood	Medium
+%Exposure Level	High
+%Exploitability	Medium
+%Likelihood based on Matrix	High
+%Impact	Very High
+%Risk	Critical
+%Weakness	Missing firmware signature validation
+%Mitigation	Digital signature verification
+%Mitigation-ID	M-002
+%Risk strategy	Reduce
+%predefined Risk	Critical
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	Very High
+%Risk after mitigation	Medium
+%Beispiel 3: REST API Parameter Manipulation
+%Feld	InhaltThreat ID	T-003
+%Asset ID	A-001
+%Asset Name	Configuration Data
+%Description	Device configuration accessible through REST API
+%Threat	Request Manipulation
+%Threat description	Manipulated API requests modify configuration values
+%Protection Goal	Integrity
+%Attacker / Skill-Level	Low
+%Rationale	REST API exposed over Ethernet
+%predefined likelihood	High
+%Exposure Level	High
+%Exploitability	High
+%Likelihood based on Matrix	High
+%Impact	High
+%Risk	High
+%Weakness	Missing input validation
+%Mitigation	Server-side validation and authorization checks
+%Mitigation-ID	M-003
+%Risk strategy	Reduce
+%predefined Risk	High
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	High
+%Risk after mitigation	Medium
+%Beispiel 4: Replay Attack auf PROFINET / PROFIsafe
+%Feld	InhaltThreat ID	T-004
+%Asset ID	A-004
+%Asset Name	Process Data
+%Description
+%
+%
+%
+%Threat	Functional TestUnauthorized Access	Zugriff ohne gültige Anmeldung prüfen
+%Request Manipulation	Manipulierte API Requests senden
+%Brute Force	Mehrfache Logins testen
+%Firmware Manipulation	Modifizierte Firmware hochladen
+%Replay Attack	Aufgezeichnete Telegramme erneut senden
+%Unauthorized Configuration Change	Konfiguration ohne Berechtigung ändern
+%DoS	Hohe Anzahl Requests senden
+%Session Hijacking	Session Token wiederverwenden
 
 \section{Test Environment} 
 \label{sec:test_environment} 
