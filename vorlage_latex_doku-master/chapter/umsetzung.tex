@@ -214,6 +214,14 @@
 %DoS	Hohe Anzahl Requests senden
 %Session Hijacking	Session Token wiederverwenden
 
+- **Safety zone** — Safety CPU1 (SCPU1), Safety CPU2 (SCPU2), their EEPROMs, Safe uCOS-II OS, Safe State Logic, PROFIsafe F-Parameters, Own Safe Address Storage, iPar CRC Value, F-DI/F-DO channels, Hardware Watchdog. Highest integrity/availability requirement; safety-impact relevant.
+- **Non-safe host zone** — Host CPU3 (COM/VHIP3), its EEPROM/flash, IoT-Core Web Interface, eRPC, bootloaders, firmware transfer/install services, error log, device tag.
+- **External OT zone** (conduit-connected) — the PLC/engineering network reached via PROFINET Fieldbus Ports, NetX90, DCP Protocol Service, GSD/GSDML distribution.
+- **External IT zone** (conduit-connected) — remote/maintenance clients reached via the IoT-Core Web Interface (HTTP), used for diagnostics and firmware management.
+- **Physical/production zone** — rotary switch, LEDs, debug interfaces, power/FE paths, production-mode state; requires physical access.
+
+
+
 \section{Test Environment} 
 \label{sec:test_environment} 
 
