@@ -21,7 +21,7 @@ english                         % Spracheinstellung: Englisch
 \usepackage{booktabs}  % Für \toprule, \midrule, \bottomrule
 %%%%%%%%%%%%%%
 
-% --- Ränder exakt auf 2,5 cm allseits festlegen ---
+% - Ränder exakt auf 2,5 cm allseits festlegen -
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm, bindingoffset=0mm]{geometry}
 
 \usepackage[setspace=false]{scrhack}
@@ -29,18 +29,18 @@ english                         % Spracheinstellung: Englisch
 \usepackage[T1]{fontenc} 		% Ausgabe aller Zeichen in einer T1-Codierung
 \usepackage{booktabs}
 \usepackage{tabularx}
-% --- Schriftart Arial-nah (Helvetica) ---
+% - Schriftart Arial-nah (Helvetica) -
 \usepackage[scaled]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
 \usepackage[english]{babel} 	% Englische Trennungsregeln und automatische Überschriften
 \setlength{\parindent}{0ex} 	% bei neuem Abschnitt nicht einrücken
 
-% ------
+% 
 % Folgende Einstellungen entsprechen den Vorgaben der Leitlinien
 \usepackage[onehalfspacing]{setspace} % 1.5-zeiliger Abstand
 % Ende Leitlinien
-% ------
+% 
 
 \newcommand{\lowrule}{%
 	\leavevmode \kern.06em\vbox{\hrule width.5em}}
@@ -204,16 +204,16 @@ acronym,
 \makenomenclature				
 
 
-% -------------------------------------------------------------------------------------------
+% -
 %                       Beginn des Dokumenteninhalts
-% -------------------------------------------------------------------------------------------
+% -
 \begin{document}
 	\let\texteuro\euro						
 	\setcounter{secnumdepth}{3}				
 	\setcounter{tocdepth}{3}
 	\sffamily								
 	
-	% ------------------------------ Titelei -----------------------------------------------------
+	%  Titelei -
 	
 	\include{pages/titelseite} 				
 	\pagenumbering{roman}					
@@ -228,9 +228,9 @@ acronym,
 		\clearpage
 	}%
 	
-	% --------------------------------------------------------------------------------------------
+	% 
 	%                    Inhalt der Bachelorarbeit
-	%---------------------------------------------------------------------------------------------
+	%-
 	\pagenumbering{arabic}					
 	
 	\rmfamily
@@ -241,7 +241,7 @@ acronym,
 	\include{chapter/umsetzung}
 	\include{chapter/zusammenfassung}
 	
-	% ---- Literaturverzeichnis ----------
+	%  Literaturverzeichnis 
 	\interlinepenalty 10000					
 	\printbibheading
 	\printbibliography[nottype=online,heading=subbibliography,
@@ -250,7 +250,7 @@ acronym,
 	title={Online Sources}]
 	\interlinepenalty 0
 	
-	% -----Ausgabe aller Verzeichnisse ---
+	% -Ausgabe aller Verzeichnisse -
 	\setlength{\parskip}{0.5\baselineskip}
 	
 	\printglossary[
@@ -292,7 +292,7 @@ acronym,
 		%something false
 	}%
 	
-	% -----Anhang ------------------------
+	% -Anhang 
 	
 	\appendix
 	\include{chapter/anhang}
@@ -309,7 +309,7 @@ acronym,
 		%		%something false
 		%	}%
 	
-	% ------Sachwortverzeichnis------------
+	% Sachwortverzeichnis
 	
 	%	\printindex								% Erzeugt das Sachwortverzeichnis mit dem Titel "Index"
 	
