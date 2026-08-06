@@ -4,689 +4,66 @@
 This chapter describes the methodological approach used to develop and evaluate the proposed security testing framework. Building upon the theoretical foundations presented in Chapter \ref{chap:fundamentals}, the research follows the Design Science Research Methodology (DSRM) proposed by \citeauthor{Peffers} DSRM provides a structured process for addressing practical problems through the design, development, demonstration, and evaluation of artifacts \cite[p. 46]{Peffers}. The objective of this research is the development of a standards-based functional security testing framework for industrial gateways. The framework is intended to enable the traceable, repeatable, and systematic verification of security functions derived from the requirements of Regulation (EU) 2023/1230, prEN 50742, and the IEC 62443 series. Within the scope of this thesis, the activities of the DSRM process are mapped to the corresponding chapters. Problem identification and objective definition are presented in Chapter \ref{chap:introduction}. The design and development phase is addressed in this chapter through the derivation of security requirements and the development of the proposed testing framework. The demonstration and evaluation phases are conducted in Chapter \ref{chap:implementation_results_evaluation}, where the framework is applied to an industrial gateway as a case study. The communication phase is represented by the documentation, discussion, and dissemination of the research results through this thesis.
 
 
-\section{Derivation of Security Requirements} 
-\label{sec:security_requirements} 
+\section{Derivation of Security Requirements}
+\label{sec:security_requirements}
 
+This section describes the procedure used to derive the security requirements that form the basis of the functional security testing methodology for industrial gateways. The aim of the derivation was not to reproduce the regulatory text or to restate the standards introduced in Chapter~2, but to transform their normative content into a consistent set of test-relevant product requirements for a gateway at the IT/OT interface. The result of this procedure is a traceable requirement base that links legal obligations, standard-based interpretation, and component-level security capabilities to the later design of functional security test cases.
 
-This section presents the cybersecurity-related requirements derived from Regulation (EU) 2023/1230. The requirements are formulated as , verifiable, and technology-neutral security requirements to support the development of a functional security testing framework for industrial gateways.
+\subsection{Methodological Basis}
+\label{subsec:derivation_methodological_basis}
 
+The methodological starting point was the observation that none of the relevant source documents is sufficient on its own for the development of a testable security requirement set. Regulation (EU) 2023/1230 defines binding safety and cybersecurity obligations for machinery and related products, but it does so at a legal and objective-driven level. Its clauses specify what must be achieved, for example protection against corruption, resistance against malicious influence, or the safe handling of communication failures, but they do not provide a component-oriented technical specification that can directly be translated into a functional test case for an industrial gateway. At the other end of the normative spectrum, IEC 62443-4-2 provides detailed technical security requirements for industrial automation and control system components, but it is not a legal source and therefore does not by itself establish which of its controls are relevant for conformity with the Machinery Regulation in the gateway context. A bridging layer was therefore required.
 
+PrEN 50742 was used as this bridging layer. As discussed in Chapter~2, the draft standard operationalizes the Machinery Regulation for the domain of connected machinery by translating the essential health and safety requirements of Annex III into machine-oriented cybersecurity obligations. Its main value for this thesis lies in its intermediate abstraction level. It remains close enough to the regulatory intent to preserve legal traceability, while at the same time introducing concepts that are more suitable for technical interpretation, such as the protection of interfaces, the integrity of safety-related software and configuration data, the authentication and authorization of interventions, and the logging of security-relevant events. In addition, prEN 50742 explicitly links machinery-specific cybersecurity obligations to the IEC 62443 series in networked environments. This makes it suitable as the interpretative layer between the legal source and the component-oriented security controls required for testing.
 
+The derivation therefore followed a hierarchical logic. First, the legally binding obligations were identified in Regulation (EU) 2023/1230. Second, these obligations were interpreted and operationalized through prEN 50742 wherever the draft standard provided clause-level support. Third, the resulting topics were translated into technical component capabilities using IEC 62443-4-2. This hierarchy was selected because it reflects the different functions of the three normative layers. The Regulation defines mandatory protection objectives. PrEN 50742 interprets these objectives for connected machinery and embeds them in a security engineering context. IEC 62443-4-2 provides the most suitable source of technology-neutral, component-level security requirements that can later be verified by functional testing.
 
+The procedure was anchored in the thesis context of industrial gateways at the IT/OT interface. The gateway was treated as a connected machinery component that exposes communication interfaces across security domains, processes safety-relevant and operational data, and may support remote access, remote configuration, or remote supervision. This product role determined which regulatory clauses and standard provisions were relevant and which were outside the scope of the derivation. The method therefore combined top-down normative analysis with a bottom-up relevance assessment based on the gateway architecture, attack surface, and interface functions described in Chapter~2.
 
+\subsection{Derivation Procedure}
+\label{subsec:derivation_principles}
 
-\section{Security Requirements Derived from Regulation (EU) 2023/1230}
-Eine technische Anforderung darf immer nur ein einziges Ziel adressieren.
-This section presents the cybersecurity-related requirements derived from \hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230} . The requirements are formulated as atomic, verifiable, and technology-neutral security requirements to support the development of a functional security testing framework for industrial gateways.
+The derivation process began with the identification of candidate obligations in Regulation (EU) 2023/1230. The primary regulatory basis was Annex III, Section 1.1.9, which addresses protection against corruption, and Section 1.2.1, which addresses the safety and reliability of control systems under malicious influence. These two clauses formed the core of the normative analysis because they contain the clearest cybersecurity obligations for a connected gateway that may influence machinery behaviour or the integrity of safety-related information. In addition, adjacent clauses were reviewed where they affected gateway-relevant communication and remote operation functions, especially Section 1.2.6 on communication network behaviour and Sections 3.3 and 3.3.3 on remote control. This broader review was necessary because an industrial gateway can act not only as a communication component but also as an enabler of remote interaction with machinery.
 
-\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{|>{\bfseries}l|p{11cm}|}
-	\caption{Security Requirements Derived from Regulation (EU) 2023/1230} \label{tab:mvo-requirements} \\
-	\hline
-	\textbf{Field} & \textbf{Description} \\
-	\hline
-	\endfirsthead
-	
-	\multicolumn{2}{c}{\tablename\ \thetable{} continued from previous page} \\
-	\hline
-	\textbf{Field} & \textbf{Description} \\
-	\hline
-	\endhead
-	
-	\hline
-	\multicolumn{2}{r}{Continued on next page} \\
-	\endfoot
-	
-	\hline
-	\endlastfoot
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-001}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall be designed so that the connection of another device, including any remote device that communicates with it, does not lead to a hazardous situation. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Secure Communication \\
-	\hline
-	Rationale & The regulatory text directly requires that any connection made by an external or remote device shall not compromise the safety of the machinery, which is a foundational requirement for secure interfacing. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-002}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall protect hardware components transmitting signal or data relevant to connection or access to safety-critical software against corruption, whether accidental or intentional. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Data Integrity \\
-	\hline
-	Rationale & The regulation requires adequate protection of safety-relevant hardware transmission paths against corruption irrespective of whether the cause is accidental or a deliberate third-party action; both causes are combined into a single verifiable protection property. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-003}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall collect evidence of any legitimate or illegitimate intervention in hardware components relevant for connection or access to safety-critical software. \\
-	\hline
-	Security Objective & Accountability \\
-	\hline
-	Requirement Type & Logging and Auditability \\
-	\hline
-	Rationale & The regulation mandates tamper-evidence for safety-relevant hardware, which is a direct accountability and forensic-traceability requirement. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-004}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall identify the software and data that are critical for compliance with the essential health and safety requirements. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Configuration Protection \\
-	\hline
-	Rationale & The identification obligation is separated from the protection obligation contained in the same sentence, since each represents an independently verifiable engineering activity. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-005}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall protect identified safety-critical software and data against corruption, whether accidental or intentional. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Data Integrity \\
-	\hline
-	Rationale & Protection against corruption of safety-critical software and data is a single verifiable integrity property covering both accidental and deliberate causes named in the regulation. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-006}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall identify the software installed on it that is necessary for safe operation. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Configuration Protection \\
-	\hline
-	Rationale & This decomposes the identification obligation from the provisioning-of-information obligation of the same sentence, keeping one verifiable capability per requirement. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-007}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall be able to provide the identification information of safety-relevant installed software at all times in an easily accessible form. \\
-	\hline
-	Security Objective & Availability \\
-	\hline
-	Requirement Type & Configuration Protection \\
-	\hline
-	Rationale & The requirement to make identification information accessible at all times is an independent, separately testable obligation on availability of configuration data. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-008}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall collect evidence of any legitimate or illegitimate intervention in the software installed on it. \\
-	\hline
-	Security Objective & Accountability \\
-	\hline
-	Requirement Type & Logging and Auditability \\
-	\hline
-	Rationale & The obligation to collect evidence of interventions in software is separated from the obligation to collect evidence of modifications to software or configuration, as intervention and modification are distinct event classes. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-009}} \\
-	\hline
-	Source & Annex III, Section 1.1.9 \\
-	\hline
-	Requirement & The system shall collect evidence of any modification of the installed software or its configuration. \\
-	\hline
-	Security Objective & Accountability \\
-	\hline
-	Requirement Type & Logging and Auditability \\
-	\hline
-	Rationale & Modification of software or configuration is a distinct event class from mere intervention, and each requires an independent, verifiable evidence-collection capability. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-010}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The control system shall withstand reasonably foreseeable malicious attempts from third parties that could lead to a hazardous situation. \\
-	\hline
-	Security Objective & Availability \\
-	\hline
-	Requirement Type & Other \\
-	\hline
-	Rationale & The regulatory text explicitly names malicious third-party attempts as a factor that control systems must withstand, which is an explicit cybersecurity aspect within a broader functional-safety requirement. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-011}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The system shall prevent modifications to safety-relevant settings or rules, including those generated during a learning phase, where such modifications could lead to a hazardous situation. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Configuration Protection \\
-	\hline
-	Rationale & The prohibition against unauthorized modification of safety-relevant settings or rules is a direct configuration-integrity protection requirement. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-012}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The system shall enable a tracing log of data generated in relation to an intervention for five years after the machinery or related product has been placed on the market or put into service. \\
-	\hline
-	Security Objective & Accountability \\
-	\hline
-	Requirement Type & Logging and Auditability \\
-	\hline
-	Rationale & This requirement isolates the intervention-data logging obligation and its five-year enablement period as a single, independently verifiable capability. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-013}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The system shall enable a tracing log of the versions of safety software uploaded after the machinery or related product has been placed on the market or put into service, for five years after each upload. \\
-	\hline
-	Security Objective & Accountability \\
-	\hline
-	Requirement Type & Logging and Auditability \\
-	\hline
-	Rationale & Logging of safety software versions is separated from logging of intervention data because it concerns a distinct data object with its own retention trigger. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-014}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The system shall restrict access to the tracing log data exclusively to demonstrating conformity further to a reasoned request from a competent national authority. \\
-	\hline
-	Security Objective & Confidentiality \\
-	\hline
-	Requirement Type & Access Control \\
-	\hline
-	Rationale & The regulation constrains the purpose for which the logged data may be accessed, which is a distinct access-control obligation separate from the logging and retention obligations. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-015}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The system shall prevent unauthorised use of controls where necessary. \\
-	\hline
-	Security Objective & Authenticity \\
-	\hline
-	Requirement Type & Access Control \\
-	\hline
-	Rationale & This is a direct access-control obligation restricting the operation of controls to authorized users. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-016}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The system shall ensure that each remote control unit clearly identifies the machinery or related product it controls. \\
-	\hline
-	Security Objective & Authenticity \\
-	\hline
-	Requirement Type & Authentication \\
-	\hline
-	Rationale & Unique identification of the controlled machinery by the control unit is a prerequisite for preventing cross-control interference and is directly stated in the regulation. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-017}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The remote control system shall affect only the machinery or related product it is intended to control. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Authorization \\
-	\hline
-	Rationale & Restricting the scope of effect of a remote control system to the intended machinery is an authorization boundary requirement separated from the restriction to intended functions. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-018}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The remote control system shall affect only the functions it is intended to control. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Authorization \\
-	\hline
-	Rationale & Restricting the scope of effect of a remote control system to the intended functions is a separate authorization boundary from the restriction to the intended machinery. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-019}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The remote-controlled system shall respond only to signals originating from its intended control units. \\
-	\hline
-	Security Objective & Authenticity \\
-	\hline
-	Requirement Type & Authentication \\
-	\hline
-	Rationale & This requirement establishes an explicit source-authentication obligation for signals accepted by a remote-controlled machinery or related product. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-020}} \\
-	\hline
-	Source & Annex III, Section 1.2.1 \\
-	\hline
-	Requirement & The control system shall ensure that a failure or fault of the wireless communication or connection used for wireless control does not lead to a hazardous situation. \\
-	\hline
-	Security Objective & Availability \\
-	\hline
-	Requirement Type & Secure Communication \\
-	\hline
-	Rationale & The regulation requires that a failure of the wireless communication link, including a faulty connection, shall not result in a hazardous situation, which is a direct availability and resilience requirement for the wireless channel relied upon by the control system. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-021}} \\
-	\hline
-	Source & Annex III, Section 1.2.6 \\
-	\hline
-	Requirement & The system shall ensure that interruption, re-establishment after interruption, or fluctuation of the communication network connection does not lead to a hazardous situation. \\
-	\hline
-	Security Objective & Availability \\
-	\hline
-	Requirement Type & Secure Communication \\
-	\hline
-	Rationale & The regulation directly addresses resilience of the communication network connection itself, independent of the wireless-specific clause in section 1.2.1, and is a technology-neutral requirement on any communication link, including one implemented via an industrial gateway. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-022}} \\
-	\hline
-	Source & Annex III, Section 3.3.3 \\
-	\hline
-	Requirement & Remote-controlled machinery or related products shall stop operation automatically and immediately if no validation signal is detected within a specified time. \\
-	\hline
-	Security Objective & Availability \\
-	\hline
-	Requirement Type & Secure Communication \\
-	\hline
-	Rationale & This establishes a verifiable watchdog/heartbeat mechanism whereby loss of the expected periodic validation signal on the remote-control communication channel triggers an automatic safe stop, which is a concrete and testable fail-safe behaviour distinct from the general resilience obligation of section 1.2.6. \\
-	\hline
-	\hline
-	
-	\multicolumn{2}{|l|}{\textbf{Requirement RQ-023}} \\
-	\hline
-	Source & Annex III, Section 3.3 \\
-	\hline
-	Requirement & The control system shall perform the required safety functions independently of commands issued through a remote supervisory function. \\
-	\hline
-	Security Objective & Integrity \\
-	\hline
-	Requirement Type & Authorization \\
-	\hline
-	Rationale & The regulation requires that safety functions remain under the control system's own authority even when a remote supervisory channel is used to issue actions, which limits the ability of a compromised or malicious remote-control path implemented via an industrial gateway to override or bypass safety-critical functions. \\
-	\hline
-	\hline
+In a first analytical pass, the regulatory text was decomposed into candidate obligations. Each sentence was examined for distinct normative actions, protected objects, triggering conditions, and expected protection goals. Where a single sentence contained more than one independent technical objective, it was split analytically into separate candidate requirements. This step was necessary to ensure atomicity. A requirement that combines, for example, identification, protection, and evidence collection cannot later be verified by one unambiguous test case. The decomposition therefore aimed to isolate a single technical property per requirement statement. At the same time, the wording was kept technology-neutral. Product-specific mechanisms, concrete protocols, and implementation choices were intentionally avoided at this stage so that the requirement set would remain applicable to different gateway realizations.
 
-\end{longtable}
+In a second pass, each candidate requirement was evaluated against four decision criteria. First, the requirement had to be traceable to an explicit regulatory obligation. Second, it had to be verifiable in principle by a functional test or by a clearly delimited technical assessment. Third, it had to be relevant to the functions of an industrial gateway at the IT/OT interface. Fourth, it had to describe a product property rather than a purely organizational process obligation. This filtering step was important because the regulatory material contains different kinds of obligations. Some describe technical characteristics of the product itself, whereas others define documentation duties, market obligations, or general safety principles. Only the first group was suitable for the core requirement set used in the later test methodology. The remaining obligations were not discarded, but documented separately where they contributed to interpretation or traceability.
 
+The resulting candidate set was then compared with prEN 50742. The purpose of this comparison was not merely to find textual parallels, but to determine whether the draft standard provides a defensible technical interpretation of the regulatory obligation for the machinery domain. Where prEN 50742 contained a clause that expressed essentially the same protection objective, the requirement could be operationalized through that clause. Where the draft standard covered only part of the obligation, the relationship was retained as partial support. Where only a related principle existed, the requirement was marked as indirectly supported. Where no supporting clause could be identified, the gap was documented explicitly. This treatment of non-matches was methodologically important. A missing mapping was not interpreted as an absence of regulatory relevance. Instead, it indicated a structural limitation of the standardization chain for that particular obligation.
 
+This issue arose especially in the treatment of remote control and communication resilience. PrEN 50742 is centred on protection against corruption and on the preservation of functional safety under cybersecurity threats. It does not provide full clause-level coverage for all remote-control or communication-failure scenarios that are relevant under the Machinery Regulation. For an industrial gateway, however, such scenarios are highly relevant because the gateway can mediate wireless communication, remote access, or supervisory commands across trust boundaries. These obligations were therefore retained in the requirement base even where prEN 50742 offered no direct operationalization. They were later treated as explicit gaps in the normative chain and carried forward for separate consideration in the testing methodology.
 
+The third analytical stage mapped the retained requirements to IEC 62443-4-2. This standard served as the primary technical source because it formulates component-oriented security capabilities in a manner that is sufficiently abstract for cross-product applicability and sufficiently precise for technical testing. The mapping was not performed as a generic best-fit exercise. Instead, each IEC 62443-4-2 Component Requirement, Requirement Enhancement, or component-type-specific instantiation was considered only where it could be justified by the preceding regulatory and prEN analysis. This preserved the hierarchical logic of the derivation. A technically plausible IEC 62443 control was not accepted if the connection to the Machinery Regulation and, where applicable, to prEN 50742 could not be substantiated.
 
-The requirements developed in this section use the MVO cybersecurity requirements contained in \texttt{table \ref{tab:mvo-requirements}} (RQ-001 to RQ-023, derived from Regulation (EU) 2023/1230, Annex III) as the authoritative starting point. The STRIDE-based threat modelling, attack-potential (AP) calculation, and Security-Related Security Level (SRSL) determination methodology already defined in prEN 50742 (Annex B and Annex C) are referenced only as the interpretive framework of that standard and are not re-executed.
+In this stage, the role of the Foundational Requirements was primarily classificatory. They helped structure the resulting requirement base into domains such as identification and authentication, use control, system integrity, auditability, and resource availability. The actual selection of component requirements, however, was driven by topic fit and traceability rather than by abstract FR membership alone. This distinction was necessary because a broad Foundational Requirement category does not automatically imply that every requirement within it is relevant for gateway conformity assessment under the Machinery Regulation. The mapping therefore remained anchored in the specific protection goals derived in the earlier stages.
 
-prEN 50742 is used exclusively as a bridging/interpretation standard: it operationalises the Machinery Regulation's essential health and safety requirements on protection against corruption (Annex III, Sections 1.1.9 and 1.2.1) into concrete, testable product requirements (Section 7, ``Approach A'') and, alternatively, into references to EN IEC 62443-3-3 and EN IEC 62443-4-2 (Section 8, ``Approach B''). Annex ZZ of prEN 50742 formally confirms this bridging role by mapping its own Sections 4.3, 7.17.5, 8.3 and 9 back to Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230.
+\subsection{Consolidation, Filtering, and Categorization}
+\label{subsec:mapping_pren50742}
 
-Each MVO requirement is mapped below to the corresponding prEN 50742 clause(s), concept(s), or Security-Related Security Level (SRSL) tier. Where prEN 50742 provides SRSL-tiered obligations (SRSL0 to SRSL3), these are preserved as separate, atomic, SRSL-conditioned requirements rather than being merged, since each tier is independently verifiable and the applicable tier is determined per security function by the manufacturer's own SRSL assessment (prEN 50742, 7.4.2), which is not repeated here. Where prEN 50742 explicitly excludes a topic from its scope (functional safety requirements of control systems; see prEN 50742, Section 1, Note 2) or provides no corresponding clause, the mapping is marked ``No direct mapping identified'' or ``Partial mapping'' with a brief explanation, and the original MVO requirement is retained unchanged as the residual authoritative source for that obligation.
+After the three-stage comparison, the candidate requirements were consolidated into a final requirement base. Consolidation addressed three recurring situations. The first was duplication. The same technical protection objective can appear in different normative forms across the Regulation, prEN 50742, and IEC 62443-4-2. In such cases, the obligation was recorded once in the product requirement set, while the appendix preserves the multiple source references that justify it. The second situation was overlap. Some requirements were not identical but partially covered the same object, for example software integrity, configuration integrity, and intervention logging. These were separated where they led to distinct test objectives and merged where a split would have produced artificial redundancy without added verification value. The third situation was non-applicability. Certain normative statements are valid within their own source context but do not describe a gateway-relevant technical property. These were excluded from the core set if they addressed organizational procedures, life-cycle management at manufacturer level, or purely functional-safety behaviour outside the cybersecurity scope of the thesis.
 
-The result is a refined, standards-contextualised requirement baseline (pREN-RQ-001 to pREN-RQ-031) intended to support functional security testing of industrial gateways operating at the IT/OT boundary, and to serve as an intermediate artefact for the subsequent mapping step to IEC 62443-4-2 component requirements (CR/EDR).
+This filtering did not weaken traceability. On the contrary, it increased methodological clarity by making the selection criteria explicit. A requirement remained in the core set only if it described a property that can reasonably be assigned to the gateway as a product and can later be addressed by a functional test design decision. Requirements that were legally relevant but not directly translatable into IEC 62443-4-2 controls were retained as traceable residual items. This applies in particular to obligations concerning communication interruption, communication fluctuation, remote-control scope, validation-signal loss, and the independence of safety functions from remote supervisory commands. In the normative chain used in this thesis, these topics could not always be mapped to a component-level cybersecurity control. Nevertheless, they remain relevant as boundary conditions for the later test methodology because they indicate where standard-based security testing ends and where product-specific safety verification begins.
 
-% Requires \usepackage{longtable} and \usepackage{array} in the main document preamble,
-% consistent with the packages already used by mvo_requirements.tex.
-This section maps the security requirements of Table~\ref{tab:mvo-requirements} (derived from
-\hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230}) onto the corresponding clauses,
-concepts, or topics of prEN 50742:2025 (\emph{Safety of machinery -- Protection against corruption}).
-The mapping is restricted to Ansatz A (Sections 4, 5, 7 of prEN 50742) and Annex ZZ, since these are the
-only parts of the source text that provide clause-level content; Ansatz B (Section 6, 8) is referenced only
-where it explicitly names a target standard/clause (e.g. CR 2.8), without inventing specific SR/CR numbers
-that are not given in the source text. FR1--FR7 designations used in the ``Notes'' column follow the
-publicly defined IEC~62443 Foundational Requirements and are provided only as orientation for future work;
-they are not claims about prEN 50742 content.
+The final requirement base was then categorized according to the technical protection function that each requirement primarily expresses. The categories were intentionally chosen at a level that supports test planning rather than legal interpretation. In the resulting structure, the requirements cluster around secure communication, data and software integrity, configuration protection, logging and auditability, access control, authentication and authorization, and availability or resilience. These categories are broad enough to group related controls and narrow enough to guide the selection of test strategies. They also correspond to recurring security functions of an industrial gateway, such as protecting transferred information across trust boundaries, controlling privileged access to configuration interfaces, and generating traceable evidence of security-relevant changes.
 
-Each row records the mapping type between the MVO requirement and prEN 50742:
-\begin{itemize}
-	\item \textbf{Direct} -- prEN 50742 contains a clause that expresses essentially the same obligation.
-	\item \textbf{Partial} -- prEN 50742 covers part of the obligation, but scope, trigger condition, or wording differs.
-	\item \textbf{Indirect} -- prEN 50742 addresses a related concept or general principle, without a clause-level match.
-	\item \textbf{Not identified} -- no supporting clause could be found in prEN\_50742\_source.txt; the mapping is a confirmed gap (or, where noted, a conflict).
-\end{itemize}
+Categorization additionally supported the handling of mixed-source obligations. Some requirements originated directly from the Machinery Regulation and were only partially supported by the standards chain. Others were strongly operationalized by prEN 50742 and matched closely with IEC 62443-4-2 controls. By grouping them according to protection function rather than by source alone, the requirement base remained suitable for later functional testing. The test methodology can therefore be organized around security functions instead of around legal documents, while traceability to the documents is preserved in the appendix.
 
-\renewcommand{\arraystretch}{1.2}
-\scriptsize
-\begin{longtable}{|>{\bfseries}p{0.9cm}|p{1.7cm}|p{2.6cm}|>{\centering\arraybackslash}p{1.1cm}|p{2.9cm}|p{2.9cm}|}
-	\caption{Mapping of MVO Security Requirements to prEN 50742} \label{tab:pren50742-mapping} \\
-	\hline
-	\textbf{MVO ID} & \textbf{prEN 50742 Clause} & \textbf{prEN 50742 Requirement/Topic} & \textbf{Mapping Type} & \textbf{Mapping Rationale} & \textbf{Notes for Future IEC 62443-4-2 Mapping} \\
-	\hline
-	\endfirsthead
-	
-	\multicolumn{6}{c}{\tablename\ \thetable{} continued from previous page} \\
-	\hline
-	\textbf{MVO ID} & \textbf{prEN 50742 Clause} & \textbf{prEN 50742 Requirement/Topic} & \textbf{Mapping Type} & \textbf{Mapping Rationale} & \textbf{Notes for Future IEC 62443-4-2 Mapping} \\
-	\hline
-	\endhead
-	
-	\hline
-	\multicolumn{6}{r}{Continued on next page} \\
-	\endfoot
-	
-	\hline
-	\endlastfoot
-	
-	RQ-001 &
-	§4.2 &
-	Design/construction of machinery shall not permit hazardous situations arising from connections (physical, logical, indirect). &
-	Direct &
-	§4.2 restates the same connection-safety principle almost verbatim; Annex ZZ links clause 1.1.9 to the wider corruption-protection process (§4.3, §7.1 ff.). &
-	§8 (Ansatz B) crosswalks 1.1.9 to SR/CR items via FR1--FR7 (Table 3/Table 4); identify the specific communication/interface CR once the full crosswalk is available. \\
-	\hline
-	
-	RQ-002 &
-	§1 (scope); §7.1; §7.2.1 &
-	Scope explicitly includes hardware components/interfaces (incl. remote-device interfaces) that transmit signals/data affecting machine safety; §7.1 requires identification and protection of accessible interfaces by compensating/countermeasures. &
-	Partial &
-	§7.1 protects ``interfaces'' (Schnittstellen) in general terms; the MVO's more specific framing (hardware components transmitting signal/data relevant to connection/access) is covered by the scope definition (§1) but not restated as a dedicated clause, so the match is close but not verbatim. &
-	Candidate for FR3 (System Integrity) SR/CR items (Table 3/4); confirm specific communication-integrity CR once available. \\
-	\hline
-	
-	RQ-003 &
-	§3.4 (Nachweis); §7.3.3 &
-	``Nachweis'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); §7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable. &
-	Partial &
-	§7.3.1's enumerated intervention types are software/configuration-centric (a--e); hardware-specific tamper evidence is only covered indirectly via the general ``Nachweis'' definition and the physical-evidence fallback, not as an explicit hardware logging duty. &
-	Physical tamper-evidence controls sit outside the FR1--FR7 process scope in 62443-4-2; confirm whether this maps to audit (CR 2.x) or a separate physical-security requirement. \\
-	\hline
-	
-	RQ-004 &
-	§3.12 (kritische Daten); §7.5; §7.4.1 &
-	``kritische Daten'' defined as data whose manipulation can increase hazard; §7.5 requires identification of software versions/configuration data relevant for protection against falsification. &
-	Partial &
-	prEN's identification duty is scoped to data ``relevant for protection against falsification,'' which is narrower than the MVO's broader ``critical for compliance with the EHSR'' framing. &
-	Likely aligns with FR1-adjacent asset/criticality identification activities; verify scope alignment (corruption-only vs. full EHSR) during the detailed crosswalk. \\
-	\hline
-	
-	RQ-005 &
-	§7.4.3.4.1 &
-	SRSL-graded software/information integrity requirements, from checksum verification at start-up (SRSL1) to cryptographic hash/HMAC/CMAC verification during operation (SRSL3). &
-	Direct &
-	§7.4.3.4.1 is the graded technical control directly implementing the MVO's protection-against-corruption obligation for safety-critical software and data. &
-	Maps naturally to FR3 (System Integrity) CRs (e.g. software/information integrity, communication integrity); confirm exact CR numbers against Table 4 once available. \\
-	\hline
-	
-	RQ-006 &
-	§7.5 &
-	Identification of software versions/configuration data ``relevant for protection against falsification'' must be available. &
-	Partial &
-	Same scoping mismatch as RQ-004: prEN limits identification to corruption-protection relevance, not the broader ``necessary for safe operation'' criterion of the MVO. &
-	Likely aligns with FR1/asset-inventory SR/CR items; confirm scope alignment during detailed crosswalk. \\
-	\hline
-	
-	RQ-007 &
-	§7.5 &
-	Identification data ``must be available on request'' (auf Anfrage), in readable form, via an integrated system or an external tool. &
-	Partial &
-	The readability/accessibility requirement matches, but prEN requires availability ``on request'' rather than ``at all times'' as worded in the MVO. &
-	Compare against 62443-4-2 CRs for component identification/inventory availability (FR1-adjacent); confirm whether ``on request'' satisfies the ``at all times'' intent. \\
-	\hline
-	
-	RQ-008 &
-	§7.3.1 (types a--e); §7.3.2; §7.3.3 &
-	Enumerated intervention types (safety parametrization, SRESW/SRASW update, HMI parametrization, safety-instruction display software) with minimum recorded data (type, correlation means, log-deletion event). &
-	Direct &
-	§7.3.1--7.3.3 directly implement a software-intervention evidence-collection regime matching the MVO obligation. &
-	§8.5 explicitly anchors this to CR 2.8 (audit log retention, EN IEC 62443-4-2:2019 §6.10); use CR 2.8 as the primary anchor in the 4-2 mapping. \\
-	\hline
-	
-	RQ-009 &
-	§3.2 (Eingriff); §3.3 (Modifizierung); §7.3.1 b)/c); §7.3.2 &
-	``Modifizierung'' is defined as a change caused by an ``Eingriff'' (incl. software version, sensor calibration, configuration data); §7.3.1 b)/c) require identification means (version number, CRC) for SRESW/SRASW updates. &
-	Direct &
-	prEN's Eingriff/Modifizierung concepts and §7.3.1 b)/c)/§7.3.2 evidence rules cover this modification-logging obligation, though prEN does not terminologically separate ``intervention'' (RQ-008) from ``modification'' (RQ-009) logging as two distinct duties. &
-	Same CR 2.8 anchor as RQ-008 (§8.5); clarify whether intervention and modification logging should map to the same CR or distinct sub-requirements. \\
-	\hline
-	
-	RQ-010 &
-	§4.3 a)--c); Einleitung &
-	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures (Annex C). &
-	Partial &
-	prEN addresses the underlying vulnerability-management process, but explicitly states that the probability of a malicious attempt cannot be predicted and is therefore not relevant to the assessment (Einleitung, §4.3) -- a different risk philosophy from the MVO's ``reasonably foreseeable'' framing; prEN also excludes functional-safety requirements from scope (§1, Note 2). &
-	Consult FR7 (Resource Availability)/FR3 for resilience-related CRs; expect a philosophical mismatch (likelihood-based vs. ``cannot be predicted'') requiring explicit reconciliation. \\
-	\hline
-	
-	RQ-011 &
-	§7.4.3.3.1; §3.2 (Eingriff, Anmerkung 1) &
-	SRSL-graded authorization requirements for interventions (SRSL1/2: authorization required; SRSL3: privileged/role-based authorization); Eingriff definition names safety routines, safety variables, and calibration data as examples. &
-	Partial &
-	The general principle of requiring authorization for modification of safety-relevant settings is covered by §7.4.3.3.1; prEN contains no reference to ``learning phase''-generated rules or AI/ML-derived safety parameters, so that aspect of RQ-011 is not addressed. &
-	Authorization mapping aligns with FR2 (Use Control) CRs; the learning-phase/AI aspect has no prEN anchor and should be flagged as an open item for a future AI-specific crosswalk. \\
-	\hline
-	
-	RQ-012 &
-	§7.3.4 &
-	Log must contain at least the evidence of the last intervention of each type; records retained at least five years; log active at the latest from the time the machinery is put into service. &
-	Direct &
-	§7.3.4 reproduces the MVO's retention period and activation trigger almost verbatim. &
-	Anchor to CR 2.8 (§8.5, EN IEC 62443-4-2:2019 §6.10) for the five-year retention obligation. \\
-	\hline
-	
-	RQ-013 &
-	§7.3.1, Anmerkung 3 &
-	Explicit exclusion: versions of SRASW/SRESW binaries need not be stored in the tracing log. &
-	Not identified &
-	prEN explicitly excludes SRASW/SRESW binary version data from the tracing log, which directly conflicts with the MVO's requirement to log uploaded safety-software versions for five years; no supporting clause exists. &
-	Flag as an identified conflict, not merely a gap, before any 4-2 mapping; check whether IEC 62443-4-1 security-update-management practice or CR 2.8 would otherwise require version logging. \\
-	\hline
-	
-	RQ-014 &
-	§7.3.5; §7.3.3 &
-	Logs must be ``properly secured'' against tampering; deletion only via an authorized procedure; digital evidence must be readable and accessible. &
-	Partial &
-	§7.3.5 addresses protection against tampering/unauthorized deletion, and §7.3.3 requires general readability/accessibility of evidence, but neither clause restricts the \emph{purpose} of access (e.g., to competent-authority requests only) as required by the MVO. &
-	Compare against 62443-4-2 CRs for identification/authorization of audit-data access (FR1/FR2); purpose-restriction likely remains a gap in prEN. \\
-	\hline
-	
-	RQ-015 &
-	§7.4.3.3.1 (general) &
-	SRSL-graded authorization requirement for ``Eingriffe'' (interventions affecting software, configuration, or data). &
-	Indirect &
-	prEN's authorization requirement applies to interventions in software/configuration/data, not explicitly to the operational ``use of controls'' referenced in Annex III 3.3; Annex ZZ does not cross-reference clause 3.3, consistent with prEN's corruption-protection-only scope (§1, Note 2). &
-	Falls under FR2 (Use Control); prEN Ansatz B (§8) may cover it via SR 2.x once the full 62443-3-3/4-2 crosswalk table is available. \\
-	\hline
-	
-	RQ-016 &
-	-- (no corresponding clause identified) &
-	-- &
-	Not identified &
-	No requirement in prEN 50742 addresses remote-control-unit identification of the controlled machinery; Annex ZZ does not cross-reference Annex III clause 3.3, consistent with the document's corruption-protection scope and explicit functional-safety exclusion. &
-	Confirmed structural gap; map to FR1 (Identification \& Authentication Control) in the future crosswalk, since no prEN anchor exists. \\
-	\hline
-	
-	RQ-017 &
-	-- (no corresponding clause identified) &
-	-- &
-	Not identified &
-	No prEN clause addresses scoping/authorization boundaries of remote control systems to specific machinery; consistent with the confirmed Annex ZZ gap for clause 3.3. &
-	Map to FR2 (Use Control)/FR5 (Restricted Data Flow) in 62443-4-2; no prEN anchor available. \\
-	\hline
-	
-	RQ-018 &
-	-- (no corresponding clause identified) &
-	-- &
-	Not identified &
-	Same gap as RQ-017 -- no prEN clause restricts the functional scope of a remote control system; Annex ZZ does not reference clause 3.3. &
-	Map to FR2 (Use Control) in 62443-4-2; no prEN anchor available. \\
-	\hline
-	
-	RQ-019 &
-	§7.4.3.2.1 (general entity authentication) &
-	SRSL-graded entity authentication (``Einheiten müssen authentifiziert sein''; SRSL3: ``eindeutig authentifiziert''). &
-	Indirect &
-	prEN's general authentication requirement for ``Einheiten'' could conceptually extend to a remote control unit as an authenticated entity, but the clause is not framed around remote-control source authentication, and clause 3.3 is not cross-referenced in Annex ZZ. &
-	Map to FR1 (Identification \& Authentication Control) CRs; use §7.4.3.2.1's SRSL-graded language as a starting point for a future, more specific control-source-authentication requirement. \\
-	\hline
-	
-	RQ-020 &
-	-- (excluded by scope, §1 Note 2) &
-	-- &
-	Not identified &
-	prEN 50742 explicitly does not describe functional-safety requirements for machine control systems (§1, Note 2); wireless-link availability/fail-safe behaviour is a functional-safety/resilience topic outside the corruption-protection scope, and Annex ZZ does not reference the wireless-specific wording of clause 1.2.1. &
-	Confirmed structural gap; map to FR7 (Resource Availability) in the future crosswalk, since no prEN anchor exists. \\
-	\hline
-	
-	RQ-021 &
-	-- (confirmed gap) &
-	-- &
-	Not identified &
-	Annex ZZ Table ZZ.1 only cross-references Annex III clauses 1.1.9 and 1.2.1 (points a, f); clause 1.2.6 is not referenced, and no other prEN clause addresses network-connection resilience. &
-	Map to FR7 (Resource Availability)/FR6 (Timely Response to Events) in 62443-4-2; treat as a confirmed scope gap, not merely an omission. \\
-	\hline
-	
-	RQ-022 &
-	-- (confirmed gap) &
-	-- &
-	Not identified &
-	No watchdog/heartbeat or automatic-stop mechanism is described anywhere in prEN 50742; Annex ZZ does not reference Annex III clause 3.3.3, consistent with the document's explicit functional-safety exclusion. &
-	Map to FR7 (Resource Availability) or a machinery-specific safety-function requirement in 62443-4-2/4-1; no prEN anchor exists -- flag for a direct MVO-to-62443 mapping bypassing prEN. \\
-	\hline
-	
-	RQ-023 &
-	§4.3; §7.2.1 &
-	General principle: countermeasures/security measures must not impair functional safety. &
-	Indirect &
-	prEN's ``measures shall not impair functional safety'' principle is conceptually adjacent to preserving safety-function independence from a remote supervisory channel, but addresses the reverse direction (security measures must not break safety) rather than requiring safety functions to remain independent of remote commands; clause 3.3 is not cross-referenced in Annex ZZ. &
-	Map to FR2 (Use Control)/system-segregation requirements in 62443-4-2; no direct prEN anchor -- use §4.3/§7.2.1 only as supporting context. \\
-	\hline
-	
-\end{longtable}
+\subsection{Traceability and Transfer to the Test Methodology}
+\label{subsec:mapping_iec62443}
+
+Traceability was treated as a methodological requirement throughout the entire derivation. Each retained requirement received a unique identifier and was documented along the full chain from regulatory source to standard-based interpretation and, where applicable, to IEC 62443-4-2 component capability. This documentation makes it possible to justify why a requirement is part of the final set, which source clauses support it, and whether the standards hierarchy closes the gap completely, only partially, or not at all. In this way, the derivation remains auditable and reproducible. It also avoids the common problem that technical security controls are selected because they appear useful, without demonstrating why they are required in the specific conformity context of the product.
+
+The detailed evidence for this traceability is not retained in the main body of the methodology chapter. The current working notes, requirement matrices, and row-by-row mappings are analytically valuable, but they interrupt the argumentative flow of the chapter and obscure the procedural logic of the derivation. For this reason, the complete requirement catalogue, the mapping of regulatory clauses to prEN 50742, and the mapping of the resulting requirements to IEC 62443-4-2 have been transferred to the appendix. The appendix therefore serves as the documentary backbone of the method, while the present section explains the derivation logic and the methodological decisions behind the final requirement set.
+
+The main outcome of the derivation is a structured, traceable set of security requirements that is suitable for transformation into functional security test cases. Requirements that map clearly to IEC 62443-4-2 provide the strongest basis for later test design because they correspond to established technical security capabilities. Partially mapped requirements remain relevant, but require interpretation when converted into executable tests. Unmapped but legally relevant requirements indicate normative gaps that cannot be resolved solely by adopting IEC 62443-4-2 controls. These gaps are not methodological defects. They are an important result of the derivation itself because they show where a gateway-specific testing concept must extend beyond the standardized component-security catalogue.
+
+This requirement base forms the transition from normative analysis to test methodology. It defines which security functions of the industrial gateway are within scope, which of them can be grounded in an established standard, and where additional product-specific reasoning is required. The following sections build on this result by translating the categorized requirements into a functional testing approach that is aligned with the gateway architecture, the identified attack surface, and the verification objectives established by Regulation (EU) 2023/1230.
 
 
 
 
 
 
-
-
-
-
-
-
-%FR1, FR2, FR5: Zugriffssteuerung \& Netz
-%FR3, FR4: Integrität \& Datenschutz
-%FR6, FR7: Resilenz \& Verfügbarkeit
-%
-%FR1: Wer darf auf das System zugreifen?
-%FR2: Was darf ein Benutzer tun?
-%FR3: Kann das System manipuliert werden?
-%FR4: Können Daten mitgelesen werden?
-%FR5: Können Kommunikationswege kontrolliert werden?
-%FR6: Werden Sicherheitsereignisse erkannt und protokolliert?
-%FR7: Bleibt das System auch unter Angriffen funktionsfähig?
-%
-%REQ-REG 1: FR1 (FR2, FR4, FR5, FR7)
-%REQ-REG 2: FR3
-%REQ-REG 3: FR6
-%REQ-REG 4: FR3
-%REQ-REG 5: (FR3)
-%REQ-REG 6: (FR2, FR3) FR6
-%REQ-REG 7: (FR3) FR5, FR7
-%REQ-REG 8: (FR3), FR7
-%REQ-REG 9: FR1, FR2, (FR3)
-%REQ-REG 10: FR6
-%REQ-REG 11: IEC 62443-4-1
-%\textit{ % Muss noch überprüft werden
-%	REQ-REG 12: FR7, (FR3, FR5)
-%	REQ-REG 13: FR7 (, FR3)
-%	REQ-REG 14: IEC-62443-4-1
-%	REQ-REG 15: IEC-62443-4-1/ IEC-62443-4-2}
-%
-%REQ-REG 1: 1.1, 1.2, 2.1, 5.1, 5.2
-%REQ-REG 2: 3.1, 3.8
-%REQ-REG 3: 6.1, 6.2
-%REQ-REG 4: 3.4
-%REQ-REG 5: 3.4 (1.2)
-%REQ-REG 6: 6.1, 6.2
-%REQ-REG 7: 7.1, 7.2, 7.3
-%REQ-REG 8: 3.3, 7.1, 7.2
-%REQ-REG 9: 1.1, 2.1, (3.3) 3.4
-%REQ-REG 10: 6.1, 6.2
-%REQ-REG 11: SVV1, SVV2, SVV3, SVV4, DM1, DM2
-%\textit{ % Muss noch überprüft werden
-%	REQ-REG 12: 7.1, 7.2, 7.3, (5.1)
-%	REQ-REG 13: 7.1 , 7.3
-%	REQ-REG 14: SD1, SD2, SI1, SVV1, SVV2, SVV3, DM1, DM2
-%	REQ-REG 15: SM1, SD1, SVV1, DM1 (Typ: Software Application)}%
-%
-%SR: Generelle Anforderungen an den Betrieb und das Gesamtsystem
-%CR: Produktspezifische Anforderungen unterteilt nach Komponententyp
-%
-%vier Säulen des Security-Lebenszyklus auf: (PDCA)
-%
-%Planung: Identifikation \& Zugang 
-%
-%Umsetzung: Integrität \& Vertraulichkeit 
-%
-%Erfolgskontrolle: Erkennung \& Reaktion 
-%
-%Handeln/ Verbessern: Robustheit \& Persistenz
-%
-%
-
-
-%
-%Prüfverfahren:
-%OWASP:
-%- Logging Testing
-%- Log Injection Testing
-%- Log Integrity Verification
-%NIST SP 800-115:
-%- Security Configuration Review
-%- Audit Review
-%- File Integrity Verification
-%
 
 
 
@@ -699,6 +76,20 @@ Each row records the mapping type between the MVO requirement and prEN 50742:
 
 \section{Functional Security Testing Framework Architecture}
 \label{sec:testing_methodology_development} 
+
+
+
+Prüfverfahren:
+OWASP:
+- Logging Testing
+- Log Injection Testing
+- Log Integrity Verification
+NIST SP 800-115:
+- Security Configuration Review
+- Audit Review
+- File Integrity Verification
+
+
 
 
 Problem aktueller Methodiken: 
@@ -793,14 +184,6 @@ Not Applicable
 
 
 
-
-
-
-
-
-
-
-
 Research of Test Methods
 
 Spoofing                -> Authentizität    -> IEC 62443 FR1/FR2-> Authentication Testing Schutz vor unbefugtem Zugriff auf Sicherheitsfunktionen und Steuerungen (1.1.9, 1.2.1)
@@ -841,42 +224,12 @@ Secure Storage Testing $\rightarrow$ EEPROM/Remanent Data
 
 
 
-%Architecture: COM module (CPU3/VHIP3‑STM32F777NI, netX90 fieldbus chip, Flash/EEPROM, shared update flash) ↔ SysCom/SPI ↔ SCPU module (dual‑channel CPU1/CPU2, each with own EEPROM + watchdog, cross‑monitoring) ↔ DI module (Input 1/2, Supply 1/2) and DO module (eFUSE, Groupswitch, Digital Isolators, Switch CH1/CH2). Addressing via 3 physical rotary switches. External interfaces: 2×M12 PROFINET/PROFIsafe ports, IoT‑Core (HTTP only, no HTTPS/Websocket/MQTT, 2 incoming connections max), DCP, SNMP, and a physical Debug/Programming connector on each controller (COM and SCPU).
-%
-%Category	Items
-%Assets	Process data (F-DI/F-DO values), Safety configuration (F-Parameters/F-Address/F\_WD\_Time), Configuration data (IP/hostname/network), Firmware (COM + SCPU images, bootloader), Diagnostic/service data (error log, status), Device identity data (I\&M0‑5, serial no.), Persistent storage (EEPROM COM/CPU1/CPU2), Communication interfaces (PROFINET/PROFIsafe, IoT‑Core, SNMP, SysCom), Physical configuration elements (rotary switches), GSDML file. Not modeled today: physical Debug/Programming interface.
-%Interfaces	2× M12 PROFINET/PROFIsafe, IoT‑Core (HTTP, IP-based), SNMP, DCP, rotary switches (local/physical), Debug connector (per controller, physical), SysCom/SPI (COM↔SCPU internal), IPC (CPU1↔CPU2 internal).
-%Data flows	PLC ⇄ SRIO cyclic process data (PROFINET); PLC ⇄ SRIO safety data (PROFIsafe, F‑parameters); Engineering tool (TIA) → SRIO safety/config parameters (via PLC download); Maintenance client ⇄ IoT‑Core (HTTP, deviceinfo/diagnostics/firmware); COM ⇄ SCPU via SysCom (process + error data); CPU1 ⇄ CPU2 (safety cross‑check); rotary switch state → CPU1 (F‑Address, boot mode incl. ``999'' = FW update).
-%Trust boundaries	(1) Network boundary at the two M12 Ethernet ports (untrusted plant network → COM). (2) COM ↔ SCPU boundary (non‑safe/QM domain → safety domain) via SysCom. (3) Physical enclosure boundary (rotary switches, Debug connector — anyone with physical access crosses this). (4) Engineering/maintenance boundary (TIA/IoT‑Core client → device configuration).
-%Security assumptions (explicit/implicit in spec)	Device ``shall not support HTTPS/Websocket/MQTT'' (SRIO‑7907/7906/7905) — HTTP only, no transport confidentiality/authenticity. No authentication scheme is described anywhere for IoT‑Core, PROFINET DCP, or SNMP write access. No firmware signing/secure‑boot/rollback‑protection mechanism is documented. PROFIsafe integrity relies on F\_iParCRC/F\_ParCRC (safety CRC, not a security control). Physical access to rotary switches and Debug port is implicitly assumed to be restricted to trusted personnel, but this is never stated as a formal assumption.
-
-
-
-
-
-
-
-
-
-
-
-
 
 The engineering environment represents an indirect attack surface. This includes GSDML files, parameter data, engineering tools and CRC generation tools used during commissioning and configuration. Manipulation of these artifacts may result in incorrect device configuration or unsafe system behaviour
 
 Security Requirements for Industrial Gateways
 
 Hier leitest du aus den Normen die tatsächlich testbaren Security-Funktionen ab.
-
-
-Requirement 			SourceRequirement
-MVO Annex III 1.1.9		Schutz vor Manipulation
-MVO Annex III 1.2.1		Schutz gegen Angriffe Dritter
-IEC 62443 FR1			Authentication
-IEC 62443 FR2			Authorization
-IEC 62443 FR3			Integrity
-IEC 62443 FR6			Logging
-IEC 62443 FR7			Availabiliy
 
 
 

@@ -114,7 +114,7 @@
 
 
 3. Methodology
-	3.1 Research Methodology
+	Research Methodology
 		Design Science Research Methodology (DSRM): Verankerung der Arbeit im DSRM-Framework ( Design Science Research Methodology (Peffers et al.))
 		(Problem identification $\rightarrow$ Objectives $\rightarrow$ Artifact Design $\rightarrow$ Demonstration $\rightarrow$ Evaluation).
 		Validation Strategy: Wie wird die Methodik am konkreten Gateway-Objekt validiert?
@@ -126,10 +126,10 @@
 	3.3 Functional Security Testing Framework Architecture
 		3.3.1 Scope & Boundaries: 
 			Abgrenzung von funktioneller Verifikation (Testen von Sicherheitsfunktionen) gegenüber reinen Robustheitstests (Fuzzing/Pentesting) an IT/OT-Schnittstellen.
-		3.3.2 End-to-End Traceability Model: 
+		3.3.2 Traceability Model: 
 			Definition des durchgängigen Datenmodells:
 				$$\text{MVO/CR Req.} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}$$
-		3.3.3 Test Case Taxonomy & Specification Schema: 
+		3.3.3 Test Case Taxonomy: 
 			Vorstellung deiner 6 Kern-Testdomänen (Authentication, Authorization, Configuration, Firmware/Update, Logging/Auditability, Communication/Robustness) sowie Aufbau des standardisierten Testdatenblatts.
 		3.3.4 Verification Lifecycle & Governance: 
 			Verankerung im Produktlebenszyklus (RACI-Matrix & Mapping auf IEC 62443-4-1 Practice 5: SV).
