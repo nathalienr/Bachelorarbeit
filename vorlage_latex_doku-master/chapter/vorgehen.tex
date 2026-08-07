@@ -3,61 +3,239 @@
 
 This chapter describes the methodological approach used to develop and evaluate the proposed security testing framework. Building upon the theoretical foundations presented in Chapter \ref{chap:fundamentals}, the research follows the Design Science Research Methodology (DSRM) proposed by \citeauthor{Peffers} DSRM provides a structured process for addressing practical problems through the design, development, demonstration, and evaluation of artifacts \cite[p. 46]{Peffers}. The objective of this research is the development of a standards-based functional security testing framework for industrial gateways. The framework is intended to enable the traceable, repeatable, and systematic verification of security functions derived from the requirements of Regulation (EU) 2023/1230, prEN 50742, and the IEC 62443 series. Within the scope of this thesis, the activities of the DSRM process are mapped to the corresponding chapters. Problem identification and objective definition are presented in Chapter \ref{chap:introduction}. The design and development phase is addressed in this chapter through the derivation of security requirements and the development of the proposed testing framework. The demonstration and evaluation phases are conducted in Chapter \ref{chap:implementation_results_evaluation}, where the framework is applied to an industrial gateway as a case study. The communication phase is represented by the documentation, discussion, and dissemination of the research results through this thesis.
 
-
 \section{Derivation of Security Requirements}
 \label{sec:security_requirements}
 
-This section describes the procedure used to derive the security requirements that form the basis of the functional security testing methodology for industrial gateways. The aim of the derivation was not to reproduce the regulatory text or to restate the standards introduced in Chapter~2, but to transform their normative content into a consistent set of test-relevant product requirements for a gateway at the IT/OT interface. The result of this procedure is a traceable requirement base that links legal obligations, standard-based interpretation, and component-level security capabilities to the later design of functional security test cases.
+The aim is to produce a structured, traceable set of product requirements for an industrial gateway at the IT/OT interface, grounded in the legal obligations of Regulation~(EU) 2023/1230. The complete requirement catalogue, prEN~50742 mapping, and IEC~62443-4-2 mapping are documented in Appendix~\ref{app:requirement_derivation}.
 
-\subsection{Methodological Basis}
-\label{subsec:derivation_methodological_basis}
 
-The methodological starting point was the observation that none of the relevant source documents is sufficient on its own for the development of a testable security requirement set. Regulation (EU) 2023/1230 defines binding safety and cybersecurity obligations for machinery and related products, but it does so at a legal and objective-driven level. Its clauses specify what must be achieved, for example protection against corruption, resistance against malicious influence, or the safe handling of communication failures, but they do not provide a component-oriented technical specification that can directly be translated into a functional test case for an industrial gateway. At the other end of the normative spectrum, IEC 62443-4-2 provides detailed technical security requirements for industrial automation and control system components, but it is not a legal source and therefore does not by itself establish which of its controls are relevant for conformity with the Machinery Regulation in the gateway context. A bridging layer was therefore required.
+The derivation follows a three-stage hierarchical chain: 
 
-PrEN 50742 was used as this bridging layer. As discussed in Chapter~2, the draft standard operationalizes the Machinery Regulation for the domain of connected machinery by translating the essential health and safety requirements of Annex III into machine-oriented cybersecurity obligations. Its main value for this thesis lies in its intermediate abstraction level. It remains close enough to the regulatory intent to preserve legal traceability, while at the same time introducing concepts that are more suitable for technical interpretation, such as the protection of interfaces, the integrity of safety-related software and configuration data, the authentication and authorization of interventions, and the logging of security-relevant events. In addition, prEN 50742 explicitly links machinery-specific cybersecurity obligations to the IEC 62443 series in networked environments. This makes it suitable as the interpretative layer between the legal source and the component-oriented security controls required for testing.
+\begin{enumerate}
+	\item \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}} defines legally binding protection objectives for machinery, including explicit cybersecurity obligations.
+	\item \hyperref[subsec:pren_50742]{\textbf{prEN~50742}} operationalizes these objectives for connected machinery and links them to the IEC~62443 series.
+	\item \hyperref[subsec:iec_62443]{\textbf{IEC~62443-4-2}} specifies component-level technical security requirements (CRs, REs, EDRs) that can be verified by functional testing.
+\end{enumerate}
 
-The derivation therefore followed a hierarchical logic. First, the legally binding obligations were identified in Regulation (EU) 2023/1230. Second, these obligations were interpreted and operationalized through prEN 50742 wherever the draft standard provided clause-level support. Third, the resulting topics were translated into technical component capabilities using IEC 62443-4-2. This hierarchy was selected because it reflects the different functions of the three normative layers. The Regulation defines mandatory protection objectives. PrEN 50742 interprets these objectives for connected machinery and embeds them in a security engineering context. IEC 62443-4-2 provides the most suitable source of technology-neutral, component-level security requirements that can later be verified by functional testing.
+None of the three sources is independently sufficient. Regulation~(EU) 2023/1230 defines mandatory objectives but not component-level technical specifications. IEC~62443-4-2 provides precise technical controls but does not by itself establish which are required for Machinery Regulation conformity. PrEN~50742 preserves legal traceability while introducing technically interpretable obligations that can be mapped to IEC~62443-4-2.
 
-The procedure was anchored in the thesis context of industrial gateways at the IT/OT interface. The gateway was treated as a connected machinery component that exposes communication interfaces across security domains, processes safety-relevant and operational data, and may support remote access, remote configuration, or remote supervision. This product role determined which regulatory clauses and standard provisions were relevant and which were outside the scope of the derivation. The method therefore combined top-down normative analysis with a bottom-up relevance assessment based on the gateway architecture, attack surface, and interface functions described in Chapter~2.
 
-\subsection{Derivation Procedure}
-\label{subsec:derivation_principles}
+\hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}} establishes that machinery certified under a cybersecurity certification scheme pursuant to Regulation~(EU) 2019/881 is presumed to comply with the essential health and safety requirements of Annex~III insofar as these requirements are covered by the certification. The cybersecurity provisions explicitly addressed by this presumption are:
 
-The derivation process began with the identification of candidate obligations in Regulation (EU) 2023/1230. The primary regulatory basis was Annex III, Section 1.1.9, which addresses protection against corruption, and Section 1.2.1, which addresses the safety and reliability of control systems under malicious influence. These two clauses formed the core of the normative analysis because they contain the clearest cybersecurity obligations for a connected gateway that may influence machinery behaviour or the integrity of safety-related information. In addition, adjacent clauses were reviewed where they affected gateway-relevant communication and remote operation functions, especially Section 1.2.6 on communication network behaviour and Sections 3.3 and 3.3.3 on remote control. This broader review was necessary because an industrial gateway can act not only as a communication component but also as an enabler of remote interaction with machinery.
+\begin{itemize}
+	\item \textbf{Section~1.1.9} (Protection against corruption): obligations concerning safety-relevant hardware interfaces, software and data protection, and evidence collection.
+	\item \textbf{Section~1.2.1} (Safety and reliability of control systems): obligations concerning resilience against malicious third-party attempts and logging of safety-relevant interventions.
+\end{itemize}
 
-In a first analytical pass, the regulatory text was decomposed into candidate obligations. Each sentence was examined for distinct normative actions, protected objects, triggering conditions, and expected protection goals. Where a single sentence contained more than one independent technical objective, it was split analytically into separate candidate requirements. This step was necessary to ensure atomicity. A requirement that combines, for example, identification, protection, and evidence collection cannot later be verified by one unambiguous test case. The decomposition therefore aimed to isolate a single technical property per requirement statement. At the same time, the wording was kept technology-neutral. Product-specific mechanisms, concrete protocols, and implementation choices were intentionally avoided at this stage so that the requirement set would remain applicable to different gateway realizations.
 
-In a second pass, each candidate requirement was evaluated against four decision criteria. First, the requirement had to be traceable to an explicit regulatory obligation. Second, it had to be verifiable in principle by a functional test or by a clearly delimited technical assessment. Third, it had to be relevant to the functions of an industrial gateway at the IT/OT interface. Fourth, it had to describe a product property rather than a purely organizational process obligation. This filtering step was important because the regulatory material contains different kinds of obligations. Some describe technical characteristics of the product itself, whereas others define documentation duties, market obligations, or general safety principles. Only the first group was suitable for the core requirement set used in the later test methodology. The remaining obligations were not discarded, but documented separately where they contributed to interpretation or traceability.
 
-The resulting candidate set was then compared with prEN 50742. The purpose of this comparison was not merely to find textual parallels, but to determine whether the draft standard provides a defensible technical interpretation of the regulatory obligation for the machinery domain. Where prEN 50742 contained a clause that expressed essentially the same protection objective, the requirement could be operationalized through that clause. Where the draft standard covered only part of the obligation, the relationship was retained as partial support. Where only a related principle existed, the requirement was marked as indirectly supported. Where no supporting clause could be identified, the gap was documented explicitly. This treatment of non-matches was methodologically important. A missing mapping was not interpreted as an absence of regulatory relevance. Instead, it indicated a structural limitation of the standardization chain for that particular obligation.
+Each regulatory clause was decomposed analytically into candidate requirements. The decomposition applied the following four criteria:
 
-This issue arose especially in the treatment of remote control and communication resilience. PrEN 50742 is centred on protection against corruption and on the preservation of functional safety under cybersecurity threats. It does not provide full clause-level coverage for all remote-control or communication-failure scenarios that are relevant under the Machinery Regulation. For an industrial gateway, however, such scenarios are highly relevant because the gateway can mediate wireless communication, remote access, or supervisory commands across trust boundaries. These obligations were therefore retained in the requirement base even where prEN 50742 offered no direct operationalization. They were later treated as explicit gaps in the normative chain and carried forward for separate consideration in the testing methodology.
+\begin{enumerate}
+	\item \textbf{Traceability:} The requirement must trace directly to an explicit obligation in \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}}.
+	\item \textbf{Atomicity:} Each requirement must express exactly one verifiable technical property. Clauses combining multiple independent obligations were split into separate requirements.
+	\item \textbf{Verifiability:} The requirement must be testable in principle by a functional test or a clearly delimited technical assessment.
+	\item \textbf{Product relevance:} The requirement must describe a property of the gateway as a product, not an organizational, documentation, or purely functional-safety obligation.
+\end{enumerate}
 
-The third analytical stage mapped the retained requirements to IEC 62443-4-2. This standard served as the primary technical source because it formulates component-oriented security capabilities in a manner that is sufficiently abstract for cross-product applicability and sufficiently precise for technical testing. The mapping was not performed as a generic best-fit exercise. Instead, each IEC 62443-4-2 Component Requirement, Requirement Enhancement, or component-type-specific instantiation was considered only where it could be justified by the preceding regulatory and prEN analysis. This preserved the hierarchical logic of the derivation. A technically plausible IEC 62443 control was not accepted if the connection to the Machinery Regulation and, where applicable, to prEN 50742 could not be substantiated.
 
-In this stage, the role of the Foundational Requirements was primarily classificatory. They helped structure the resulting requirement base into domains such as identification and authentication, use control, system integrity, auditability, and resource availability. The actual selection of component requirements, however, was driven by topic fit and traceability rather than by abstract FR membership alone. This distinction was necessary because a broad Foundational Requirement category does not automatically imply that every requirement within it is relevant for gateway conformity assessment under the Machinery Regulation. The mapping therefore remained anchored in the specific protection goals derived in the earlier stages.
 
-\subsection{Consolidation, Filtering, and Categorization}
-\label{subsec:mapping_pren50742}
+Each candidate requirement was compared with \hyperref[subsec:pren_50742]{\textbf{prEN~50742}} to determine whether the draft standard provides a technically defensible interpretation for the machinery domain. Four mapping types were defined: 
+\begin{itemize}
+	\item \textbf{Direct}: clause-level match
+	\item \textbf{Partial}: scope or trigger condition differs 
+	\item \textbf{Indirect}: related principle, no clause-level match
+	\item \textbf{Not identified}: confirmed gap or conflict
+\end{itemize}
 
-After the three-stage comparison, the candidate requirements were consolidated into a final requirement base. Consolidation addressed three recurring situations. The first was duplication. The same technical protection objective can appear in different normative forms across the Regulation, prEN 50742, and IEC 62443-4-2. In such cases, the obligation was recorded once in the product requirement set, while the appendix preserves the multiple source references that justify it. The second situation was overlap. Some requirements were not identical but partially covered the same object, for example software integrity, configuration integrity, and intervention logging. These were separated where they led to distinct test objectives and merged where a split would have produced artificial redundancy without added verification value. The third situation was non-applicability. Certain normative statements are valid within their own source context but do not describe a gateway-relevant technical property. These were excluded from the core set if they addressed organizational procedures, life-cycle management at manufacturer level, or purely functional-safety behaviour outside the cybersecurity scope of the thesis.
 
-This filtering did not weaken traceability. On the contrary, it increased methodological clarity by making the selection criteria explicit. A requirement remained in the core set only if it described a property that can reasonably be assigned to the gateway as a product and can later be addressed by a functional test design decision. Requirements that were legally relevant but not directly translatable into IEC 62443-4-2 controls were retained as traceable residual items. This applies in particular to obligations concerning communication interruption, communication fluctuation, remote-control scope, validation-signal loss, and the independence of safety functions from remote supervisory commands. In the normative chain used in this thesis, these topics could not always be mapped to a component-level cybersecurity control. Nevertheless, they remain relevant as boundary conditions for the later test methodology because they indicate where standard-based security testing ends and where product-specific safety verification begins.
+Where \hyperref[subsec:pren_50742]{\textbf{prEN~50742}} provided clause-level support, the corresponding IEC~62443-4-2 CRs, REs, and EDRs were identified. One additional mapping type was introduced for IEC~62443-4-2: \textbf{No direct mapping} (no CR addresses the obligation).
 
-The final requirement base was then categorized according to the technical protection function that each requirement primarily expresses. The categories were intentionally chosen at a level that supports test planning rather than legal interpretation. In the resulting structure, the requirements cluster around secure communication, data and software integrity, configuration protection, logging and auditability, access control, authentication and authorization, and availability or resilience. These categories are broad enough to group related controls and narrow enough to guide the selection of test strategies. They also correspond to recurring security functions of an industrial gateway, such as protecting transferred information across trust boundaries, controlling privileged access to configuration interfaces, and generating traceable evidence of security-relevant changes.
+Controls were selected only where the connection to the regulatory source could be substantiated through the derivation chain. The role of the Foundational Requirements (see Section~\ref{subsec:iec_62443}) was classificatory. The selection of specific CRs was driven by the protection goals established in the earlier stages.
 
-Categorization additionally supported the handling of mixed-source obligations. Some requirements originated directly from the Machinery Regulation and were only partially supported by the standards chain. Others were strongly operationalized by prEN 50742 and matched closely with IEC 62443-4-2 controls. By grouping them according to protection function rather than by source alone, the requirement base remained suitable for later functional testing. The test methodology can therefore be organized around security functions instead of around legal documents, while traceability to the documents is preserved in the appendix.
+Confirmed normative gaps arise for two requirements within the scope of Sections~1.1.9 and~1.2.1. RQ-010 addresses resilience against malicious third-party attempts at a system level. IEC~62443-4-2 assigns such process-level obligations to IEC~62443-4-1, and no component-level CR provides a direct mapping. RQ-013 presents a confirmed conflict: the MVO requires logging of uploaded safety software versions, whereas prEN~50742 explicitly excludes binary software versions from the tracing log. These two gaps define the positions where the standard-based test approach must be supplemented by product-specific verification.
 
-\subsection{Traceability and Transfer to the Test Methodology}
-\label{subsec:mapping_iec62443}
+The detailed mapping tables are provided in Appendix~\ref{app:sec:mapping_pren50742} (prEN~50742) and Appendix~\ref{app:sec:mapping_iec62443} (IEC~62443-4-2).
 
-Traceability was treated as a methodological requirement throughout the entire derivation. Each retained requirement received a unique identifier and was documented along the full chain from regulatory source to standard-based interpretation and, where applicable, to IEC 62443-4-2 component capability. This documentation makes it possible to justify why a requirement is part of the final set, which source clauses support it, and whether the standards hierarchy closes the gap completely, only partially, or not at all. In this way, the derivation remains auditable and reproducible. It also avoids the common problem that technical security controls are selected because they appear useful, without demonstrating why they are required in the specific conformity context of the product.
 
-The detailed evidence for this traceability is not retained in the main body of the methodology chapter. The current working notes, requirement matrices, and row-by-row mappings are analytically valuable, but they interrupt the argumentative flow of the chapter and obscure the procedural logic of the derivation. For this reason, the complete requirement catalogue, the mapping of regulatory clauses to prEN 50742, and the mapping of the resulting requirements to IEC 62443-4-2 have been transferred to the appendix. The appendix therefore serves as the documentary backbone of the method, while the present section explains the derivation logic and the methodological decisions behind the final requirement set.
+The derivation produced 14 requirements (RQ-001 to RQ-014). Each requirement was classified by the security objective it primarily expresses, corresponding to the security goals and Foundational Requirements introduced in Sections~\ref{subsec:security_goals} and~\ref{subsec:iec_62443}. Table~\ref{tab:req_categories} summarizes the resulting categories and the IEC~62443-4-2 coverage achieved.
 
-The main outcome of the derivation is a structured, traceable set of security requirements that is suitable for transformation into functional security test cases. Requirements that map clearly to IEC 62443-4-2 provide the strongest basis for later test design because they correspond to established technical security capabilities. Partially mapped requirements remain relevant, but require interpretation when converted into executable tests. Unmapped but legally relevant requirements indicate normative gaps that cannot be resolved solely by adopting IEC 62443-4-2 controls. These gaps are not methodological defects. They are an important result of the derivation itself because they show where a gateway-specific testing concept must extend beyond the standardized component-security catalogue.
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[htbp]
+	\caption{Summary of Derived Security Requirement Categories}
+	\label{tab:req_categories}
+	\centering
+	\begin{tabularx}{\textwidth}{|l | X | X | X|}
+		\toprule
+		\textbf{Category} & \textbf{FR} & \textbf{Req.\ IDs} & \textbf{IEC~62443-4-2 Coverage} \\
+		\midrule
+		Secure Communication        & FR3              & RQ-001                                   & Partial \\
+		Data and Software Integrity & FR3              & RQ-002, RQ-005                           & Direct (RQ-005); Partial (RQ-002) \\
+		Configuration Protection    & FR1, FR2, FR7    & RQ-004, RQ-006, RQ-007, RQ-011           & Partial \\
+		Logging and Auditability    & FR2, FR3         & RQ-003, RQ-008, RQ-009, RQ-012, RQ-013  & Direct (RQ-003, RQ-008, RQ-009, RQ-012); None (RQ-013) \\
+		Access Control              & FR3, FR6         & RQ-014                                   & Partial \\
+		Availability / Resilience   & -              & RQ-010                                   & None \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
-This requirement base forms the transition from normative analysis to test methodology. It defines which security functions of the industrial gateway are within scope, which of them can be grounded in an established standard, and where additional product-specific reasoning is required. The following sections build on this result by translating the categorized requirements into a functional testing approach that is aligned with the gateway architecture, the identified attack surface, and the verification objectives established by Regulation (EU) 2023/1230.
+Of the 14 requirements, 5 achieve a Direct IEC~62443-4-2 mapping, 7 achieve a Partial mapping, and 2 obtain no direct IEC~62443-4-2 counterpart. The complete requirement catalogue with source text, security objective, requirement type, and rationale is provided in Appendix~\ref{app:sec:mvo_requirements}.
+
+
+The derived requirement base defines the test scope of this thesis. Requirements with a Direct or Partial IEC~62443-4-2 mapping form the primary basis for functional test case design, since they correspond to established, technology-neutral component security capabilities. Partially mapped requirements require interpretive judgment when converted into executable test procedures.
+
+Requirements classified as \emph{No direct mapping} define the normative boundary of the standard-based approach. At these positions, the test methodology must incorporate product-specific verification procedures or explicitly document the remaining conformity gap.
+
+The categorization in Table~\ref{tab:req_categories} structures the subsequent test case design. Each security function category is associated with a set of test strategies drawn from the testing approaches described in Section~\ref{sec:security_testing_approaches}. Requirements within a category with identical IEC~62443-4-2 anchors share the same verification logic and can be addressed by a common test procedure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Functional Security Testing Framework Architecture}
+\label{sec:framework_architecture}
+
+Building on the requirement baseline established in Section~\ref{sec:security_requirements}, this section defines the architecture of the functional security testing framework itself: its scope, the traceability model connecting regulatory obligations to executable test cases, the resulting test case taxonomy, and the governance structure anchoring the framework in the product lifecycle.
+
+\subsection{Scope and Boundaries}
+\label{subsec:scope_boundaries}
+
+Given the distinction between functional security testing, vulnerability testing, and penetration testing established in Section~\ref{sec:security_testing_approaches} (see also Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}), the framework developed here positions itself exclusively as \textbf{functional security testing}: it verifies that the security functions and countermeasures mandated by the requirement baseline (Section~\ref{sec:security_requirements}) are actually implemented and operate as specified at the gateway's IT/OT interfaces. Fuzzing, penetration testing, and vulnerability scanning as a primary test method are out of scope, consistent with the exclusions already stated in Chapter~\ref{chap:introduction}; these techniques search for unknown weaknesses rather than verifying a specified, requirement-bound behavior and therefore answer a different question than the one posed here \cite[p. 8]{richier2011security}. Only interfaces identified as gateway assets in Section~\ref{subsec:attack_surface_asset_identification} fall within this scope.
+
+\subsection{Traceability Model}
+\label{subsec:traceability_model}
+
+To keep every executed test attributable to its regulatory origin, the framework enforces a single, end-to-end traceability chain. Each element in the chain is a one-to-many relation: one requirement may map to several threats, and one test category may be instantiated by several test cases.
+
+\[
+\text{MVO/CR Requirement} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}
+\]
+
+The chain is read as follows. The \textbf{MVO/CR Requirement} is one of the RQ-001 to RQ-014 requirements together with its mapped IEC~62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}). The \textbf{STRIDE Threat} is the threat category (Section~\ref{subsec:stride}) that the requirement is intended to counter; a requirement targeting integrity of firmware, for instance, corresponds to a Tampering threat. The \textbf{Mitigation} is the risk-reduction control selected for that threat under the strategies of Section~\ref{subsec:risk_treatment_strategies} (e.g., signature verification during boot). The \textbf{Test Category} groups mitigations by verification logic, as defined in Section~\ref{subsec:test_case_taxonomy}. The \textbf{Test Case} is the executable procedure derived from the corresponding test category and applied to the concrete test object (Chapter~\ref{chap:implementation_results_evaluation}). Finally, \textbf{Evidence} is the recorded test result together with supporting artifacts (logs, captures, screenshots) that substantiates the verdict assigned in Section~\ref{subsec:verdict_scheme}.
+
+Every test case therefore carries an unbroken reference back to its originating regulatory clause. This traceability chain is the structural precondition for the coverage metric introduced in Section~\ref{subsec:coverage_metric} and for the technical documentation obligation under Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 (Section~\ref{subsec:eu_machinery_regulation}).
+
+\subsection{Test Case Taxonomy}
+\label{subsec:test_case_taxonomy}
+
+The derived requirements cluster into six test domains, each anchored in one or more of the seven Foundational Requirements (FR1-FR7) of the IEC~62443 series introduced in Section~\ref{subsec:iec_62443}. Table~\ref{tab:test_domains} summarizes this mapping.
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[htbp]
+	\caption{Test Domains and their IEC 62443-4-2 Foundational Requirement Anchors}
+	\label{tab:test_domains}
+	\centering
+	\begin{tabularx}{\textwidth}{|l | l | X|}
+		\toprule
+		\textbf{Test Domain} & \textbf{FR Anchor} & \textbf{Verification Focus} \\
+		\midrule
+		Authentication              & FR1       & Unique identification and authentication of users, software processes, and devices \\ \addlinespace
+		Authorization                & FR2       & Enforcement of role-based access restrictions and least privilege \\ \addlinespace
+		Configuration                & FR1, FR2, FR7 & Protection of configuration data and hardening of exposed services \\ \addlinespace
+		Firmware / Update Protection & FR3       & Cryptographic integrity verification of firmware and software updates \\ \addlinespace
+		Logging / Auditability       & FR2, FR3  & Tamper-resistant recording of security-relevant interventions \\ \addlinespace
+		Communication / Robustness   & FR3, FR5, FR6 & Integrity and segmentation of data exchanged across the IT/OT interface \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+Each test domain groups requirements that share the same verification logic, so that a single test procedure template can be reused across requirements with an identical IEC~62443-4-2 anchor (Section~\ref{sec:security_requirements}). To document a test case in a reproducible, auditable form, every test case is recorded in a standardized data sheet comprising the following fields:
+
+\begin{itemize}
+	\item \textbf{ID:} Unique test case identifier (e.g., TC-01).
+	\item \textbf{Requirement Reference:} The RQ-ID and corresponding IEC~62443-4-2 CR/RE/EDR being verified.
+	\item \textbf{Test Objective:} The specific security function under verification.
+	\item \textbf{Preconditions:} Required system state, configuration, or test environment setup.
+	\item \textbf{Test Procedure:} The ordered sequence of steps executed against the test object.
+	\item \textbf{Acceptance Criteria:} The observable condition that constitutes a PASS (Section~\ref{subsec:verdict_scheme}).
+	\item \textbf{Evidence:} Reference to the collected artifact substantiating the recorded result.
+\end{itemize}
+
+This data sheet structure is instantiated with concrete tools per test domain in Sections~\ref{sec:testbed_setup} and~\ref{sec:application_methodology}, once the test object and laboratory setup have been established.
+
+\subsection{Verification Lifecycle and Governance}
+\label{subsec:verification_lifecycle_governance}
+
+The framework is not a one-time activity but is anchored across the secure product development lifecycle and its eight practice areas described in Section~\ref{subsec:iec_62443}. It operationalizes \textbf{Practice~5 (Security Verification and Validation Testing, SV)} of that lifecycle, which requires security requirements to be verified through documented testing prior to release. Responsibilities across the lifecycle stages are assigned according to the RACI scheme (Responsible, Accountable, Consulted, Informed) in Table~\ref{tab:raci_matrix}.
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[htbp]
+	\caption{RACI Matrix for the Verification Lifecycle}
+	\label{tab:raci_matrix}
+	\centering
+	\begin{tabularx}{\textwidth}{|X | c c c c|}
+		\toprule
+		\textbf{Activity} & \textbf{Security Architect} & \textbf{Security Tester} & \textbf{Release Manager} & \textbf{PSIRT} \\
+		\midrule
+		Requirement / Test Case Baseline & A & R & I & I \\ \addlinespace
+		Test Environment Setup           & C & R & I & I \\ \addlinespace
+		Test Execution                   & I & R & I & I \\ \addlinespace
+		Evidence and Report Review       & C & R & A & C \\ \addlinespace
+		Release Decision                 & C & I & A & C \\ \addlinespace
+		Post-Release Reassessment        & C & C & I & R \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+The Security Tester executes and documents the test cases; the Security Architect is consulted where architectural constraints affect test design (the "Architecture Constraints" feedback loop of the secure development lifecycle); the Release Manager remains accountable for the release decision, which depends on the assessment scheme defined in Section~\ref{sec:evaluation_metrics}; and the PSIRT assumes responsibility once the framework re-enters as part of continuous monitoring after release. This governance structure ensures that test evidence produced under the framework carries organizational accountability, not merely technical validity.
+
+\section{Evaluation Metrics and Assessment Scheme}
+\label{sec:evaluation_metrics}
+
+To convert individual test executions into a defensible conformity statement, the framework defines a discrete verdict scheme for individual test cases and an aggregate coverage metric for the requirement baseline as a whole.
+
+\subsection{Verdict Scheme}
+\label{subsec:verdict_scheme}
+
+Each test case is assigned exactly one of four verdicts upon execution, summarized in Table~\ref{tab:verdict_scheme}.
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[htbp]
+	\caption{Test Case Verdict Scheme}
+	\label{tab:verdict_scheme}
+	\centering
+	\begin{tabularx}{\textwidth}{|l | X|}
+		\toprule
+		\textbf{Verdict} & \textbf{Justification} \\
+		\midrule
+		PASS            & The acceptance criteria of the test case were fully met; the security function operates as specified. \\ \addlinespace
+		FAIL            & The acceptance criteria were not met; the security function is absent, misconfigured, or bypassable. \\ \addlinespace
+		PARTIAL         & The security function is present and partially effective, but a Partial mapping (Section~\ref{sec:security_requirements}) or an implementation constraint prevents full verification of the acceptance criteria. \\ \addlinespace
+		NOT APPLICABLE  & The requirement has no direct IEC~62443-4-2 mapping (RQ-010, RQ-013) or the referenced interface is not implemented on the test object, so the test case cannot be executed against it. \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+A PARTIAL verdict must always state the specific limitation that prevented a PASS, and a NOT APPLICABLE verdict must reference the confirmed gap documented in Section~\ref{sec:security_requirements}, so that neither verdict is used to conceal an untested condition.
+
+\subsection{Regulatory Coverage Metric}
+\label{subsec:coverage_metric}
+
+Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 require manufacturers to document test reports and trial results as evidence of conformity (Section~\ref{subsec:eu_machinery_regulation}). To make this evidentiary demand quantifiable, the framework defines a coverage metric $C$ over the requirement baseline $REQ = \{\text{RQ-001}, \dots, \text{RQ-014}\}$ (Section~\ref{sec:security_requirements}):
+
+\begin{equation}
+	C = \frac{|\{r \in REQ : \text{verdict}(r) = \text{PASS}\}|}{|REQ|}
+\end{equation}
+
+where $\text{verdict}(r)$ denotes the verdict of the test case (or the most conservative verdict among multiple test cases) tracing to requirement $r$ via the chain defined in Section~\ref{subsec:traceability_model}. Requirements verdicted NOT APPLICABLE are reported separately rather than excluded from $|REQ|$, so that $C$ cannot be inflated by omitting confirmed normative gaps. The resulting figure, together with the itemized verdict table, constitutes the test evidence submitted as part of the technical documentation under Annex~IV Part~A and is evaluated against the concrete test object in Section~\ref{subsec:mvo_compliance_verification}.
+
+
+
+
+
+
+
 
 
 

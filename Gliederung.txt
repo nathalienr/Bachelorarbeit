@@ -119,42 +119,61 @@
 		(Problem identification $\rightarrow$ Objectives $\rightarrow$ Artifact Design $\rightarrow$ Demonstration $\rightarrow$ Evaluation).
 		Validation Strategy: Wie wird die Methodik am konkreten Gateway-Objekt validiert?
 		Definition des Forschungsziels: Entwicklung eines normenkonformen, funktionalen Security-Test-Frameworks für Industrial Gateways
-	3.2  Derivation of Security Requirements
-		Keine neue TARA! 
+	3.1  Derivation of Security Requirements 
 		Stattdessen direkte Synthese der Normen aus Kap. 2: Verknüpfung von MVO (Annex III 1.1.9 / 1.2.1) $\rightarrow$ prEN 50742 $\rightarrow$ IEC 62443-4-2 CRs.
 		Ergebnis: Eine konsolidierte Anforderungs-Baseline für verifizierbare Gateway-Sicherheitsfunktionen.
-	3.3 Functional Security Testing Framework Architecture
-		3.3.1 Scope & Boundaries: 
-			Abgrenzung von funktioneller Verifikation (Testen von Sicherheitsfunktionen) gegenüber reinen Robustheitstests (Fuzzing/Pentesting) an IT/OT-Schnittstellen.
-		3.3.2 Traceability Model: 
-			Definition des durchgängigen Datenmodells:
+
+3.2 Functional Security Testing Framework Architecture
+
+    3.2.1 Scope & Boundaries
+Abgrenzung von funktioneller Verifikation (Testen von Sicherheitsfunktionen) gegenüber reinen Robustheitstests (Fuzzing/Pentesting) an IT/OT-Schnittstellen.
+    3.2.2 Traceability Model
+Definition des durchgängigen Datenmodells:
 				$$\text{MVO/CR Req.} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}$$
-		3.3.3 Test Case Taxonomy: 
-			Vorstellung deiner 6 Kern-Testdomänen (Authentication, Authorization, Configuration, Firmware/Update, Logging/Auditability, Communication/Robustness) sowie Aufbau des standardisierten Testdatenblatts.
-		3.3.4 Verification Lifecycle & Governance: 
-			Verankerung im Produktlebenszyklus (RACI-Matrix & Mapping auf IEC 62443-4-1 Practice 5: SV).
-	3.4 Evaluation Metrics & Assessment Scheme
-		Definition des Bewertungsschemas (PASS, FAIL, PARTIAL, NOT APPLICABLE).
-		Metrik zur Abdeckung der regulatorischen Anforderungen (MVO Annex IV Technische Dokumentation).
+    3.2.3 Test Case Taxonomy
+Vorstellung deiner 6 Kern-Testdomänen (Authentication, Authorization, Configuration, Firmware/Update, Logging/Auditability, Communication/Robustness) sowie Aufbau des standardisierten Testdatenblatts.
+Normenbasiert (IEC 62443)
+Authentication (FR1)
+Authorization (FR2)
+System Integrity (FR3)
+Data Confidentiality (FR4)
+Data Flow / Network Security (FR5)
+Logging & Incident Response (FR6)
+Availability & Robustness (FR7)
+Hinweis auf die spätere Tool-Instanziierung je Domäne in Kap. 4.1.3 / 4.2
+
+    3.2.4 Verification Lifecycle & Governance
+Verankerung im Produktlebenszyklus (RACI-Matrix & Mapping auf IEC 62443-4-1 Practice 5: SV).
+3.3 Evaluation Metrics & Assessment Scheme
+Definition des Bewertungsschemas (PASS, FAIL, PARTIAL, NOT APPLICABLE)
+Metrik zur Abdeckung der regulatorischen Anforderungen (MVO Annex IV Technische Dokumentation)
 
 
-
+4. Implementation, Results, and Evaluation
 Fokus: Instanziierung, Versuchsaufbau, Testdurchführung und empirische Auswertung (DSRM-Phasen: Demonstration & Evaluation)
 	4.1 Testbed Setup and Target Specification
 		4.1.1 Test Object: 
 			Konkrete Produktspezifikation des Gateways (Hersteller, Firmware-Stand, physische/logische Schnittstellen auf Basis des Asset-Schemas aus Kap. 2.1.3).
-		4.2.2 Test Setup: 
-			Physischer und logischer Aufbau der Laborumgebung (IT-Attacker, SUT, OT-SPS-Simulation).
+		4.1.2 Test Setup: 
+			Physischer und logischer Aufbau der Laborumgebung (IT-Attacker, SUT, OT-SPS-Simulation)
+Isolationskonzept: Abwägung Standalone-Air-Gap vs. isoliertes VLAN vs. Hybrid-Ansatz
+Begründung anhand IEC 62443-3-3 (Zone/Conduit-Modell), NIST SP 800-82, MITRE ATT&CK for ICS (M0930)
+Entscheidung für physisch getrennten Insel-Switch mit interner VLAN-Segmentierung
+Vergleichstabelle der Isolationsvarianten (Genehmigungsaufwand, Realitätsnähe, Risiko, Skalierbarkeit)
+
 		4.1.3 Toolchain Integration: 
-			Konfiguration der eingesetzten Testwerkzeuge (Scanners, Custom Scripts, Logging-Tools).
+			Konfiguration der eingesetzten Testwerkzeuge (Kali Linux als Basissystem: Live-Boot vs. dedizierte VM)
+Zuordnung Testdomäne (FR1–FR7) → Kali-Tool (z. B. Hydra, Nmap, OWASP ZAP, SSLscan, Lynis, Nikto, OpenVAS, Siege, boofuzz)
+Abgrenzung: eigene normbasierte Herleitung (Kap. 3.1/3.2) vs. bestätigende Praxisreferenz aus interner ifm-Vorlage
 	4.2 Application of the Testing Methodology
-		Praktische Anwendung des Frameworks aus Kap. 3.3.3 am konkreten SUT:
-		4.2.1 Authentication Tests
-		4.2.2 Authorization Tests
-		4.2.3 Configuration Tests
-		4.2.4 Firmware & Update Protection Tests
-		4.2.5 Logging & Traceability Tests (Fokus auf MVO 1.1.9 Nachweispflicht)
-		4.2.6 Communication Security Tests
+hier wendest du pro Testdomäne genau die zugehörigen CM-Testinstruktionen an (z. B. bei "4.2.1 Authentication Tests" → CM-003 mit Hydra).
+		Praktische Anwendung des Frameworks aus Kap. 3.2.3 am konkreten SUT:
+		4.2.1 Authentication Tests → Hydra-Ansatz (Default-Credential-Check)
+		4.2.2 Authorization Tests → OWASP ZAP (Rollen-/Privilege-Escalation-Check)
+		4.2.3 Configuration Tests → Lynis (Hardening-Baseline)
+		4.2.4 Firmware & Update Protection → ggf. eigene Verfahren + Patch-Level-Check (OpenVAS)
+		4.2.5 Logging & Traceability → Siege (Last + Logging-Vollständigkeit)
+		4.2.6 Communication Security → Nmap (Exposure/Segmentierung) + SSLscan (TLS) + Nikto (Debug-Interfaces)
 	4.3 Empirical Results and Compliance Evaluation
 		4.3.1 Test Results Overview: 
 			Zusammenfassung der Ergebnisse (Pass/Fail-Übersicht).
@@ -182,7 +201,7 @@ Fokus: Instanziierung, Versuchsaufbau, Testdurchführung und empirische Auswertu
 			Keine vollständige Security-Zertifizierung
 		Stärken und Grenzen des Testaufbaus.
 		Empfehlungen zur Integration der Testmethodik in industrielle DevSecOps-Pipelines (CI/CD).
-	5.4 Future Work
+	5.2 Future Work
 		Automatisierung
 		Continuous Security Testing
 		Integration in SDLC
