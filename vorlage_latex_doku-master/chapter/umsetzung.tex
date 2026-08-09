@@ -4,7 +4,7 @@
 
 
 \section{Testbed Setup and Target Specification}
-
+\label{sec:testbed_setup}
 
 \subsection{Test Object} 
 \label{subsec:test_object} 
@@ -28,7 +28,9 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 
 \section{Application of the Testing Methodology} 
-\label{sec:application_testing_methodology} 
+\label{sec:application_methodology} 
+
+
 
 \subsection{Authentication Tests} 
 \label{subsec:authentication_tests} 
@@ -59,7 +61,7 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 \label{subsec:mitigation_effectiveness} 
 
 \subsection{MVO Compliance Verification}
-\label{subsec:MVO_Compliance_Verification}
+\label{subsec:mvo_compliance_verification}
 
 
 
@@ -200,7 +202,7 @@ Threat Catalogue:
 \end{itemize}
 
 
-Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs-Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
+Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs- Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
 
 Beispiel 1: Unauthorised Access auf IoTCore Web Interface
 Feld	InhaltThreat ID	T-001

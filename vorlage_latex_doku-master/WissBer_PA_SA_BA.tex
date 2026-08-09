@@ -1,53 +1,45 @@
 % Präambel
 \documentclass[%
-fontsize=12pt,					% Schriftgröße
-paper=a4,						% Papierformat
-twoside=false, 					% einseitiges Dokument
-listof=totoc, 					% Tabellen- und Abbildungsverzeichnis ins Inhaltsverzeichnis
-bibliography=totoc,				% Literaturverzeichnis ins Inhaltsverzeichnis aufnehmen
-titlepage, 						% Titlepage-Umgebung statt \maketitle
-headsepline, 					% horizontale Linie unter Kolumnentitel
-%abstracton,					% Überschrift beim Abstract einschalten
-%DIV=18,						% Deaktiviert: geometry übernimmt die Ränder
-%BCOR=12mm,						% Deaktiviert
-cleardoublepage=empty,			% Stil einer leeren eingefügten Seite bei Kapitelwechsel
-parskip,						% Absatzabstand bei Absatzwechsel einfügen
-english                         % Spracheinstellung: Englisch
+fontsize=12pt,          % Schriftgröße
+paper=a4,               % Papierformat
+twoside=false,          % einseitiges Dokument
+listof=totoc,           % Tabellen- und Abbildungsverzeichnis ins Inhaltsverzeichnis
+bibliography=totoc,     % Literaturverzeichnis ins Inhaltsverzeichnis aufnahme
+titlepage,              % Titlepage-Umgebung statt \maketitle
+headsepline,            % horizontale Linie unter Kolumnentitel
+cleardoublepage=empty,  % Stil einer leeren eingefügten Seite bei Kapitelwechsel
+parskip,                % Absatzabstand bei Absatzwechsel einfügen
+english                 % Spracheinstellung: Englisch
 ]{scrbook}		
-%%%%%%%%%
+
 \usepackage{float}
 \usepackage{longtable}
-\usepackage{array}     % Ermöglicht erweiterte Spaltentypen
-\usepackage{booktabs}  % Für \toprule, \midrule, \bottomrule
-%%%%%%%%%%%%%%
+\usepackage{array}      % Ermöglicht erweiterte Spaltentypen
+\usepackage{booktabs}   % Für \toprule, \midrule, \bottomrule
 
 % - Ränder exakt auf 2,5 cm allseits festlegen -
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm, bindingoffset=0mm]{geometry}
 
 \usepackage[setspace=false]{scrhack}
-\usepackage[utf8]{inputenc} 	% ermöglicht die direkte Eingabe von Umlauten
-\usepackage[T1]{fontenc} 		% Ausgabe aller Zeichen in einer T1-Codierung
-\usepackage{booktabs}
+\usepackage[utf8]{inputenc}     % ermöglicht die direkte Eingabe von Umlauten
+\usepackage[T1]{fontenc}        % Ausgabe aller Zeichen in einer T1-Codierung
 \usepackage{tabularx}
+
 % - Schriftart Arial-nah (Helvetica) -
 \usepackage[scaled]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
-\usepackage[english]{babel} 	% Englische Trennungsregeln und automatische Überschriften
-\setlength{\parindent}{0ex} 	% bei neuem Abschnitt nicht einrücken
+\usepackage[english]{babel}     % Englische Trennungsregeln und automatische Überschriften
+\setlength{\parindent}{0ex}     % bei neuem Abschnitt nicht einrücken
 
-% 
-% Folgende Einstellungen entsprechen den Vorgaben der Leitlinien
 \usepackage[onehalfspacing]{setspace} % 1.5-zeiliger Abstand
-% Ende Leitlinien
-% 
 
 \newcommand{\lowrule}{%
 	\leavevmode \kern.06em\vbox{\hrule width.5em}}
 
-% Hier die persönlichen Daten eingeben:
+% Persönliche Daten
 \newcommand{\titel}{Functional Testing of Security in Industrial Gateways under the New Machinery Regulation}
-\newcommand{\untertitel}{}	% ggf. Untertitel mit ergänzenden Hinweisen
+\newcommand{\untertitel}{}
 \newcommand{\arbeit}{Bachelor's Thesis T3\lowrule 3300}
 \newcommand{\studiengang}{Electrical Engineering}
 \newcommand{\studienrichtung}{Automation}
@@ -60,19 +52,18 @@ english                         % Spracheinstellung: Englisch
 \newcommand{\firma}{ifm ecomatic GmbH, Kressbronn a.B.}
 \newcommand{\betreuerfirma}{M. Eng. Till Monzel}
 \newcommand{\gutachterdhbw}{M. Sc. Andreas Lau}
+\newcommand{\jahr}{2026}
 
-\newcommand{\jahr}{2026}			% für Angabe im Copyright-Vermerk der Titelseite
-
-\usepackage{siunitx}			% Vereinfachte Eingabe von Einheiten in Formeln
+\usepackage{siunitx}
 \sisetup{
 	number-unit-product = \;,
 	inter-unit-product = \:,
 	exponent-product = \cdot,
-	output-decimal-marker = {.} % Punkt als Dezimaltrenner im Englischen
+	output-decimal-marker = {.} 
 }
 
-\usepackage{graphicx} 			% Einbinden von Grafiken erlauben
-\usepackage[format=hang,		% Formatierungen von Unter- / Überschriften
+\usepackage{graphicx}
+\usepackage[format=hang,
 font=normal,
 labelfont=bf,
 justification=RaggedRight,
@@ -80,19 +71,19 @@ singlelinecheck=true,
 aboveskip=1mm
 ]{caption}
 
-\usepackage[backend=biber, %% Hilfsprogramm "biber" beim Compilieren nutzen
-style=ieee, 		 			% Zitierstil
-natbib=true, 						% Bereitstellen von natbib-kompatiblen Zitierkommandos
-autocite=inline, 	 			% regelt Aussehen für autocite
-hyperref=true, 		 			% hyperref-Paket verwenden, um Links zu erstellen
-isbn=true,                			
-pagetracker=false,  		
-maxbibnames=50,   			
-maxcitenames=3,     		
-block=space,            		
-backref=true,            		
-backrefstyle=three+,		
-date=short,                			
+\usepackage[backend=biber,
+style=ieee,
+natbib=true,
+autocite=inline,
+hyperref=true,
+isbn=true,
+pagetracker=false,
+maxbibnames=50,
+maxcitenames=3,
+block=space,
+backref=true,
+backrefstyle=three+,
+date=short
 ]{biblatex}
 \setcounter{biburllcpenalty}{7000}
 \setcounter{biburlucpenalty}{8000}
@@ -101,27 +92,22 @@ date=short,
 
 \usepackage[normalem]{ulem}
 \usepackage{csquotes}
-
 \usepackage{pdfpages}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{eurosym}
 
-\usepackage{enumitem}			% Erlaubt Änderung der Nummerierung in der Umgebung enumerate
-
-\usepackage{amsmath}			% Ergänzungen für Formeln
-\usepackage{textcomp} 			% zum Einsatz von Symbolen
-\usepackage{eurosym}			% Darstellung Euro-Symbol mit \euro
-
-\usepackage[					% Einstellungen für Fußnoten
-bottom,							% Ausrichtung unten
-multiple,						% Trennung durch Seperator bei mehreren Fußnoten
+\usepackage[
+bottom,
+multiple,
 hang,
 marginal
 ]{footmisc}
 
-\usepackage{calc}				% Paket zum Berechnen von Längen
-
-\usepackage{xcolor} 			% einfache Verwendung von Farben
-
-\usepackage{listings}			% Darstellung von Quellcode
+\usepackage{calc}
+\usepackage{xcolor}
+\usepackage{listings}
 \lstset{literate=				
 	{Ö}{{\"O}}1
 	{Ä}{{\"A}}1
@@ -134,7 +120,7 @@ marginal
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
-\lstset{ %
+\lstset{
 	backgroundcolor=\color{white},
 	basicstyle=\footnotesize,
 	breakatwhitespace=false,
@@ -163,7 +149,6 @@ marginal
 	title=\lstname
 }
 
-% Befehlsdefinitionen
 \newcommand{\ua}{\mbox{e.\,g.\ }}
 \newcommand{\zB}{\mbox{i.\,e.\ }}
 \newcommand{\bs}{$\backslash$}
@@ -171,7 +156,6 @@ marginal
 \newcommand*\Diff[1]{\mathop{}\!\mathrm{d^#1}}
 \newcommand*\jj{\mathop{}\!\mathrm{j}}	
 
-% Tikz und PGF-Plot-Grafiken
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=newest,width=0.6\linewidth}
@@ -181,7 +165,7 @@ marginal
 
 \hyphenation{Schrift-ar-ten}
 
-\usepackage{imakeidx}			% Indexverzeichnis
+\usepackage{imakeidx}
 \makeindex[title=Index, intoc]
 
 \usepackage[					
@@ -203,24 +187,18 @@ acronym,
 \input{pages/abkuerzungen}				
 \makenomenclature				
 
-
-% -
-%                       Beginn des Dokumenteninhalts
-% -
 \begin{document}
 	\let\texteuro\euro						
 	\setcounter{secnumdepth}{3}				
 	\setcounter{tocdepth}{3}
 	\sffamily								
 	
-	%  Titelei -
-	
 	\include{pages/titelseite} 				
 	\pagenumbering{roman}					
 	\include{pages/erklaerung} 				
 	\include{chapter/abstract}
 	
-	\tableofcontents						% Erzeugt automatisch "Contents"
+	\tableofcontents						
 	
 	\ifthenelse{\boolean{@twoside}}{%
 		\cleardoubleoddpage
@@ -228,11 +206,7 @@ acronym,
 		\clearpage
 	}%
 	
-	% 
-	%                    Inhalt der Bachelorarbeit
-	%-
 	\pagenumbering{arabic}					
-	
 	\rmfamily
 	
 	\include{chapter/einleitung}
@@ -241,16 +215,14 @@ acronym,
 	\include{chapter/umsetzung}
 	\include{chapter/zusammenfassung}
 	
-	%  Literaturverzeichnis 
+	% Literaturverzeichnis
 	\interlinepenalty 10000					
 	\printbibheading
-	\printbibliography[nottype=online,heading=subbibliography,
-	title={Printed Sources}]
-	\printbibliography[type=online,heading=subbibliography,
-	title={Online Sources}]
+	\printbibliography[nottype=online,heading=subbibliography,title={Printed Sources}]
+	\printbibliography[type=online,heading=subbibliography,title={Online Sources}]
 	\interlinepenalty 0
 	
-	% -Ausgabe aller Verzeichnisse -
+	% Verzeichnisse
 	\setlength{\parskip}{0.5\baselineskip}
 	
 	\printglossary[
@@ -261,56 +233,25 @@ acronym,
 	\ifthenelse{\boolean{@twoside}}{%
 		\cleardoubleoddpage
 	}{%
-		%something false
 	}%
 	
-	%	\input{pages/formelzeichen}				
-	%	\renewcommand{\nomname}{List of Symbols}
-	%	
-	%	\setlength{\nomlabelwidth}{.20\hsize}
-	%	\renewcommand{\nomlabel}[1]{#1 \dotfill}
-	%	\setlength{\nomitemsep}{-\parsep}
-	%	\printnomenclature						
-	%	
-	%	\ifthenelse{\boolean{@twoside}}{%
-		%		\cleardoubleoddpage
-		%	}{%
-		%		%something false
-		%	}%
-	
-	\listoffigures 							% Erzeugt automatisch "List of Figures"
-	
-	\listoftables 							% Erzeugt automatisch "List of Tables"
+	\listoffigures 							
+	\listoftables 							
 	
 	\printglossary[
 	nopostdot,
-	type=main] % Glossar (verwendet Standardbezeichnung "Glossary")
+	type=main]
 	
 	\ifthenelse{\boolean{@twoside}}{%
 		\cleardoubleoddpage
 	}{%
-		%something false
 	}%
-	
-	% -Anhang 
 	
 	\appendix
 	\include{chapter/anhang}
 	\ifthenelse{\boolean{@twoside}}{%
 		\cleardoubleoddpage
 	}{%
-		%something false
 	}%
-	
-	%	\include{chapter/anhang_vorlagen}		
-	%	\ifthenelse{\boolean{@twoside}}{%
-		%		\cleardoubleoddpage
-		%	}{%
-		%		%something false
-		%	}%
-	
-	% Sachwortverzeichnis
-	
-	%	\printindex								% Erzeugt das Sachwortverzeichnis mit dem Titel "Index"
 	
 \end{document}

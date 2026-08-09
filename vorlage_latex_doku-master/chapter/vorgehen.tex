@@ -111,7 +111,7 @@ Building on the requirement baseline established in Section~\ref{sec:security_re
 \subsection{Scope and Boundaries}
 \label{subsec:scope_boundaries}
 
-Given the distinction between functional security testing, vulnerability testing, and penetration testing established in Section~\ref{sec:security_testing_approaches} (see also Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}), the framework developed here positions itself exclusively as \textbf{functional security testing}: it verifies that the security functions and countermeasures mandated by the requirement baseline (Section~\ref{sec:security_requirements}) are actually implemented and operate as specified at the gateway's IT/OT interfaces. Fuzzing, penetration testing, and vulnerability scanning as a primary test method are out of scope, consistent with the exclusions already stated in Chapter~\ref{chap:introduction}; these techniques search for unknown weaknesses rather than verifying a specified, requirement-bound behavior and therefore answer a different question than the one posed here \cite[p. 8]{richier2011security}. Only interfaces identified as gateway assets in Section~\ref{subsec:attack_surface_asset_identification} fall within this scope.
+Given the distinction between functional security testing, vulnerability testing, and penetration testing established in Section~\ref{sec:security_testing_approaches} (see also Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}), the framework developed here positions itself exclusively as \textbf{functional security testing}: it verifies that the security functions and countermeasures mandated by the requirement baseline (Section~\ref{sec:security_requirements}) are actually implemented and operate as specified at the gateway's IT/OT interfaces. Fuzzing, penetration testing, and vulnerability scanning as a primary test method are out of scope, consistent with the exclusions already stated in Chapter~\ref{chap:introduction}. These techniques search for unknown weaknesses rather than verifying a specified, requirement-bound behavior and therefore answer a different question than the one posed here \cite[p. 8 ????]{richier2011security}. Only interfaces identified as gateway assets in Section~\ref{subsec:attack_surface_asset_identification} fall within this scope.
 
 \subsection{Traceability Model}
 \label{subsec:traceability_model}
@@ -119,10 +119,10 @@ Given the distinction between functional security testing, vulnerability testing
 To keep every executed test attributable to its regulatory origin, the framework enforces a single, end-to-end traceability chain. Each element in the chain is a one-to-many relation: one requirement may map to several threats, and one test category may be instantiated by several test cases.
 
 \[
-\text{MVO/CR Requirement} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}
+\text{Requirement} \longrightarrow \text{Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}
 \]
 
-The chain is read as follows. The \textbf{MVO/CR Requirement} is one of the RQ-001 to RQ-014 requirements together with its mapped IEC~62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}). The \textbf{STRIDE Threat} is the threat category (Section~\ref{subsec:stride}) that the requirement is intended to counter; a requirement targeting integrity of firmware, for instance, corresponds to a Tampering threat. The \textbf{Mitigation} is the risk-reduction control selected for that threat under the strategies of Section~\ref{subsec:risk_treatment_strategies} (e.g., signature verification during boot). The \textbf{Test Category} groups mitigations by verification logic, as defined in Section~\ref{subsec:test_case_taxonomy}. The \textbf{Test Case} is the executable procedure derived from the corresponding test category and applied to the concrete test object (Chapter~\ref{chap:implementation_results_evaluation}). Finally, \textbf{Evidence} is the recorded test result together with supporting artifacts (logs, captures, screenshots) that substantiates the verdict assigned in Section~\ref{subsec:verdict_scheme}.
+The chain is read as follows. The \textbf{MVO/CR Requirement} is one of the RQ-001 to RQ-014 requirements together with its mapped IEC~62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}). The \textbf{STRIDE Threat} is the threat category (Section~\ref{subsec:stride}) that the requirement is intended to counter. A requirement targeting integrity of firmware, for instance, corresponds to a Tampering threat. The \textbf{Mitigation} is the risk-reduction control selected for that threat under the strategies of Section~\ref{subsec:risk_treatment_strategies} (e.g., signature verification during boot). The \textbf{Test Category} groups mitigations by verification logic, as defined in Section~\ref{subsec:test_case_taxonomy}. The \textbf{Test Case} is the executable procedure derived from the corresponding test category and applied to the concrete test object (Chapter~\ref{chap:implementation_results_evaluation}). Finally, \textbf{Evidence} is the recorded test result together with supporting artifacts (logs, captures, screenshots) that substantiates the verdict assigned in Section~\ref{subsec:verdict_scheme}.
 
 Every test case therefore carries an unbroken reference back to its originating regulatory clause. This traceability chain is the structural precondition for the coverage metric introduced in Section~\ref{subsec:coverage_metric} and for the technical documentation obligation under Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 (Section~\ref{subsec:eu_machinery_regulation}).
 
@@ -252,10 +252,7 @@ where $\text{verdict}(r)$ denotes the verdict of the test case (or the most cons
 
 
 
-\section{Functional Security Testing Framework Architecture}
-\label{sec:testing_methodology_development} 
-
-
+---------------
 
 Prüfverfahren:
 OWASP:
@@ -314,49 +311,8 @@ Testframework
 8. Compliance Evidence
 
 
-\subsection{Scope}
-\label{subsec:Scope}
-Abgrenzung von funktioneller Verifikation (Testen von Sicherheitsfunktionen) gegenüber reinen Robustheitstests (Fuzzing/Pentesting) an IT/OT-Schnittstellen
-\subsection{Traceability Model}
-\label{subsec:traceability}
-$$\text{MVO/CR Req.} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}$$
-
-\subsection{Test Case Taxonomy}
-\label{subsec:Test_Case_Taxonomy}
-Test Matrix Structure: 
-Requirement > Threat >  Risk > Countermeasure > Test Category -> Test Case -> Evidence
-
-Requirement
-
-Threat
-
-Objective
-
-Preconditions
-
-Procedure
-
-Expected Result
-
-Evidence
-
-\subsection{Verification Life-cycle}
-\label{subsec:Verification_Life-cycle}
 
 
-RACI Matrix
-
-
-\section{Evaluation Metrics}
-
-
-Pass 
-
-Fail 
-
-Partial
-
-Not Applicable
 
 
 
