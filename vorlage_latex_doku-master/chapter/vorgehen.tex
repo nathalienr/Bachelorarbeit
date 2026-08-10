@@ -90,454 +90,215 @@ The categorization in Table~\ref{tab:req_categories} structures the subsequent t
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Functional Security Testing Framework Architecture}
 \label{sec:framework_architecture}
-
-Building on the requirement baseline established in Section~\ref{sec:security_requirements}, this section defines the architecture of the functional security testing framework itself: its scope, the traceability model connecting regulatory obligations to executable test cases, the resulting test case taxonomy, and the governance structure anchoring the framework in the product lifecycle.
 
 \subsection{Scope and Boundaries}
 \label{subsec:scope_boundaries}
 
-Given the distinction between functional security testing, vulnerability testing, and penetration testing established in Section~\ref{sec:security_testing_approaches} (see also Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}), the framework developed here positions itself exclusively as \textbf{functional security testing}: it verifies that the security functions and countermeasures mandated by the requirement baseline (Section~\ref{sec:security_requirements}) are actually implemented and operate as specified at the gateway's IT/OT interfaces. Fuzzing, penetration testing, and vulnerability scanning as a primary test method are out of scope, consistent with the exclusions already stated in Chapter~\ref{chap:introduction}. These techniques search for unknown weaknesses rather than verifying a specified, requirement-bound behavior and therefore answer a different question than the one posed here \cite[p. 8 ????]{richier2011security}. Only interfaces identified as gateway assets in Section~\ref{subsec:attack_surface_asset_identification} fall within this scope.
+This thesis is delimited to \textbf{Functional verification}, i.e., the testing of implemented security functions against the requirement baseline (Section~\ref{sec:security_requirements}), as opposed to \textbf{robustness testing} (fuzzing, penetration testing) at the gateway's IT/OT interfaces, as already distinguished in Section~\ref{sec:security_testing_approaches} and Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}.
+
+Within this scope, the framework verifies that the security functions and countermeasures mandated by RQ-001 to RQ-014 are actually implemented and operate as specified at the interfaces identified as gateway assets in Section~\ref{subsec:attack_surface_asset_identification}. Fuzzing, penetration testing, and open-ended vulnerability scanning are explicitly out of scope, consistent with the exclusions already defined in Chapter~\ref{chap:introduction}. These techniques search for unknown weaknesses rather than verifying a specified, requirement-bound behavior, and therefore answer a different question than the one posed by this framework \cite[p.8, pp. 29]{richier2011security}.
+
 
 \subsection{Traceability Model}
 \label{subsec:traceability_model}
 
-To keep every executed test attributable to its regulatory origin, the framework enforces a single, end-to-end traceability chain. Each element in the chain is a one-to-many relation: one requirement may map to several threats, and one test category may be instantiated by several test cases.
+The traceability chain reflects the perspective of the tester executing the framework, linking an abstract regulatory obligation to a concrete, evidenced test result. Each relationship in the chain is one-to-many. One requirement may apply to several assets, and one test category may be instantiated by several test cases.
 
-\[
-\text{Requirement} \longrightarrow \text{Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}
-\]
+Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Test Category $\rightarrow$ Test Method $\rightarrow$ Test Case $\rightarrow$ Evidence and Verdict
 
-The chain is read as follows. The \textbf{MVO/CR Requirement} is one of the RQ-001 to RQ-014 requirements together with its mapped IEC~62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}). The \textbf{STRIDE Threat} is the threat category (Section~\ref{subsec:stride}) that the requirement is intended to counter. A requirement targeting integrity of firmware, for instance, corresponds to a Tampering threat. The \textbf{Mitigation} is the risk-reduction control selected for that threat under the strategies of Section~\ref{subsec:risk_treatment_strategies} (e.g., signature verification during boot). The \textbf{Test Category} groups mitigations by verification logic, as defined in Section~\ref{subsec:test_case_taxonomy}. The \textbf{Test Case} is the executable procedure derived from the corresponding test category and applied to the concrete test object (Chapter~\ref{chap:implementation_results_evaluation}). Finally, \textbf{Evidence} is the recorded test result together with supporting artifacts (logs, captures, screenshots) that substantiates the verdict assigned in Section~\ref{subsec:verdict_scheme}.
+The chain is read as follows. 
+The \textbf{MVO/IEC Requirement} is one of the RQ-001 to RQ-014 requirements together with its mapped IEC 62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}).
+ 
+The \textbf{Asset} is the concrete gateway asset (Section~\ref{subsec:test_object}) to which the requirement applies, anchoring the abstract obligation to a testable component of the test object. 
 
-Every test case therefore carries an unbroken reference back to its originating regulatory clause. This traceability chain is the structural precondition for the coverage metric introduced in Section~\ref{subsec:coverage_metric} and for the technical documentation obligation under Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 (Section~\ref{subsec:eu_machinery_regulation}).
+The \textbf{STRIDE Threat} is the threat category (Section~\ref{subsec:stride}) that the requirement is intended to counter at that asset. 
 
-\subsection{Test Case Taxonomy}
+The \textbf{Test Category} groups requirement-asset-threat combinations by verification logic, as defined in Section~\ref{subsec:test_case_taxonomy}. 
+
+The \textbf{Test Method} is the established functional testing technique assigned to that category (Section \ref{sec:security_testing_approaches}), so that the tester verifies the correct operation of a planned security mechanism rather than searching for unknown flaws \cite[p. 82]{1341418}. 
+
+The \textbf{Test Case} is the concrete instantiation of that method, applied with a specific tool and procedure to the test object (Chapter~\ref{chap:implementation_results_evaluation}). 
+
+Finally, \textbf{Evidence and Verdict} comprises the recorded artifacts (logs, captures, screenshots) and the discrete verdict assigned to the test case (Section \ref{subsec:verdict_scheme}), in line with the documentation and reporting discipline required of structured security testing \cite[p. 7-3, p. 7-5]{nist_sp800_115}.
+
+For the design phase, an analogous forward traceability from threat to control is already established by the TARA workflow (Section \ref{subsec:tara}), which proceeds from threat and impact analysis to a documented risk treatment decision \cite[pp. 46]{doCarmo2025}. 
+The chain defined here starts from the mitigation already established through the TARA process and the requirement derivation described in Section~\ref{sec:security_requirements} (see Section~\ref{subsec:risk_treatment_strategies}). It then carries this mitigation forward, from the tester's perspective, through the concrete asset, threat, and test method to an executed and evidenced verdict. Consequently, no mitigation is credited as effective solely on the basis of its specification.
+
+Every test case therefore carries an unbroken reference back to its originating regulatory clause. This traceability chain is the structural precondition for the coverage metric introduced in Section~\ref{subsec:coverage_metric} and for the technical documentation obligation under Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 \cite{EU2023_1230}.
+
+
+\subsection{Functional Security Test Classification}
 \label{subsec:test_case_taxonomy}
 
-The derived requirements cluster into six test domains, each anchored in one or more of the seven Foundational Requirements (FR1-FR7) of the IEC~62443 series introduced in Section~\ref{subsec:iec_62443}. Table~\ref{tab:test_domains} summarizes this mapping.
 
-\renewcommand{\arraystretch}{1.2}
-\begin{table}[htbp]
-	\caption{Test Domains and their IEC 62443-4-2 Foundational Requirement Anchors}
-	\label{tab:test_domains}
-	\centering
-	\begin{tabularx}{\textwidth}{|l | l | X|}
-		\toprule
-		\textbf{Test Domain} & \textbf{FR Anchor} & \textbf{Verification Focus} \\
-		\midrule
-		Authentication              & FR1       & Unique identification and authentication of users, software processes, and devices \\ \addlinespace
-		Authorization                & FR2       & Enforcement of role-based access restrictions and least privilege \\ \addlinespace
-		Configuration                & FR1, FR2, FR7 & Protection of configuration data and hardening of exposed services \\ \addlinespace
-		Firmware / Update Protection & FR3       & Cryptographic integrity verification of firmware and software updates \\ \addlinespace
-		Logging / Auditability       & FR2, FR3  & Tamper-resistant recording of security-relevant interventions \\ \addlinespace
-		Communication / Robustness   & FR3, FR5, FR6 & Integrity and segmentation of data exchanged across the IT/OT interface \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
+This subsection operationalizes the consolidated requirement baseline (Section~\ref{sec:security_requirements}) and the abstract \textbf{Test Category} node of the traceability chain (Section~\ref{subsec:traceability_model}) into a reusable classification for functional security test cases. It is a testing-oriented structure whose purpose is to organize the design, execution, and evidence collection of the test cases developed in Chapter~\ref{chap:implementation_results_evaluation}.
 
-Each test domain groups requirements that share the same verification logic, so that a single test procedure template can be reused across requirements with an identical IEC~62443-4-2 anchor (Section~\ref{sec:security_requirements}). To document a test case in a reproducible, auditable form, every test case is recorded in a standardized data sheet comprising the following fields:
+A direct, one-to-one classification along the seven IEC~62443 Foundational Requirements (Section~\ref{subsec:iec_62443}) was considered but rejected as the primary organizing principle. Table~\ref{tab:req_categories} already shows that the derived requirement categories do not align one-to-one with individual FRs. An FR-partitioned taxonomy would therefore either split a single operational security function across several domains or duplicate identical test procedures under multiple headings. 
+Instead, the six requirement categories established in Table~\ref{tab:req_categories} are adopted as the primary test domains, since they already reflect an operational grouping of the requirement baseline by shared verification logic. The IEC~62443 Foundational Requirements are retained as a normative cross-reference layer attached to each domain, not as the classification axis itself. This preserves normative traceability without forcing an artificial partition of the requirement baseline. Table~\ref{tab:test_domains} summarizes the resulting six test domains together with their normative FR cross-references and representative functional subdomains.
 
-\begin{itemize}
-	\item \textbf{ID:} Unique test case identifier (e.g., TC-01).
-	\item \textbf{Requirement Reference:} The RQ-ID and corresponding IEC~62443-4-2 CR/RE/EDR being verified.
-	\item \textbf{Test Objective:} The specific security function under verification.
-	\item \textbf{Preconditions:} Required system state, configuration, or test environment setup.
-	\item \textbf{Test Procedure:} The ordered sequence of steps executed against the test object.
-	\item \textbf{Acceptance Criteria:} The observable condition that constitutes a PASS (Section~\ref{subsec:verdict_scheme}).
-	\item \textbf{Evidence:} Reference to the collected artifact substantiating the recorded result.
-\end{itemize}
+\renewcommand{\arraystretch}{1.2} 
+\begin{longtable}{p{0.22\textwidth} p{0.38\textwidth} p{0.12\textwidth} p{0.20\textwidth}} 
+	\caption{Functional Security Test Domains, Subdomains, and Normative FR Cross-References} 
+	\label{tab:test_domains} \\ 
+	\toprule 
+	\textbf{Test Domain} & \textbf{Representative Functional Subdomains} & \textbf{FR} & \textbf{Req.\ IDs} 
+	\\ 
+	\midrule 
+	\endfirsthead 
+	\caption{Functional Security Test Domains, Subdomains, and Normative FR Cross-References continued} \\ 
+	\toprule 
+	\textbf{Test Domain} & \textbf{Representative Functional Subdomains} & \textbf{FR} & \textbf{Req.\ IDs} 
+	\\ \midrule 
+	\endhead 
+	\midrule 
+	\multicolumn{4}{r}{Continued on next page} 
+	\\ 
+	\endfoot 
+	\bottomrule 
+	\endlastfoot 
+	Secure Communication & Protocol-level integrity and input validation at communication interfaces & FR3 & RQ-001 \\ \addlinespace
+	Data and Software Integrity & Configuration and application data integrity; firmware and software integrity & FR3 & RQ-002, RQ-005 \\ \addlinespace
+	Configuration Protection & Identity and authentication for configuration access; privilege enforcement; hardening of exposed services & FR1, FR2, FR7 & RQ-004, RQ-006, RQ-007, RQ-011 \\ \addlinespace 
+	Logging and Auditability & Generation and tamper-resistant recording of security-relevant events & FR2, FR3 & RQ-003, RQ-008, RQ-009, RQ-012, RQ-013 \\ \addlinespace 
+	Access Control & Authentication and authorization of intervening entities & FR3, FR6 & RQ-014 \\ \addlinespace 
+	Availability / Resilience & Preservation of essential gateway functions under resource stress & & RQ-010 \\ 
+\end{longtable}
 
-This data sheet structure is instantiated with concrete tools per test domain in Sections~\ref{sec:testbed_setup} and~\ref{sec:application_methodology}, once the test object and laboratory setup have been established.
+Each test domain can be subdivided into \textbf{functional subdomains}, which identify the concrete gateway security function or mitigation area addressed (e.g., ``firmware and update integrity'' within Data and Software Integrity). Each subdomain is grounded in hardware, software, and data asset classes already established in Section~\ref{subsec:attack_surface_asset_identification}  for instance, ``firmware and update integrity'' is anchored in the generic software asset class firmware, independent of which concrete update mechanism a given gateway implements. Because the underlying requirement categories were not designed to be mutually exclusive, two classification rules apply. First, where a functional subdomain recurs under more than one domain  for instance, identity and authentication elements embedded within Configuration Protection overlap conceptually with Access Control  the recurring subdomain is cross-listed under both domains as a secondary domain rather than duplicated as an independent test procedure. Second, the Availability/Resilience domain retains no direct IEC~62443-4-2 cross-reference, consistent with the confirmed normative gap identified for RQ-010 (Section~\ref{sec:security_requirements}).
+
+
+To document a generic test case in a reproducible, auditable form, every test case is recorded in a standardized data sheet. Table~\ref{tab:test_case_sheet} defines the retained fields, distinguishing design-time, preparation, execution-time, and evidence/evaluation information.
+
+
+\begin{longtable}{|p{0.18\textwidth}|p{0.57\textwidth}|p{0.18\textwidth}|}
+	\caption{Standardized Test Case Data Sheet} 
+	\label{tab:test_case_sheet}\\ 
+	\hline 
+	\textbf{Field} & \textbf{Purpose} & \textbf{Phase} \\ \hline 
+	\endfirsthead \hline 
+	\textbf{Field} & \textbf{Purpose} & \textbf{Phase} \\ \hline 
+	\endhead \hline
+	\multicolumn{3}{r}{\textit{Continued on next page}} \\ \hline 
+	\endfoot \hline 
+	\endlastfoot 
+	Test Case ID & Unique identifier for indexing and cross-referencing & Design \\ \hline 
+	Test Domain / Subdomain & Classification per Table~\ref{tab:test_domains} & Design \\ \hline 
+	Requirement Reference & RQ-ID and mapped IEC~62443-4-2 CR/RE/EDR (Section~\ref{sec:security_requirements}) & Design \\ \hline 
+	Related Asset & Gateway asset (Section~\ref{subsec:attack_surface_asset_identification}) & Design \\ \hline 
+	Related Threat & STRIDE category countered (Section~\ref{subsec:stride}) & Design \\ \hline 
+	Test Objective & Security function or mitigation under verification & Design \\ \hline 
+	Test Type & Positive or negative verification condition & Design \\ \hline 
+	Preconditions & Required system and test-environment state prior to execution & Preparation \\ \hline 
+	Test Method & Abstract, product-independent verification technique assigned to the subdomain & Preparation \\ \hline 
+	Test Procedure & Ordered steps; refined into a product-specific test instruction in Section~\ref{sec:application_methodology} & Execution \\ \hline 
+	Tool Reference & Concrete tool and configuration, instantiated in Section~\ref{sec:testbed_setup} & Execution \\ \hline Acceptance Criteria & Observable condition constituting a PASS & Evidence \\ \hline 
+	Evidence & Reference to the collected artifact substantiating the result & Evidence \\ \hline 
+	Verdict & Discrete outcome per the assessment scheme of Section~\ref{sec:evaluation_metrics} & Evaluation \\ \hline 
+\end{longtable}
+
+
+
 
 \subsection{Verification Lifecycle and Governance}
 \label{subsec:verification_lifecycle_governance}
-
-The framework is not a one-time activity but is anchored across the secure product development lifecycle and its eight practice areas described in Section~\ref{subsec:iec_62443}. It operationalizes \textbf{Practice~5 (Security Verification and Validation Testing, SV)} of that lifecycle, which requires security requirements to be verified through documented testing prior to release. Responsibilities across the lifecycle stages are assigned according to the RACI scheme (Responsible, Accountable, Consulted, Informed) in Table~\ref{tab:raci_matrix}.
-
-\renewcommand{\arraystretch}{1.2}
-\begin{table}[htbp]
-	\caption{RACI Matrix for the Verification Lifecycle}
-	\label{tab:raci_matrix}
-	\centering
-	\begin{tabularx}{\textwidth}{|X | c c c c|}
-		\toprule
-		\textbf{Activity} & \textbf{Security Architect} & \textbf{Security Tester} & \textbf{Release Manager} & \textbf{PSIRT} \\
-		\midrule
-		Requirement / Test Case Baseline & A & R & I & I \\ \addlinespace
-		Test Environment Setup           & C & R & I & I \\ \addlinespace
-		Test Execution                   & I & R & I & I \\ \addlinespace
-		Evidence and Report Review       & C & R & A & C \\ \addlinespace
-		Release Decision                 & C & I & A & C \\ \addlinespace
-		Post-Release Reassessment        & C & C & I & R \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-The Security Tester executes and documents the test cases; the Security Architect is consulted where architectural constraints affect test design (the "Architecture Constraints" feedback loop of the secure development lifecycle); the Release Manager remains accountable for the release decision, which depends on the assessment scheme defined in Section~\ref{sec:evaluation_metrics}; and the PSIRT assumes responsibility once the framework re-enters as part of continuous monitoring after release. This governance structure ensures that test evidence produced under the framework carries organizational accountability, not merely technical validity.
+%
+%The framework is not a one-time activity but is anchored across the secure product development lifecycle and its eight practice areas described in Section~\ref{subsec:iec_62443}. It operationalizes \textbf{Practice~5 (Security Verification and Validation Testing, SV)} of that lifecycle, which requires security requirements to be verified through documented testing prior to release. Responsibilities across the lifecycle stages are assigned according to the RACI scheme (Responsible, Accountable, Consulted, Informed) in Table~\ref{tab:raci_matrix}.
+%
+%\renewcommand{\arraystretch}{1.2}
+%\begin{table}[htbp]
+%	\caption{RACI Matrix for the Verification Lifecycle}
+%	\label{tab:raci_matrix}
+%	\centering
+%	\begin{tabularx}{\textwidth}{|X | c c c c|}
+%		\toprule
+%		\textbf{Activity} & \textbf{Security Architect} & \textbf{Security Tester} & \textbf{Release Manager} & \textbf{PSIRT} \\
+%		\midrule
+%		Requirement / Test Case Baseline & A & R & I & I \\ \addlinespace
+%		Test Environment Setup           & C & R & I & I \\ \addlinespace
+%		Test Execution                   & I & R & I & I \\ \addlinespace
+%		Evidence and Report Review       & C & R & A & C \\ \addlinespace
+%		Release Decision                 & C & I & A & C \\ \addlinespace
+%		Post-Release Reassessment        & C & C & I & R \\
+%		\bottomrule
+%	\end{tabularx}
+%\end{table}
+%
+%The Security Tester executes and documents the test cases; the Security Architect is consulted where architectural constraints affect test design (the "Architecture Constraints" feedback loop of the secure development lifecycle); the Release Manager remains accountable for the release decision, which depends on the assessment scheme defined in Section~\ref{sec:evaluation_metrics}; and the PSIRT assumes responsibility once the framework re-enters as part of continuous monitoring after release. This governance structure ensures that test evidence produced under the framework carries organizational accountability, not merely technical validity.
 
 \section{Evaluation Metrics and Assessment Scheme}
 \label{sec:evaluation_metrics}
-
-To convert individual test executions into a defensible conformity statement, the framework defines a discrete verdict scheme for individual test cases and an aggregate coverage metric for the requirement baseline as a whole.
+%
+%To convert individual test executions into a defensible conformity statement, the framework defines a discrete verdict scheme for individual test cases and an aggregate coverage metric for the requirement baseline as a whole.
 
 \subsection{Verdict Scheme}
 \label{subsec:verdict_scheme}
 
-Each test case is assigned exactly one of four verdicts upon execution, summarized in Table~\ref{tab:verdict_scheme}.
 
-\renewcommand{\arraystretch}{1.2}
-\begin{table}[htbp]
-	\caption{Test Case Verdict Scheme}
-	\label{tab:verdict_scheme}
-	\centering
-	\begin{tabularx}{\textwidth}{|l | X|}
-		\toprule
-		\textbf{Verdict} & \textbf{Justification} \\
-		\midrule
-		PASS            & The acceptance criteria of the test case were fully met; the security function operates as specified. \\ \addlinespace
-		FAIL            & The acceptance criteria were not met; the security function is absent, misconfigured, or bypassable. \\ \addlinespace
-		PARTIAL         & The security function is present and partially effective, but a Partial mapping (Section~\ref{sec:security_requirements}) or an implementation constraint prevents full verification of the acceptance criteria. \\ \addlinespace
-		NOT APPLICABLE  & The requirement has no direct IEC~62443-4-2 mapping (RQ-010, RQ-013) or the referenced interface is not implemented on the test object, so the test case cannot be executed against it. \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
 
-A PARTIAL verdict must always state the specific limitation that prevented a PASS, and a NOT APPLICABLE verdict must reference the confirmed gap documented in Section~\ref{sec:security_requirements}, so that neither verdict is used to conceal an untested condition.
+
+%Within this classification, test cases may be designed as \textbf{positive} or \textbf{negative} verifications of the same security function, recorded as a metadata attribute of the generic test case rather than as separate domains. A positive test case confirms that valid, authorized behavior is correctly permitted (e.g., successful authentication with a valid credential); a negative test case confirms that invalid, unauthorized, or manipulated input is rejected, restricted, or logged as specified (e.g., rejection of a firmware image with an invalid signature). Both remain functional security tests in the sense of Section~\ref{subsec:scope_boundaries} as long as the tested condition is derived from a specified requirement, the mitigation under test is known, and the procedure, precondition, and expected outcome are bounded and reproducible \cite[p. 82]{1341418}. This is what distinguishes a bounded negative test case from unrestricted penetration testing or fuzzing (Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}): the latter explore an open input space for unknown failures, whereas a negative functional security test verifies a single, specified rejection behavior under defined conditions
+
+
+%The verdict field is populated according to the four-valued scheme defined in Section \ref{sec:evaluation_metrics}. Together with the requirement, asset, and threat references, this closes the bidirectional traceability introduced in Section \ref{subsec:traceability_model}. Forward, from a regulatory or normative source through the consolidated requirement, the asset and threat, the test domain and method, to the executed test case and its evidence. Backward, from a recorded verdict to the test case, the tested mitigation, the threat and asset it addresses, and the originating requirement. This bidirectionality is what allows the framework to identify missing test coverage, to support later regression testing, and to remain reusable for future gateway products without depending on the concrete toolchain of Chapter~\ref{chap:implementation_results_evaluation}.%
+
+
+%Each test case is assigned exactly one of four verdicts upon execution, summarized in Table~\ref{tab:verdict_scheme}.
+%
+%\renewcommand{\arraystretch}{1.2}
+%\begin{table}[htbp]
+%	\caption{Test Case Verdict Scheme}
+%	\label{tab:verdict_scheme}
+%	\centering
+%	\begin{tabularx}{\textwidth}{|l | X|}
+%		\toprule
+%		\textbf{Verdict} & \textbf{Justification} \\
+%		\midrule
+%		PASS            & The acceptance criteria of the test case were fully met; the security function operates as specified. \\ \addlinespace
+%		FAIL            & The acceptance criteria were not met; the security function is absent, misconfigured, or bypassable. \\ \addlinespace
+%		PARTIAL         & The security function is present and partially effective, but a Partial mapping (Section~\ref{sec:security_requirements}) or an implementation constraint prevents full verification of the acceptance criteria. \\ \addlinespace
+%		NOT APPLICABLE  & The requirement has no direct IEC~62443-4-2 mapping (RQ-010, RQ-013) or the referenced interface is not implemented on the test object, so the test case cannot be executed against it. \\
+%		\bottomrule
+%	\end{tabularx}
+%\end{table}
+%
+%A PARTIAL verdict must always state the specific limitation that prevented a PASS, and a NOT APPLICABLE verdict must reference the confirmed gap documented in Section~\ref{sec:security_requirements}, so that neither verdict is used to conceal an untested condition.
+
+
+%Because the classification is built on the requirement baseline of Section~\ref{sec:security_requirements}, a passed test case constitutes evidence toward the technical documentation obligation of Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 (Section~\ref{subsec:eu_machinery_regulation}).
+
+
 
 \subsection{Regulatory Coverage Metric}
 \label{subsec:coverage_metric}
 
-Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 require manufacturers to document test reports and trial results as evidence of conformity (Section~\ref{subsec:eu_machinery_regulation}). To make this evidentiary demand quantifiable, the framework defines a coverage metric $C$ over the requirement baseline $REQ = \{\text{RQ-001}, \dots, \text{RQ-014}\}$ (Section~\ref{sec:security_requirements}):
-
-\begin{equation}
-	C = \frac{|\{r \in REQ : \text{verdict}(r) = \text{PASS}\}|}{|REQ|}
-\end{equation}
-
-where $\text{verdict}(r)$ denotes the verdict of the test case (or the most conservative verdict among multiple test cases) tracing to requirement $r$ via the chain defined in Section~\ref{subsec:traceability_model}. Requirements verdicted NOT APPLICABLE are reported separately rather than excluded from $|REQ|$, so that $C$ cannot be inflated by omitting confirmed normative gaps. The resulting figure, together with the itemized verdict table, constitutes the test evidence submitted as part of the technical documentation under Annex~IV Part~A and is evaluated against the concrete test object in Section~\ref{subsec:mvo_compliance_verification}.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----------------
-
-Prüfverfahren:
-OWASP:
-- Logging Testing
-- Log Injection Testing
-- Log Integrity Verification
-NIST SP 800-115:
-- Security Configuration Review
-- Audit Review
-- File Integrity Verification
-
-
-
-
-Problem aktueller Methodiken: 
-- klassischer Funktionale Ansatz (Black-Box-Ansatz): Prüft nur Soll-Verhalten, Keine Aussage über Angriffswiderstand > Für Nachweisführung regulatorischer Anforderungen allein nicht ausreichend
-- Security Verificaton nach IEC 62443: Abstrakt, liefert keine konkreten Testfälle > bietet aber Grundlage für die Ableitung systematischer Testfälle
-- Penetration Testing: Geringe Reproduzierbarkeit, Ergebnis abhängig vom Tester >  Für die Maschinenverordnung liefern Penetration Tests starke Evidenz, ersetzen jedoch keine strukturierte Verifikationsmethodik.
-- Fuzz Testing: Erfordert spezialisiertes Testsetup, schwierige Ergebnisanalyse > geeignet für Prüfung robuster Kommunikation und Fehlerbehandlung nach IEC 62443
-- Protocol Security Testing
-- OWASP IoT Security Testing Guide: nicht speziell für OT entwickelt
-- Risk-based Security Testing: Aufwendige Riskoanalyse notwendig
-
-In the context of industrial gateways, which act as critical boundaries at the IT/OT interface, these 
-devices are primarily evaluated under the stringent requirements for network components.
-
-
-Funktionale Tests prüfen, ob das System tut, was es soll. Security Tests prüfen, ob das System auch das unterlässt, was es nicht tun darf.
-
-Deswegen kombiniertes Testframework:
-
-1. Risk Assessment / Threat Modelling
-2. Ableitung von Security Requirements
-3. Funktionale Security Tests
-4. Protocol Security Tests
-5. Fuzz Testing
-6. Gezielte Penetration Tests
-7. Compliance-Mapping auf EU-Maschinenverordnung und IEC 62443
-
-
-Testframework
-1. Requirement Analysis
-
-2. Asset Identification
-
-3. Threat Modeling (TARA + STRIDE)
-
-4. Mapping to IEC 62443 Requirements
-
-5. Definition of Security Test Objectives
-
-6. Test Implementation
-
-7. Result Evaluation
-
-8. Compliance Evidence
-
-
-
-
-
-
-
-
-
-Research of Test Methods
-
-Spoofing                -> Authentizität    -> IEC 62443 FR1/FR2-> Authentication Testing Schutz vor unbefugtem Zugriff auf Sicherheitsfunktionen und Steuerungen (1.1.9, 1.2.1)
-Tampering            ->   Integrität       -> IEC 62443 FR3    -> Integrity Testing Software, Daten und Kommunikationspfade müssen gegen absichtliche oder unbeabsichtigte Veränderung geschützt werden (1.1.9)
-Repudiation           -> Nachvollziehbarkeit-> IEC 62443 FR6  -> Audit Logging Test Nachweis legitimer und illegitimer Eingriffe; Protokollierung von Änderungen (1.1.9)
-Information Disclosure-> Vertraulichkeit  -> IEC 62443 FR4    -> Encryption Testing Schutz sicherheitsrelevanter Daten vor unbefugtem Zugriff
-Denial of Service     -> Verfügbarkeit    -> IEC 62443 FR7    -> Availability Testing Sicherheitsfunktionen müssen auch bei Störungen oder Angriffen wirksam bleiben (1.2.1)
-Elevation of Privilege-> Autorisierung    -> IEC 62443 FR2    -> Privilege Escalation Testing Nur autorisierte Personen/Systeme dürfen sicherheitsrelevante Funktionen ändern oder ausführen
-
-
-
-
-
-Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1) $\rightarrow$ Authentication Testing
-
-Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III) $\rightarrow$ Integrity Testing
-
-Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6) $\rightarrow$ Audit \& Logging Testing
-
-Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4) $\rightarrow$ Confidentiality Testing 
-
-Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7) $\rightarrow$ DoS/ Robustness Testing
-
-Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2) $\rightarrow$
-Authorization Testing
-
-Replay Testing $\rightarrow$ Replay Threats
-
-Secure Update Testing $\rightarrow$ Firmware
-
-Input Validation Testing $\rightarrow$ Manipulated Configurations
-
-Fuzz Testing $\rightarrow$ Protocol Interfaces
-
-Communication Security Testing $\rightarrow$ PROFINET/PROFIsafe/IoT
-
-Secure Storage Testing $\rightarrow$ EEPROM/Remanent Data
-
-
-
-
-The engineering environment represents an indirect attack surface. This includes GSDML files, parameter data, engineering tools and CRC generation tools used during commissioning and configuration. Manipulation of these artifacts may result in incorrect device configuration or unsafe system behaviour
-
-Security Requirements for Industrial Gateways
-
-Hier leitest du aus den Normen die tatsächlich testbaren Security-Funktionen ab.
-
-
-
-Requirement			Security Function
-Authentication		Login Mechanismus
-Authorization		Rollen- und Rechtekonzept
-Integrity			Secure Boot
-Integrity			Signed Firmware
-Confidentiality		TLS
-Availability		DoS Protection
-Logging				Audit Trail
-
-
-%\section{System Analysis} 
-%\label{sec:system_analysis}
-%The purpose of the system analysis is to establish a detailed understanding of the System Under Consideration (SUC). This includes the system architecture, available interfaces, communication mechanisms, critical assets, trust boundaries, and the overall attack surface. 
+%Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 require manufacturers to document test reports and trial results as evidence of conformity (Section~\ref{subsec:eu_machinery_regulation}). To make this evidentiary demand quantifiable, the framework defines a coverage metric $C$ over the requirement baseline $REQ = \{\text{RQ-001}, \dots, \text{RQ-014}\}$ (Section~\ref{sec:security_requirements}):
 %
-%\subsection{System Overview} 
-%\label{subsec:system_overview}
+%\begin{equation}
+%	C = \frac{|\{r \in REQ : \text{verdict}(r) = \text{PASS}\}|}{|REQ|}
+%\end{equation}
 %
-%The Safe Remote I/O (SRIO) is a fieldbus-based safety device used within industrial automation systems. It acquires binary 24 V input signals from safety sensors and transmits them to a higher-level safety controller (F-Host) via PROFIsafe communication. In addition, the device receives output commands from the F-Host and controls connected actuators through safety-related digital outputs. The device supports both safety-related and non-safety-related communication functions. The system consists of the following main components: 
-%\begin{itemize} 
-%	\item \textbf{Communication Module (COM):} Provides Ethernet-based communication, PROFINET connectivity, IoTCore functionality, web services, firmware update handling, and data storage access
-%	\item \textbf{System Communication (SysCom):} Internal SPI-based communication channel between COM and SCPU
-%	\item \textbf{Safety CPU Module (SCPU):} Implements the safety functions using a 1oo2 architecture consisting of two independent safety controllers, cross-communication mechanisms, and a watchdog
-%	\item \textbf{Power Supply Module (PS):} Supplies all internal system components.
-%	\item \textbf{Digital Input Module (DI):} Provides six safe digital input channels.
-%	\item \textbf{Digital Output Module (DO):} Provides two safe digital output channels.
-%\end{itemize} 
-%
-%\subsection{System Architecture} 
-%The SRIO architecture separates safety-related and non-safety-related functionality. The COM module acts as the communication gateway. It handles PROFINET communication, the IoTCore web interface, firmware update services, and network management functions. The COM module is based on a dedicated communication processor and a fieldbus controller. The SCPU module implements the safety application. Two independent safety controllers execute the safety logic and exchange diagnostic information through internal communication channels. A watchdog mechanism supervises correct system operation. Communication between COM and SCPU is performed via the SysCom interface. Safety-relevant communication is transmitted using the black-channel principle, where PROFIsafe messages are transported over standard PROFINET communication. 
-%
-%\subsection{Interfaces and Communication Channels} 
-%The SRIO exposes several external and internal interfaces. 
-%
-%\subsubsection{External Interfaces} 
-%
-%\begin{itemize} 
-%	\item Ethernet interface for PROFINET and IoTCore communication
-%	\item Power supply connectors including daisy-chain functionality
-%	\item Rotary switches for addressing and special operating modes
-%	\item Safe digital input interfaces (F-DI)
-%	\item Safe digital output interfaces (F-DO)
-%	\item LED indicators for device status visualization
-%\end{itemize} 
-%
-%\subsubsection{Internal Interfaces} 
-%
-%\begin{itemize} 
-%	\item SysCom interface between COM and SCPU
-%	\item IPC interface between SCPU1 and SCPU2
-%	\item JTAG debugging interfaces for development and maintenance purposes
-%\end{itemize} 
-%
-%
-%\subsection{Communication Protocols} 
-%The following communication protocols are supported by the system: 
-%\begin{itemize} 
-%	\item \textbf{PROFINET:} Industrial Ethernet protocol used for process communication between the SRIO and the F-Host
-%	\item \textbf{PROFIsafe:} Safety communication protocol operating on top of PROFINET according to the black-channel principle
-%	\item \textbf{HTTP/JSON:} Used by the IoTCore for diagnostics, monitoring, device information, and firmware update handling 
-%\end{itemize} 
-%The system supports HTTP communication only. HTTPS, MQTT, and WebSocket communication are not implemented. 
-%
-%\subsection{System Classification} 
-%The SRIO is classified as a safety-related industrial automation component. 
-%\begin{itemize} 
-%	\item IEC 61508 SIL 3 
-%	\item EN ISO 13849-1 Performance Level e (PL e), Category 4 
-%\end{itemize} The device serves as a safety gateway between field devices and a safety PLC within a PROFINET/PROFIsafe environment. 
-%
-%
-%\subsection{Assets} 
-%Assets are resources that require protection against unauthorized modification, disclosure, or disruption. 
-%
-%\subsubsection{Configuration Data}
-%\begin{itemize} 
-%	\item IP address 
-%	\item MAC address 
-%	\item Hostname 
-%	\item Network settings 
-%	\item F-Address 
-%	\item PROFIsafe parameters 
-%	\item iPar parameters 
-%	\item DCP configuration data 
-%\end{itemize} 
-%These parameters are stored in persistent memory such as EEPROM and NVMEM. 
-%
-%\subsubsection{Firmware} 
-%The firmware asset consists of: 
-%\begin{itemize} 
-%	\item COM firmware 
-%	\item SCPU firmware 
-%	\item Bootloader 
-%	\item NetX90 firmware 
-%\end{itemize} 
-%Firmware updates are performed through the IoTCore update mechanism. 
-%
-%\subsubsection{Safety Configuration} 
-%\begin{itemize} 
-%	\item F-Parameters 
-%	\item iPar configuration 
-%	\item Safety mappings 
-%	\item Safe input parameters 
-%	\item Safe output parameters 
-%\end{itemize} 
-%The integrity of these parameters directly affects the execution of safety functions. 
-%
-%\subsubsection{Process Data} 
-%\begin{itemize} 
-%	\item Input process data 
-%	\item Output process data 
-%	\item F-DI states 
-%	\item F-DO commands 
-%	\item Qualifier information 
-%\end{itemize} 
-%
-%\subsubsection{Diagnostic and Service Data} 
-%\begin{itemize} 
-%	\item Error logs 
-%	\item Error events 
-%	\item Diagnostic data 
-%	\item Device status information 
-%	\item Uptime information 
-%\end{itemize} 
-%
-%\subsubsection{Device Identity Data} 
-%Via IoT-Core
-%\begin{itemize} 
-%	\item Serial number 
-%	\item Production date 
-%	\item Hardware version 
-%	\item Software version 
-%	\item Device tag 
-%\end{itemize} 
-%
-%
-%\subsection{Trust Boundaries} 
-%The following trust boundaries are identified: 
-%
-%\begin{itemize} 
-%	\item \textbf{TB1:} F-Host/PROFINET network and SRIO. 
-%	\item \textbf{TB2:} IoTCore client and SRIO. 
-%	\item \textbf{TB3:} COM module and SCPU module. 
-%	\item \textbf{TB4:} Firmware update source and SRIO. 
-%\end{itemize} 
-%
-%The interfaces between SCPU1 and SCPU2, as well as the binary sensor and actuator interfaces, are considered internal implementation details and are therefore excluded from the primary trust boundary analysis. 
-%
-%\subsection{Exposure Level} 
-%The SRIO is typically deployed within industrial automation networks. 
-%\begin{itemize} 
-%	\item Zone Level 1: Field level. 
-%	\item Zone Level 2: Cell or machine network. 
-%	\item Direct Internet exposure is not intended. 
-%\end{itemize} 
-%Despite this assumption, the IoTCore interface can be reached by any system with network access to the device. 
-%
-%\subsection{Attack Surface} 
-%The attack surface consists of all externally reachable interfaces and functions that may provide an entry point for an attacker. The following attack surfaces were identified: 
-%
-%\begin{itemize} 
-%	\item HTTP-based IoTCore web interface 
-%	\item REST-API IoTCore services
-%	\item Firmware update mechanism
-%	\item Ethernet communication interfaces 
-%	\item PROFINET communication services
-%	\item PROFIsafe communication services
-%	\item PROFINET DCP configuration services
-%	\item Rotary switch interface
-%	\item EEPROM and persistent configuration storage
-%	\item Debug and programming interfaces (JTAG)
-%	\item Power supply interface
-%\end{itemize} 
-%Particular attention is given to the firmware update process, IoTCore services, network communication interfaces, and persistent configuration storage because they provide direct access to critical assets.
+%where $\text{verdict}(r)$ denotes the verdict of the test case (or the most conservative verdict among multiple test cases) tracing to requirement $r$ via the chain defined in Section~\ref{subsec:traceability_model}. Requirements verdicted NOT APPLICABLE are reported separately rather than excluded from $|REQ|$, so that $C$ cannot be inflated by omitting confirmed normative gaps. The resulting figure, together with the itemized verdict table, constitutes the test evidence submitted as part of the technical documentation under Annex~IV Part~A and is evaluated against the concrete test object in Section~\ref{subsec:mvo_compliance_verification}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

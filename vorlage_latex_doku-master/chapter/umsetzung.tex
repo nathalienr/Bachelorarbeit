@@ -1,8 +1,302 @@
 \chapter{Implementation, Results, and Evaluation} 
 \label{chap:implementation_results_evaluation} 
 
+%
+%
+%
+%,,,,,,,-
+%
+%Prüfverfahren:
+%OWASP:
+%- Logging Testing
+%- Log Injection Testing
+%- Log Integrity Verification
+%NIST SP 800-115:
+%- Security Configuration Review
+%- Audit Review
+%- File Integrity Verification
+%
+%
+%
+%
+%Problem aktueller Methodiken: 
+%- klassischer Funktionale Ansatz (Black-Box-Ansatz): Prüft nur Soll-Verhalten, Keine Aussage über Angriffswiderstand > Für Nachweisführung regulatorischer Anforderungen allein nicht ausreichend
+%- Security Verificaton nach IEC 62443: Abstrakt, liefert keine konkreten Testfälle > bietet aber Grundlage für die Ableitung systematischer Testfälle
+%- Penetration Testing: Geringe Reproduzierbarkeit, Ergebnis abhängig vom Tester >  Für die Maschinenverordnung liefern Penetration Tests starke Evidenz, ersetzen jedoch keine strukturierte Verifikationsmethodik.
+%- Fuzz Testing: Erfordert spezialisiertes Testsetup, schwierige Ergebnisanalyse > geeignet für Prüfung robuster Kommunikation und Fehlerbehandlung nach IEC 62443
+%- Protocol Security Testing
+%- OWASP IoT Security Testing Guide: nicht speziell für OT entwickelt
+%- Risk-based Security Testing: Aufwendige Riskoanalyse notwendig
+%
+%In the context of industrial gateways, which act as critical boundaries at the IT/OT interface, these 
+%devices are primarily evaluated under the stringent requirements for network components.
+%
+%
+%Funktionale Tests prüfen, ob das System tut, was es soll. Security Tests prüfen, ob das System auch das unterlässt, was es nicht tun darf.
+%
+%Deswegen kombiniertes Testframework:
+%
+%1. Risk Assessment / Threat Modelling
+%2. Ableitung von Security Requirements
+%3. Funktionale Security Tests
+%4. Protocol Security Tests
+%5. Fuzz Testing
+%6. Gezielte Penetration Tests
+%7. Compliance-Mapping auf EU-Maschinenverordnung und IEC 62443
+%
+%
+%Testframework
+%1. Requirement Analysis
+%
+%2. Asset Identification
+%
+%3. Threat Modeling (TARA + STRIDE)
+%
+%4. Mapping to IEC 62443 Requirements
+%
+%5. Definition of Security Test Objectives
+%
+%6. Test Implementation
+%
+%7. Result Evaluation
+%
+%8. Compliance Evidence
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%Research of Test Methods
+%
+%Spoofing                -> Authentizität    -> IEC 62443 FR1/FR2-> Authentication Testing Schutz vor unbefugtem Zugriff auf Sicherheitsfunktionen und Steuerungen (1.1.9, 1.2.1)
+%Tampering            ->   Integrität       -> IEC 62443 FR3    -> Integrity Testing Software, Daten und Kommunikationspfade müssen gegen absichtliche oder unbeabsichtigte Veränderung geschützt werden (1.1.9)
+%Repudiation           -> Nachvollziehbarkeit-> IEC 62443 FR6  -> Audit Logging Test Nachweis legitimer und illegitimer Eingriffe; Protokollierung von Änderungen (1.1.9)
+%Information Disclosure-> Vertraulichkeit  -> IEC 62443 FR4    -> Encryption Testing Schutz sicherheitsrelevanter Daten vor unbefugtem Zugriff
+%Denial of Service     -> Verfügbarkeit    -> IEC 62443 FR7    -> Availability Testing Sicherheitsfunktionen müssen auch bei Störungen oder Angriffen wirksam bleiben (1.2.1)
+%Elevation of Privilege-> Autorisierung    -> IEC 62443 FR2    -> Privilege Escalation Testing Nur autorisierte Personen/Systeme dürfen sicherheitsrelevante Funktionen ändern oder ausführen
+%
+%
+%
+%
+%
+%Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1) $\rightarrow$ Authentication Testing
+%
+%Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III) $\rightarrow$ Integrity Testing
+%
+%Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6) $\rightarrow$ Audit \& Logging Testing
+%
+%Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4) $\rightarrow$ Confidentiality Testing 
+%
+%Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7) $\rightarrow$ DoS/ Robustness Testing
+%
+%Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2) $\rightarrow$
+%Authorization Testing
+%
+%Replay Testing $\rightarrow$ Replay Threats
+%
+%Secure Update Testing $\rightarrow$ Firmware
+%
+%Input Validation Testing $\rightarrow$ Manipulated Configurations
+%
+%Fuzz Testing $\rightarrow$ Protocol Interfaces
+%
+%Communication Security Testing $\rightarrow$ PROFINET/PROFIsafe/IoT
+%
+%Secure Storage Testing $\rightarrow$ EEPROM/Remanent Data
+%
+%
+%
+%
+%The engineering environment represents an indirect attack surface. This includes GSDML files, parameter data, engineering tools and CRC generation tools used during commissioning and configuration. Manipulation of these artifacts may result in incorrect device configuration or unsafe system behaviour
+%
+%Security Requirements for Industrial Gateways
+%
+%Hier leitest du aus den Normen die tatsächlich testbaren Security-Funktionen ab.
+%
+%
+%
+%Requirement			Security Function
+%Authentication		Login Mechanismus
+%Authorization		Rollen- und Rechtekonzept
+%Integrity			Secure Boot
+%Integrity			Signed Firmware
+%Confidentiality		TLS
+%Availability		DoS Protection
+%Logging				Audit Trail
+%
+%
+%%\section{System Analysis} 
+%%\label{sec:system_analysis}
+%%The purpose of the system analysis is to establish a detailed understanding of the System Under Consideration (SUC). This includes the system architecture, available interfaces, communication mechanisms, critical assets, trust boundaries, and the overall attack surface. 
+%%
+%%\subsection{System Overview} 
+%%\label{subsec:system_overview}
+%%
+%%The Safe Remote I/O (SRIO) is a fieldbus-based safety device used within industrial automation systems. It acquires binary 24 V input signals from safety sensors and transmits them to a higher-level safety controller (F-Host) via PROFIsafe communication. In addition, the device receives output commands from the F-Host and controls connected actuators through safety-related digital outputs. The device supports both safety-related and non-safety-related communication functions. The system consists of the following main components: 
+%%\begin{itemize} 
+%%	\item \textbf{Communication Module (COM):} Provides Ethernet-based communication, PROFINET connectivity, IoTCore functionality, web services, firmware update handling, and data storage access
+%%	\item \textbf{System Communication (SysCom):} Internal SPI-based communication channel between COM and SCPU
+%%	\item \textbf{Safety CPU Module (SCPU):} Implements the safety functions using a 1oo2 architecture consisting of two independent safety controllers, cross-communication mechanisms, and a watchdog
+%%	\item \textbf{Power Supply Module (PS):} Supplies all internal system components.
+%%	\item \textbf{Digital Input Module (DI):} Provides six safe digital input channels.
+%%	\item \textbf{Digital Output Module (DO):} Provides two safe digital output channels.
+%%\end{itemize} 
+%%
+%%\subsection{System Architecture} 
+%%The SRIO architecture separates safety-related and non-safety-related functionality. The COM module acts as the communication gateway. It handles PROFINET communication, the IoTCore web interface, firmware update services, and network management functions. The COM module is based on a dedicated communication processor and a fieldbus controller. The SCPU module implements the safety application. Two independent safety controllers execute the safety logic and exchange diagnostic information through internal communication channels. A watchdog mechanism supervises correct system operation. Communication between COM and SCPU is performed via the SysCom interface. Safety-relevant communication is transmitted using the black-channel principle, where PROFIsafe messages are transported over standard PROFINET communication. 
+%%
+%%\subsection{Interfaces and Communication Channels} 
+%%The SRIO exposes several external and internal interfaces. 
+%%
+%%\subsubsection{External Interfaces} 
+%%
+%%\begin{itemize} 
+%%	\item Ethernet interface for PROFINET and IoTCore communication
+%%	\item Power supply connectors including daisy-chain functionality
+%%	\item Rotary switches for addressing and special operating modes
+%%	\item Safe digital input interfaces (F-DI)
+%%	\item Safe digital output interfaces (F-DO)
+%%	\item LED indicators for device status visualization
+%%\end{itemize} 
+%%
+%%\subsubsection{Internal Interfaces} 
+%%
+%%\begin{itemize} 
+%%	\item SysCom interface between COM and SCPU
+%%	\item IPC interface between SCPU1 and SCPU2
+%%	\item JTAG debugging interfaces for development and maintenance purposes
+%%\end{itemize} 
+%%
+%%
+%%\subsection{Communication Protocols} 
+%%The following communication protocols are supported by the system: 
+%%\begin{itemize} 
+%%	\item \textbf{PROFINET:} Industrial Ethernet protocol used for process communication between the SRIO and the F-Host
+%%	\item \textbf{PROFIsafe:} Safety communication protocol operating on top of PROFINET according to the black-channel principle
+%%	\item \textbf{HTTP/JSON:} Used by the IoTCore for diagnostics, monitoring, device information, and firmware update handling 
+%%\end{itemize} 
+%%The system supports HTTP communication only. HTTPS, MQTT, and WebSocket communication are not implemented. 
+%%
+%%\subsection{System Classification} 
+%%The SRIO is classified as a safety-related industrial automation component. 
+%%\begin{itemize} 
+%%	\item IEC 61508 SIL 3 
+%%	\item EN ISO 13849-1 Performance Level e (PL e), Category 4 
+%%\end{itemize} The device serves as a safety gateway between field devices and a safety PLC within a PROFINET/PROFIsafe environment. 
+%%
+%%
+%%\subsection{Assets} 
+%%Assets are resources that require protection against unauthorized modification, disclosure, or disruption. 
+%%
+%%\subsubsection{Configuration Data}
+%%\begin{itemize} 
+%%	\item IP address 
+%%	\item MAC address 
+%%	\item Hostname 
+%%	\item Network settings 
+%%	\item F-Address 
+%%	\item PROFIsafe parameters 
+%%	\item iPar parameters 
+%%	\item DCP configuration data 
+%%\end{itemize} 
+%%These parameters are stored in persistent memory such as EEPROM and NVMEM. 
+%%
+%%\subsubsection{Firmware} 
+%%The firmware asset consists of: 
+%%\begin{itemize} 
+%%	\item COM firmware 
+%%	\item SCPU firmware 
+%%	\item Bootloader 
+%%	\item NetX90 firmware 
+%%\end{itemize} 
+%%Firmware updates are performed through the IoTCore update mechanism. 
+%%
+%%\subsubsection{Safety Configuration} 
+%%\begin{itemize} 
+%%	\item F-Parameters 
+%%	\item iPar configuration 
+%%	\item Safety mappings 
+%%	\item Safe input parameters 
+%%	\item Safe output parameters 
+%%\end{itemize} 
+%%The integrity of these parameters directly affects the execution of safety functions. 
+%%
+%%\subsubsection{Process Data} 
+%%\begin{itemize} 
+%%	\item Input process data 
+%%	\item Output process data 
+%%	\item F-DI states 
+%%	\item F-DO commands 
+%%	\item Qualifier information 
+%%\end{itemize} 
+%%
+%%\subsubsection{Diagnostic and Service Data} 
+%%\begin{itemize} 
+%%	\item Error logs 
+%%	\item Error events 
+%%	\item Diagnostic data 
+%%	\item Device status information 
+%%	\item Uptime information 
+%%\end{itemize} 
+%%
+%%\subsubsection{Device Identity Data} 
+%%Via IoT-Core
+%%\begin{itemize} 
+%%	\item Serial number 
+%%	\item Production date 
+%%	\item Hardware version 
+%%	\item Software version 
+%%	\item Device tag 
+%%\end{itemize} 
+%%
+%%
+%%\subsection{Trust Boundaries} 
+%%The following trust boundaries are identified: 
+%%
+%%\begin{itemize} 
+%%	\item \textbf{TB1:} F-Host/PROFINET network and SRIO. 
+%%	\item \textbf{TB2:} IoTCore client and SRIO. 
+%%	\item \textbf{TB3:} COM module and SCPU module. 
+%%	\item \textbf{TB4:} Firmware update source and SRIO. 
+%%\end{itemize} 
+%%
+%%The interfaces between SCPU1 and SCPU2, as well as the binary sensor and actuator interfaces, are considered internal implementation details and are therefore excluded from the primary trust boundary analysis. 
+%%
+%%\subsection{Exposure Level} 
+%%The SRIO is typically deployed within industrial automation networks. 
+%%\begin{itemize} 
+%%	\item Zone Level 1: Field level. 
+%%	\item Zone Level 2: Cell or machine network. 
+%%	\item Direct Internet exposure is not intended. 
+%%\end{itemize} 
+%%Despite this assumption, the IoTCore interface can be reached by any system with network access to the device. 
+%%
+%%\subsection{Attack Surface} 
+%%The attack surface consists of all externally reachable interfaces and functions that may provide an entry point for an attacker. The following attack surfaces were identified: 
+%%
+%%\begin{itemize} 
+%%	\item HTTP-based IoTCore web interface 
+%%	\item REST-API IoTCore services
+%%	\item Firmware update mechanism
+%%	\item Ethernet communication interfaces 
+%%	\item PROFINET communication services
+%%	\item PROFIsafe communication services
+%%	\item PROFINET DCP configuration services
+%%	\item Rotary switch interface
+%%	\item EEPROM and persistent configuration storage
+%%	\item Debug and programming interfaces (JTAG)
+%%	\item Power supply interface
+%%\end{itemize} 
+%%Particular attention is given to the firmware update process, IoTCore services, network communication interfaces, and persistent configuration storage because they provide direct access to critical assets.
+%
 
 
+
+Below the domain and subdomain level, the classification distinguishes further concepts that must not be used interchangeably. A \textbf{test method} is the general, product-independent verification approach assigned to a subdomain (e.g., black-box functional probing of an authentication interface, drawing on the testing methodologies of Section~\ref{subsec:testing_taxonomy}). A \textbf{generic test case} instantiates one test method into a concrete objective, precondition, procedure, and acceptance criterion, without reference to a specific gateway. A \textbf{product-specific test instruction} adapts a generic test case to the concrete test object and is introduced only in Section~\ref{sec:application_methodology}. And a \textbf{tool configuration} implements that instruction with a specific tool, introduced only in Section~\ref{sec:testbed_setup}. The resulting hierarchy , test domain, functional subdomain, test method, generic test case, product-specific test instruction, tool configuration, evidence and verdict , keeps Chapter~3 tool-independent: no test domain, subdomain, objective, or acceptance criterion depends on which concrete asset instance or tool is later selected in Chapter~\ref{chap:implementation_results_evaluation}.
 \section{Testbed Setup and Target Specification}
 \label{sec:testbed_setup}
 

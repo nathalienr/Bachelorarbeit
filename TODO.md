@@ -1,11 +1,10 @@
 # Fahrplan Bachelorarbeit
-* MO: Assets
-* Mo: Dokumente Bastian
-* MO: Verbinden Assets mit MVO-Requirements
-* DI: Methoden aus Standards ableiten
-* DO: Anfangen Testfälle schreiben
+* DI: Assets
+* DI: Verbinden Assets mit MVO-Requirements
+* MI: Methoden aus Standards ableiten
+* FR: Anfangen Testfälle schreiben
 * FR: Vorgehen Text + Belegen
-
+* Testplan in Polarion für Security erstellen
 
 ##  Die Kern
 Du testest nicht einfach blind drauf los. Jeder Testfall in deiner Arbeit ist das Endprodukt einer lückenlosen Beweiskette (**Traceability**):
@@ -54,6 +53,94 @@ Du testest nicht einfach blind drauf los. Jeder Testfall in deiner Arbeit ist da
 ---
 
 ## Phase 3: Testdurchführung
+**Ansatz A**: Der Standalone / Air-Gap Rechner ("Stand von '98")
+Das System (Kali-Rechner, Gateway, SPS) ist physisch komplett vom Firmennetzwerk getrennt (kein LAN-Kabel zur Wanddose).
+
+Vorteile:
+
+Maximales Schutzniveau (Zero Risk): Es ist physikalisch unmöglich, dass ein Amok laufendes Kali-Tool das Firmennetzwerk lahmlegt.
+
+Keine IT-Freigabe nötig: Da ihr das Firmennetz nicht berührt, kann die strenge IT-Abteilung das Setup nicht blockieren. Man kann sofort loslegen.
+
+Nachteile:
+
+Sneakernet-Problem: Wie kommen Updates auf Kali? Wie kommen die Testergebnisse (Screenshots, Logs) auf deinen Office-Rechner, um die Bachelorarbeit zu schreiben? Meistens sind USB-Sticks durch die Firmen-IT ohnehin gesperrt (Device Control). Das macht das Arbeiten extrem zäh ("Stand '98").
+
+Nicht zukunftsfähig: Wenn das Unternehmen in Zukunft automatisierte Security-Tests (CI/CD-Pipelines) machen will, funktioniert das mit einem isolierten Insel-PC nicht.
+
+1. Physische Isolation (Standalone / Air-Gap)
+Dieser Ansatz wird in der Literatur oft als "Testbed", "Staging Environment" oder "Air-Gapped Network" bezeichnet. Die Kernbegründung hierfür ist der Schutz der Produktionsverfügbarkeit (Safety & Availability).
+
+NIST SP 800-82 Rev. 3 (Guide to Operational Technology Security):
+
+Relevanz: Dies ist die Bibel der US-Regierung für OT-Security.
+
+Was drinsteht: In den Kapiteln zur Netzwerkarchitektur und Systemwartung wird explizit gefordert, dass Security-Tests (insbesondere Penetration Tests und Vulnerability Scans) niemals in produktiven Netzwerken durchgeführt werden dürfen. Sie fordern strikt isolierte "Testbeds" oder Staging-Umgebungen, die physisch vom Rest getrennt sind.
+
+BSI - ICS-Security-Kompendium (Bundesamt für Sicherheit in der Informationstechnik):
+
+Relevanz: Der deutsche Goldstandard für industrielle IT-Sicherheit.
+
+Was drinsteht: Das BSI betont die Gefahr von aktiven Scans (z. B. mit Nmap) auf alte oder sensible OT-Komponenten, da diese oft abstürzen (Denial of Service). Ein komplett entkoppeltes Test-Setup wird als Best Practice für Evaluierungen genannt.
+
+**Ansatz B:** Das isolierte VLAN (Der moderne Netzwerk-Ansatz)
+Das Testlabor hängt physisch am Firmennetzwerk, wird aber logisch durch Managed Switches und Firewalls in ein streng isoliertes Virtual Local Area Network (VLAN) gesperrt.
+
+Vorteile:
+
+Komfort und Effizienz: Du hast kontrollierten Internetzugriff (für Tool-Updates) und kannst Ergebnisse über bestimmte freigegebene Routen (z. B. auf einen File-Share) sicher in dein Office-Netzwerk übertragen.
+
+Skalierbarkeit: Wenn die Methodik aus deiner Bachelorarbeit später in die reguläre Entwicklung übernommen wird, kann dieses VLAN bestehen bleiben und automatisiert bespielt werden.
+
+Nachteile:
+
+Hoher Abstimmungsaufwand: Die IT-Abteilung muss das VLAN einrichten, Firewall-Regeln (Access Control Lists) schreiben und Ports freischalten. Das dauert oft Wochen und sprengt den Zeitplan einer Bachelorarbeit.
+
+Restrisiko: Ein Konfigurationsfehler in der Firewall könnte bedeuten, dass Netzwerk-Scans (Nmap) aus Versehen in das produktive Firmennetz überschwappen und dort Alarme im Security Operations Center (SOC) auslösen.
+
+2. Logische Isolation (Isoliertes VLAN / Firewalls)
+Hier argumentierst du mit dem Konzept der Netzwerksegmentierung. Die Fachbegriffe, die du hier brauchst, sind "Zones and Conduits" (Zonen und Übergänge).
+
+IEC 62443-3-2 (Security risk assessment for system design):
+
+Relevanz: Deine Hauptnorm.
+
+Was drinsteht: Hier wird das "Zones and Conduits"-Modell definiert. Du kannst argumentieren, dass dein Testlabor (VLAN) als eigene "Untrusted Zone" (Zone mit niedrigem Vertrauensniveau) definiert wird, während das Firmennetz eine "Trusted Zone" ist. Der Übergang (Conduit) wird durch strenge Firewall-Regeln (Access Control Lists) im Managed Switch kontrolliert.
+
+ISA-95 / Purdue Enterprise Reference Architecture (PERA):
+
+Relevanz: Das absolute Standard-Architekturmodell für Industrieanlagen.
+
+Was drinsteht: Das Purdue-Modell definiert verschiedene Level (Level 0 bis 5). Ein VLAN-Setup zur Isolation simuliert eine Demilitarized Zone (DMZ), die verhindert, dass Traffic aus der Testumgebung (Level 3/4) ungefiltert in die Office-IT durchdringt.
+
+
+**Andere / Fortschrittliche Ansätze**
+Wenn du in Kapitel 4.1.2 glänzen willst, nennst du nicht nur Air-Gap und VLAN, sondern erwähnst kurz ein bis zwei hochmoderne Ansätze (und verwirfst sie dann für deine Arbeit als zu aufwendig). Das bringt richtig Punkte für den methodischen Weitblick.
+
+Hardware-in-the-Loop (HiL) / Cyber Ranges / Digital Twins:
+
+Konzept: Anstatt echte Hardware anzugreifen, wird das Gateway virtuell nachgebaut (Digitaler Zwilling). Man testet in einer komplett virtuellen Umgebung (Cyber Range).
+
+Quelle: ENISA (European Union Agency for Cybersecurity) - "Cybersecurity requirements for ICS" oder akademische Paper zu "ICS Cyber Ranges".
+
+Bewertung für dich: Viel zu teuer und komplex für eine Bachelorarbeit, aber der absolute Trend in großen Konzernen.
+
+Datendioden (Unidirektionale Gateways):
+
+Konzept: Wenn du ein Air-Gap-Netzwerk hast, aber die Testergebnisse/Logs live auf deinen Office-Rechner bekommen musst, ohne dass Viren zurückfließen können. Eine Datendiode ist ein Stück Hardware (Glasfaser), das Daten physikalisch nur in eine Richtung senden kann.
+
+Quelle: BSI TR-02106 (Technische Richtlinie für Unidirektionale Gateways).
+
+Bewertung für dich: Zeigt, dass du das "Sneakernet"-Problem (USB-Sticks hin und her tragen) bei Air-Gaps kennst, sprengt aber das Budget.
+
+**Die pragmatische Lösung** 
+Für eine Bachelorarbeit hast du meistens keine Zeit, 3 Wochen auf eine VLAN-Freigabe der IT zu warten. Du musst pragmatisch sein.
+
+Dein Vorschlag für die Essener / deinen Vorgesetzten (Der Hybrid-Ansatz):
+Du baust einen physischen Air-Gap (Ansatz A) auf dem Schreibtisch auf: Ein kleiner, dummer 5-Port-Switch verbindet nur deinen Kali-Laptop und das Gateway. ABER: Für den Datenaustausch nutzt du nicht das Firmen-LAN. Stattdessen verbindest du den Kali-Laptop über sein WLAN-Modul mit dem Gäste-WLAN der Firma (oder dem Hotspot deines Handys).
+
+Warum das genial ist: Das Gäste-WLAN ist von der Firmen-IT sowieso schon vom produktiven Netz isoliert. Du hast Internet für Updates, du kannst dir die Logfiles per E-Mail an dich selbst schicken, aber die IT-Abteilung bekommt keine Panik, weil du keine Kabel in ihre sensiblen Netzwerkdosen steckst.
+
 
 **Schritt 3.1: Werkzeugkoffer Kali Linux nutzen**
 Führe deine geschriebenen Testfälle am echten Gerät durch. Nutze dafür die Kali-Tools:

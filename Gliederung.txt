@@ -129,7 +129,8 @@
 Abgrenzung von funktioneller Verifikation (Testen von Sicherheitsfunktionen) gegenüber reinen Robustheitstests (Fuzzing/Pentesting) an IT/OT-Schnittstellen.
     3.2.2 Traceability Model
 Definition des durchgängigen Datenmodells:
-				$$\text{MVO/CR Req.} \longrightarrow \text{STRIDE Threat} \longrightarrow \text{Mitigation} \longrightarrow \text{Test Category} \longrightarrow \text{Test Case} \longrightarrow \text{Evidence}$$
+				Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Test Category $\rightarrow$ Test Method $\rightarrow$ Test Case $\rightarrow$ Evidence and Verdict
+
     3.2.3 Test Case Taxonomy
 Vorstellung deiner 6 Kern-Testdomänen (Authentication, Authorization, Configuration, Firmware/Update, Logging/Auditability, Communication/Robustness) sowie Aufbau des standardisierten Testdatenblatts.
 Normenbasiert (IEC 62443)
