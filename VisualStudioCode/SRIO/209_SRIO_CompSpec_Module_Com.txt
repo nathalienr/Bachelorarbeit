@@ -1,0 +1,1905 @@
+--- PAGE 1 ---
+209_SRIO_CompSpec_Module_Com
+System Component Specification Module Communication
+Project: 153829 Remote_IO_Safe_DIDO_PROFIsafe
+Affected Products: eco310 / AL400S / PROFIsafe 6x2 F-DI 2x2 F-DO IP67
+                                   eco310 / AL401S / PROFIsafe 6x2 F-DI 2x2 F-DO IP69K
+Status:
+ Draft Confidentiality:
+ Confidential
+Version: V1.01 Document Revision: 1669060
+Author: Ruess, Bastian Created: 2023-12-11
+--- PAGE 2 ---
+Approved Versions
+Current Document version V1.01 has not been approved.
+Approved Versions:
+V1.00 (2026-06-25 05:36)
+--- PAGE 3 ---
+Reviewers for current version
+Info: This document is reviewed by using tool-based review process. Every workitem is reviewed in the document context
+by the R&D experts independently. Therefore the workitems are checked for correctness, completeness and consistence
+to other work-items and to the document context. The minimal number of independent reviewers are defined by the
+inno-process.
+ There are workItems which contains at least one waiting approval
+--- PAGE 4 ---
+Change Log 
+(Typ: e = draft , m = modified, + = added, - = deleted)
+V1.00
+Type ChapterAuthor Description
+c all B.Ruess initial creation, added content and created first version
+V1.01
+Type ChapterAuthor Description
+m 5 B.Ruess adapted req based on test feedback. See 
+SRIO-22447 - IoTCore Requirements updated 
+--- PAGE 5 ---
+1 Scope
+1.1 Purpose of this Document
+1.2 Referenced Documents
+1.3 Applicable standards
+1.4 Applicable documents
+2 Internal Structure
+2.1 VHIP 3 core
+2.2 BB Fieldbus
+2.3 Communication Module Software – Architecture Specification
+2.3.1 Overview
+2.3.2 External Components
+2.3.3 Interfaces
+2.3.3.1 Data Interface
+2.3.3.2 Service Interface
+2.3.4 Delegator
+2.3.4.1 IO-Delegator
+2.3.4.2 Fieldbus-Delegator
+2.3.4.3 Device-Delegator
+2.3.4.4 NVMEM-Delegator
+2.3.5 IOT-Core
+3 Interfaces
+3.1 Fieldbus
+3.1.1 AL40xS
+3.2 IoTCore
+3.3 SysCom
+3.4 Additional Internal Interfaces
+4 Functions
+4.1 Uptime
+4.2 ErrorHandling
+4.2.1 Error Logs
+4.3 General
+5 IoTCore
+5.1 General
+5.2 Features
+5.3 IoTCore Definitions
+5.3.1 Tree Element Mapping
+5.3.1.1 General elements
+5.3.1.2 Deviceinfo
+5.3.1.3 Devicetag
+5.3.1.4 Devicestatus
+5.3.1.5 Devicecontrol
+5.3.1.6 Systemtime
+5.3.1.7 DI Elements
+5.3.1.8 DO Elements
+5.3.1.9 Fieldbussetup
+5.3.1.10 SafeCom elements
+5.3.1.11 Firmware
+5.3.1.12 FIT
+6 Profinet
+6.1 Features
+6.1.1 NetX90
+6.1.2 DCP
+6.1.3 [IRT]
+6.1.4 MediaRedundancyProtocol
+6.1.5 Fieldbus Interface
+6.1.6 Supported Profile
+6.2 GSD File
+6.2.1 General
+6.2.2 F-Parameters
+--- PAGE 6 ---
+6.2.3 Individual Parameter of Safety Digital Input
+6.2.4 Individual Parameters of Safety Digital Output
+6.2.5 Modules and Submodules IDs
+6.3 I&M Data
+6.3.1.1 I&M0 Filter Data
+6.3.1.2 I&M0
+6.3.1.3 I&M1
+6.3.1.4 I&M2
+6.3.1.5 I&M3
+6.3.1.6 I&M4
+6.3.1.7 I&M5
+6.4 Profinet Mapping
+6.4.1 Cyclic Data
+6.5 Acyclic Access
+6.6 Diagnosis and Process alarms
+6.6.1.1 Process Alarm
+6.6.1.2 Diagnosis alarm
+6.6.1.2.1 Channel Number
+6.6.1.3 Channel proprieties
+6.6.1.4 Channel Error type
+--- PAGE 7 ---
+1 Scope
+1.1 Purpose of this Document
+This document describes the component COM.
+1.2 Referenced Documents
+1.3 Applicable standards
+REF Document ID Document name Version
+[1]
+ 100_SRIO_Product-Requirements   Product Requirement SpecificationV1.20
+[2]
+ 130_Communication   Product Requirement Specification:
+Communication
+V1.18
+[3]
+ 140_FW-Update  Product Requirement Specification:
+Firmware Updates
+V1.16
+[4]
+ 180_Housing  Product Requirement Specification:
+Housing
+V1.16
+[5]
+ 190_QualityRequirements  Product Requirement Specification:
+Quality Requirements
+V1.11
+[6] SafetyManual_STM32F7_V7  UM2318 STM32F7 series safety manual V7
+[7] PROFIsafe Specification   PROFIsafe_3192_V26MU1_Aug18V2.6 MU1
+Aug18
+[8] ZVEI_24V_Schnittstellen_final.pdf  ZVEI_Positionpaper 2021.01 
+V1
+[9] VHIP_BuildingBlocks_Device_Information_r1081163.pdf  VHIP_BuildingBlock_Device_InformationV2.0
+[10] svn/.../ReactionTime  Folder contains Siemens .xls
+[e.g. s7safety_rtt_de.xls]
+V12.3.0.0_0.0
+[11] FMEA for STM32F7 AN5137.pdf  FMEA of STM Rev 3
+(Jul - 2019)
+[12] FMEDA for STM32F7 20AN5132.pdf  FMEDA of STM Rev 3
+(Jul - 2019)
+[13] Safety Manual STL STM32F7  STM32F7 series self-test library safety
+manual
+Rev 7 
+(Oct - 2023)
+[14] STL_F7_UG_cx630716_7.0.pdf  STM32F7 series self-test library user
+guide
+Rev 7 
+(Aug - 2023)
+Standard Title
+IEC 61508 Part 1-7 :2010  Functional safety of E/E/PE safety-related systems
+EN ISO 13849-1:2023 Safety of machinery - Safety-related parts of control systems
+DIN EN 60068-2-6 and DIN EN 60068-2-64 Environmental testing
+EN IEC 61000-6-2: 2019
+EN IEC 61000-6-4: 2019
+Electromagnetic compatibility (EMC)
+EN 61010-1 regarding fire spread
+EN 61010-1 regarding clearance & creepage distance
+Safety requirements for electrical equipment for measurement,
+control, and laboratory use
+--- PAGE 8 ---
+1.4 Applicable documents
+EN 61010-1 regarding resistance of the identification plate
+EN 61326-1: 2021 regarding the EMC
+EN 61326-3-1:2017 regarding the EMC (safety related levels)
+Electrical equipment for measurement, control and laboratory
+use – EMC requirements
+IEC 61131-2:2017 regarding the EMC resistance and mechanical
+robustness
+Programmable controllers
+Nr. Version Title Short Description
+[SysArch-01]
+ SRIO-18382 - V2.02  
+ 201_SRIO_System_Spec_Architecture   Details the system architecture of SRIO
+[SC-04]
+ SRIO-19197 - V2.02  
+ 204_Technical_Safety_Concept   Safety Concept of SRIO
+[SysSCPU-05]
+SRIO-18952 - V1.01 
+ 205_SRIO_CompSpec_Module_SCPU   Details the Component SCPU
+[SysDI-06]
+ SRIO-19198 - V1.02  
+ 206_SRIO_CompSpec_Module_DI   Details the Component DI
+[SysDO-07]
+ SRIO-19199 - V1.01 
+ 207_SRIO_CompSpec_Module_DO   Details the Component DO
+[SysPS-08]
+ SRIO-18957 - V1.02  
+ 208_SRIO_CompSpec_Module_PS   Details the Component PS
+[SysCOM-09]
+ SRIO-7664 - V1.00 
+ 209_SRIO_CompSpec_Module_Com  Details the Component COM
+[Glossary]
+ SRIO-7218 - V1.00
+ 297_Glossary_and_ListOfAbbreviations  Used terms and abbreviations in the
+project.
+[Prd_Data]
+ SRIO-11112 - V1.00
+ 220_ProductionData  Information regarding production
+relevant data
+[Com_Spec]
+ SRIO-7664 - V1.00  
+ 209_SRIO_CompSpec_Module_Com  Details the Component COM
+--- PAGE 9 ---
+2 Internal Structure
+2.1 VHIP 3 core
+2.2 BB Fieldbus
+Hardware
+The VHIP3 core consists of an STM32F777NI CPU from the manufacturer ST Microcontroller. The µC has 2MB Flash for
+instructions and 768kByte RAM for data onboard. An EEPROM for persistent data is connected to CPU. The core provides an
+external Flash for updates.
+Characteristic Value
+CPU Cortex-M7
+external Flash 32 Mbit
+EEPROM 128 Kbit
+Table 1 : VHIP3 core hardware characteristics
+Software
+The VHIP3 software support contains build tools, CI components, example projects, scripts for production, release notes
+generator and OS components. The template project with µC/OS will be the entry point for software development. The building
+blocks mentioned in the detailed block diagram will be integrated and connected via inter process communication.
+The interface description is done in the chapter 
+ SRIO-9521 - Fieldbus of [SysArch-01] It contains details from the perspective
+of the device. This chapter should explain the view of the device with a focus on the configuration of building block.
+The mapping for data of fieldbus is described in the following chapters e.g.
+The configuration of BB-Fieldbus is explained along the numbers shown in the diagram.
+Figure 1 : BB Fieldbus configuration diagram
+No. descriptionconfiguration value
+1 Connector
+ SRIO-711 - Two Fieldbus Connectors 
+SRIO-713 - Fieldbus Connector 
+2 LED Ethernet
+ SRIO-8629 - LED Ethernet control 
+    
+ SRIO-6526 - LNK LEDs 
+    
+ SRIO-6525 - ACT LEDs 
+3 BB-FieldbusThe building block contains netX90, clock, magnetics, etc. Hardware description:
+http://dettsvn.tt.de.ifm/svn/ifm_platform/INTERFACE/FBUS_ETH_100M_2P/NETX90/General/Description
+--- PAGE 10 ---
+2.3 Communication Module Software – Architecture Specification
+2.3.1 Overview
+The Communication Module Software acts as the central integration layer between external communication components and
+the internal system. Its primary responsibility is to provide a uniform interface for data exchange and service operations,
+ensuring real-time capability where required and abstracting product-specific details.
+2.3.2 External Components
+An External Component refers to any third-party or native module that is integrated into the system using its own proprietary
+interface. These components typically provide specialized functionality, such as communication protocols or hardware control,
+and are essential for extending the capabilities of the Communication Module Software without reinventing existing solutions.
+External components operate independently and maintain their own internal logic and lifecycle. They are not modified by the
+Communication Module Software; instead, they are accessed through their native APIs, which may include vendor-specific
+commands, configuration options, and data exchange mechanisms.
+Included External Components:
+BB Fieldbus: A communication protocol stack used for industrial fieldbus networks.
+IOT Core
+NVMEM
+LED Control Module: A hardware-specific component responsible for managing LED indicators or lighting systems.
+2.3.3 Interfaces
+The Communication Module Software defines two primary types of interfaces to facilitate interaction between the internal
+system and external components: Data Interfaces and Service Interfaces. These interfaces differ in their purpose, timing
+requirements, and communication patterns.
+2.3.3.1 Data Interface
+The Data Interface is designed for real-time communication and is responsible for transferring operational data between the
+system and external components in a deterministic manner. It ensures that time-critical information, such as sensor readings or
+control signals, is exchanged without delays that could impact system performance.
+Characteristics:
+Real-Time Capability: The interface guarantees compliance with strict timing constraints required for industrial and
+embedded applications.
+_Documents/NETX90_INT_FBUS_ETH_100M_2P_Module_Description.pdf  
+4 Host interface
++ Boot mode
+SRIO-8633 - VHIP3 - BB Fieldbus serial
+SRIO-8632 - VHIP3 - BB Fieldbus DIRQ  
+SRIO-8631 - VHIP3 - BB Fieldbus boot select 
+5 VHIP core
+ SRIO-1529 - PROFINET - Fieldbus Protocol PROFINET 
+6 FB Status LED
+ SRIO-8607 - Connection for BF and SF LED 
+    
+ SRIO-6530 - BF LED 
+    
+ SRIO-6529 - SF LED 
+7 Debug/Prog.
+ SRIO-8628 - Com Debug 
+--- PAGE 11 ---
+Synchronous Call Behavior: Data exchange occurs through synchronous function calls, ensuring immediate execution
+and predictable response times.
+Deterministic Design: The interface is optimized for consistent latency and minimal jitter, which is essential for real-time
+control loops.
+2.3.3.2 Service Interface
+The Service Interface provides access to non-real-time operations, such as configuration, diagnostics, and maintenance tasks.
+These operations do not require deterministic timing and can be executed asynchronously without affecting the core control
+processes.
+Characteristics:
+Asynchronous Call Behavior: Service requests are typically handled in a non-blocking manner, allowing the system to
+continue its real-time operations while processing service tasks in parallel.
+Flexible Execution: While primarily asynchronous, the Service Interface may include certain synchronous operations for
+specific scenarios (e.g., immediate status queries or critical configuration changes). These details will be defined during the
+implementation phase.
+Implementation Approach:
+The Service Interface is implemented using eRPC (Embedded Remote Procedure Call) as the core mechanism for handling
+asynchronous service operations. eRPC provides a lightweight and efficient RPC framework tailored for embedded
+environments, particularly multichip systems and heterogeneous multicore SoCs. This makes it an ideal choice for the
+Communication Module Software, where tight coupling and low-latency communication are critical
+Service Generation Using erpcgen:
+To simplify integration and reduce manual coding, eRPC includes a code generator tool called erpcgen. This tool:
+Accepts IDL (Interface Definition Language) files with the .erpc extension.
+These IDL files define data types and remote interfaces for the services.
+Generates the shim code that handles serialization and invocation automatically.
+Output in C++.
+2.3.4 Delegator
+The Delegator is a core architectural component that acts as an intermediary layer between the Communication Module
+Software and external components. Its primary purpose is to abstract the complexity of different implementations and provide a
+consistent and unified interface to the core application. This design ensures a clear separation of concerns and enhances system
+maintainability, scalability, and robustness.
+One of the key responsibilities of the Delegator is integration and isolation. External components, including their proprietary
+logic and specific interfaces, are encapsulated within the Delegator. This prevents direct interaction between external systems
+and the internal architecture, thereby reducing coupling and shielding the system from potential changes in external
+implementations.
+In addition, the Delegator provides uniform interfaces to the Communication Module Software. These include standardized
+data interfaces and service interfaces that follow a common design pattern. This approach allows the application layer to
+interact with different external components in a consistent manner, regardless of the underlying communication protocol or
+technology.
+Despite offering a uniform interface, the Delegator also supports product-specific adaptations. This includes handling
+specialized mappings such as fieldbus-specific data structures, protocol conversions, or configuration transformations. By
+managing these adaptations internally, the Delegator ensures compatibility across different product variants while preserving
+the overall architectural consistency.
+2.3.4.1 IO-Delegator
+The IO-Delegator is responsible for the exchange of process data and includes the transport layer for SysCom communication
+between the Host CPU and Safe CPU1. The IO-Delegator operates with a cyclic task running at a cycle time of 2 ms.
+It manages the continuous data exchange with Safe CPU1, including system parameters such as CPU temperature and current
+consumption. These values are received cyclically, stored locally, and updated upon each new data reception. The IO-Core
+accesses these values via service interfaces.
+--- PAGE 12 ---
+SCPU1
+COM
+Device-Delegator
+IO-Delegator
+Device- Services
+Fieldbus-Delegator
+FB- Services
+IO- Data
+SYS-COM
+IOT-Core App
+IO- ServicesIO- Services
+The SysCom transport layer implements a timeout mechanism for SPI communication. In cases where communication with the
+Safe CPU is interrupted or the Safe CPUs are not reachable, the system detects the failure. Consequently, the host application
+generates a diagnostic message to the PLC and logs the event in the system log buffer
+2.3.4.2 Fieldbus-Delegator
+The Fieldbus Delegator is responsible for communication with the fieldbus building block and implements all application-
+specific functionalities related to fieldbus integration.
+This component operates with two tasks:
+A cyclic task with a cycle time of 2 ms
+An acyclic task with a cycle time of 5 ms
+For process data exchange with the IO-Delegator, a shared memory mechanism is used. This ensures efficient and low-latency
+communication between components without requiring additional protocol overhead.
+2.3.4.3 Device-Delegator
+The Device Delegator manages all device-specific parameters required by both the fieldbus and IoT core functionalities.
+During system startup, the IO-Delegator retrieves remanent (persistent) data stored in EEPROM and synchronizes it via the
+NVMEM Delegator. This ensures that all required configuration and state data are restored correctly after system initialization.
+The Device Delegator operates with a cycle time of 10 ms and provides processed device parameters to other system
+components as needed.
+2.3.4.4 NVMEM-Delegator
+The NVMEM Delegator is responsible for accessing non-volatile memory (EEPROM). Its main function is to read stored data and
+provide these values as services to the Device Delegator.
+By centralizing access to persistent storage, the NVMEM Delegator ensures consistency, reliability, and controlled data handling.
+It also supports system recovery by enabling the restoration of saved system states after power cycles or restarts.
+2.3.5 IOT-Core
+--- PAGE 13 ---
+
+--- PAGE 14 ---
+3 Interfaces
+3.1 Fieldbus
+3.1.1 AL40xS
+see below in chapter 6 - Profinet 
+3.2 IoTCore
+see below in chapter 5 - IoTCore 
+3.3 SysCom
+Verify in 
+ 201_SRIO_System_Spec_Architecture : -> 
+ SRIO-11276 - System Communication [SysCom] 
+3.4 Additional Internal Interfaces
+Debug / Prog.
+Host Interface
+COM has the external interfaces fieldbus (depends on Module Variant, see [SysArch-01 here: 
+ SRIO-9886 - Module Variants ]) 
+and obligatory IoTCore interface as well as the internal interface SysCom to the safe core (SCPU) and additional interfaces to BB-
+Fieldbus or Debug interfaces.
+Fieldbus
+COM
+SysCom
+Acyclic Data ErrorEvent
+ErrorLogDiag.Manager
+IoTcore
+IoT Requests
+Fieldbus Data
+IoT Requests
+Cyclic Data
+FSCP FramePortSupplyReset
+SysCom
+COMCommand
+As defined in [SysArch-01 here: 
+ SRIO-9886 - Module Variants ] the AL40xS are PROFINET Fieldbus devices.
+Therefore COM has the external fieldbus interfaces PROFINET additional to the obligatory IoTCore interface and the internal
+interface SysCom to the safe core (SCPU).
+Approved, 
+ Software, 
+ QM
+SRIO-8628 - Com Debug
+A debug interface as a connector or contact plane must be on PCB.
+Approved, 
+ Software, 
+ QM
+SRIO-17163 - Com Debug Reset
+The debugger must be able to reset the BB-Fieldbus without influencing the VHIP core.
+Approved, 
+ Software, 
+ QM
+SRIO-17162 - VHIP3 core Debug
+The VHIP core must be able to reset the BB-Fieldbus without influencing the debugger.
+--- PAGE 15 ---
+Figure 2 :VHIP3 core to BB-Fieldbus
+Approved, 
+ Hardware, 
+ QM
+SRIO-8633 - VHIP3 - BB Fieldbus serial
+The connection between VHIP3 Core CPU and BB-Fieldbus must be done via QSPI.
+Approved, 
+ Hardware, 
+ QM
+SRIO-8632 - VHIP3 - BB Fieldbus DIRQ
+An interrupt input is to be connected to DIRQ and SIRQ of BB-Fieldbus.
+Approved, 
+ Hardware, 
+ QM
+SRIO-8631 - VHIP3 - BB Fieldbus boot select
+The boot select pins of BB-Fieldbus must be connected to the outputs of VHIP3 core.
+--- PAGE 16 ---
+4 Functions
+4.1 Uptime
+4.2 ErrorHandling
+COM
+Error Log
+ErrorEvent
+Application
+PN Diag
+(Fieldbus
+Application)
+PROFINET
+Diagnosis
+IoTCore
+Error Log Elements
+SysCom
+Error
+detection
+Figure 3 ErrorHandling
+4.2.1 Error Logs
+Approved, 
+ Software, 
+ QM
+SRIO-15218 - Errorhandling - Uptime - Timestamp
+The uptime shall be counted as seconds and saved as 4 Byte Value.
+Approved, 
+ Software, 
+ QM
+SRIO-15398 - Errorhandling - Uptime - Persistence
+The uptime will be cleared/reset by coldstart.
+Describe behavior
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-15223 - Errorhandling - Error Detection
+In case of an self detected Error, COM shall create an ErrorEvent using the same format as the ErrorEvents recieved by SCPU.
+see 
+ SRIO-11026 - SysCom Channel: ErrorEvent 
+Note: Not applicable Data shall be set to "0".
+Rational 1: "self detected" in the meaning of e.g. "Loss of Communication with SCPU".
+Rational 2: COM, being stated as "QM" doesn't have to perform self tests on its own.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-15405 - Errorhandling - Error Information send via fieldbus
+Each Error Event (self detected or recieved) shall be send to the PLC using the fieldbus diagnosis.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-10250 - Errorhandling - Fieldbus Diagnosis
+The ErrorEvent send via fieldbus diagnosis shall be mapped to the respective fieldbus format.
+See 6.6 - Diagnosis and Process alarms 
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-10932 - Errorhandling - Fieldbus Diagnosis Event Mode
+The distinction in the ErrorHeader[Mode] (Event appear/disappear) shall have an appropriate reaction (appear/disappear) for
+the fieldbus diagnosis.
+Note: See 
+ SRIO-11026 - SysCom Channel: ErrorEvent  and 
+ SRIO-12356 - SysCom - ErrorEvent: ErrorHeader Coding:
+Mode 
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-15406 - Errorhandling - Error Information logged
+Each Error Event (self detected or recieved) shall be written to the Error Log.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-10703 - Errorhandling - Error Log - Entries Count
+The ErrorLog shall contain at least 100 ErrorEvents.
+--- PAGE 17 ---
+4.3 General
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-10663 - Errorhandling - Error Log - Circular Buffer
+The ErrorLog shall be designed as a Circular-Buffer.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-6521 - Errorhandling - Error Log - Persistence
+The Error Log shall be cleared by coldstart.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-10662 - Errorhandling - Error Log - IoT Access
+The Content in the Error Log shall be able readable via IoT.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-15221 - Errorhandling - Error Log - IoT Elementcontent Readability
+The Error Log content (ErrorEvents + Uptime) shall be understandable for the user.
+Note: HEX Codes + Table in manual is counted as understandable.
+Approved, 
+ Software, 
+ QM
+SRIO-21357 - SCPU Timeout
+In case COM detects a timeout in the communication to SCPU, an error event shall be triggered by COM.
+Rational: This error event improves the user experience to understand the root cause since the safe side is no longer reachable
+handles all other error events.
+Parallel to this information, the timeout will also be handled by the safe communication on the SCPU side as well as in the plc
+(black channel principle).
+--- PAGE 18 ---
+5 IoTCore
+5.1 General
+5.2 Features
+5.3 IoTCore Definitions
+5.3.1 Tree Element Mapping
+Approved, 
+ Software, 
+ QM
+SRIO-7913 - IoT-Core API and Catalogue
+The IoT-Core shall support IoT-Core API V2.0 and Catalogue V2.0
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7914 - IoT-Core Visualizer
+The IoT-Core Visualizer compact shall be part of the device and shall be accessable by IP-Adress.
+Approved, 
+ Software, 
+ QM
+SRIO-7912 - IoT-Core Visualizer - favicon
+A favicon should be shown in browser when opening the IoTCore visualizer.
+Approved, 
+ Software, 
+ QM
+SRIO-7903 - network adapter - HTTP
+The device shall support HTTP
+Approved, 
+ Software, 
+ QM
+SRIO-7907 - network adapter - HTTPS
+The device shall not support HTTPS.
+Approved, 
+ Software, 
+ QM
+SRIO-7906 - network adapter - Websocket
+The device shall not support Websocket.
+Approved, 
+ Software, 
+ QM
+SRIO-7905 - network adapter - MQTT
+The device shall not support MQTT.
+Approved, 
+ Software, 
+ QM
+SRIO-7908 - Connection Usecase
+The device shall support only incoming connections and no outgoing connections.
+Remark: Outgoing connections e.g. to push information's (ifm "subscriptions functionality") are not supported.
+Approved, 
+ Software, 
+ QM
+SRIO-7909 - Number of incoming http connections
+The number of active http connections shall be 2.
+Approved, 
+ Software, 
+ QM
+SRIO-7915 - Software update
+The device shall receive and install an software update over the IoT-Core.
+Table 2 Glossary of following tables [definitions are synced with other projects, some definitions are not used for this product]
+Rigths/
+Usage
+Definition
+COM COM-Module, CPU3
+SCPU SCPU-Module, CPU1
+R Read
+W Write
+SB Only possible to write this values via a setblock
+S Service
+[U] Device has to be in State Update
+(H) Hidden in tree
+(P) Only in production mode (= production_fuse not set)
+--- PAGE 19 ---
+5.3.1.1 General elements
+5.3.1.2 Deviceinfo
+[DO] Only in DI/DO
+[PLC] Requires disconnected PLC to set data
+Approved, 
+ Software, 
+ QM
+SRIO-2938 - The element tree of the Safe Remote IO is available in following structure:
+Tree element Source of value Rights Format (example)
+Identifier of root node Needs to be "unique"
+"[vendor]-[devicename]-[serialnumber]"R ifm-AL400S-26415630044
+/deviceinfo defined in 5.3.1.2 - Deviceinfo  R -
+/devicetag defined in 5.3.1.3 - Devicetag   RW -
+/devicestatus defined in 5.3.1.4 - Devicestatus  R -
+/devicecontrol defined in 4.2.4 - devicecontrol  RW -
+/systemtime defined in  5.3.1.6 - Systemtime  RO -
+/io/di defined in 4.2.6 - DI  R -
+/io/do defined in 4.2.7 - DO  R -
+/fieldbussetup defined in 5.3.1.9 - Fieldbussetup  R/RW -
+/safecom defined in 5.3.1.10 - SafeCom elements  R -
+/firmware defined in 5.3.1.11 - Firmware  R/W/S -
+/fit defined in 5.3.1.12 - FIT  R/(H)/(P)  
+SRIO-2946 - Deviceinfo provides the following elements:
+tree element Source
+of value
+Rights /
+View Profile ElementType /
+DataType Format (examples)
+/deviceinfo  R deviceinf
+o structure
+ IOTC-600 - The
+deviceinfo profile 
+/deviceinfo/productcode COM R  data / String e.g. 'AL400S'
+/deviceinfo/productname COM  R  data / String
+e.g. 'ETH Module
+PROFIsafe 6x2 F-DI 2x2
+F-DO IP67'
+/deviceinfo/vendor COM  R  data / String 'ifm electronic gmbh'
+/deviceinfo/devicefamily COM  R  data / String 'srio-pn-ps'
+/deviceinfo/serialnumber COM  R  data / String '26415630044'
+/deviceinfo/productiondate COM R  data / String '15.01.2026, 10:55:03'
+/deviceinfo/hwrevision COM  R  data / String 'AA'
+/deviceinfo/hwversion COM R  data / String '1.4.0.1'
+/deviceinfo/swrevision COM  R  data / String Version Update
+Container
+--- PAGE 20 ---
+5.3.1.3 Devicetag
+5.3.1.4 Devicestatus
+Ready for Review, 
+ Software, 
+ User-Documentation, 
+ QM
+e.g. '1.0.0.0'
+/deviceinfo/swinfo    Structure  
+/deviceinfo/swinfo/cpubootloaderversionCOM  R  data / Stringe.g. 'VH1xxx_bl_4.1.1.357'
+/deviceinfo/swinfo/scpuversionSCPU R  data / String e.g. '0.0.20.4364' 
+/deviceinfo/swinfo/scpubootloaderversio
+n SCPU R  data / String e.g. '1.0.2.29'
+/deviceinfo/fieldbustype COM  R  data / enum 0 = Profinet
+Approved, 
+ Software, 
+ QM
+SRIO-2955 - Devicetag provides the following element:
+tree element Source of
+value
+Rights /
+View Profile ElementType /
+DataType Format (examples)
+/devicetag  R devicetag structure  
+/devicetag/applicationtagCOM  RW  data / String
+(maxlength: 31)"factoryXYZ_machine123"
+Approved, 
+ Software, 
+ QM
+SRIO-2950 - Devicestatus provides the following elements:
+tree element Source
+of value
+Rights /
+View Profile ElementType
+/ DataType Format (examples)
+/devicestatus   devicestatusStructure 
+ IOTC-859 - The
+devicestatus profile
+/devicestatus/operatingstateSCPU  R  data / Enum
+1: Initialization
+2: Update
+3: Parametrization
+4: Operate
+5: Stop
+/devicestatus/operatinghoursCOM  R  data / NumberFeature is not supported.
+Return status code: 501
+/devicestatus/rotary_switchSCPU  R  data / Number 123
+/devicestatus/temperature/scpu1SCPU  R  data / Number 52 (°C)
+/devicestatus/temperature/scpu2SCPU  R  data / Number 51 (°C)
+/devicestatus/temperature/do1SCPU  R  data / Number 25 (°C)
+/devicestatus/temperature/do2SCPU  R  data / Number 28(°C)
+/devicestatus/voltage/us SCPU  R  data / Number 24254 (mV)
+/devicestatus/voltage/ua SCPU  R  data / Number 25236 (mV)
+/devicestatus/current/us SCPU  R  data / Number 82 (mA)
+/devicestatus/errorlog   logger Structure 
+ IOTC-4395 - The
+draft/logger profile  
+/devicestatus/errorlog/loglistCOM  S  Service
+--- PAGE 21 ---
+5.3.1.5 Devicecontrol
+5.3.1.6 Systemtime
+5.3.1.7 DI Elements
+5.3.1.8 DO Elements
+Approved, 
+ Software, 
+ QM
+SRIO-6561 - devicecontrol provides the following elements
+tree element Source of valueRights /
+View Profile ElementType /
+DataType Format (examples)
+/devicecontrol  devicedetection  
+ IOTC-592 - The
+devicereset profile 
+/devicecontrol/signal COM  S Service triggers signalize
+(blinking RDY-LED)
+Approved, 
+ Software, 
+ QM
+SRIO-19921 - systemtime provides the following elements
+tree element Source of valueRights /
+View Profile ElementType /
+DataType Format (examples)
+/systemtime  systemtime  
+ IOTC-3235 - The
+systemtime profile  
+/systemtime/systick COM  R data / Number
+returns the current
+systick / uptime.
+The value is in 'ms'
+Approved, 
+ Software, 
+ QM
+SRIO-2945 - Elements: DI Port
+For each port the following elements shall exist:
+tree element Source of
+value
+Rights
+/ View ProfileElementType /
+DataType Format (examples)
+/io    Structure  
+/io/di/port[n]  structure n = 1..6
+/io/di/port[n]/pin2   structure
+/io/di/port[n]/pin2/digital_inputCOM R  data / Boolean 1: Pin2 High
+0: Pin2 Low
+/io/di/port[n]/pin2/qualifierCOM R  data / boolean1: Input state good
+0: Input state bad
+/io/di/port[n]/pin4    structure
+/io/di/port[n]/pin4/digital_inputCOM R  data / boolean 1: Pin4 High
+0: Pin4 Low
+/io/di/port[n]/pin4/qualifierCOM R  data / boolean1: Input state good
+0: Input state bad
+SRIO-7996 - Elements: DO Port
+For each port the following elements shall exist:
+--- PAGE 22 ---
+5.3.1.9 Fieldbussetup
+5.3.1.10 SafeCom elements
+Approved, 
+ Software, 
+ QM
+tree element Source of
+value
+Rights
+/ View ProfileElementType /
+DataType Format (examples)
+/io  Structure
+/io/do/port[n] Structure  n = 7..8
+/io/do/port[n]/current_measureme
+nt SCPU  R data / Number 82 (mA)
+/io/do/port[n]/pin2 Structure 
+/io/do/port[n]/pin2/digital_outputCOM  R data / Boolean 1: Pin2 High
+0: Pin2 Low
+/io/do/port[n]/pin2/qualifierCOM  R data / Number1: Output state good
+0: Output state bad
+/io/do/port[n]/pin4  Structure 
+/io/do/port[n]/pin4/digital_outputCOM  R data / Boolean 1: Pin4 High
+0: Pin4 Low
+/io/do/port[n]/pin4/qualifierCOM  R data / Number1: Output state good
+0: Output state bad
+Approved, 
+ Software, 
+ QM
+SRIO-2948 - Fieldbussetup provides the following elements:
+tree element Source
+of value
+Rights /
+View Profile ElementType /
+DataType Format (examples)
+/fieldbussetup    Structure  
+/fieldbussetup/fieldbusfirmwareCOM  R  data / String "3.3.0.12 (PROFIsafe
+IO Device)"
+/fieldbussetup/connectionstatusCOM  R  data / Enum0: Disconnected
+1: Connected
+/fieldbussetup/network   network Structure  
+/fieldbussetup/network/macaddressCOM  R  data / String "00:02:01:03:F0:C5"
+/fieldbussetup/network/ipaddressCOM  R  data / String "172.18.87.2"
+/fieldbussetup/network/subnetmaskCOM  R  data / String "255.255.192.0"
+/fieldbussetup/network/ipdefaultgatewayCOM  R  data / String "172.18.64.1"
+/fieldbussetup/network/hostnameCOM  R  data / String "fieldbusdevice1"
+/fieldbussetup/network/dhcp COM  R  data / Enum 0: Static IP
+SRIO-2952 - For the profisafe parameter following elements are provided:
+tree element Source of value Rights / View Format (examples)
+/safecom  Structure
+ /safecom/f_address SCPU   R 899
+--- PAGE 23 ---
+5.3.1.11 Firmware
+5.3.1.12 FIT
+Approved, 
+ Software, 
+ QM
+Approved, 
+ SystemArchitecture, 
+ Software, 
+ QM
+SRIO-2953 - Firmware provide the following elements:
+tree element Source
+of value
+Rights /
+View ProfileElementType /
+DataType Format (examples)
+/firmware   
+software,
+software/
+uploadabl
+esoftware
+Structure
+IOTC-559 - The software
+profile Profile 
+IOTC-566 - The
+software/uploadablesoftware
+profile 
+/firmware/version  R  data / String UpdateContainer FW
+/firmware/type COM  R  data / String "firmware"
+/firmware/install  S
+[U]  Service 
+Initiades a reboot to install the
+firmware after an successfully
+upload 
+/firmware/container W blob Structure  Firmware update via BLOB
+IOTC-568 - The blob profile 
+/firmware/container/maxsizeCOM  R  data / Number
+Maximum size of firmware blob
+to upload (hardcoded)
+4128768 byte
+/firmware/container/chunksizeCOM  R  data / Number
+Size of chunk for upload
+(hardcoded)
+2048 byte
+/firmware/container/start_stream_set S
+[U]  Service Start firmware upload.
+/firmware/container/stream_set S
+[U]  Service  Send firmware upload chunk.
+Approved, 
+ Software, 
+ QM
+SRIO-17130 - FIT
+tree element Source of
+value
+Rights /
+View Profile ElementType /
+DataType Format (examples)
+/fit    Structure  
+/fit/setfit COM WO
+(P)  Service  
+SRIO-17129 - Setfit
+The service shall trigger a FIT for the device.
+The available types are here:
+40_505_Fault_Injection_Tests 
+Request parameters
+Parameter M/O/C DataType Description
+type M Number Identifies the fit test, that shall be executed.
+--- PAGE 24 ---
+Approved, 
+ Software, 
+ QM
+Response parameter
+None
+--- PAGE 25 ---
+6 Profinet
+6.1 Features
+6.1.1 NetX90
+6.1.2 DCP
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-1529 - PROFINET - Fieldbus Protocol PROFINET
+The product must be able to perform the fieldbus protocol PROFINET in the role of a PROFINET IO Device. Supported PROFINET
+version: 2.4MU3 or higher.
+Note: The supported version depends on which PROFINET version is supported by the 3rd-party PROFINET solution (e.g. netX90
+PROFINET).
+The building block delivers for software support:
+a driver for fieldbus chip with an example for peripheral unit
+an abstraction layer for fieldbus chip
+example fieldbus application
+example fieldbus description file
+production scripts
+update functions for fieldbus firmware (stack)
+Details are described on gitlab: https://vhip.pages-ee.dev.ifm/fieldbus/documentation/Home/index.html
+Approved, 
+ Software, 
+ QM
+SRIO-3031 - NetX90 --- netIdent Protocol
+The netIdent protocol shall be disabled.
+SRIO-7772 - DCP --- Factory Reset
+The DCP-reset service reset all stored data to its factory default values.
+This covers all data related to application  (Manufacturer specific record data and all I&M data) and communication parameters
+(NameOfStation shall be set to “” (empty string) and IP suite parameter shall be set to 0.0.0.0).
+Remark:
+Factory reset exists on different level, Mode 2 and 8 shall be tested.
+Mode 1 - optional Reset Application
+data
+Resets I&M data, SNMP writeable OIDs, and manufacturer specific record
+data objects
+Mode 2 - mandatory
+(default)
+Reset
+Communication
+parameter
+Resets name of station "", IP to 0.0.0.0, DHCP (if available), all PDev
+parameters (topology, etc.), and SNMP writeable OIDs
+Mode 3 - optional Reset Engineering
+parameter
+Performs a Mode 1,2 reset + clears any engineering data (ex:
+configuration/parameters)
+Mode 4 - optional Reset All stored
+data
+Performs a Mode 1, 2, & 3 reset
+Mode 8 - optional Reset device Performs a Mode 4 reset to all interfaces in case the device has multiple
+interfaces
+Mode 9 - optional Reset and Restore
+Data
+Same as mode 8 + resets installed software images back to factory
+default
+Factory Reset (original
+default) - recommended
+Original Factory
+Reset
+Performs mode 1/2 reset, but can also could do mode 3,4,8, or 9
+depending on the device behavior
+--- PAGE 26 ---
+6.1.3 [IRT]
+6.1.4 MediaRedundancyProtocol
+6.1.5 Fieldbus Interface
+6.1.6 Supported Profile
+6.2 GSD File
+6.2.1 General
+Approved, 
+ Software, 
+ PQS, 
+ QM
+Approved, 
+ Software, 
+ QM
+SRIO-3061 - DCP --- Identity
+To identify the device by reception of a DCP set Signal, the SF/BF LED (red) shall switch to blinking mode.
+Approved, 
+ Software, 
+ QM
+SRIO-3029 - DCP --- Setting Parameters
+A PROFINET IO-Controller or an Engineering System can change IP parameters or the NameOfStation of device at any time.
+Approved, 
+ Software, 
+ QM
+SRIO-3025 - IRT
+The safety Remote IO shall support isochronous Real time functionality (IRT).
+But no submodule supports isochronous mode, i.e process data exchange must not be synchronous to RTsync messages.
+Remark: SRIO shall not disturb IRT Communication, also this results in an additional test for certification.
+Approved, 
+ Software, 
+ QM
+SRIO-1930 - PROFINET - MRP Support
+The product shall support the Media Reduncancy Protocol in the role as Media Redundancy Client.
+Approved, 
+ Software, 
+ QM
+SRIO-3027 - Port Deactivation
+The safety Remote IO shall support port deactivation on both fieldbus ports.
+Approved, 
+ Software, 
+ QM
+SRIO-10247 - Port Deactivation
+It shall not be possible for the user to deactivate both ports at the same time.
+Approved, 
+ Software, 
+ QM
+SRIO-3028 - Profinet Profile - RIOforFA with PROFIsafe
+The safety Remote IO shall support the PROFINET Profile "Remote IO for Factory Automation with PROFIsafe", RIOforFA.
+The RIOforFA Profile fulfills the following requirements:
+- Define Qualifier to Values of Physical Signals, The Qualifier shall be synchronous and consistent with the Value
+- Define a RIOforFA channel for digital IO. One RIOforFA channel consists of Value and Qualifier.
+- The type and quantity/number of RIOforFA channels are defined by GSD.
+- A RIOforFA (Sub)Module uses RIOforFA channels only.
+- The safety device uses PROFIsafe standard. This Profile does not add any definition to standard diagnosis (PROFINET Diagnosis
+Guideline) and I&M Functions.
+Remark: This requirement is achieved by one Submodule, while the other will provide legacy support.
+Approved, 
+ Software, 
+ QM
+SRIO-1915 - PROFINET - Conformance Class C (CC-C)
+The product shall fulfill Conformance Class C (CC-C).
+Approved, 
+ Software, 
+ QM
+SRIO-1916 - PROFINET - Net Load Class III
+The product shall fulfill Net Load Class III.
+Approved, 
+ Software, 
+ QM
+SRIO-3019 - GSD --- File Name
+The GSD filename is GSDML-V2.yy-ifm-AL40xS-xxxxxxxx.xml
+where xxxxxxxx is the date of creation of GSD file (e.g. 20220210) and yy the GSDML version used.
+--- PAGE 27 ---
+6.2.2 F-Parameters
+Approved, 
+ Software, 
+ QM
+SRIO-3018 - GSD --- Language of GSDML File
+Language of GSDML File is english only.
+Approved, 
+ Software, 
+ QM
+SRIO-2965 - GSD --- Device IDs
+The SRIO shall support the following Device IDs:                          
+Devices Vendor ID DeviceID
+AL400S, AL401S 0x0136 0xAC25
+                                                                                   Table 3 Devices IDs        
+Approved, 
+ Software, 
+ QM
+SRIO-3020 - GSD --- Device Identity
+The SRIO shall have the following identity parameter:
+GSD Parameter Value
+VendorID 0x0136
+Vendor "ifm electronic"
+InfoText "ETH Module PROFIsafe 6x2 F-DI 2x2 F-DO"
+Table 4 :  Device Identity
+Approved, 
+ Software, 
+ QM
+SRIO-3021 - GSD --- Device Function
+The SRIO shall be part of the following product family:
+GSD Parameter Value
+ProductFamily "Digital I/O modules"
+MainFamily "I/O"
+Table 5 :  Device Function 
+Approved, 
+ Software, 
+ QM
+SRIO-1864 - GSD --- Backwards compatibility
+The GSDML scheme shall be backwards compatible to Technical Specification for PROFINET: GSDML, Version 2.31, 2016.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-3017 - GSD --- Process data length
+The Maximum lengths are defined by maximum process data of all submodules and IOXS bytes of all subslots.
+Device Maximum Input Length [Bytes] Maximum Output Length [Bytes]
+AL400S, AL401S  17 15
+Approved, 
+ Software, 
+ QM
+SRIO-3030 - GSD --- GSDML attribute "ResetToFactoryModes"
+GSDML attribute "ResetToFactoryModes" shall be set to "2". 
+This mode is intended to set the addressed communication interface of a device into a state, which is almost similar to the
+“out of the box” state.
+In particular these are:
+- NameOfStation shall be set to “” (empty string)
+- IP suite parameter shall be set to 0.0.0.0
+Remark: I&M data are not set to factory values
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7758 - GSD --- CRC Signature
+The GSDML attribute "F_ParamDescCRC" [CRC Signature] shall be calculated according to the PROFIsafe specification and set
+as value in the GSDML.
+Address Type
+Address Type 1 if F_DestAdd is checked only
+--- PAGE 28 ---
+Address Type 2 if F_SourceAdd is checked together with the F_DestAdd
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7830 - GSD --- FPar --- Address Type
+Safe Remote IO shall support Address Type 1.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7794 - GSD --- FPar --- F-Source Address
+The F-Source Address shall be set in range [1...65534] via Fieldbus/safe fieldbus engineering tool.
+Remark: In Address Type 1, the F-Source address will be not checked.
+The F-Destination Address is the own safe address of the safe Remote IO. The configured F-Destination-Address via
+Fieldbus/safe fieldbus engineering tool shall be the same as the value set by the rotary switches.
+Approved, 
+ Software, 
+ SIL 3
+SRIO-1857 - GSD --- FPar --- Selectable F_WD_Time
+F_WD_Time of the F-Parameters shall be selectable between minimal F_Watchdog_Time and 10000 ms with the provided
+GSDML.
+Note: The minimal F_Watchdog_Time is specified in 
+ SRIO-1210 - Timings - F_WD_Time Parameter.
+Approved, 
+ Software, 
+ QM
+SRIO-2999 - GSD --- FPar --- F-Parameters Index
+For the F-Parameters, the Index 0x200 shall be assigned
+SRIO-2998 - GSD --- FPar --- F-Parameter record data
+ByteParameterData
+Type
+Description Valuation / Value Changeable
+1 F_Prm_Flag1
+     
+   
+   
+Bit 0 F_Check_SeqNr V2-mode: to be ignored no
+Bit 1 F_Check_iPar Manufacturer specific use: to be
+ignored
+no
+Bit 2
+and Bit
+3
+F_SIL: configured SIL SIL3 no
+Bit 4
+and Bit
+5
+F_CRC_Length: describes the length
+of the CRC2 signature
+for ProfiSafe Version >= 2.6, 
+F_CRC_Length = "4-Byte-CRC"
+no
+Bit 6 F_CRC_Seed "CRC-Seed24/32" no
+Bit 7 reserved -  
+2 F_Prm_Flag2Bit 0 F_Passivation: F-(Sub)Module or
+Channel-granular Passivation
+Channel-granular Passivation no
+Bit 1
+and Bit
+2
+reserved -  
+Bit 3 to
+Bit 5
+F_Block_ID: Parameter block type
+identification (Bit 0 indicates the
+presence of i-Parameters
+(F_iPar_CRC). Bit 1 indicates the
+presence of the secondary F-
+Watchdog time)
+1 no
+Bit 6
+and Bit
+7
+F_Par_Version: Version number of F-
+Parameter block
+1 no
+3 F_Source_AddUINT16F-Address of the F-Host [1...65534]
+(2^16)-1
+Yes
+Hint: The Source
+Address must
+--- PAGE 29 ---
+6.2.3 Individual Parameter of Safety Digital Input
+Approved, 
+ Software, 
+ QM
+be changeable.
+Req. by GSD-
+Checker.
+5 F_Dest_AddUINT16The own F-Address shall be
+configurable via the rotary switches
+in the range [1..899]
+[1..899],
+Set to default value 1
+Yes
+7 F_WD_TimeUINT16Watchdog time in the F driver
+SRIO-1857 - GSD --- FPar ---
+Selectable F_WD_Time
+[50...10000ms]
+Yes
+9 F_iParCRC UINT32Value of the iParameter CRC
+signature calculation, at least
+manually transferred from a CPD-Tool
+to the engineering tool
+[0..4294967295]
+(2^32)-1
+Yes
+13 F_ParCRC UINT16Signature calculation across the F-
+Parameters to secure the transfer
+from the F-Engineering Tool to the F-
+Device
+[0..65535]
+(2^16)-1
+Yes
+Table 6 F-Parameters
+Approved, 
+ Software, 
+ QM
+SRIO-2989 - GSD --- iPar --- Record Indexes of safety digital Input
+For each safety digital input an index in the range 0x30n should be assigned.
+FDI1(Safety Digital Input 1) starts with 0x301
+SRIO-2990 - Parameters of safety Digital Input:
+The following Parameter for one DI Port shall apply:
+( bold text shall be default )
+Byte Parameter Data type Description of Parameter Valuation
+0 F-DI 1 UINT8 Enables the first input of the respective port0 : Disabled
+1 : Enabled
+1 F-DI 2 UINT8 Enables the second input of the respective
+port.
+0 : Disabled
+1 : Enabled
+2 Testpulse Supply 1UINT8 Supply Channel 1 0 : Disabled
+1 : Enabled 
+3 Testpulse Supply 2UINT8 Supply Channel 2 0 : Disabled
+1 : Enabled
+4 Symmetry UINT8
+Defines if the signals are processed
+individually (1oo1) or in combination to
+each other (1oo2)
+0: 1oo1
+1: 1oo2 equivalent
+2: 1oo2 antivalent
+5 Symmetry
+Discrepancy Time UINT8
+In case of symmetry, the symmetry
+discrepancy time setting defines the
+timespan in which the symmetry definition
+shall be achieved. 
+0: Not Analysed
+1: 10 ms,
+2: 20 ms,
+3: 50 ms,
+4: 100 ms,
+5: 500 ms,
+6: 1000 ms,
+7: 5000 ms,
+6 Resolve Symmetry
+Violation
+UINT8 Defines, in case of a symmetry violation, if a
+test-0-signal shall be necessary or if an
+0: Acknowledgment sufficient
+1: Switch-on inhibit
+--- PAGE 30 ---
+6.2.4 Individual Parameters of Safety Digital Output
+6.2.5 Modules and Submodules IDs
+Approved, 
+ Software, 
+ QM
+acknowledgment is sufficient.
+7 Filter F-DI 1  UINT8 Filter Time Channel 1 1: 5ms,
+2: 10ms
+8 Filter F-DI 2  UINT8 Filter Time Channel 2 1: 5ms,
+2: 10ms 
+Table 7 Parameters Safe Input 
+Approved, 
+ Software, 
+ QM
+SRIO-3001 - GSD --- iPar --- Record Indexes of safety digital Output
+For each safety digital output an index in the range 0x31n should be assigned.
+FDO1(Safety Digital Output 1) starts with 0x311
+Approved, 
+ Software, 
+ QM
+SRIO-3000 - Parameter of safety digital Output
+The following Parameter for one DO Port shall apply:
+( bold text shall be default )
+Byte Parameter Data Type Description of Parameter Parameter-Range
+0 F-DO 1 UINT8 Enables the first output of the port.0 : Disabled
+1 : Enabled
+1 F-DO 2 UINT8 Enables the second output of the
+port.
+0 : Disabled
+1 : Enabled
+2 Testpulse UINT8 Defines if the testpulse shall be
+activated. 
+0 : Disabled
+1 : Enabled
+3 Testpulse DurationUINT8 Defines the testpulse duration [fix].
+(available for user information) 
+[0 reserved for future 0,1 ms]
+1 :  0,5 ms
+2 :  1 ms
+3 :  3 ms
+4 Symmetry UINT8 Defines if the signals are processed
+individually (1oo1) or in combination
+to each other (1oo2). 
+0: 1oo1 P
+1: 1oo2 PP
+2: 1oo2 PM
+5 Switch-off Delay F-DO 1UINT8 Defines a switch-off Delay of the first
+output of the port 
+0: Disabled,
+1: 250 ms,
+2: 500 ms,
+3: 1000 ms,
+4: 2000 ms,
+5: 4000 ms,
+6: 8000 ms
+6 Switch-off Delay F-DO 2UINT8 Defines a switch-off Delay of the
+second output of the port. 
+0: Disabled,
+1: 250 ms,
+2: 500 ms,
+3: 1000 ms,
+4: 2000 ms,
+5: 4000 ms,
+6: 8000 ms 
+Table 8 Parameters Safe Output
+The GSDML consists of Device Access Points [DAP] (one for each variant), Modules and Submodules
+--- PAGE 31 ---
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ QM
+SRIO-6563 - GSD --- Modular Concept
+The device GSD shall group functionalities in modules and submodules.
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ QM
+SRIO-14859 - GSD --- Module Sensor Reactivation
+The device GSD shall provide a module "Sensor Reactivation" compatible to both DAPs.
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ SIL 3
+SRIO-14858 - GSD --- Module PROFIsafe Channel granular
+The device GSD shall provide a PROFIsafe Module, with "Channel granular" Passivation, compatible to both DAPs.
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ QM
+SRIO-1931 - GSD --- PROFINET Profile "Remote IO Factory Automation"
+The PROFIsafe Module with "Channel granular Passivation" shall support the PROFINET Profile "Remote IO Factory
+Automation", Version 1.10, August 2018.
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ SIL 3
+SRIO-14857 - GSD --- Module PROFIsafe Device granular
+The device GSD shall provide a PROFIsafe Module, with Passivation "Device", compatible to both DAPs.
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ QM
+SRIO-14856 - GSD --- DAP Headmodule
+The device GSD shall provide two DAPs for each AL400S and AL401S.
+Approved, 
+ Software, 
+ QM
+SRIO-2973 - GSD --- Profinet Module IDs
+The Profinet Module should have following IDs:
+ID Description Profile ID
+0x0000 4000 DAP Module AL400S 0x0000
+0x0000 4010 DAP Module AL401S 0x0000
+   
+0x1000 0000 MI_SENSOR_REACTIVATION_ID  0x0000
+0x2000 0000  MI_6FDI2FDO_CHANNEL_PASSIVATION_ID RioForFA = 0x4C00
+0x3000 0000 MI_6FDI2FDO_MODULE_PASSIVATION_ID 0x0000
+Approved, 
+ Software, 
+ QM
+SRIO-2975 - GSD --- Profinet (Virtual-)Submodule IDs
+The Profinet (Virtual-)Submodule should have following IDs:
+ID Description
+0x0001 0000 DAP Virtual Submodule Item
+0x0001 0010 Interface Submodule Item
+0x0001 0011  Port Submodule Item X1 P1
+0x0001 0012 Port Submodule Item X1 P2
+  
+0x10000100 Sensor Reactivation Module
+0x2000060A 6DI/2DO Submodule - Channel granular Passivation
+0x3000060A 6DI/2DO Submodule - Module Passivation
+SRIO-6552 - GSD --- PROFIsafe - F_Parameter Module --- PROFIsafe Channel granular
+The "6DI/2DO Submodule - Channel granular Passivation" shall support the following F-Parameter settings:
+Parameter-Name Value range ChangeableDescription
+F_SIL SIL3 no  
+F_CRC_Length 4-Byte-CRC no  
+F_Block_ID 1 no  
+--- PAGE 32 ---
+6.3 I&M Data
+6.3.1.1 I&M0 Filter Data
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ SIL 3
+F_Par_Version 1 no  
+F_Source_Add 1...65534 yes (Has to be changeable to pass GSD-Checker)
+F_Dest_Add 1...899 yes  
+F_Passivation Channel no  
+F_CRC_Seed CRC-Seed24/32no  
+F_WD_Time 50...10000ms
+default: 150ms
+yes PROFIsafe Watchdog Time; 
+Lowest value to be defined in implementation.
+F_iPar_CRC 0...FFFFFFFF yes  
+F_Par_CRC 0...65535 yes  
+Approved, 
+ Software, 
+ PQS, 
+ FSM, 
+ SIL 3
+SRIO-14860 - GSD --- PROFIsafe - F_Parameter Module --- PROFIsafe Device granular
+The "6DI/2DO Submodule - Module Passivation" shall support the following F-Parameter settings:
+Parameter-Name Value range ChangeableDescription
+F_SIL SIL3 no  
+F_CRC_Length 4-Byte-CRC no  
+F_Block_ID 1 no  
+F_Par_Version 1 no  
+F_Source_Add 1...65534 yes (Has to be changeable to pass GSD-Checker) 
+F_Dest_Add 1...899 yes  
+F_Passivation Device no  
+F_CRC_Seed CRC-Seed24/32no  
+F_WD_Time 50...10000ms
+Default: 150ms
+yes PROFIsafe Watchdog Time; 
+Lowest value to be defined in implementation.
+F_iPar_CRC 0...FFFFFFFF yes  
+F_Par_CRC 0...65535 yes  
+The I&M functions are subdivided into different blocks, which can be addressed separately. Each Profinet device must provide at
+least one submodule as a representative of the device that supports the I&M0-I&M3 functions. Additionally a PROFIsafe field
+device should should support the I&M4 function.
+Usage IM_INDEX     Access
+I&M0 0xAFF0 Read
+I&M1 0xAFF1 Read / Write
+I&M2 0xAFF2 Read / Write
+I&M3 0xAFF3 Read / Write
+I&M4 0xAFF4 Read
+I&M5 0xAFF5 Read
+--- PAGE 33 ---
+6.3.1.2 I&M0
+This is a special read-only record (0xF840) identifying which submodules carry distinct I&M data. More than one submodule
+may be specified by repeating this structure. When reading it, addressing of the slot/subslot is ignored.
+For the submodule acting as device representive I&M1, I&M2 and I&M3 shall be readable and writable. Usually the representive
+for the device is the Interface or the DAP
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-3015 - I&M --- I&M0 Filter Data
+Variable Bytes Value Description
+API 4 API of the submodule
+SLOT 2 Slot of the submodule
+SUBSLOT 2  Subslot of the submodule
+FLAGS 4  Flags:
+DAP:
+0x01 submodule has own I&M data;
+0x04 submodule represents device I&M data
+Sensor Reactivation submodule:
+0x02 submodule has I&M data
+Safety RIO submodule:
+0x02 submodule has I&M data
+SRIO-3002 - I&M --- I&M0
+I&M0 shall be readabe on every submodule
+Variable Bytes Value Description
+MANUFACTURER_ID 2 "136hex" Vendor ID
+ORDER_ID 20 AL40xS OrderID (ASCII, padded with spaces)
+SERIAL_NUMBER 16 SerialNumber (ASCII, padded with
+spaces)
+HARDWARE_REVISION 2 e.g. AA HardwareRevision
+SOFTWARE_REVISION 4 e.g. V1.0.2 Byte Description
+0 Software-Typ (char):
+V : Release
+1 Major Version (uint8)
+2 Minor Version (uint8)
+3 Build Version (uint8)
+Build number is our branch version
+REVISION_COUNTER 2 1...0xFFFF Starting from 0, shall increment on each
+parameter change.
+PROFILE_ID 2 0x0000 (for andere
+Submodule)
+0x4C00 (for Safe Submodule)
+The profile of the (sub) module.
+(see
+https://www.profibus.com/IM/Profile_ID_T
+able.xml )
+--- PAGE 34 ---
+6.3.1.3 I&M1
+6.3.1.4 I&M2
+6.3.1.5 I&M3
+Approved, 
+ Software, 
+ QM
+PROFILE_SPECIFIC_TYPE 2 0x0000 ProfileSpecificType (additional value to
+ProfileID) not used 0
+IM_VERSION 2 0x0101 IMVersion (I&M version, default 0x0101)
+IM_SUPPORTED 2 0x000E for DAP
+0x0030 for Safety Submodule
+0x0000 For Sensor reactivation
+Submodule
+0x2E : I&M0,1,2,3supported
+0x0010: I&M4 and 5 supported
+0x0000 I&M0 supported
+Approved, 
+ Software, 
+ QM
+SRIO-7769 - I&M --- I&M1 availability
+I&M1 shall be only available for the DAP.
+Otherwise attempting to read or write I&M1 will result in an invalid index error.
+Approved, 
+ Software, 
+ QM
+SRIO-7768 - I&M --- I&M1 Access
+I&M1 is readable and writable.
+Approved, 
+ Software, 
+ QM
+SRIO-7767 - I&M --- I&M1 Storage
+I&M1 shall be stored remanent (powercycle proof).
+Approved, 
+ Software, 
+ QM
+SRIO-3005 - I&M --- I&M1
+Variable Bytes Value (Default)Description
+TAG_FUNCTION32 "20hex" (empty) Tag Function of submodule (ASCII, padded with spaces)
+TAG_LOCATION 22 "20hex" (empty) Tag Location of submodule (ASCII, padded with spaces)
+Approved, 
+ Software, 
+ QM
+SRIO-7770 - I&M --- I&M1 on factory reset
+On factory reset, I&M1 shall be reset to a empty string (54 x 20hex).
+Approved, 
+ Software, 
+ QM
+SRIO-7766 - I&M --- I&M2 availability
+I&M2 shall be only available for the DAP.
+Otherwise attempting to read or write I&M2 will result in an invalid index error.
+Approved, 
+ Software, 
+ QM
+SRIO-7765 - I&M --- I&M2 Access
+I&M2 is readable and writable
+Approved, 
+ Software, 
+ QM
+SRIO-7764 - I&M --- I&M2 Storage
+I&M2 shall be stored permanently (powercycle proof).
+Approved, 
+ Software, 
+ QM
+SRIO-3004 - I&M --- I&M2
+Variable Bytes Value (Default)Description
+INSTALLATION_DATE 16 "20hex" (empty)Installation Date of submodule (ASCII, padded with
+spaces)
+RESERVED 38 00hex Reserved, set to zero
+Approved, 
+ Software, 
+ QM
+SRIO-7763 - I&M --- I&M2 on factory reset
+On factory reset, I&M2 shall be reset to a empty string (16 x 20hex).
+SRIO-7759 - I&M --- I&M3 availability
+I&M3 shall be only available for the DAP.
+--- PAGE 35 ---
+6.3.1.6 I&M4
+6.3.1.7 I&M5
+Approved, 
+ Software, 
+ QMOtherwise attempting to read or write I&M3 will result in an invalid index error.
+Approved, 
+ Software, 
+ QM
+SRIO-7760 - I&M --- I&M3 Access
+I&M3 is readable and writable.
+Approved, 
+ Software, 
+ QM
+SRIO-7761 - I&M --- I&M3 Storage
+I&M3 shall be stored permanently (powercycle proof).
+Approved, 
+ Software, 
+ QM
+SRIO-3003 - I&M --- I&M3
+Variable Bytes Value (Default)Description
+DESCRIPTOR 54 "20hex" (empty) Descriptor of submodule (ASCII, padded with spaces)
+Approved, 
+ Software, 
+ QM
+SRIO-7762 - I&M --- I&M3 on factory reset
+On factory reset, I&M3 shall be reset to a empty string (54 x 20hex).
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7700 - I&M --- GSDML-Check:
+The DAPs shall not offer write access to I&M4.
+Approved, 
+ Software, 
+ QM
+SRIO-7705 - I&M --- I&M4 - Supported Module
+I&M4 data is only supported by the PROFIsafe Modules.
+Approved, 
+ Software, 
+ QM
+SRIO-7706 - I&M --- Read/Write Access of I&M4
+I&M4 data shall only be readable (not writable).
+Approved, 
+ Software, 
+ QM
+SRIO-7704 - I&M --- I&M4 Storage
+The I&M4 Data is generated during the runtime, and is not stored remanently.
+Approved, 
+ Software, 
+ QM
+SRIO-3011 - I&M --- I&M4 data
+The I&M4 Data shall be a string containing the value of F_iParCRC and the F_Par_CRC from the F-parameter
+Variable Bytes Value (Default)Description
+SIGNATURE 54 "0x00" Signature generated by application
+Byte 0 - 3 : F_iParCRC (Value in Hex)
+Byte 4 - 6 : F_Par_CRC (Value in Hex)
+Approved, 
+ Software, 
+ QM
+SRIO-7707 - I&M --- Read/Write Access of I&M5
+I&M5 shall be only readable.
+SRIO-3023 - I&M5
+Variable BytesValue
+(Default)
+Description
+ANNOTATION 64 "host_fw_1.0.
+3.215"
+Manufacturer specific annotation string
+Padded with spaces (0x20) to 64 byte length
+Firmware Version with Prefix e.g "host_fw_1.0.3.215"
+ORDER_ID 64 "20hex"
+(empty)
+Order Id
+padded with spaces (0x20) to 64 byte length
+VENDOR_ID 2  VendorId
+SERIAL_NUMBER 16  Serial number
+Padded with spaces (0x20) to 16 byte length
+--- PAGE 36 ---
+6.4 Profinet Mapping
+Channel Assignment
+6.4.1 Cyclic Data
+Approved, 
+ Software, 
+ QM
+HARDWARE_REVISION 2  Hardware revision
+SOFTWARE_REVISION.PREFIX1 'V' Character describing the software of the OEM part.
+Allowed values: ‘V’, ‘R’, ‘P’, ‘U’ and ‘T’
+SOFTWARE_REVISION.X 1  Major version number
+SOFTWARE_REVISION.Y 1  Minor version number
+SOFTWARE_REVISION.Z 1  Build version number
+Remark: The read FW-Version shall be the Version of the Host.
+Approved, 
+ Software, 
+ SystemArchitecture, 
+ PQS, 
+ FSM, 
+ SIL 3
+SRIO-2060 - DI/DO Numbering, DI/DO Device
+For a DI/DO device the DI/DO numbers shall denote the port and port-channels as follows:
+DI/DO numberPort Port Pin Function
+DI 1 1 4 Channel 0
+DI 2 1 2 Channel 1
+DI 3 2 4 Channel 2
+DI 4 2 2 Channel 3
+DI 5 3 4 Channel 4
+DI 6 3 2 Channel 5
+DI 7 4 4 Channel 6
+DI 8 4 2 Channel 7
+DI 9 5 4 Channel 8 
+DI 10 5 2 Channel 9 
+DI 11 6 4 Channel 10 
+DI 12 6 2 Channel 11 
+DO 1 7 4 Channel 12
+DO 2 7 2 (P/PP) or 3 (PM)  Channel 13 
+DO 3 8 4 Channel 14
+DO 4 8 2 (P/PP) or 3 (PM)  Channel 15
+Figure 4 : DI/DO numbers for 6x2 F-DI and 2x2 F-DO
+Note: The Port Pinning is defined in 
+ SRIO-1990 - IO Connectors 
+SRIO-2986 - The cyclic process data of 6DI/2DO module
+The 6DI/2DO safety module shall have following inputs and outputs data mapping:
+SRIO to F-Host/ PLC - Input Data (for F-Host/ PLC):
+Byte/Bit7 6 5 4 3 2 1 0
+--- PAGE 37 ---
+6.5 Acyclic Access
+6.6 Diagnosis and Process alarms
+6.6.1.1 Process Alarm
+Approved, 
+ Software, 
+ QM
+n Digital Input
+Channel 07
+Digital Input
+Channel 06
+Digital Input
+Channel 05
+Digital Input
+Channel 04
+Digital Input
+Channel 03
+Digital Input
+Channel 02
+Digital Input
+Channel 01
+Digital Input
+Channel 00
+n + 1 not used not used not used not used Digital Input
+Channel 11
+Digital Input
+Channel 10
+Digital Input
+Channel 09
+Digital Input
+Channel 08
+n + 2 Qualifier for
+Digital Input
+Channel 07
+Qualifier for
+Digital Input
+Channel 06
+Qualifier for
+Digital Input
+Channel 05
+Qualifier for
+Digital Input
+Channel 04
+Qualifier for
+Digital Input
+Channel 03
+Qualifier for
+Digital Input
+Channel 02
+Qualifier for
+Digital Input
+Channel 01
+Qualifier for
+Digital Input
+Channel 00
+n + 3 not used not used not used not used Qualifier for
+Digital Input
+Channel 11
+Qualifier for
+Digital Input
+Channel 10
+Qualifier for
+Digital Input
+Channel 09
+Qualifier for
+Digital Input
+Channel 08
+n + 4 not used not used not used not used Qualifier for
+Digital Output
+Channel 15
+Qualifier for
+Digital Output
+Channel 14
+Qualifier for
+Digital Output
+Channel 13
+Qualifier for
+Digital Output
+Channel 12
+n + 5 PROFIsafe Status Byte
+n + 6...
+n + 9
+PROFIsafe Checksum  (CRC)
+F-Host/ PLC to SRIO - Output Data (from F-HOST/ PLC):
+Byte/Bit7 6 5 4 3 2 1 0
+n not used  not used  not used  not used  Digital
+Output
+Channel 15
+Digital
+Output
+Channel 14
+Digital
+Output
+Channel 13
+Digital
+Output
+Channel 12
+n + 1 PROFIsafe Control Byte
+n + 2...
+n + 5 
+PROFIsafe Checksum (CRC)
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7354 - Power Switch module for 6DI/2DO device
+The Power Switch module shall have following mapping [Output Data]:
+Byte/Bit7 6 5 4 3 2 1 0
+0 Power
+switch input
+channel 7
+Power
+switch input
+channel 6
+Power
+switch input
+channel 5
+Power
+switchinput
+channel 4
+Power
+switch input
+channel 3
+Power
+switch input
+channel 2
+Power
+switch input
+channel 1
+Power
+switch input
+channel 0
+1 not used  not used  not used  not used  Power
+switch input
+channel 11 
+Power
+switch input
+channel 10
+Power
+switch input
+channel 9
+Power
+switch input
+channel 8
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7749 - Acyclic write access after config phase
+After the param-end command, a write to the configuration records shall be blocked.
+--- PAGE 38 ---
+6.6.1.2 Diagnosis alarm
+6.6.1.2.1 Channel Number
+6.6.1.3 Channel proprieties
+6.6.1.4 Channel Error type
+The device specifies the cause of an error in the data area 'ChannelErrorType'.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7817 - Process alarm
+The safe remote IO shall not support process alarms.
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7823 - Channel Number
+For all diagnosis alarms the source of the diagnosis shall correspond to the channel.
+In the channel properties, the application specifies data such as the following:
+Maintenance is required or demanded
+Diagnostic alarm is comming in/going out
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7822 - Channel property
+For all diagnosis, "Diagnosis" shall be used as channel property.
+Channel property = 0x0000
+Approved, 
+ Software, 
+ PQS, 
+ QM
+SRIO-7825 - Channel Error Type
+All application specific diagnosis alarms shall be defined in the manufacturer specific range 0x100 - 0x7FFF.

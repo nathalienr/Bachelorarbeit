@@ -132,19 +132,11 @@ Definition des durchgängigen Datenmodells:
 				Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Test Category $\rightarrow$ Test Method $\rightarrow$ Test Case $\rightarrow$ Evidence and Verdict
 
     3.2.3 Test Case Taxonomy
-Vorstellung deiner 6 Kern-Testdomänen (Authentication, Authorization, Configuration, Firmware/Update, Logging/Auditability, Communication/Robustness) sowie Aufbau des standardisierten Testdatenblatts.
-Normenbasiert (IEC 62443)
-Authentication (FR1)
-Authorization (FR2)
-System Integrity (FR3)
-Data Confidentiality (FR4)
-Data Flow / Network Security (FR5)
-Logging & Incident Response (FR6)
-Availability & Robustness (FR7)
-Hinweis auf die spätere Tool-Instanziierung je Domäne in Kap. 4.1.3 / 4.2
+Vorstellung deiner Kern-Testdomänen sowie Aufbau des standardisierten Testdatenblatts.
 
     3.2.4 Verification Lifecycle & Governance
 Verankerung im Produktlebenszyklus (RACI-Matrix & Mapping auf IEC 62443-4-1 Practice 5: SV).
+
 3.3 Evaluation Metrics & Assessment Scheme
 Definition des Bewertungsschemas (PASS, FAIL, PARTIAL, NOT APPLICABLE)
 Metrik zur Abdeckung der regulatorischen Anforderungen (MVO Annex IV Technische Dokumentation)

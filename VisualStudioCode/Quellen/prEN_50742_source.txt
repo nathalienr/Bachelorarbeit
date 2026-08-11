@@ -1,0 +1,392 @@
+Sicherheit von Maschinen –
+Schutz vor Korruption;
+Deutsche und Englische Fassung prEN 50742:2025
+Safety of machinery –
+Protection against corruption;
+German and English version prEN 50742:2025
+
+
+Einleitung
+Maschinen müssen sicher sein, um Verletzungen und Todesfälle zu vermeiden.
+Die Kommunikation mit der Maschine darf nicht zu Gefährdungssituationen führen.
+Der Hersteller führt eine Risikobeurteilung nach EN ISO 12100 durch, um alle potenziellen Gefahren zu
+identifizieren.
+Anfälligkeiten können zu einer Verfälschung des Steuerungssystems der Maschine führen, und Gefahren
+können zu Gefährdungssituationen führen.
+Durch Ausnutzung von Anfälligkeiten über die Kommunikation mit der Maschine könnten Maschinen außerhalb
+sicherer Parameter betrieben oder Sicherheitsfunktionen beeinträchtigt werden.
+Anfälligkeiten können keine neuen Gefährdungen schaffen.
+Die Wahrscheinlichkeit, dass jemand eine Anfälligkeit für einen böswilligen Versuch ausnutzt, kann nicht
+vorhergesagt werden.
+Das Risiko kann nur im Hinblick auf die Auswirkungen auf die funktionale Sicherheit beurteilt werden.
+Anfälligkeiten werden in verschiedene Typen unterteilt.
+Dieses Dokument stellt zwei Ansätze bereit:
+– Ansatz A (Abschnitt 5 und Abschnitt 7) wurde entwickelt, um leichter die Übereinstimmung von Maschinen
+zu erreichen, die ohne Bezugnahme auf die Normenreihe EN IEC 62443 entwickelt wurden.
+– Ansatz B (Abschnitt 6 und Abschnitt 8) wurde bereitgestellt, um leichter die Übereinstimmung
+von Maschinen zu erreichen, die mit Bezugnahme auf die Normen EN IEC 62443-3-3:2019,
+EN IEC 62443-4-1:2018 und EN IEC 62443-4-2:2019 entwickelt wurden.
+ANMERKUNG 1 Die Normenreihe EN IEC 62443 stellt Informationen und eine Methodik zum Umgang mit
+Cybersicherheit bereit.
+Dieses Dokument ist für die Anwendung durch Maschinenkonstrukteure, Hersteller von Steuerungssystemen
+und Integratoren sowie andere an der Spezifikation, Gestaltung und Validierung eines sicherheitsbezogenen
+Steuerungssystems Beteiligte vorgesehen.
+ANMERKUNG 2 Siehe EN IEC 62443-4-1:2018. Der Hersteller kann ein Lieferant oder ein Systemintegrator sein.
+Dieses Dokument befasst sich nicht mit der Rolle des Anwenders.
+
+1 Anwendungsbereich
+Dieses Dokument stellt Anforderungen und Empfehlungen zum Schutz vor Korruption für Maschinen,
+zugehörige Produkte und unvollständige Maschinen, die in diesem Dokument als „Maschinen“ bezeichnet
+werden.
+Dieses Dokument stellt Anforderungen und Empfehlungen zur Verhinderung von unbeabsichtigten und
+vorsätzlichen (einschließlich böswilligen) Verfälschungen von Maschinen bereit, die zu gefährlichen Situationen
+führen können.
+Dieses Dokument gilt für:
+– Hardware-Komponenten, einschließlich Schnittstellen zu entfernten Geräten und Steuerungssystemen,
+die Signale oder Daten übertragen können;
+– Software und Daten;
+sofern diese die Sicherheit der Maschinen beeinflussen könnten.
+ANMERKUNG 1 Die Themen können sich mit dem Themenbereich Cybersicherheit überschneiden, sind jedoch nicht
+unbedingt identisch in ihrer Funktionsabdeckung.
+ANMERKUNG 2 Dieses Dokument beschreibt keine funktionalen Sicherheitsanforderungen an Steuerungssysteme in
+Maschinen.
+Es gibt allerdings Anforderungen an die zugehörigen Risiken in allen Lebenszyklusphasen vor.
+Maschinenschnittstellen zu externen Systemen und Diensten fallen ebenfalls in den Anwendungsbereich dieses
+Dokuments. Externe Systeme und Dienste fallen dagegen nicht in den Anwendungsbereich dieses Dokuments.
+Dieses Dokument ist nicht anwendbar auf Maschinen, die vor dem Datum seiner Veröffentlichung installiert
+wurden.
+Dieses Dokument legt Anforderungen zum Schutz vor zugehörigen Verfälschungsrisiken in allen
+Lebenszyklusphasen fest, darunter:
+– Entwicklung;
+– Fertigung;
+– Inbetriebsetzung;
+– Betrieb;
+– Instandhaltung/Wartung;
+– Außerbetriebsetzung.
+
+2 Normative Verweisungen
+EN ISO 12100:2010, Sicherheit von Maschinen - Allgemeine Gestaltungsleitsätze - Risikobeurteilung und
+Risikominderung (ISO 12100:2010)
+EN IEC 62443-3-3:2019, Industrielle Kommunikationsnetze - IT-Sicherheit für Netze und Systeme - Teil 3-3:
+Systemanforderungen zur IT-Sicherheit und Security-Level
+EN IEC 62443-4-1:2018, IT-Sicherheit für industrielle Automatisierungssysteme - Teil 4-1: Anforderungen an
+den Lebenszyklus für eine sichere Produktentwicklung
+EN IEC 62443-4-2:2019, IT-Sicherheit für industrielle Automatisierungssysteme - Teil 4-2: Technische
+Sicherheitsanforderungen an Komponenten industrieller Automatisierungssysteme (IACS)
+
+3 Begriffe
+3.1 Steuerungssystem
+System, das auf Eingangssignale von Bauteilen der Maschine, von Bedienern, von externen
+Steuerungseinrichtungen oder einer beliebigen Kombination davon reagiert und entsprechende
+Ausgangssignale an die Bedienteile der Maschine generiert, wodurch die Maschine die beabsichtigte Leistung
+erbringt
+
+3.2 Eingriff
+legitime(s) oder illegitime(s) Aktion oder Ereignis, die/das die Software oder Daten ändert und dadurch
+das Verhalten, den Zustand oder den Betrieb der Maschine vorübergehend oder dauerhaft modifiziert oder
+unterbricht
+Anmerkung 1 zum Begriff: Aktionen zur Umsetzungen von Sicherheitsroutinen, Sicherheitsvariablen, Kalibrierungsdaten
+und Firmware-Updates sicherheitsbezogener Bauteile der Software gelten als Eingriffe im Sinn dieses Dokuments.
+Anmerkung 2 zum Begriff: Üblicherweise betrieblich veranlasste Änderungen an Variablen, wie z. B. zum Öffnen einer
+Sicherheitstür, stellen keine Eingriffe im Sinn einer Datenänderung dar.
+BEISPIEL 1) Modifizierung der auf der Maschine installierten Software aufgrund einer Aktualisierung oder
+Konfigurationsänderung(en).
+2) Modulare SPS: Wenn ein SPS-Modul gegen ein identisches Ersatzteil ausgetauscht wird, gilt dies nicht als Eingriff; wenn
+dagegen ein zusätzliches Bauteil eingebaut wird, so gilt dies als Modifizierung.
+
+3.3 Modifizierung
+durch einen Eingriff verursachte Änderung
+Anmerkung 1 zum Begriff: Einschließlich Software-Version, Sensorkalibrierung, Konfigurationsdaten usw.
+BEISPIEL Aktualisierung von sicherheitsbezogener Software.
+
+3.4 Nachweis
+alles, was die Erkennung ermöglicht, dass ein Ereignis oder eine Aktion stattgefunden hat
+BEISPIEL Protokollaufzeichnungen, beschädigte Sicherheitssiegel (Manipulationsschutzsiegel) und Kratzspuren,
+Beschädigungen an Schnittstellenabdeckungen, z. B. RJ45-Abdeckung.
+
+3.5 Verfälschung
+unbeabsichtigte oder unzulässige Änderung von Maschinendaten, die unter Umständen zu gefährlichen
+Situationen führt
+
+3.6 Sicherheitsumfeld
+Sicherheit, die der Maschine durch die Umgebung geboten wird, in der die Maschine eingesetzt werden soll
+[QUELLE: EN IEC 62443-4-1:2018, 3.1.23, modifiziert – Das Wort „Produkt“ wurde durch das Wort „Maschine“
+ersetzt]
+
+3.7 Maßnahme
+Tätigkeit, Gerät, Prozedur oder Verfahren, durch die eine Bedrohung, eine Anfälligkeit oder die Folgen eines
+Angriffs verringert werden, und zwar durch die Verringerung des möglichen Schadens oder durch Entdeckung
+und Bericht, so dass Korrekturmaßnahmen eingeleitet werden können
+[QUELLE: EN IEC 62443-4-2:2019, 3.1.15]
+
+3.8 Ausgleichsmaßnahme
+Maßnahme, die anstelle von oder zusätzlich zu inhärenten Sicherheitsfähigkeiten eingesetzt wird, um einer
+oder mehreren Sicherheitsanforderung(en) zu genügen
+[QUELLE: EN IEC 62443-4-2:2019, 3.1.9]
+
+3.9 vernünftigerweise praktikabel
+unter Abwägung der Risikominderung gegen Zeit, Geld und Aufwand
+
+3.10 Verfolgungsprotokoll
+erfasste Daten, die Eingriffe betreffen, die sich auf das sicherheitsbezogene Steuerungssystem auswirken
+
+3.11 Anfälligkeit
+Fehler oder Angriffsmöglichkeiten in der Gestaltung, der Implementierung oder dem Betrieb und Management
+eines Systems, der/die ausgenutzt werden könnte, um die Integrität des Systems zu verfälschen
+
+3.12 kritische Daten
+Daten, deren Manipulation zu einer Erhöhung der Gefährdung führen kann
+
+3.13 sicherheitsbezogene Anwendungs-Software (SRASW)
+anwendungsspezifische Software, die im Allgemeinen logische Sequenzen, Grenzwerte und Ausdrücke enthält,
+die die entsprechenden Eingaben, Ausgaben, Berechnungen und Entscheidungen steuern, die zur Erfüllung
+der funktionalen Anforderungen an das sicherheitsbezogene Teil einer Steuerung (SRP/CS) erforderlich sind
+[QUELLE: EN ISO 13849-1:2023, 3.1.41]
+
+3.14 sicherheitsbezogene Embedded-Software (SRESW)
+Software, die Teil des vom Hersteller gelieferten Systems und nicht für Änderungen durch den Endanwender
+vorgesehen ist
+[QUELLE: EN ISO 13849-1:2023, 3.1.42, modifiziert – Anmerkung 1 zum Begriff wurde gestrichen]
+
+3.15 SRSL (Sicherheitsbezogene Sicherheitsanforderung)
+Parameter, der die Gesamtheit der Sicherheitsanforderungen darstellt, die zu einer bestimmten
+sicherheitsbezogenen Funktion gehören, um diese vor Datenverfälschungen zu schützen
+
+4 Schutz gegen Verfälschungen
+4.1 Allgemeines
+Es muss entweder Ansatz A (Abschnitt 5 und Abschnitt 7) oder Ansatz B (Abschnitt 6 und Abschnitt 8)
+angewendet werden.
+
+4.2 Anschluss von Maschinen
+Auslegung und Konstruktion der Maschinen dürfen keine Gefährdungssituationen aufgrund anhand der
+Anschlüsse dieser Maschinen zulassen.
+Anschlüsse (physisch, logisch und indirekt) sind dabei Verbindungen, über die Informationen ausgetauscht
+werden können, wie zum Beispiel:
+– Netz-Übertragungsleitungen,
+– WLAN-Verbindungen,
+– einzelne Drähte,
+– Drähte für die Stromversorgung,
+– optische Verbindungen,
+– Kartenleser-Schnittstellen,
+– Verbindungen zwischen Maschinen und externen Systemen: Hausnetze, Cloud-Dienste, Dienstwerkzeuge
+ANMERKUNG 1 Die Konnektivität kann über eine Ausrüstung hergestellt werden, die dauerhaft vor Ort verfügbar ist,
+oder über eine Ausrüstung, die vorübergehend während der Installation, des Betriebs und der Instandhaltung oder für die
+Außerbetriebnahme an den Standort verbracht wird.
+ANMERKUNG 2 Ein Beispiel für eine Maschine, die hier nicht berücksichtigt werden soll, ist beispielsweise eine
+einfache Bohrmaschine ohne jegliche Anschlussmöglichkeit.
+
+4.3 Allgemeine Verfahrensanforderungen
+Nach einer Risikobeurteilung nach EN ISO 12100:2010, bei der zuvor alle potenziellen Gefährdungen
+identifiziert wurden, muss der Konstrukteur eine Gefährdungsbeurteilung durchführen.
+Der Inhalt der Gefährdungsbeurteilung kann sich auf zusätzliche Gefährdungen beschränken, die nicht durch
+die Mindestsicherheitsmaßnahmen abgedeckt sind. Der Konstrukteur muss den Sicherheitskontext für die Maschine festlegen.
+Die folgenden Grundsätze müssen angewendet werden, um eine Maschine vor Bedrohungen zu schützen, die
+zu Gefährdungssituationen führen können:
+a) Sofern Anfälligkeiten vorhanden sind, sind diejenigen zu beseitigen, die zu Gefährdungssituationen führen
+können.
+b) Wenn es nicht möglich ist, Anfälligkeiten zu beseitigen, muss der Entwickler diese mindern.
+c) Für alle Anfälligkeiten, die nach den Schritten a) und b) noch bestehen, muss die Anwenderinformation alle
+notwendigen Angaben bereitstellen, damit der Anwender Ausgleichsmaßnahmen ergreifen kann. Siehe Anhang C.
+Anfälligkeiten können keine neuen Gefährdungen verursachen, aber ihre Ausnutzung kann die
+Schutzmaßnahmen gefährden. Daher muss eine Beurteilung durchgeführt werden.
+Gegenmaßnahmen dürfen die funktionale Sicherheit der Maschine nicht beeinträchtigen.
+Die Wahrscheinlichkeit, dass jemand versucht, eine bestimmte Anfälligkeit für einen böswilligen Versuch
+auszunutzen, kann nicht vorhergesagt werden. Daher darf die Wahrscheinlichkeit, Ziel bzw. Opfer eines solchen
+Versuchs zu werden, für die Beurteilung einer Bedrohung nicht relevant sein.
+Um die grundlegenden Anforderungen und Empfehlungen zur Verhinderung einer zufälligen und vorsätzlichen
+(einschließlich böswilligen) Verfälschung von Maschinen, die zu gefährlichen Situationen führt, zu erfüllen,
+müssen Entwickler dem Ansatz A folgen. Wenn sie dagegen vorziehen, für die Sicherheitsanforderungen ihrer
+Maschinen eher die Normen EN IEC 62443-3-3:2019, EN IEC 62443-4-1:2018 oder EN IEC 62443-4-2:2019
+zu befolgen, muss Ansatz B in Betracht kommen.
+
+6 Prozessanforderungen nach Ansatz B
+Es müssen die Anforderungen nach EN IEC 62443-4-1:2018 gelten.
+
+7 Produktanforderungen
+7.1 Schnittstellen
+Alle Maschinen-Schnittstellen, die zugänglich sind und die Sicherheit der Maschine beeinträchtigen können,
+müssen identifiziert und durch Ausgleichs- oder Gegenmaßnahmen geschützt werden.
+Leitfäden zu Angriffen zweiter Ordnung sind in Anhang C enthalten.
+
+7.2 Sicherheitsmaßnahmen
+7.2.1 Allgemeines
+Sicherheitsmaßnahmen zum Schutz vor Verfälschungen der Maschine, die zu Gefährdungssituationen führen
+können, müssen auf der Grundlage eines risikobasierten Ansatzes ausgewählt werden, um angemessen zu
+sein.
+Dieser risikobasierte Ansatz muss im Zusammenhang mit dem bestimmungsgemäßen Gebrauch und dem
+Sicherheitskontext der Maschine sowohl Sicherheitsrisiken als auch Bedrohungsrisiken berücksichtigen.
+Sicherheitsmaßnahmen dürfen die funktionale Sicherheit nicht beeinträchtigen.
+
+7.2.2 Kryptographie
+Bei der Verwendung kryptographischer Verfahren sollten nur Algorithmen auf dem neuesten Stand der Technik
+ausgewählt werden.
+
+7.3 Erfassung von Informationen
+7.3.1 Arten von Eingriffen
+Die folgende Liste stellt die Arten von Eingriffen vor, die berücksichtigt werden müssen:
+a. Sicherheitsparametrierung/Konfigurationsparameter (über Identifikationsmittel wie CRC usw.),
+b. Aktualisierung/Änderung der SRESW (nur über Identifikationsmittel wie Versionsnummer, CRC usw.),
+c. Aktualisierung/Änderung der SRASW (nur über Identifikationsmittel wie Versionsnummer, CRC usw.),
+d. Parametrierung von Mensch-Maschine-Schnittstellen, wenn dadurch Gefährdungen entstehen können,
+e. Software, die für die Anzeige von Sicherheitsanweisungen relevant ist.
+ANMERKUNG 1 Eingriffe, die keine Änderungen der oben aufgeführten Daten zur Folge haben, brauchen nicht
+protokolliert zu werden (z. B. erfolgreiche/erfolglose autorisierte Eingriffe).
+ANMERKUNG 2 Aktionen an der Maschine, die einen sicheren Zustand der Maschine auslösen, z. B. das Auslösen
+eines Lichtvorhangs, fallen nicht in den Anwendungsbereich.
+ANMERKUNG 3 Die Versionen der SRASW- oder SRESW-Binärdateien brauchen nicht im Nachverfolgungsprotokoll
+gespeichert zu werden.
+
+7.3.2 Zu erfassende Nachweise von Eingriffen
+Digitale Nachweise für legitime oder illegitime Aktionen oder Ereignisse, die das Verhalten, den Zustand oder
+den Betrieb der Maschine vorübergehend oder dauerhaft verändern oder unterbrechen und die Software oder
+Daten verändern, müssen aufgezeichnet werden und mindestens die folgenden Daten enthalten:
+a. Angabe der Art des Eingriffs, der sich auf die Software auswirkt, auf die nach der Risikobewertung zur
+Risikominderung zurückgegriffen wird,
+b. Mittel zur Korrelation protokollierter Ereignisse (z. B. Zeitstempel mit Bezug auf die absolute oder relative
+Systemzeit), Boot-Zähler, Systemzeiten, laufende Zähler,
+c. Löschung der Protokolldatei.
+
+7.3.3 Anforderungen an die Protokollierung
+Die Maschine muss digitale oder physische Mittel zur Rückverfolgbarkeit von Eingriffen bereitstellen.
+Digitale Nachweise von Eingriffen müssen lesbar und zugänglich sein.
+Die Dokumentation muss Angaben bereitstellen, wie auf die aufgezeichneten Nachweise zugänglich sind und
+interpretiert werden können.
+Wenn ein binäres Format verwendet wird, sollte dessen Format als Teil der Anwenderinformation dokumentiert
+werden, so dass alle Beteiligten einen Konverter programmieren können, um diese Protokolle verständlich zu
+machen.
+Wenn die Sammlung digitaler Nachweise nicht angemessen praktikabel ist, müssen physische Nachweise (z. B.
+von der Manipulation eines Siegels) verwendet werden.
+Die Zusammenstellung von Nachweisen für Eingriffe ist erforderlich und muss automatisch durch die Maschine
+oder das zugehörige Produkt erfolgen.
+Die Protokollaufzeichnungen dürfen im Steuerungssystem, in den Komponenten innerhalb der Maschine oder
+in einer Komponente zur Speicherung der Daten außerhalb der Maschine gespeichert werden.
+
+7.3.4 Anforderungen an die Speicherdauer
+Das Protokoll muss mindestens die Nachweise der letzten Intervention jeder Art enthalten.
+Die Protokollaufzeichnungen jeder Intervention müssen mindestens fünf Jahre lang aufbewahrt werden.
+Das Protokoll muss spätestens ab dem Zeitpunkt, zu dem die Maschine in Betrieb genommen wird, aktiviert
+sein.
+
+7.3.5 Anforderungen an die Speichersicherheit
+Protokolle müssen ordnungsgemäß gesichert werden, um sie vor Manipulationen zu schützen.
+Das Löschen von Protokollen, sofern zutreffend, darf nur durch ein autorisiertes Verfahren möglich sein.
+
+7.4 Schutzmaßnahmen gegen Verfälschungen
+7.4.1 Allgemeines
+Verfälschungen können die Integrität und Wirksamkeit der Maßnahmen zur Risikominderung beeinträchtigen
+und zu potenziell gefährlichen Folgen führen.
+Um sich vor solchen Risiken zu schützen, muss zunächst das erforderliche Schutzniveau festgelegt werden.
+Dazu müssen die Anfälligkeiten und die spezifischen Erfordernisse der jeweiligen Anwendung identifiziert und
+sicherheitsbezogene Sicherheitsstufen (SRSL) für die einzelnen Maßnahmen zur Risikominderung festgelegt
+werden.
+
+7.4.2 Sicherheitsbezogene Sicherheitsstufen
+Für jede identifizierte Sicherheitsfunktion muss eine sicherheitsbezogene Sicherheitsstufe (SRSL) bestimmt
+und dokumentiert werden.
+Die Bestimmung des SRSL muss auf dem Ergebnis der Bedrohungsbeurteilung basieren und mit der durch die
+Schutzmaßnahme erzielten Risikominderung und der Wahrscheinlichkeit einer erfolgreichen Ausnutzung der
+Bedrohung in Beziehung gesetzt werden.
+Es sind vier SRSLs festgelegt, wobei SRSL0 keine spezifischen zusätzlichen Anforderungen stellt und SRSL1
+bis SRSL3 einer niedrigen bis hohen Sicherheitsstufe entsprechen.
+
+7.4.3 Anforderungen an die Aufrechterhaltung der Sicherheit
+7.4.3.1 Allgemeines
+Die Maschinen müssen mindestens die unten aufgeführten Sicherheitsanforderungen erfüllen, die der
+festgelegten SRSL entsprechen.
+
+7.4.3.2 Anforderungen an die Authentifizierung
+7.4.3.2.1 Authentifizierung
+SRSL0: Keine.
+SRSL1: Einheiten müssen authentifiziert sein.
+SRSL2: Einheiten müssen authentifiziert sein.
+SRSL3: Einheiten müssen eindeutig authentifiziert sein.
+
+7.4.3.3 Anforderungen an die Autorisierung
+7.4.3.3.1 Sicherstellung der Autorisierung
+SRSL0: Keine.
+SRSL1: Eingriffe müssen eine Autorisierung erfordern.
+SRSL2: Eingriffe müssen eine Autorisierung erfordern.
+SRSL3: Eingriffe müssen eine Autorisierung mit besonderen Privilegien erfordern (z. B. aufgabenbasierte
+Zugangskontrolle).
+
+7.4.3.4 Anforderungen an die Integrität
+7.4.3.4.1 Software- und Informationsintegrität
+SRSL0: Keine.
+SRSL1: Die Integrität der Software und anderer kritischer Informationen, wie sicherheitsbezogene Konfigurationen,
+muss beim Anlaufen der Maschine geprüft werden (z. B. durch Verwendung von Prüfsummen).
+SRSL2: ...beim Anlaufen der Maschine und danach regelmäßig geprüft werden.
+SRSL3: ...beim Anlaufen der Maschine und danach regelmäßig während des Betriebs kryptographisch geprüft
+werden (z. B. durch kryptographische Hashs, HMACs und/oder CMACs).
+
+7.4.3.4.2 Integrität des Boot-Prozesses
+SRSL0: Keine.
+SRSL1: Die Integrität des Boot-Vorgangs muss geschützt und beim Anlaufen verifiziert werden (z. B. durch
+Prüfsummen).
+SRSL2: Die Integrität des Boot-Vorgangs muss geschützt und beim Anlaufen verifiziert werden.
+SRSL3: Ein sicherer Boot-Vorgang muss implementiert werden (z. B. durch kryptographische Signaturprüfung mit
+vertrauenswürdigen Roots, durch ein Rollback-Verfahren oder durch Rückführung in einen sicheren Zustand
+bei fehlgeschlagener Verifizierung).
+
+7.4.3.4.3 Integrität des Informationsaustauschs
+SRSL0: Keine.
+SRSL1: Die Integrität der ausgetauschten Informationen muss verifiziert werden.
+SRSL2: Die Integrität der ausgetauschten Informationen muss verifiziert werden.
+SRSL3: Die Integrität der ausgetauschten Informationen muss durch die Implementierung sicherer kryptographischer
+Protokolle gewährleistet werden, die veränderte oder wiederholte Nachrichten erkennen und zurückweisen.
+
+7.4.3.4.4 Validierung der Eingabedaten
+SRSL0: Keine.
+SRSL1: Die Eingabedaten müssen anhand festgelegter Grenzen validiert werden. Ungültige Eingabedaten müssen
+zurückgewiesen werden.
+SRSL2: Die Eingabedaten müssen streng validiert werden, einschließlich Syntax, Semantik, korrektes Format und
+Verifizierung des Datentyps. Ungültige Eingabedaten müssen zurückgewiesen werden.
+SRSL3: Die Eingabedaten müssen einer strengen, umfeldbezogenen Validierung unterzogen werden, einschließlich
+syntaktischer, semantischer, grenzbezogener und protokollspezifischer Einschränkungen. Ungültige
+Eingabedaten müssen zurückgewiesen werden.
+
+7.4.3.4.5 Physische Manipulation
+SRSL0: Keine.
+SRSL1: Physische Manipulation muss beispielsweise durch ein gebrochenes Siegel erkannt werden.
+SRSL2: Physische Manipulation muss beispielsweise durch ein gebrochenes Siegel erkannt werden.
+SRSL3: Physische Manipulation muss beispielsweise durch ein gebrochenes Siegel erkannt werden.
+
+7.4.3.5 Anforderungen an die Authentizität
+7.4.3.5.1 Authentizität von SRESW bzw. SRASW
+SRSL0: Keine.
+SRSL1: Keine.
+SRSL2: Die Authentizität kritischer Daten (z. B. SRESW bzw. SRASW und kritische Konfigurationsdaten) muss zum
+Zeitpunkt der Installation z. B. durch kryptographische Signaturen oder gleichwertige Maßnahmen überprüft
+werden.
+SRSL3: (identisch zu SRSL2).
+
+7.5 Identifikation von Software-Versionen und Konfigurationen
+Die Identifikation von Software-Versionen und Konfigurationsdaten, die für den Schutz vor Verfälschung relevant
+sind, muss auf Anfrage verfügbar sein. Software-Identifizierungen und Konfigurationsdaten müssen in lesbarer
+Form verfügbar sein, entweder über ein integriertes System oder über ein externes Tool.
+
+8 Prozessanforderungen nach Ansatz B
+8.1 Allgemeines — siehe Tabellen 3/4 (FR1-FR7 Zuordnung zu SR/CR gemäß EN IEC 62443-3-3/4-2).
+8.2 Maschinensysteme — EN IEC 62443-3-3:2019 konform, Tabelle 3.
+8.3 Maschinenkomponenten — EN IEC 62443-4-2:2019 konform, Tabelle 4.
+8.4 Identifikation — wie 7.5, aber beschränkt auf für Sicherheitsfunktionen relevante Software/Konfigurationsdaten.
+8.5 Persistenz — Auditaufzeichnungen nach EN IEC 62443-4-2:2019, 6.10 (CR 2.8) mindestens 5 Jahre.
+
+9 Anwenderinformation
+Die Anwenderinformation muss Folgendes umfassen:
+– Informationen über den Sicherheitskontext der Maschine,
+– Identifikation von Software-Versionen und Konfigurationsdaten, die für Sicherheitsfunktionen relevant sind,
+– Anweisungen für den Zugang zu Informationen über die für die Sicherheitsfunktionen relevanten Software-
+Versionen und Konfigurationsdaten sowie deren Änderungen,
+– Informationen über die Erlaubnis und/oder das Verbot von Änderungen.
+
+Anhang ZZ (informativ) – Zusammenhang mit Verordnung (EU) 2023/1230, Anhang III
+Tabelle ZZ.1:
+1.1.9 → 4.3, 7.1, 7.2.1, 7.3.2, 7.3.3, 7.3.4, 7.4.2, 7.4.3, 7.5, 8.3, 9
+1.2.1, Abs. 2 Punkt a) → 4.3, 7.1, 7.2.1, 7.4.2, 7.4.3
+1.2.1, Abs. 2 Punkt f) → 7.3.2, 7.3.3, 7.3.4, 7.5, 8.3, 8.4
+
+NOTE: Anhang ZZ cross-references only MVO Annex III clauses 1.1.9 and 1.2.1 (points a and f). It does NOT
+reference clause 3.3 (remote control), 1.2.6 (communication network resilience), or 3.3.3 (validation signal /
+watchdog stop). Combined with the explicit functional-safety exclusion in §1 (Anmerkung 2), this indicates
+that prEN 50742 does not normatively address remote-control-unit identification/scoping or communication-
+resilience/watchdog behaviour - these remain gaps relative to the full MVO requirement set.

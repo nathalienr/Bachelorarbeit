@@ -1,0 +1,612 @@
+--- PAGE 1 ---
+218_SRIO_Manual
+1 Norms and standards
+SRIO-11353, 
+ Approved - FCC Compliance
+SRIO shall be compliant to FCC Class A.
+Remark: "Class A: Equipment that is, by virtue of its characteristics, highly unlikely to be used in a residential environment,
+including a home business. Characteristics considered in this assessment include price, marketing and advertising methodology,
+the degree to which the functional design inhibits applications suitable to residential environments, or any combination of features
+that would effectively preclude the use of such equipment in a residential environment. Also used for denoting the corresponding
+emission limits applicable to such equipment."
+see also FCC_Info
+SRIO-11351, 
+ Approved - FCC: Compliance Information
+In addition to labeling, a compliance information statement shall be supplied with the product.
+•Identification of the product as in § 2.1074, e.g., name and model number;
+•A compliance statement as applicable, e.g., for devices subject to part 15 of this chapter as specified in § 15.19(a)(3), that the
+product complies with the rules; and
+•The identification, by name, address and telephone number or Internet contact information, of the responsible party, as defined
+in § 2.909. The responsible party for Supplier's Declaration of Conformity must be located within the United States.
+see also FCC_Info, example:
+
+--- PAGE 2 ---
+SRIO-11348, 
+ Approved - FCC: Statement in Manual
+The following text shall be added to manual to inform the user about FCC conformity:
+"This device complies with part 15 of the FCC Rules. Operation is subject to the following two conditions:
+(1) This device may not cause harmful interference, and
+(2) This device must accept any Interference received, including interference that may cause undesired operation."
+SRIO-11349, 
+ Approved - FCC: Device Labeling
+The labeling of SRIO shall have the FCC Logo as shown below as well as the Canadian certification information added.
+Logo Canadian Certification Information
+   
+CAN ICES (A)
+NMB (A)
+SRIO-11347, 
+ Approved - FCC Remark
+The FCC statement 
+ SRIO-11348 - FCC: Statement in Manual shall be available for the user inside of the packaging (e.g.
+written in manual).
+Remark:
+If an instruction manual is not provided or is only available electronically, then the labeling (Section 15.19(a)
+statement) shall also be placed on the device packaging, paper insert or on a removable label attached to the
+device. 
+SRIO-9317, 
+ Approved - RoHS
+SRIO shall be compliant with Restriction of the use of certain hazardous substances (RoHS) Directive
+2011/65/EU.
+SRIO-9320, 
+ Approved - Machinery Directive
+SRIO shall be compliant with Machinery (MD) Directive 2006/42/EC.
+--- PAGE 3 ---
+2 List of Work Items
+2.1 General
+SRIO-17099 - Content for User Documentation (derived from Risk Assessment) 
+SRIO-12352 - Properties of the device which should be defined according to ZVEI CB24I, but are not. 
+SRIO-9319, 
+ Approved - Low Voltage Directive
+SRIO shall be compliant with Low voltage (LVD) Directive 2014/35/EU.
+SRIO-9318, 
+ Approved - Electromagnetic Compatibility
+SRIO shall be compliant with Electromagnetic Compatibility (EMC) Directive 2014/30/EU.
+SRIO-9316, 
+ Approved - Applicable standards - CE
+Derived from directives above, SRIO shall be compliant with the standards as listed in "List of applicable standards.xlsx".
+Remark: The list is available at ...\SRIO\30_QM_Plan_Testplans\02_Functional_Safety\03_Functional Safety Engineering\CE
+SRIO-7134, 
+ Approved - EG-Conformity Declaration
+For each device, a copy of the eg-conformity declaration for both languages, english and german, shall be added.
+SRIO-15403, 
+ Approved - Documentation: Info regarding mechanical defects
+It shall be documented in Technical Publication that devices with mechanical defects being able to be identified by visual
+inspection shall be replaced.
+SRIO-14714, 
+ Approved - Technical Publication - mechanical defects - devices to be replaced
+It shall be documented in Technical Publication that devices with mechanical defects being able to be identified by visual
+inspection shall be replaced.
+SRIO-14717, 
+ Approved - Technical Publication - FE - max Current
+It shall be documented in Technical Publication that FE is not intended to carry current, it is used for EMC only.
+Remark: Be aware related to the differences between "FE" and "PE".
+SRIO-16242, 
+ Approved - Release Notes
+For each FW which is released, release notes stating the user relevant changes compared to the previous version shall exist.
+SRIO-12749, 
+ Approved - Cable Installation
+The cable installation for SRIO for input and output ports shall be indoor installation only.
+SRIO-9841, 
+ Approved - Restriction Inhouse
+The usage of the device and all belonging cable installation is restricted to indoor installation only.
+SRIO-11810, 
+ Approved - Assembly
+The device shall be mounted on a flat surface.
+SRIO-11809, 
+ Approved - Torsional forces or mechanical loads
+Torsional forces or mechanical loads during or after installation by the user are excluded and need not be assumed.
+Remark: Add note to manual.
+SRIO-11808, 
+ Approved - Technical specifications for power dependence on ambient temperature
+The Hardware shall provide derating specifications for power usage on Inputs or Outputs during high environmental
+temperatures.
+SRIO-9691, 
+ Approved - Information about vibration and temperature
+The manual shall contain the information on the vibration and temperature profiles.
+SRIO-11524, 
+ Approved - SCPU IoT: Doku Current US_DI without
+It shall be documented, that the value for current US_DI is only the current used to supply sensors without internal usage.
+SRIO-10730, 
+ Approved - Manual remark Reset Sensor
+During a reset of a sensor device, the danger area shall be secured.
+--- PAGE 4 ---
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-9842, 
+ Approved - Cable Length for IO
+The usage of the device is restricted to cable length for input and output ports to less or equal 30m.
+SRIO-1085, 
+ Approved - Applicable Cable Length
+The applicable cable length for the outputs must be < = 30 m
+SRIO-9375, 
+ Approved - ETH Module 6x2 F-DI and 2x2 F-DO
+The device shall provide an IO-Port Configuration of 6 DI-Ports and 2 DO-Ports.
+SRIO-8802, 
+ Approved - LED informational text
+A note shall be added to the manual, which restricts the usage of the LED as none-safety related.
+SRIO-8120, 
+ Approved - PROFIsafe Safety Manual Requirements
+The safety manual shall include the applicable instructions, information and parameters of table 38 of the PROFIsafe
+specification[7].
+SRIO-6557, 
+ Approved - Downgrading Documentation
+For Downgrading there shall be a chapter in the safety manual. The respective requirement can be found in the Safety Concept
+(see 
+ SRIO-3598 - SC FWU FW Update Process in Safety Manual ).
+SRIO-15096, 
+ Approved - FW-Update "Downgrading"
+In the manual the user shall be informed about the his responsibilities by downgrading the preinstalled FW-Version.
+Note: Usecase: Machine of the User is certified with a lower FW-Version and his application does not require him to use the
+current released FW-Version of SRIO (which is installed in production).
+SRIO-7322, 
+ Approved - Packaging
+The device shall be packaged in a cardboard box.
+SRIO-7321, 
+ Approved - Manual
+The device shall be packaged along with a printed manual.
+SRIO-6533, 
+ Approved - Installation Description
+The reached safety relevant values of EN ISO 13849 as well as IEC 61508 shall be made available to the customer, so that the
+customer is able to use the device in its own safety application.
+SRIO-7135, 
+ Approved - Instructions For Wiring
+The user manual shall state the reached SIL Level in respective of the configuration (port usage).
+SRIO-1124, 
+ Approved - Timings - Maximum Response Time
+There shall be a formular in the user manual how to calculate the maximum response time.
+Remark:
+Might as well inform about the calculation sheet from Siemens.
+SRIO-1976, 
+ Approved - Timings - Maximum Response Time for IOs
+In the manual the parameter affecting the calculation of the maximum response time shall be stated.
+SRIO-14971, 
+ Approved - DO - Achievable SIL/PL depending on Parametrization of DO
+The manual shall state the achievable SIL / PL for the different configuration possibilities of DO.
+SRIO-1433, 
+ Rejected - SC PU Time
+The safety manual shall state that:
+--- PAGE 5 ---
+SRIO-17003 - SC COM PROFIsafe Safety Manual 
+SRIO-16980 - SC FWU Info in Safety Manual regarding validation of Version 
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-13938 - LED - Technical Publication - Documentation of LED behavior
+SRIO-13121 - LED - Technical Publication - LED for information only  
+SRIO-10729 - Commands by CPU3 to SCPU - reactivation of Sensor Type C - Technical Publication 
+SRIO-1280 - Yellow Marked Safety Ports 
+---------------------------------------------------------------------------------------------------------------------------------------------
+2.2 Security
+It is within the responsibility of the user that the device does not hold the application in a safe state for longer than xxh outside
+of its cyclic operation, e.g. leaving the device in power-up, FW-update, configuration or failure state
+SRIO-14946, 
+ Approved - PS - Max Current UA
+The manual shall a maximum of 16A for the supply UA.
+Remark:
+ This results in a maximum current to daisy chain UA [ IUA_DaisyChain_Max ] of 12A.
+ Result from SRIO-8311 (16A per pin Power In) and SRIO-9511 max 4A for 2*DO. 
+SRIO-14945, 
+ Approved - PS - Max Current US
+The manual shall state a maximum of 16A for the supply US.
+Remark:
+ This results in a maximum current for daisy chain US [ IUS_DaisyChain_Max ] of 11.5A 
+ Result from SRIO-8311 (16A per pin Power In) and SRIO-9512 max 3A9 for max current US_DI + SRIO-14947 ~300mA internal 
+ usage. [rounded to next .5 ].
+SRIO-8311, 
+ Approved - PS - Max Current Power In Pin
+The Manual shall define a maximum of 16A for each Pin of the Power In Plug.
+Note: This Current is not measured, since the current drawn via daisy-chaining is unknown to SRIO. 
+SRIO-8879, 
+ Approved - Actuator - No external connection
+The device manual shall contain a note stating that actuators must only be electrically connected via the SRIO interface, the
+actuator shall not be supplied with power and ground by any other interface.
+SRIO-7889, 
+ Approved - Remark External Voltages
+The manual shall prohibit the connection of external voltages.
+SRIO-7303, 
+ Rejected - Clearance & creepage distance
+The safe Remote IO shall comply with the EN 61010-1 regarding clearance & creepage distance.
+SRIO-16243, 
+ Approved - Security Risk Assessment
+A risk assessment regarding security shall be performed.
+SRIO-9402, 
+ Approved - Security
+The usecase of this device is assumed to be located in a safe zone behind a firewall
+SRIO-1196, 
+ Approved - FW-Update Behind Firewall
+From the point of view of Security the FW-Update shall be done behind a firewall ("shopfloor") by a trustworthy person.
+This requirement will be implemented via SRIO's manual and the customer who follows the rules defined in the manual.
+--- PAGE 6 ---
+2.3 SCPU
+SRIO-14608 - Parametrization -- P3 -- F-Parameter -- Technical Documentation -- F_Source_Add ≠ F_Dest_Add 
+SRIO-12436 - Parametrization -- P3 -- I-Parameter -- Technical Publication --Default Setting -- Testpule Supply 
+SRIO-12435 - Parametrization -- P3 -- I-Parameter -- Technical Publication --Default Setting -- Symmetrie 
+SRIO-12434 - Parametrization -- P3 -- I-Parameter -- Technical Publication --Default Setting -- Resolve Symmetry Violation 
+SRIO-12432 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- Filter Time -- 3ms default 
+SRIO-12432 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- Filter Time -- 3ms default 
+SRIO-12407 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- No Effect -- 1oo1 -- Channel enabled 
+SRIO-12408 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- No Effect -- 1oo1 -- Channel disabled 
+SRIO-12406 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- Error -- 1oo1 -- Single Channel enabled --
+1oo2 enabled 
+SRIO-12404 - State Fatal Error - EC1 - Technical Publication - Several Returns to after Cold Start 
+SRIO-13105 - Initialization - State "Off" - Transition Conditions T1 
+SRIO-12432 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI -- Filter Time -- 3ms default 
+SRIO-12124 - ZVEI - I-Parameter -- Documentation TechPub 
+SRIO-12043 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DO PL e only if Test Pulses enabled 
+SRIO-12042 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- DI PL independent from Test Pulses 
+SRIO-11472 - State Initialization - I4 - Reaction based on Number Rotary Switches - 000 
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-12437 - Parametrization -- P3 -- I-Parameter -- Technical Publication -- Default Setting -- DI 
+SRIO-11466 - State Parametrization - Reaction based on Number Rotary Switches - 001 to 899 
+SRIO-11463 - State Initialization - I4 - Reaction based on Number Rotary Switches - 999 
+SRIO-9927 - FatalError Remark Manual 
+SRIO-3598 - SC FWU FW Update Process in Safety Manual 
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-12078 - I-Parameter - Functions - Filter Time (7 - Filter F-DI 1 & 8 - Filter F-DI 2) 
+SRIO-12085 - I-Parameter - Functions - Discrepancy Time - Start of Timer (5 - Symmetry Discrepancy Time) 
+SRIO-12084 - I-Parameter - Functions - Discrepancy Time - second channel within (5 - Symmetry Discrepancy Time) 
+SRIO-12083 - I-Parameter - Functions - Discrepancy Time - second Channel not within (5 - Symmetry Discrepancy Time) 
+SRIO-12081 - I-Parameter - Functions - Discrepancy Time - Restart of Timer (5 - Symmetry Discrepancy Time) 
+SRIO-12027 - ZVEI - iParameter -- relationship for Actuator ZVEI Type D 
+SRIO-12029 - ZVEI - I-Parameter -- relationship for Sensor ZVEI Type C 
+SRIO-12030 - ZVEI - I-Parameter -- relationship for Sensor ZVEI Type A 
+SRIO-12028 - ZVEI - I-Parameter -- relationship for Actuator ZVEI Type C 
+SRIO-9023, 
+ Approved - CRC-Tool
+An externally developed and certified CRC-Tool shall be used to generate the iPar CRC.
+Remark 1: The externally developed Tool is qualified as a T2 off-line support Tool.
+Remark 2: The T2 off-line support Tool shall be certified by an accreditation body (TÜV Süd).
+--- PAGE 7 ---
+2.4 Com
+SRIO-715 - Fieldbus Connector Pinout 
+SRIO-713 - Fieldbus Connector 
+2.5 DI
+SRIO-7684, 
+ Rejected - Acyclic writing access shall be done only in PLC configuration phase.
+The configuration records (defined in GSD) are transferred between param-begin and param-end commands from PLC to
+device.
+The command param-end of PLC indicates that parametrization is finished.
+With the param-end command the changes have to be applied.
+SRIO-15138, 
+ Approved - DI - Achievable SIL/PL - unpulsed, one-channel
+Testpulse Sensor 
+ZVEI Typ A
+OSSD Sensor
+ZVEI TypC
+Safety Performance
+1oo1 0 1 0 Cat. 1 / PL c | SIL 1
+SRIO-15140, 
+ Approved - DI - Achievable SIL/PL - pulsed, one-channel
+Testpulse Sensor 
+ZVEI Typ A
+OSSD Sensor
+ZVEI TypC
+Safety Performance
+1oo1 0 0 1 Cat. 2 / PL d | SIL 2
+1oo1 1 1 0 Cat. 2 / PL d | SIL 2
+SRIO-15139, 
+ Approved - DI - Achievable SIL/PL - two-channel
+Testpulse Sensor
+ZVEI Typ A 
+OSSD Sensor
+ZVEI TypC 
+Safety Performance
+1oo2 0 1 0 Cat. 3 / PL d | SIL 3
+1oo2 1 1 0 Cat. 4 / PL e | SIL 3
+1oo2 0 0 1 Cat. 4 / PL e | SIL 3
+SRIO-14969, 
+ Approved - DI - Achievable SIL/PL
+The manual shall state the configuration and what SIL/PL the user is able to achieve with this configuration.
+SRIO-14503, 
+ Approved - DI - ZVEI Support
+DI Module shall support ZVEI-Type A and C
+SRIO-12645, 
+ Approved - ZVEI Interface-Typ C [DI]
+To comply to ZVEI Interface-Typ C, a table including the required interface parameter shall be included to the manual.
+Remark: the blue marked information shall be defined during implementation.
+Parameter min. typ. max.
+Class Class 1
+Test Pulse Duration ti - - Maximum Test Pulse Duration ti_max
+Test Pulse Interval T Minimum Test Pulse Interval Tmin - -
+Input Resistance R Minimum Input Resistance RL_min - -
+Input Capacity CL - - Maximum Input Capacity CL_max
+Inductance LL (*) - - Maximum Input Inductance LL_max
+SRIO-12643, 
+ Approved - ZVEI Interface-Typ A [DI]
+To comply to ZVEI Interface-Typ A, a table including the required interface parameter shall be included to the manual.
+Remark: the blue marked information shall be defined during implementation.
+--- PAGE 8 ---
+Parameter min. typ. max.
+Input Current Ii (in ON state)Minimum Current Ii min - Maximum Current Ii max
+Output Voltage Ui Minimum Voltage Ui min - Maximum Voltage Ui max
+Input Capacity Ci - - Maximum Capacity at Input Ci max
+SRIO-12541, 
+ Approved - Input Connector Pinout
+The digital input connector must have the following pinout:
+Electrical connection
+Safety Input Port
+Contact
+Designation
+Device
+Labelling
+Function Function
+Type
+Supply
+Voltage
+Description
+1 L+ (US)/ TSOut1 L+ Supply F-DI1 US 24 V DC (US) Testsignal / Supply related to F-
+DI1
+2 F-DI2 F-DI F-DI2 US Safety Digital Input 2
+3 L- (US) L- GND US 0 V DC (US)
+4 F-DI1 F-DI F-DI1 US Safety Digital Input 1
+5 L+ (US)/ TSOut2 L+ Supply F-DI2 US 24 V DC (US) Testsignal / Supply related to F-
+DI2
+SRIO-719, 
+ Rejected - Input Connector Pinout
+The digital input connector must have the following pinout:
+Pin Signal Description
+1 TSOut1 24 VDC (US) Test/signal out1
+2 Safe IN 2 Safety Capable Input 2
+3 GND 0 V DC (US)
+4 Safe IN 1 Safety Capable Input 1
+5 TSOut2 24 VDC (US) Test/signal out2
+SRIO-718, 
+ Approved - Digital Input Connector
+The digital input connector must be of type M12, A-Coded, 5 pins and female.
+--- PAGE 9 ---
+---------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-12862 - Test Pulses DI - ZVEI Type A - I-Parameter 
+SRIO-12751 - Test Pulses DI - ZVEI Type C - I-Parameter 
+SRIO-10503 - Test Pulses DI - ZVEI Type C - Compliance with ZVEI Category 1 - Documentation in Product Data Sheet 
+2.6 DO
+SRIO-11189, 
+ Approved - DI - Inductive Load on Sensor-Supply
+The maximum supported inductive load shall be stated in the manual.
+SRIO-11193, 
+ Approved - DI - Capacitive Load on Sensor-Supply
+The maximum supported capacitive load shall be stated in the manual
+Note: Linked Produkt Requirements states a minimum of Cable length 30 m + 20 nF
+SRIO-2098, 
+ Approved - Capacitive Load on Sensor-Supply
+The supply of the inputs shall support capacitive load of:  Cable length 30 m + 20 nF
+SRIO-11184, 
+ Approved - Exclusion of external Power at DI-Pins
+It shall be documented in Technical Publication (e.g. User Manual) that the DI-Pins (Port/ Channel Pins and Power Supply)  shall
+not be supplied by  external voltage.
+SRIO-8899, 
+ Approved - No External Power Supply of Sensors
+It shall be documented that any external power supply of the Sensors is forbidden.
+SRIO-10184, 
+ Approved - Filtersettings Type C
+The selected filter time shall be greater than the testpulse of the sensor if ZVEI Type C shall be used.
+Remark:
+An information shall be added to the manual.
+SRIO-8901, 
+ Approved - Type of Sensors
+It shall be documented, that Sensors of the ZVEI-Type A or C can be connected.
+SRIO-8220, 
+ Rejected - Detection of Over Current for Component DI
+Over Current for DI shall be detected in total if I_DI≥3A9.
+SRIO-9665, 
+ Approved - DI - Port Error
+Errors which are locally restricted for one port, shall not affect other ports.
+Remark1: e.g. Short Circuit within the external wiring of a Sensor.
+Remark2: Only possible with Error Class 4.
+Remark3: Only possible with ChannelGranular Configuration (F_Passivation Parameter).
+SRIO-8880, 
+ Approved - DI - SensorSupply
+Each DI-Module shall provide two sensor supplies [TSOutx].
+SRIO-8035, 
+ Approved - DI - Inputs
+Each DI-Module shall provide a safe input port with two input channels.
+SRIO-12917, 
+ Approved - ZVEI Interface-Typ D [DO]
+To comply to ZVEI Interface-Typ D, a table including the required interface parameter shall be included to the manual.
+Remark: the blue marked information shall be defined during implementation.
+Parameter min. typ. max.
+--- PAGE 10 ---
+Class Class 1
+Test Pulse Duration ti Minimum test pulse duration ti_min - Maximum Test Pulse Duration ti_max
+Test Pulse Interval T Minimum Test Pulse Interval Tmin - -
+Leakage current ILeakage of the output in
+OFF state
+  Maximum output current ILeakage
+Rated current IN of the output in
+ON state
+Minimum Input Resistance RL_min - Rated current IN 
+Capacitive load CL   - - Maximum Capacity load CL_max
+Inductance LL - - Maximum Inductance load LL_max
+SRIO-12918, 
+ Approved - ZVEI Interface-Typ C [DO]
+To comply to ZVEI Interface-Typ C, a table including the required interface parameter shall be included to the manual.
+Remark: the blue marked information shall be defined during implementation.
+Parameter min. typ. max.
+Class Class 1
+Test pulse duration ti Minimum test pulse duration ti_min (*)  - Maximum Test Pulse Duration ti_max
+Test Pulse Interval T Minimum Test Pulse Interval Tmin (**) - -
+Rated current IN  - - Rated current IN
+Capacitive load CL  - - Maximum Capacity load CL_max
+Inductance LL (*) - - Maximum Inductance load LL_max
+(*) optional
+(**) to be stated if t/T is greater than 1%
+SRIO-11008, 
+ Approved - Digital Output Connector Pinout
+The digital output connector shall have the following pinout:
+Electrical connection
+Safety Output Port PP-Switching
+Contact
+Designation
+Device
+Labelling
+Function Function
+Type
+Supply
+Voltage
+Description
+1 n.c. n.c. - - -
+2 F-DO2 F-DO F-DO2 UA Safety Digital Output 2
+3 L- (UA) L- GND UA 0 V DC (UA)
+4 F-DO1 F-DO F-DO1 UA Safety Digital Output 1
+5 FE FE FE FE Connection to Functional Earth
+Electrical connection
+--- PAGE 11 ---
+Safety Output Port PM-Switching
+Contact
+Designation
+Device
+Labelling
+Function Function
+Type
+Supply
+Voltage
+Description
+1 n.c. n.c. - - -
+2 n.c. n.c. - - -
+3 L- (UA) L- GND UA 0 V DC (UA)
+4 F-DO1 F-DO F-DO1 UA Safety Digital Output 1
+5 FE FE FE FE Connection to Functional Earth
+SRIO-717, 
+ Rejected - Digital Output Connector Pinout
+The digital output connector must have the following pinout:
+Pin PP-Switching PM-Switching
+1 NC NC
+2 F-DO 2 (Px) NC
+3 GND Outx-(Mx)
+4 F-DO 1(Px) Outx-(Px)
+5 FE FE
+SRIO-716, 
+ Approved - Digital Output Connector
+The digital output connector must be of type M12, A-Coded, 5 pins and female.
+SRIO-9000, 
+ Approved - DO - Load Inductive - Documentation
+The supported inductive load for each output channel shall be declared in the safety manual.
+SRIO-9009, 
+ Approved - DO - Load Capacitive - Documentation
+The supported capacitive load for each output channel shall be declared in the safety manual.
+SRIO-724, 
+ Approved - Diagnosis of Switching Components I
+The system shall provide a parameter that enables OR disables the switch‑off test pulses for each output port.
+SRIO-8982, 
+ Approved - Testpulse Deactivation
+It shall be possible to deactivate the switch-off testpulse per output port via parameter.
+SRIO-8983, 
+ Approved - Testpulse Deactivation Responsibility User
+If the testpulse are deactived, the user has to take care to switch the channel signals within TD2.
+SRIO-7496, 
+ Approved - DO - Maximum Switching Frequency
+The SRIO Manual shall contain the maximum switching frequency for the respective loads
+--- PAGE 12 ---
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-12863 - Test Pulses DO - ZVEI Type D - I-Parameter 
+SRIO-12864 - Test Pulses DO - ZVEI Type C - I-Parameter 
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-3796 - SC DO Test pulse II 
+SRIO-2613 - SC DO Switching Freq 
+2.7 PowerSupply
+SRIO-1968, 
+ Approved - Diagnosis of Switching Components II
+The safety manual must describe, which measures must be taken when the switch-off test is disabled (see 
+ SRIO-724 -
+Diagnosis of Switching Components I ). 
+For example: The outputs must be tested at least every 8 hours by a switching.
+SRIO-14932, 
+ Rejected - External power supply US - TechPublication - 24V0 nominal
+It shall be documented, that SRIO shall be supplied with nominal 24VDC according to EN 61131-2:2017.
+SRIO-14931, 
+ Rejected - External power supply US - Technical Publication - External current - US
+It shall be documented in Technical Publication that for all functions of SRIO related to US, it shall be supplied with up to
+16A0 DC.
+SRIO-11020, 
+ Approved - Connector Pinout
+The power connectors must have the following pinout:
+Electrical connection
+Power Supply Port
+Contact
+Designation
+Device
+Labelling
+Function Function
+Type
+Supply
+Voltage
+Description
+1 L+ (US) L+ Supply US 24 V DC (US)
+2 L- (UA) L- GND UA 0 V DC (UA)
+3 L- (US) L- GND US 0 V DC (US)
+4 L+ (UA) L+ Supply UA 24 V DC (UA)
+5 FE FE FE  FE Connection to Functional Earth
+SRIO-9356, 
+ Approved - PS - Isolation Documentation remark
+The manual shall have an remark that the SRIO fulfills the required isolation voltage by 61010.
+SRIO-9355, 
+ Approved - PS - Cable
+The manual shall provide information to the user which powercable are compatible to SRIO.
+Rationale: Test with different cable showed significant different temperature developement for high current scenarios.
+SRIO-8882, 
+ Approved - External power supply UA - TechPublication - 24V0 nominal
+It shall be documented, that SRIO shall be supplied with nominal 24VDC according to EN 61131-2:2017.
+SRIO-8305, 
+ Rejected - External power supply UA - Technical Publication - External current - UA
+It shall be documented in Technical Publication that for all functions of SRIO related to UA, it shall be supplied with up to
+16A0 DC.
+Rationale: Limitation to 2A2 per Port -> 2*2A2, Daisy Chain
+SRIO-8306, 
+ Rejected - External power supply UA - External voltage UA
+SRIO shall be supplied with 24V DC, -20%/ +25% resulting in 19V2 to 30V0.
+SRIO-8677, 
+ Rejected - External power supply US - External voltage US
+--- PAGE 13 ---
+---------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------
+SRIO-9003 - No External Fly Back Diode 
+3 PROFISAFE
+https://svn.ifm.com/svn/Safe_Remote_IO/99_Information/Fieldbus/PROFIsafe/PROFIsafe-Environment_2232_V26_Dec15.pdf 
+6.2 User manual
+The EUT shall come with a user manual that allows for proper installation, configuration,
+parameterization, programming, commissioning, troubleshooting, maintenance, and
+decommissioning. It shall consider and cover all of the appropriate issues listed in:
+• IEC 61131-2, general information to be provided by the manufacturer;
+• IEC 61508-2:2010, Annex D (safety manual for compliant items);
+• IEC 61508-3:2010, 7.4.2.12 and Annex D (safety manual for compliant items, additional
+requirements for software elements);
+• IEC 61784-3-3, 9.7 (safety manual or user manual for PROFIsafe F-Devices/F-Slaves).
+These documents require, as far as applicable, the following items:
+– Name and address of the manufacturer (brand, picture mark)
+– Type designation or serial number
+– Intended use
+– General description of the functional safety communication system
+– Instructions on planning, installation, and mounting of the safety communication system
+including drawings, circuit diagrams, and mounting elements
+– Instructions for commissioning and operation of the safety communication system
+– Instructions for preventive maintenance
+– Statements on residual risks
+– Instructions on the usage of non-ionizing radiation
+– Nominal operating voltage(s) with indication of voltage type and frequency
+– Power/current consumption
+– SIL claim according IEC 61508. In case of factory automation additionally PL/Category
+according to ISO 13849-1
+– Statements on parameterization, configuration and programming as far as required
+– Advice on how to determine the safety function response times required short circuit and
+overvoltage protection means, as far as applicable
+– Operating temperature range
+– Ingress protection class (IPxy); if required, separate statements on the individual components
+– Rated insulation voltages and the degree of pollution
+– Required wiring and functional description of wiring blocks and connectors
+– Required safety instructions
+– Instructions on how to act in case of faults
+– Drawings, circuit diagrams, descriptions, and illustrations required for operation,
+maintenance, repair, and for the check of correct functioning of the safety bus system
+– Warnings with respect to typically possible missuses of the safety communication system
+SRIO shall be supplied with 24V DC, -20%/ +25% resulting in 19V2 to 30V0.
+SRIO-8624, 
+ Approved - External Power Supply of SRIO
+SRIO shall be able to be powered external by PELV.
+SRIO-8622, 
+ Approved - Protection Class
+SRIO shall cover the requirements according to protection class III, PELV, DIN EN 61140 VDE0140-1:2016-11.
+SRIO-8582, 
+ Rejected - External power supply UA - PELV
+The external electrical power supply for UA shall fulfill the requirements according to a PELV output voltage.
+SRIO-8730, 
+ Approved - Common FE Power - Pin - Power In and Power Out
+A common Functional Earth (FE) shall be provided from Power In to Power Out by pin for power supply.
+--- PAGE 14 ---
+– Proof tests and proof test interval for the safety device

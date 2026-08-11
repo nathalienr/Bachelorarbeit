@@ -314,6 +314,31 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 
 
+
+
+
+
+
+
+
+| Asset ID | Asset | Description | Primary protection objectives | Typical affected resources | Source |
+| --- | --- | --- | --- | --- | --- |
+| A | Trusted Safety Function | SRIO correctly executes its specified safety function. | Integrity, Availability | Safe CPU, SysCom, DI/DO, PROFIsafe channel | 
+| B | Integrity of Safety Configuration | Safe behavior is determined by the intended configuration. | Integrity, Authenticity | Safe CPU, SysCom, CPU3/COM, PROFINET parameterization | 
+| C | Integrity and Authenticity of Safety-Relevant Process Data | Input, output and PROFIsafe data correspond to the actual safety state. | Integrity, Authenticity, Availability | Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO | 
+| D | Authenticity and Integrity of Safety Software | Bootloader and firmware remain authentic and unmodified. | Authenticity, Integrity | Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow | 
+| E | Integrity of Safety Monitoring | Self-tests, plausibility checks, diagnostics and fault responses remain trustworthy. | Integrity, Availability | Safe CPU, SysCom, diagnostics, watchdog | 
+| F | Separation of Safety and Non-Safety Domain | A compromised COM system must not affect the integrity of the safety function. | Integrity, Isolation, Availability | Safe CPU, SysCom, COM, IoT, Shared Flash | 
+| G | Integrity of Operating Mode | Test and update functions must not be activated or used without authorization. | Integrity, Authenticity, Availability | Rotary switches, IoT service functions, update mode, COM/SCPU control path | 
+| H | SRIO Functionality | Availability of SRIO functionality shall be ensured. | Availability, Fail-safe behavior | Power supply, COM, SCPU, network channels, field I/O | 
+
+
+
+
+
+
+
+
 \subsection{Test Setup} 
 \label{subsec:test_setup} 
 

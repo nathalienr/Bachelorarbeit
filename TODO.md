@@ -1,10 +1,14 @@
 # Fahrplan Bachelorarbeit
-* DI: Assets
+~~DI: Assets~~ 
 * DI: Verbinden Assets mit MVO-Requirements
 * MI: Methoden aus Standards ableiten
+* MI: Till überarbeitung
+* DO: Text an Lau
 * FR: Anfangen Testfälle schreiben
 * FR: Vorgehen Text + Belegen
 * Testplan in Polarion für Security erstellen
+* Raussuchen welches die IT/OT Schnittstellen sind
+* GSD, MRP fehlt
 
 ##  Die Kern
 Du testest nicht einfach blind drauf los. Jeder Testfall in deiner Arbeit ist das Endprodukt einer lückenlosen Beweiskette (**Traceability**):

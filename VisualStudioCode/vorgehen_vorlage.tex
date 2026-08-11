@@ -1,0 +1,104 @@
+
+
+
+\subsection{Verification Lifecycle and Governance}
+\label{subsec:verification_lifecycle_governance}
+%
+%The framework is not a one-time activity but is anchored across the secure product development lifecycle and its eight practice areas described in Section~\ref{subsec:iec_62443}. It operationalizes \textbf{Practice~5 (Security Verification and Validation Testing, SV)} of that lifecycle, which requires security requirements to be verified through documented testing prior to release. Responsibilities across the lifecycle stages are assigned according to the RACI scheme (Responsible, Accountable, Consulted, Informed) in Table~\ref{tab:raci_matrix}.
+%
+%\renewcommand{\arraystretch}{1.2}
+%\begin{table}[htbp]
+%	\caption{RACI Matrix for the Verification Lifecycle}
+%	\label{tab:raci_matrix}
+%	\centering
+%	\begin{tabularx}{\textwidth}{|X | c c c c|}
+%		\toprule
+%		\textbf{Activity} & \textbf{Security Architect} & \textbf{Security Tester} & \textbf{Release Manager} & \textbf{PSIRT} \\
+%		\midrule
+%		Requirement / Test Case Baseline & A & R & I & I \\ \addlinespace
+%		Test Environment Setup           & C & R & I & I \\ \addlinespace
+%		Test Execution                   & I & R & I & I \\ \addlinespace
+%		Evidence and Report Review       & C & R & A & C \\ \addlinespace
+%		Release Decision                 & C & I & A & C \\ \addlinespace
+%		Post-Release Reassessment        & C & C & I & R \\
+%		\bottomrule
+%	\end{tabularx}
+%\end{table}
+%
+%The Security Tester executes and documents the test cases; the Security Architect is consulted where architectural constraints affect test design (the "Architecture Constraints" feedback loop of the secure development lifecycle); the Release Manager remains accountable for the release decision, which depends on the assessment scheme defined in Section~\ref{sec:evaluation_metrics}; and the PSIRT assumes responsibility once the framework re-enters as part of continuous monitoring after release. This governance structure ensures that test evidence produced under the framework carries organizational accountability, not merely technical validity.
+
+\section{Evaluation Metrics and Assessment Scheme}
+\label{sec:evaluation_metrics}
+%
+%To convert individual test executions into a defensible conformity statement, the framework defines a discrete verdict scheme for individual test cases and an aggregate coverage metric for the requirement baseline as a whole.
+
+\subsection{Verdict Scheme}
+\label{subsec:verdict_scheme}
+
+
+
+
+%Within this classification, test cases may be designed as \textbf{positive} or \textbf{negative} verifications of the same security function, recorded as a metadata attribute of the generic test case rather than as separate domains. A positive test case confirms that valid, authorized behavior is correctly permitted (e.g., successful authentication with a valid credential); a negative test case confirms that invalid, unauthorized, or manipulated input is rejected, restricted, or logged as specified (e.g., rejection of a firmware image with an invalid signature). Both remain functional security tests in the sense of Section~\ref{subsec:scope_boundaries} as long as the tested condition is derived from a specified requirement, the mitigation under test is known, and the procedure, precondition, and expected outcome are bounded and reproducible \cite[p. 82]{1341418}. This is what distinguishes a bounded negative test case from unrestricted penetration testing or fuzzing (Section~\ref{subsec:vulnerabilities_fuzzing_pentesting}): the latter explore an open input space for unknown failures, whereas a negative functional security test verifies a single, specified rejection behavior under defined conditions
+
+
+%The verdict field is populated according to the four-valued scheme defined in Section \ref{sec:evaluation_metrics}. Together with the requirement, asset, and threat references, this closes the bidirectional traceability introduced in Section \ref{subsec:traceability_model}. Forward, from a regulatory or normative source through the consolidated requirement, the asset and threat, the test domain and method, to the executed test case and its evidence. Backward, from a recorded verdict to the test case, the tested mitigation, the threat and asset it addresses, and the originating requirement. This bidirectionality is what allows the framework to identify missing test coverage, to support later regression testing, and to remain reusable for future gateway products without depending on the concrete toolchain of Chapter~\ref{chap:implementation_results_evaluation}.%
+
+
+%Each test case is assigned exactly one of four verdicts upon execution, summarized in Table~\ref{tab:verdict_scheme}.
+%
+%\renewcommand{\arraystretch}{1.2}
+%\begin{table}[htbp]
+%	\caption{Test Case Verdict Scheme}
+%	\label{tab:verdict_scheme}
+%	\centering
+%	\begin{tabularx}{\textwidth}{|l | X|}
+%		\toprule
+%		\textbf{Verdict} & \textbf{Justification} \\
+%		\midrule
+%		PASS            & The acceptance criteria of the test case were fully met; the security function operates as specified. \\ \addlinespace
+%		FAIL            & The acceptance criteria were not met; the security function is absent, misconfigured, or bypassable. \\ \addlinespace
+%		PARTIAL         & The security function is present and partially effective, but a Partial mapping (Section~\ref{sec:security_requirements}) or an implementation constraint prevents full verification of the acceptance criteria. \\ \addlinespace
+%		NOT APPLICABLE  & The requirement has no direct IEC~62443-4-2 mapping (RQ-010, RQ-013) or the referenced interface is not implemented on the test object, so the test case cannot be executed against it. \\
+%		\bottomrule
+%	\end{tabularx}
+%\end{table}
+%
+%A PARTIAL verdict must always state the specific limitation that prevented a PASS, and a NOT APPLICABLE verdict must reference the confirmed gap documented in Section~\ref{sec:security_requirements}, so that neither verdict is used to conceal an untested condition.
+
+
+%Because the classification is built on the requirement baseline of Section~\ref{sec:security_requirements}, a passed test case constitutes evidence toward the technical documentation obligation of Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 (Section~\ref{subsec:eu_machinery_regulation}).
+
+
+
+\subsection{Regulatory Coverage Metric}
+\label{subsec:coverage_metric}
+
+%Article~10(2) and Annex~IV Part~A of Regulation~(EU) 2023/1230 require manufacturers to document test reports and trial results as evidence of conformity (Section~\ref{subsec:eu_machinery_regulation}). To make this evidentiary demand quantifiable, the framework defines a coverage metric $C$ over the requirement baseline $REQ = \{\text{RQ-001}, \dots, \text{RQ-014}\}$ (Section~\ref{sec:security_requirements}):
+%
+%\begin{equation}
+%	C = \frac{|\{r \in REQ : \text{verdict}(r) = \text{PASS}\}|}{|REQ|}
+%\end{equation}
+%
+%where $\text{verdict}(r)$ denotes the verdict of the test case (or the most conservative verdict among multiple test cases) tracing to requirement $r$ via the chain defined in Section~\ref{subsec:traceability_model}. Requirements verdicted NOT APPLICABLE are reported separately rather than excluded from $|REQ|$, so that $C$ cannot be inflated by omitting confirmed normative gaps. The resulting figure, together with the itemized verdict table, constitutes the test evidence submitted as part of the technical documentation under Annex~IV Part~A and is evaluated against the concrete test object in Section~\ref{subsec:mvo_compliance_verification}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
