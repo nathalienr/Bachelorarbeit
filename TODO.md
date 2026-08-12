@@ -9,16 +9,6 @@
 * Testplan in Polarion für Security erstellen
 * Raussuchen welches die IT/OT Schnittstellen sind
 * GSD, MRP fehlt
-
-##  Die Kern
-Du testest nicht einfach blind drauf los. Jeder Testfall in deiner Arbeit ist das Endprodukt einer lückenlosen Beweiskette (**Traceability**):
-1. **Gesetz:** MVO Annex III (Was fordert der Staat?)
-2. **Norm:** IEC 62443 (Was heißt das für Ingenieure?)
-3. **Bedrohung:** STRIDE (Was macht der Hacker, wenn das fehlt?)
-4. **Test-Domäne:** Z.B. Authentication (Was für eine Art Test brauchen wir?)
-5. **Methode & Tool:** OWASP/NIST + Kali Linux (Wie testen wir es konkret?)
-6. **Evidenz:** Log-File (Der Beweis für den TÜV).
-
 ---
 
 ## Phase 1: Vorbereitung & Test-Design 

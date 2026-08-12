@@ -1,7 +1,7 @@
 \chapter{Note on the Use of Artificial Intelligence}
 
 
-Within the scope of this thesis, tools based on Artificial Intelligence (\acrshort{acr:AI})\index{Artificial Intelligence} were used. Table~\ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
+Within the scope of this thesis, tools based on Artificial Intelligence (\acrshort{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
 
 \begin{table}[hbt]	
 	\centering
@@ -45,12 +45,12 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\acrsho
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section~\ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex~III, Sections~1.1.9 and~1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN~50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC~62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
 
-\section{Security Requirements Derived from Regulation~(EU) 2023/1230}
+\section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table~\ref{tab:mvo-requirements} lists the 14 requirements derived from Annex~III, Sections~1.1.9 and~1.2.1 of Regulation~(EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
 
 \renewcommand{\arraystretch}{1.25}
 \begin{longtable}{|>{\bfseries}l|p{11cm}|}
@@ -269,10 +269,10 @@ Table~\ref{tab:mvo-requirements} lists the 14 requirements derived from Annex~II
 
 \end{longtable}
 
-\section{Mapping to prEN~50742}
+\section{Mapping to prEN 50742}
 \label{app:sec:mapping_pren50742}
 
-Table~\ref{tab:pren50742-mapping} maps the 14 requirements of Table~\ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  (\emph{Safety of machinery - Protection against corruption}). The mapping covers Approach~A (Sections~4, 5, 7) and Annex~ZZ, which are the only parts of the source text providing clause-level content. Approach~B (Sections~6, 8) is referenced only where it explicitly names a target standard or clause (e.g.\ \texttt{CR~2.8}); CR and SR numbers not present in the source text are not inferred.
+Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  (\emph{Safety of machinery - Protection against corruption}). The mapping covers Approach A (Sections 4, 5, 7) and Annex ZZ, which are the only parts of the source text providing clause-level content. Approach B (Sections 6, 8) is referenced only where it explicitly names a target standard or clause (e.g.\ \texttt{CR 2.8}); CR and SR numbers not present in the source text are not inferred.
 
 
 \begin{longtable}{|>{\bfseries}p{1cm}|p{2.5cm}|p{9cm}|>{\centering\arraybackslash}p{2cm}|}
@@ -379,10 +379,10 @@ Table~\ref{tab:pren50742-mapping} maps the 14 requirements of Table~\ref{tab:mvo
 	
 \end{longtable}
 
-\section{Mapping to IEC~62443-4-2}
+\section{Mapping to IEC 62443-4-2}
 \label{app:sec:mapping_iec62443}
 
-Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  to IEC~62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}}. IEC~62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section~\ref{subsec:iec_62443}.
+Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  to IEC 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. IEC 62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
 
 
 \footnotesize
@@ -439,7 +439,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR3 &
 	\texttt{CR 3.4}; \newline \texttt{EDR 3.14} &
 	Software and information integrity; Integrity of the boot process (embedded device) &
-	prEN's SRSL-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ CR 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2). Since prEN~50742's machinery controllers are typically embedded devices, the embedded-device-specific EDR~3.14 applies rather than the generic base CR~3.14. &
+	prEN's SRSL-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ CR 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2). Since prEN 50742's machinery controllers are typically embedded devices, the embedded-device-specific EDR 3.14 applies rather than the generic base CR 3.14. &
 	Direct \\
 	\hline
 	
@@ -447,7 +447,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR7 &
 	\texttt{CR 7.8} &
 	Control system component inventory &
-	Same underlying identification obligation as RQ-004 and RQ-007; CR~7.8's inventory capability is the closest CR-level match for tracking installed-software identity. &
+	Same underlying identification obligation as RQ-004 and RQ-007; CR 7.8's inventory capability is the closest CR-level match for tracking installed-software identity. &
 	Partial \\
 	\hline
 	
@@ -455,7 +455,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR7 &
 	\texttt{CR 7.8} &
 	Control system component inventory &
-	prEN requires availability ``on request'' rather than ``at all times''; CR~7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability, so the mapping only partially closes the MVO obligation. &
+	prEN requires availability ``on request'' rather than ``at all times''; CR 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability, so the mapping only partially closes the MVO obligation. &
 	Partial \\
 	\hline
 	
@@ -463,7 +463,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR2; FR3 &
 	\texttt{CR 2.8};  \newline \texttt{CR 2.12}; \newline  \texttt{CR 3.4} &
 	Auditable events; Non-repudiation; Software and information integrity &
-	prEN \S8.5 anchors the enumerated intervention types and minimum recorded data to CR~2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches CR~2.12 (non-repudiation). &
+	prEN \S8.5 anchors the enumerated intervention types and minimum recorded data to CR 2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches CR 2.12 (non-repudiation). &
 	Direct \\
 	\hline
 	
@@ -471,7 +471,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR2; FR3 &
 	\texttt{CR 2.8}; \newline  \texttt{CR 2.12}; \newline \texttt{CR 3.4} &
 	Auditable events; Software and information integrity; Non-repudiation &
-	prEN's ``modification'' definition and the version-number/CRC identification means in \S7.3.1~b)/c) combine an audit obligation (CR~2.8) with an integrity-verification obligation (CR~3.4); CR~2.12 is added for consistency with RQ-003 and RQ-008 since modification evidence is likewise subject to the attribution qualifier. &
+	prEN's ``modification'' definition and the version-number/CRC identification means in \S7.3.1 b)/c) combine an audit obligation (CR 2.8) with an integrity-verification obligation (CR 3.4); CR 2.12 is added for consistency with RQ-003 and RQ-008 since modification evidence is likewise subject to the attribution qualifier. &
 	Direct \\
 	\hline
 	
@@ -479,7 +479,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	- &
 	- &
 	- &
-	This is a process-level risk-treatment principle rather than a technical component capability; IEC~62443-4-2 defines component-technical CRs and assigns such process obligations to IEC~62443-4-1. No corresponding CR exists. &
+	This is a process-level risk-treatment principle rather than a technical component capability; IEC 62443-4-2 defines component-technical CRs and assigns such process obligations to IEC 62443-4-1. No corresponding CR exists. &
 	No direct mapping \\
 	\hline
 	
@@ -487,7 +487,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR1; FR2 &
 	\texttt{CR 1.1}; \newline \texttt{CR 2.1} &
 	Human user identification and authentication; Authorization enforcement &
-	prEN's SRSL-graded authorization requirement for ``interventions'' corresponds to CR~2.1; CR~1.1 is added because \S7.4.3.2.1's entity-authentication precondition must be satisfied before CR~2.1's authorization enforcement is meaningful. The learning-phase aspect has no counterpart in either prEN or IEC~62443-4-2. &
+	prEN's SRSL-graded authorization requirement for ``interventions'' corresponds to CR 2.1; CR 1.1 is added because \S7.4.3.2.1's entity-authentication precondition must be satisfied before CR 2.1's authorization enforcement is meaningful. The learning-phase aspect has no counterpart in either prEN or IEC 62443-4-2. &
 	Partial \\
 	\hline
 	
@@ -495,7 +495,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR2 &
 	\texttt{CR 2.8}; \newline  \texttt{CR 2.9} &
 	Auditable events; Audit storage capacity &
-	prEN's requirement that the log retain at least the evidence of the last intervention of each type, kept for five years, combines the event-generation obligation of CR~2.8 with the storage-capacity obligation of CR~2.9. &
+	prEN's requirement that the log retain at least the evidence of the last intervention of each type, kept for five years, combines the event-generation obligation of CR 2.8 with the storage-capacity obligation of CR 2.9. &
 	Direct \\
 	\hline
 	
@@ -511,7 +511,7 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	FR3; FR6 &
 	\texttt{CR 3.9}; \newline \texttt{CR 6.1} &
 	Protection of audit information; Audit log accessibility &
-	prEN requires logs to be secured against tampering, with deletion only via an authorized procedure (CR~3.9); \S7.3.3 requires that digital evidence be readable and accessible (CR~6.1). The MVO's additional purpose-restriction (access exclusively for conformity demonstration) is not reflected in either source. &
+	prEN requires logs to be secured against tampering, with deletion only via an authorized procedure (CR 3.9); \S7.3.3 requires that digital evidence be readable and accessible (CR 6.1). The MVO's additional purpose-restriction (access exclusively for conformity demonstration) is not reflected in either source. &
 	Partial \\
 	\hline
 	
@@ -521,10 +521,17 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 
 \chapter{Secure Development Lifecycle}
 \label{app:SecureDevelopmentLifecycle}
+
+This appendix provides a high-level overview of the Secure Development Lifecycle underlying the verification framework developed in Chapter \ref{chap:methodology}. The diagram condenses a more detailed internal reference model, \emph{Secure System Development Lifecycle.drawio}, which decomposes each depicted activity into further sub-steps; only the top-level activity flow and its governing feedback relationships are reproduced here, consistent with the appendix's role as a supporting artifact rather than a full lifecycle discussion.
+
+The overview illustrates that cybersecurity is not confined to a single validation step prior to release, but is integrated as a continuous concern across the entire product lifecycle. Following an initial definition of scope, stakeholders, and security objectives, a combined requirements-engineering and risk-assessment activity establishes the applicable Security Level based on a Threat Analysis and Risk Assessment (Section \ref{subsec:tara}). Its results inform secure design, expressed through a dedicated security architecture and a corresponding set of detailed countermeasures, which in turn constrain secure implementation during development. Verification and validation are carried out through static and dynamic analysis, dedicated test strategy and preparation, and security test execution, whose outcomes feed the release decision. Once released, the product enters operation and maintenance, where continuous monitoring supports ongoing vulnerability management. Documentation and traceability are maintained as a cross-cutting thread throughout all activities, so that every decision remains attributable to its originating risk assessment or verification result.
+
+The dashed connections in the diagram represent the feedback loops that distinguish this lifecycle from a strictly sequential process: findings from security test execution are returned to secure implementation for remediation, architectural constraints identified during design are fed back into the risk assessment, and observations from continuous monitoring trigger a reassessment or incident response that re-enters the lifecycle at the risk-assessment stage. These loops embody the principle of continuous improvement and correspond to the process-oriented practices of IEC 62443-4-1 (Section \ref{subsec:iec_62443}) as well as the DevSecOps feedback mechanism discussed in Section \ref{subsec:verification_lifecycle_governance}, in which findings observed at runtime are fed back into planning rather than treated as terminal outcomes.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{"images/Secure System Development Lifecycle-Main Overview.drawio"}
-	\caption{}
+	\caption{High-level overview of the Secure Development Lifecycle underlying the verification framework, showing the integration of risk assessment, secure design, implementation, verification and validation, release, and operational monitoring, together with the feedback loops connecting testing and monitoring outcomes back into design and risk assessment.}
 	\label{fig:secure-system-development-lifecycle-main-overview}
 \end{figure}
 
@@ -566,8 +573,6 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 %IEC 62443 FR3			Integrity
 %IEC 62443 FR6			Logging
 %IEC 62443 FR7			Availabiliy
-
-
 
 %\chapter{Asset Analysis and Security Tests}
 %\label{ch:appendix_asset_analysis}
@@ -752,10 +757,10 @@ Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 %	\caption{Entry Points and Corresponding Security Tests}
 %	\label{tab:security_tests}
 %\end{table}
-%\section{Security Requirements Derived from Regulation~(EU) 2023/1230}
+%\section{Security Requirements Derived from Regulation (EU) 2023/1230}
 %\label{app:sec:mvo_requirements}
 %
-%Table~\ref{tab:mvo-requirements} lists the 23 individual requirements derived from Annex~III, Sections~1.1.9, 1.2.1, 1.2.6, 3.3, and 3.3.3 of Regulation~(EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text. The derivation principles applied (traceability, atomicity, verifiability, product relevance) are described in Section~\ref{subsec:derivation_principles}.
+%Table \ref{tab:mvo-requirements} lists the 23 individual requirements derived from Annex III, Sections 1.1.9, 1.2.1, 1.2.6, 3.3, and 3.3.3 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text. The derivation principles applied (traceability, atomicity, verifiability, product relevance) are described in Section \ref{subsec:derivation_principles}.
 %
 %\renewcommand{\arraystretch}{1.25}
 %\begin{longtable}{|>{\bfseries}l|p{11cm}|}

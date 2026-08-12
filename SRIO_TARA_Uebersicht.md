@@ -1,0 +1,200 @@
+# SRIO Threat Analysis and Risk Assessment
+
+## Contents
+- [README](#readme)
+- [Dashboard](#dashboard)
+- [SUC Assumptions](#suc-assumptions)
+- [Assets](#assets)
+- [Interfaces](#interfaces)
+- [Risk Matrix](#risk-matrix)
+- [TARA](#tara)
+- [Requirements](#requirements)
+- [Interface Asset Matrix](#interface-asset-matrix)
+- _[Product vs. System Responsibility](#product-vs-system-responsibility)_
+- _[System Under Consideration: Confirmed Technical Facts](#system-under-consideration-confirmed-technical-facts)_
+
+## README
+| Topic | Description |
+| --- | --- |
+| Purpose | Product-level Threat Analysis and Risk Assessment for SRIO, focused on interfaces, data flows, trust boundaries and affected assets. |
+| Method | Interface to Asset to Threat Scenario to Product Effect to Machine Consequence to Risk Treatment. |
+| Scoring | Likelihood and Impact use a 1 to 5 scale. Risk Score = Likelihood x Impact. |
+| Risk levels | Low: 1-4; Medium: 5-9; High: 10-15; Critical: 16-25. |
+| Scope boundary | Plant architecture, controller hardening, customer remote access, network governance, field-device selection and physical installation remain system responsibilities unless explicitly allocated to the product. |
+| _Safety interpretation_ | _A detected attack that produces rejection, passivation, fallback, blocked startup, safe stop or loss of availability is not classified as direct compromise of the safety function._ |
+|_Traceability_ | _TARA scenarios reference defined interfaces and assets; requirements reference valid TARA identifiers; the Interface Asset Matrix distinguishes direct from indirect relevance._ |
+
+## Dashboard
+### Metrics
+| Metric | Value |
+| --- | --- |
+| Total TARA scenarios | 24 |
+| Critical | 0 |
+| High | 6 |
+| Medium | 14 |
+| Low | 4 |
+| Requirements | 6 |
+
+### Scenarios by interface
+| Interface ID | Scenario count |
+| --- | --- |
+| IF-03 | 4 |
+| IF-04 | 4 |
+| IF-05 | 3 |
+| IF-01 | 2 |
+| IF-02 | 2 |
+| IF-01/02 | 1 | % ?
+| IF-01/03 | 1 | % ?
+| IF-06 | 1 |
+| IF-07 | 1 |
+| IF-08 | 1 |
+| IF-09 | 1 |
+| IF-10 | 1 |
+| IF-11 | 1 |
+| IF-12 | 1 |
+
+## SUC Assumptions
+| Category | Statement | Responsibility | TARA relevance |
+| --- | --- | --- | --- |
+| System role | SRIO is a functional-safety remote I/O gateway between sensors or actuators and an F-Host. | Product | Defines the protected product and safety role. |
+| Safety context | Product targets include SIL 3 and PL e, Category 4, depending on configuration. | Product + _Integrator_ | Supports consequence assessment without treating fail-safe response as direct safety compromise. |
+| Product scope | The analysis covers COM, SCPU, SysCom, IPC, DI/DO, the update path, local interfaces and IoTCore. | Product | Defines analyzed modules and interfaces. |
+| System scope | Plant and network architecture, controller hardening and customer-specific remote access are allocated outside the product. | Operator/Integrator | Defines responsibility and access-condition assumptions. |
+| Environment | Operation is intended in an IEC/EN 62443-1-1-aligned environment with system-side measures. | Operator/Integrator | Supports restricted-network and physical-access conditions. |
+| Network exposure | Typical deployment is at fieldbus, machine-network or cell level; direct Internet exposure is not intended. | Operator/Integrator | Constrains network-access likelihood. |
+| Physical protection | Physical protection of wiring, service points, local controls and supply installation is based on the system risk analysis. | Operator/Integrator | Constrains local attack access. |
+| TB1 | _External Ethernet and IoTCore communication terminate in the non-safety COM domain_; communication failure must not silently override SCPU safety decisions. | Product | Defines the external-to-COM boundary and separation objective. |
+| TB2 | SysCom is the COM-to-Safety boundary; SCPU independently validates safety-relevant configuration and PROFIsafe content. | Product | Defines safety-domain acceptance authority. |
+| TB3 | The shared update path is a handover boundary; SCPU performs compatibility and consistency checks before safe-firmware installation. | Product | Defines the confirmed update acceptance behavior. |
+| _Field boundary_ | _DI and DO wiring access is distinct from network and update paths._ | _Operator/Integrator_ | _Defines physical preconditions for terminal attacks._ |
+| _Local service boundary_ | _Rotary switches, debug points, supply and indicators require local access._ | _Shared_ | _Separates local-service scenarios from network scenarios_. |
+
+## Assets
+| Asset ID | Asset | Definition | Primary objectives | Typical resources |
+| --- | --- | --- | --- | --- |
+| A | Trusted Safety Function _(The safety function itself.)_| SRIO correctly executes its intended safety function. | Integrity, Availability | Safe CPU, SysCom, DI/DO, PROFIsafe channel |
+| B | Integrity of Safety Configuration _(F‑Parameter, iParameter, F_Dest)_| Safe behavior is determined by the intended F-Parameters, iParameters and device F_Dest address handling. | Integrity, Authenticity | Safe CPU, SysCom, CPU3/COM, PROFINET parameterization |
+| C | Integrity and Authenticity of Safety-Relevant Process Data _(Safety‑Inputs, Safety‑Outputs, PROFIsafe‑Frames)_| Input, output and PROFIsafe data represent the actual safety state. | Integrity, Authenticity, Availability | Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO |
+| D | Authenticity and Integrity of Safety Software _(Firmware, Bootloader)_| Bootloader and firmware remain authentic and unmodified. | Authenticity, Integrity | Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow |
+| E | Integrity of Safety Monitoring _(Watchdog, Self-Tests, Plausibility Checks)_| Diagnostics, plausibility checks, self-tests and fault responses remain trustworthy. | Integrity, Availability | Safe CPU, SysCom, diagnostics, watchdog |
+| F | Separation of Safety and Non-Safety Domains _(The separation itself)_| A COM-domain fault or compromise does not silently override SCPU safety decisions. | Integrity, Isolation, Availability | Safe CPU, SysCom, COM, IoTCore, Shared Flash |
+| G | Integrity of Operating Mode _((Operate, Update, Test)_| Test and update functions are entered only through the defined operating-state logic. | Integrity, Authenticity, Availability | Rotary switches, update mode, COM/SCPU control path | % Fehlt IoT Service Functions?
+| H | SRIO Functionality _(Availability + Deterministic Fail-Safe Behavior)_| SRIO functionality remains available or transitions deterministically to documented fail-safe behavior. | Availability, Fail-safe behavior | Power supply, COM, SCPU, network channels, field I/O |
+
+- **Safety** (A–E)  
+- **Security** (D, F, G)  
+- **Availability** (H)  
+
+
+## Interfaces
+| Interface ID | Interface / Boundary | Type | Direction | Protocol / Medium | Relevant data flows | Trust boundary | Main resources |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| IF-01 | Ethernet / PROFINET | External | Bidirectional | PROFINET over Ethernet, M12 D-coded | Cyclic and acyclic PROFINET communication, parameterization and network services | External to COM | COM CPU, NetX90, PROFINET channel |
+| IF-02 | PROFIsafe over PROFINET | External logical safety channel | Bidirectional | PROFIsafe black channel over PROFINET | Safety process data and F-Host communication | External to COM to SCPU | PROFIsafe channel, COM transport, SCPU, SysCom |
+| IF-03 | IoTCore service interface | External | Bidirectional | HTTP/JSON service interface | Read-only diagnostics, status, device information and firmware-update upload | External to COM | COM CPU3, IoTCore application, update services |
+| IF-04 | SysCom | Internal | Bidirectional | SPI between COM/CPU3 and SCPU | Configuration, cyclic PROFIsafe frames, diagnostics and update commands | COM to Safety Domain | COM CPU3, SCPU CPU1, SPI transport |
+| IF-05 | Shared Flash update path | Internal | Bidirectional | Shared non-volatile update storage | Safe-container handover and version metadata | COM to Shared Flash to SCPU | Shared update flash, COM update handling, SCPU update loader |
+| IF-06 | Safety input terminals | External local field | Input to SRIO | 24 V F-DI | Sensor states and DI diagnostics | Field wiring boundary | DI module, SCPU input processing |
+| IF-07 | Safety output terminals | External local field | Output from SRIO | 24 V F-DO | Actuator commands, safe switch-off and output diagnostics | Field wiring boundary | DO module, SCPU output control |
+| IF-08 | Rotary switches | External local | Input to SRIO | Physical local switches | F_Dest address and update-mode selection | Local physical boundary | Rotary switches, SCPU initialization logic |
+| IF-09 | JTAG / debug interfaces | Internal/service local | Local physical | Debug/service access | Debug, memory and firmware access | Physical service boundary | Debug and flash access for controllers |
+| IF-10 | Power supply / daisy-chain | External physical | Supply input/output | US/UA supply | Device and I/O supply paths | Installation boundary | Power supply, COM, SCPU, DI, DO |
+| IF-11 | LED status indication | External local | Output from SRIO | Local indicators | Status and diagnostic visibility | Local observation boundary | COM LEDs and SCPU LEDs |
+| IF-12 | IPC SCPU1 to SCPU2 | Internal | Bidirectional | Internal cross-communication | 1oo2 cross-checking, plausibility monitoring and watchdog coordination | Safety-internal boundary | SCPU1, SCPU2, IPC, watchdog |
+
+## Risk Matrix
+| Impact / Likelihood | 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 1 | 2 | 3 | 4 | 5 |
+| 2 | 2 | 4 | 6 | 8 | 10 |
+| 3 | 3 | 6 | 9 | 12 | 15 |
+| 4 | 4 | 8 | 12 | 16 | 20 |
+| 5 | 5 | 10 | 15 | 20 | 25 |
+
+**Risk levels:** Low 1-4; Medium 5-9; High 10-15; Critical 16-25.
+
+## TARA
+| TARA ID | Interface ID | Interface / Data Flow | Threat Category | Threat Scenario | Attacked Interface / Component | Access Conditions | Immediate Cybersecurity Effect | Existing Confirmed Controls | Direct Product Impact | Possible Machine-Level Consequence | Direct Assets | Indirect / Conditional Assets | Likelihood | Impact | Risk Score | Risk Level | Treatment Based on Confirmed Information | Owner / Domain | Verification Evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| TARA-001 | IF-01 | PROFINET parameterization | Tampering | An actor with machine-network or engineering-path access manipulates F-Parameters or iParameters before or during commissioning. | PROFINET configuration path through COM to SCPU | Machine-network, engineering or F-Host configuration access | Safety configuration received by the product is altered. | SCPU verifies completeness, iParCRC, parameter dependencies and F_Dest consistency; invalid configuration is rejected in Parametrization and EC3 is raised. | Configuration rejection, blocked startup or delayed commissioning. | Startup is prevented until valid configuration is restored. | B, H | A, C | 2 | 4 | 8 | Medium | Maintain SCPU authority and mandatory validation at startup and reconnection. | Safety/Security | Configuration rejection, iParCRC mismatch, dependency and F_Dest mismatch tests. |
+| TARA-002 | IF-01 | PROFINET network services | Denial of Service | Malformed or excessive PROFINET traffic degrades COM or fieldbus handling. | COM/NetX90 fieldbus handling | Fieldbus-network access | Communication service is degraded or interrupted. | Communication loss causes fallback from Operate to Parametrization; safe channels use fail-safe values and COM reports diagnostics. | Loss of communication availability and reconnection cycles. | Safe stop and machine downtime. | H | F, A | 3 | 3 | 9 | Medium | Preserve deterministic timeout, fallback and diagnostic behavior. | Product Security | Communication-loss fallback and COM diagnostic tests. |
+| TARA-003 | IF-02 | PROFIsafe telegrams | Spoofing / Tampering | An actor with fieldbus access modifies or spoofs PROFIsafe telegrams. | SCPU PROFIsafe processing path | Fieldbus-network access | Invalid safety-process frames are presented to the SCPU. | Certified PROFIsafe processing, F-parameter checks, CRC-related mechanisms and watchdog timing reject invalid communication. | Invalid data is rejected and safe communication is not maintained. | Safe stop or loss of machine availability. | C | A, H | 2 | 4 | 8 | Medium | Maintain the certified PROFIsafe implementation, parameter checks and watchdog behavior. | Safety/Security | PROFIsafe certification and invalid-frame handling tests. |
+| TARA-004 | IF-02 | PROFIsafe communication availability | Denial of Service | Communication is interrupted, delayed or repeatedly invalidated so that PROFIsafe operation cannot continue. | SCPU safe-communication path | Fieldbus-network access or communication-path disruption | Safety-process communication becomes unavailable. | Timeout causes fallback to Parametrization, fail-safe values are applied and diagnostics are produced. | Exit from normal operation and loss of SRIO availability. | Safe stop and machine downtime. | C, H | A | 3 | 4 | 12 | High | Maintain explicit timeout, fail-safe fallback and operator-visible diagnostics. | Safety/Security | Timeout, fallback and diagnostic tests. |
+| TARA-005 | IF-03 | IoT diagnostics and monitoring | Information Disclosure | An actor with IoTCore reachability reads documented device status, versions, network details or error information. | IoTCore read-only endpoints | Reachability from the connected machine network | Operational and device information is disclosed. | Normal IoTCore parameter access is read-only; deployment assumes restricted network access behind a firewall. | No direct control-path change; the information can support subsequent attack planning. | No immediate machine-state change. |  | D, E, G, H | 2 | 2 | 4 | Low | Maintain the read-only model and restricted-network deployment constraint. | Product + Operator | Endpoint inventory and read-only behavior tests; security-manual inspection. |
+| TARA-006 | IF-03 | Firmware update handling | Elevation of Privilege / Tampering | An actor with IoTCore reachability and the required local update preconditions attempts an unintended update. | IoTCore upload, COM update handling and SCPU update flow | IoTCore reachability plus rotary value 999 and reboot | An update container is introduced into the dedicated workflow. | Update requests are accepted only in update mode; COM and SCPU perform compatibility and consistency checks; I/Os remain in safe state during update. | Normal operation is interrupted; incompatible or inconsistent content is rejected. | Maintenance interruption or machine downtime. | D, G, H | F, A | 2 | 4 | 8 | Medium | Maintain local update-mode gating, compatibility and consistency validation, and safe I/O behavior. | Product Security | Update-mode gating and compatibility/consistency rejection tests. |
+| TARA-007 | IF-03 | IoT service functions | Elevation of Privilege | An actor invokes a documented service function through reachable IoTCore services. | IoTCore service surface and COM service handling | IoTCore reachability | Service activity is requested in the non-safety COM domain. | Normal IoTCore parameterization is read-only; update operation remains locally gated by rotary-switch value and reboot. | Potential service disturbance or interruption of normal operation. | Maintenance disruption or nuisance downtime. | G, H | E | 3 | 3 | 9 | Medium | Preserve read-only normal access and independent local gating for state-changing update activity. | Product Security | Service inventory, read-only endpoint and update-gating tests. |
+| TARA-008 | IF-03 | HTTP/JSON request handling | Tampering / Denial of Service | Malformed or abusive HTTP/JSON requests attempt to crash COM-side IoTCore handling. | COM IoTCore request processing | IoTCore network reachability | COM-side service processing is disrupted. | Safety and non-safety domains are separated; communication loss has documented fail-safe handling. | COM function loss and loss of communication availability. | Safe stop or downtime through communication loss. | F, H | D, E, G | 3 | 4 | 12 | High | Maintain domain separation and deterministic fail-safe behavior for COM communication loss. | Product Security | COM communication-loss and safety-domain separation tests. |
+| TARA-009 | IF-04 | SysCom configuration transfer | Tampering | A compromised COM or manipulated SysCom path sends changed F-Parameters or iParameters to SCPU. | Acyclic COM-to-SCPU configuration messages | COM compromise or internal boundary manipulation | Manipulated safety configuration reaches the SCPU acceptance path. | SCPU checks completeness, dependencies, iParCRC and F_Dest constraints before activation. | Configuration is rejected and availability is reduced. | Startup is blocked or delayed. | B | F, H, A | 2 | 4 | 8 | Medium | Maintain SCPU as sole authority for configuration acceptance. | Safety/Security | End-to-end tests showing every configuration path terminates in SCPU validation. |
+| TARA-010 | IF-04 | SysCom cyclic process data | Tampering / Replay / Delay | Cyclic data is modified, replayed, delayed or reordered across SysCom. | Cyclic COM-to-SCPU SPI path | COM compromise or internal transport manipulation | Cyclic safety data is invalid or unavailable. | COM IO-Delegator timeout handling and PROFIsafe validation detect invalid or interrupted communication. | Fallback or safe stop with loss of availability. | Machine stop. | C, F, H | A | 2 | 4 | 8 | Medium | Maintain timeout handling and SCPU reliance on validated PROFIsafe content. | Safety/Security | Corruption, interruption, replay and delay fault-injection tests. |
+| TARA-011 | IF-04 | SysCom diagnostics transfer | Repudiation / Tampering | COM hides, alters or delays ErrorEvent or diagnostic information. | SysCom ErrorEvent and diagnostic path | COM compromise | Maintenance information becomes incomplete, delayed or misleading. | ErrorEvent structures and forwarding are documented; safety status also exists in PROFIsafe handling. | Reduced diagnostic observability without direct control-path modification. | Slower fault isolation and recovery. | E | H | 2 | 2 | 4 | Low | Maintain the documented diagnostic hierarchy and SCPU-originated safety status. | Product Security | Consistency tests across ErrorEvent, visible diagnostics and PROFIsafe status. |
+| TARA-013 | IF-04 | SysCom update command | Elevation of Privilege | COM sends an update-related command outside the locally selected update state. | SysCom update command path | COM compromise or command-path abuse | An unauthorized update command reaches SCPU. | SCPU evaluates update only when rotary value 999 was read at initialization and the device rebooted into update state; I/Os remain safe in that state. | The command is ignored outside valid preconditions or normal operation is interrupted during valid update state. | Maintenance disruption or downtime. | G, D, H | F | 2 | 4 | 8 | Medium | Maintain SCPU-side evaluation of update preconditions independently of COM requests. | Product Security | Negative command-path tests outside update mode. |
+| TARA-014 | IF-05 | Shared Flash update payload | Tampering | An actor with COM or local service access modifies the safe container before SCPU processing. | Shared Flash safe-container handover | COM compromise or local service access | Update payload or metadata is altered. | SCPU performs documented compatibility and consistency checks; update occurs in a dedicated state with safe I/O behavior. | Invalid content is rejected or update operation is interrupted. | Maintenance delay or downtime. | D, G, H | F, A | 2 | 4 | 8 | Medium | Maintain SCPU-side compatibility and consistency validation and fail-safe update-state behavior. | Product Security | Modified-container rejection and update-state safety tests. |
+| TARA-015 | IF-05 | Shared Flash version information | Tampering | Version metadata is altered to request a compatible downgrade or to block an update. | Shared Flash version path | COM compromise or local service access | Version selection or update progression is influenced. | Compatibility checks are performed; downgrade of safe application firmware is an explicitly supported behavior. | A compatible version may be selected, or update availability may be interrupted. | Maintenance mismatch or downtime. | D, G, H |  | 2 | 3 | 6 | Medium | Maintain documented compatibility checks and explicit operator visibility of the installed version. | Product Security | Version handling, compatible downgrade and blocked-update diagnostic tests. |
+| TARA-016 | IF-05 | Shared Flash update state | Denial of Service | Repeated or interrupted update attempts leave incomplete or corrupted staged update data. | Shared update storage | Repeated attempts, interruption or storage corruption | The staged update cannot be completed. | The workflow uses staged compatibility and consistency checks; update state keeps I/Os safe. | Update failure and temporary loss of availability. | Maintenance delay and machine downtime. | D, H | G | 2 | 3 | 6 | Medium | Maintain failed-update detection, safe-state behavior and documented recovery operation. | Product Security | Interrupted-update, invalid-state detection and recovery tests. |
+| TARA-017 | IF-06 | Safety digital inputs | Tampering / Spoofing | Physical access to sensors or field wiring is used to cause false input states, shorts or cross-circuits. | DI terminals and SCPU DI processing | Local field-wiring access | Input truth or channel electrical behavior is altered. | Test-pulse behavior, stuck-at-high testing, switchable sensor supply, supply diagnosis, qualifiers and safe-state reporting are documented. | Passivation, bad qualifier, false inactive state or unavailable input. | Safe stop, inhibited restart or incorrect field representation where faults are not detectable by the selected wiring concept. | C, E, H | A | 3 | 4 | 12 | High | Maintain DI diagnostics, test-pulse capability and valid-wiring instructions. | Safety + Integrator | DI fault simulation, qualifier-transition and wiring-constraint tests. |
+| TARA-018 | IF-07 | Safety digital outputs | Tampering / Spoofing | Physical access to output wiring or the actuator path forces an output or prevents switch-off. | DO terminals, actuator path and SCPU output control | Local field-wiring or actuator access | Commanded and actual output behavior diverge. | Watchdog, switch-off capability, voltage/current monitoring, qualifiers, logic evaluation and inactive/high-impedance safe state are documented. | Channel passivation, inactive output or unavailable actuation. | Machine stop or failure to actuate; consequence depends on system design. | C, E, H | A | 3 | 4 | 12 | High | Maintain actual-versus-commanded evaluation, watchdog response and wiring restrictions. | Safety + Integrator | DO fault injection, qualifier and safe-deactivation tests. |
+| TARA-019 | IF-08 | Rotary-switch address or mode | Tampering | A local actor changes the rotary switches before the next initialization. | Rotary switches and SCPU initialization logic | Physical access before cold start | F_Dest address or update-mode selection is changed. | Switches are read only during initialization; values 1 to 899 select F_Dest, 999 selects update mode, and other values cause configuration-error behavior. | Wrong address or mode attempt, blocked operation or entry into dedicated update handling. | Commissioning disruption or inability to communicate with the intended F-Host. | B, G, H |  | 2 | 4 | 8 | Medium | Maintain initialization-only read semantics and documented value validation. | Product + Operator | Cold-start, valid-value and invalid-value behavior tests. |
+| TARA-020 | IF-09 | JTAG and debug interfaces | Elevation of Privilege | An actor with physical service access uses a debug path to read, reset or modify controller memory or firmware. | Controller debug and flash interfaces | Physical access to internal service points | Firmware or memory is read or modified and service can be interrupted. | Debug and test interfaces are designated for development use only; physical protection is an operator and installation responsibility. | Firmware integrity or product availability can be affected. | Device is taken out of service or reprogrammed. | D, H | G, F, A, B, C, E | 2 | 5 | 10 | High | Maintain development-only designation and physical-access restrictions for service points. | Product + Operator | Development/service configuration records and physical-access inspection. |
+| TARA-021 | IF-10 | Power supply and daisy-chain | Denial of Service | Physical manipulation causes brownout, reset, reverse polarity, overvoltage or overcurrent. | US/UA supply path | Physical access to installation supply | Supply leaves the valid operating range. | Voltage detection, overvoltage and reverse-polarity protection, shutoff thresholds, overcurrent detection and safe-state behavior are documented. | Reset, shutdown or local loss of function. | Safe stop and machine downtime. | H | A, E | 2 | 4 | 8 | Medium | Maintain supply monitoring, protection behavior and installation constraints. | Product + Integrator | Brownout, overvoltage, reverse-polarity and overcurrent tests. |
+| TARA-022 | IF-11 | LED status indication | Information Disclosure / Tampering | A local observer obtains limited status information or misinterprets an LED state. | Local status indicators | Local visual access | Informational status is observed or misunderstood. | The manual identifies LEDs as non-safety-related information. | No direct control-path effect. | Possible delay in diagnosis or maintenance action. |  | E, H | 2 | 1 | 2 | Low | Maintain the rule that LEDs are not an authoritative safety-status source. | Product | Documentation and status-mapping consistency tests. |
+| TARA-023 | IF-12 | SCPU cross-communication | Tampering / Denial of Service | Internal SCPU coordination becomes corrupted, delayed or inconsistent. | SCPU1-to-SCPU2 IPC and watchdog coordination | Internal fault or compromise through another product path | Safety coordination and monitoring become inconsistent. | Two safety controllers, cross-checking, watchdogs, self-tests and fatal-error handling are documented. | Detected inconsistency causes fatal-error handling and loss of availability. | Safe stop and maintenance intervention. | E, H | A, C | 1 | 4 | 4 | Low | Maintain independent watchdog, cross-checking and fatal-error handling. | Safety/Security | IPC inconsistency and watchdog fault-injection tests. |
+| TARA-024 | IF-01/03 | External network reachability condition | Exposure / Spoofing | The product is deployed outside the intended restricted machine-network environment. | External reachability to PROFINET and IoTCore | System deployment contrary to stated network constraints | Attack surface and access probability increase; no asset is changed by exposure alone. | Use is specified behind a firewall with restricted network access and update by a trustworthy person. | No direct product-state change without a subsequent attack. | Higher probability of follow-on network attacks. |  | D, E, F, G, H | 3 | 2 | 6 | Medium | Maintain explicit restricted-network, firewall and trustworthy-operator constraints. | Operator + Integrator | Security-manual and deployment-checklist inspection. |
+| TARA-025 | IF-01/02 | Controller and F-Host dependency | Spoofing / Tampering | A compromised upstream PLC, F-Host or engineering system sends malicious but protocol-conform configuration or process commands. | Trusted upstream control and engineering path | Compromise of the upstream controller or engineering environment | Semantically malicious but structurally valid data is supplied to SRIO. | SCPU validates configuration structure, iParCRC, dependencies and F_Dest; PROFIsafe validates safe-communication integrity. | Invalid structure is rejected; protocol-conform intent remains a system-level dependency. | Incorrect machine behavior or downtime, depending on commands and system design. | B, C | A, H | 2 | 5 | 10 | High | Maintain local validation and explicit trusted-controller system responsibility. | Product + Operator/Integrator | Commissioning validation and trust-assumption documentation inspection. |
+
+## Requirements
+| Req ID | Related TARA IDs | Requirement | Type | Target / Owner | Verification Approach | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| SRIO-CS-001 | TARA-001, TARA-009, TARA-025 | SCPU shall remain the sole authority for safety-configuration acceptance and shall verify completeness, iParCRC, parameter dependencies and F_Dest address consistency before activation. | Product control | Safety/Security | Configuration rejection, iParCRC, dependency and F_Dest tests. | Documented and implemented |
+| SRIO-CS-002 | TARA-003, TARA-004, TARA-010 | SRIO shall treat PROFIsafe integrity and timeout failures as safety-communication faults that lead to deterministic fallback, safe-state behavior and diagnostics. | Product control | Safety/Security | Invalid-telegram, timeout and fallback tests. | Documented and implemented | % Fehlt CS-3
+| SRIO-CS-004 | TARA-006, TARA-013, TARA-019 | Update mode shall be entered only when rotary-switch value 999 is read during initialization followed by reboot into the dedicated update state. | Product control | Product Security | Mode-entry and negative update-command tests. | Documented and implemented | % Fehlt 5, 6
+| SRIO-CS-007 | TARA-017, TARA-018, TARA-021 | DI, DO and supply faults shall produce the documented qualifier, diagnostic and safe-state behavior. | Product control | Safety | Field-fault and supply-fault simulation. | Documented and implemented | % Fehlt 8
+| SRIO-CS-009 | TARA-005, TARA-019, TARA-020, TARA-021, TARA-024, TARA-025 | Product documentation shall state system responsibilities for network segmentation, firewall placement, restricted access, trusted controller context, physical protection, valid field wiring and installation supply constraints. | System and process control | Operator/Integrator | Security-manual and installation-document inspection. | Documented responsibility |
+| SRIO-CS-010 | TARA-011, TARA-022 | Authoritative safety status shall remain on the documented safety/control path; LEDs and COM-side user-facing diagnostics shall remain identified as secondary informational outputs. | Product and documentation control | Product Security | Diagnostic hierarchy and indication-consistency tests. | Documented and implemented |
+
+## Interface Asset Matrix
+
+**Legend:** D = direct relevance; I = indirect or conditional relevance; blank = no supported relevance.
+
+| Interface ID | Interface | A | B | C | D | E | F | G | H |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| IF-01 | Ethernet / PROFINET |  | D | D |  |  | I |  | D |
+| IF-02 | PROFIsafe over PROFINET | I |  | D |  |  | I |  | D |
+| IF-03 | IoTCore service interface |  |  |  | D | I | I | D | D |
+| IF-04 | SysCom | I | D | D | D | D | D | D | D |
+| IF-05 | Shared Flash update path |  |  |  | D |  | I | D | D |
+| IF-06 | Safety input terminals | I |  | D |  | D |  |  | D |
+| IF-07 | Safety output terminals | I |  | D |  | D |  |  | D |
+| IF-08 | Rotary switches |  | D |  |  |  |  | D | D |
+| IF-09 | JTAG / debug interfaces | I | I | I | D | I | I | I | D | % ?
+| IF-10 | Power supply / daisy-chain | I |  |  |  | I |  |  | D | % ?
+| IF-11 | LED status indication |  |  |  |  | I |  |  | I |
+| IF-12 | IPC SCPU1 to SCPU2 | I |  | I |  | D |  |  | D | %?
+
+## Product vs. System Responsibility
+| Topic | Product responsibility | Operator / Integrator / System responsibility |
+| --- | --- | --- |
+| PROFIsafe integrity and fallback | SCPU processing, parameter checks, timeout handling, fail-safe values and diagnostics. | Provide a valid F-Host integration and system safety design. |
+| Safety configuration | Validate completeness, iParCRC, dependencies and F_Dest before activation. | Control engineering access and semantic correctness of the machine configuration. |
+| Update mode | Enforce rotary value 999, initialization and reboot gating; perform compatibility and consistency checks; keep I/Os safe. | Control physical access and authorize maintenance activity. |
+| IoTCore placement | Provide the documented read-only normal access model and update gating. | Provide firewall placement, restricted reachability and trustworthy operation. |
+| Controller and F-Host | Validate locally verifiable structure and PROFIsafe communication. | Harden and govern the PLC, F-Host and engineering environment. |
+| Field I/O | Provide DI/DO diagnostics, qualifiers, monitoring and defined safe states. | Select compatible sensors and actuators and implement valid, protected wiring. |
+| Local service access | Define development/service use and product behavior for local controls. | Restrict physical access to debug points, rotary switches and installation wiring. |
+| Power | Provide documented monitoring, electrical protection and safe response. | Provide compliant supply quality, loading and installation. |
+| Machine consequence assessment | Provide accurate product reaction and diagnostic behavior. | Assess hazards and consequences in the complete machine risk assessment. |
+
+## System Under Consideration: Confirmed Technical Facts
+| Topic | Confirmed technical fact |
+| --- | --- |
+| COM domain | COM contains CPU3 and NetX90, handles PROFINET and IoTCore, and is non-safety-related. |
+| Safety domain | SCPU handles PROFIsafe, DI, DO, monitoring and watchdog functions. |
+| COM-to-SCPU boundary | SysCom is SPI-based and carries acyclic configuration, cyclic PROFIsafe frames, ErrorEvent data and update-related commands. |
+| IoTCore | IoTCore supports non-safety diagnostics, status, device information and firmware-update upload; normal parameter access is read-only. |
+| Configuration validation | SCPU validates completeness, iParCRC, parameter dependencies and F_Dest consistency and rejects invalid configuration in Parametrization. |
+| Update architecture | Firmware update uses a dedicated update state, COM-side upload and container handling, shared update flash and SCPU installation of safe firmware. |
+| Update gating | Rotary-switch value 999 is read during initialization and requires reboot into update state. |
+| Update checks | COM and SCPU perform documented compatibility and consistency checks. |
+| Version behavior | Downgrade of safe application firmware is supported by the documented update behavior. |
+| Fail-safe response | Communication loss, EC1, EC3, EC4, update state and fatal-error handling have documented fallback or safe-state behavior. |
+| Rotary switches | Rotary-switch values are read only during initialization. |
+| LEDs | LED indications are informational and are not an authoritative safety-status source. |

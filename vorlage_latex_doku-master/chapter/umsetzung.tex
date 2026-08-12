@@ -296,7 +296,7 @@
 
 
 
-Below the domain and subdomain level, the classification distinguishes further concepts that must not be used interchangeably. A \textbf{test method} is the general, product-independent verification approach assigned to a subdomain (e.g., black-box functional probing of an authentication interface, drawing on the testing methodologies of Section~\ref{subsec:testing_taxonomy}). A \textbf{generic test case} instantiates one test method into a concrete objective, precondition, procedure, and acceptance criterion, without reference to a specific gateway. A \textbf{product-specific test instruction} adapts a generic test case to the concrete test object and is introduced only in Section~\ref{sec:application_methodology}. And a \textbf{tool configuration} implements that instruction with a specific tool, introduced only in Section~\ref{sec:testbed_setup}. The resulting hierarchy , test domain, functional subdomain, test method, generic test case, product-specific test instruction, tool configuration, evidence and verdict , keeps Chapter~3 tool-independent: no test domain, subdomain, objective, or acceptance criterion depends on which concrete asset instance or tool is later selected in Chapter~\ref{chap:implementation_results_evaluation}.
+Below the domain and subdomain level, the classification distinguishes further concepts that must not be used interchangeably. A \textbf{test method} is the general, product-independent verification approach assigned to a subdomain (e.g., black-box functional probing of an authentication interface, drawing on the testing methodologies of Section \ref{subsec:testing_taxonomy}). A \textbf{generic test case} instantiates one test method into a concrete objective, precondition, procedure, and acceptance criterion, without reference to a specific gateway. A \textbf{product-specific test instruction} adapts a generic test case to the concrete test object and is introduced only in Section \ref{sec:application_methodology}. And a \textbf{tool configuration} implements that instruction with a specific tool, introduced only in Section \ref{sec:testbed_setup}. The resulting hierarchy , test domain, functional subdomain, test method, generic test case, product-specific test instruction, tool configuration, evidence and verdict , keeps Chapter 3 tool-independent: no test domain, subdomain, objective, or acceptance criterion depends on which concrete asset instance or tool is later selected in Chapter \ref{chap:implementation_results_evaluation}.
 \section{Testbed Setup and Target Specification}
 \label{sec:testbed_setup}
 
@@ -322,7 +322,7 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 
 | Asset ID | Asset | Description | Primary protection objectives | Typical affected resources | Source |
-| --- | --- | --- | --- | --- | --- |
+| - | - | - | - | - | - |
 | A | Trusted Safety Function | SRIO correctly executes its specified safety function. | Integrity, Availability | Safe CPU, SysCom, DI/DO, PROFIsafe channel | 
 | B | Integrity of Safety Configuration | Safe behavior is determined by the intended configuration. | Integrity, Authenticity | Safe CPU, SysCom, CPU3/COM, PROFINET parameterization | 
 | C | Integrity and Authenticity of Safety-Relevant Process Data | Input, output and PROFIsafe data correspond to the actual safety state. | Integrity, Authenticity, Availability | Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO | 
