@@ -311,27 +311,35 @@ The software assets consist of the COM firmware, SCPU firmware, bootloader, and 
 
 The data assets include network configuration parameters, PROFIsafe configuration data, iPar parameters, firmware images, process data, diagnostic information, and device identity information such as serial number, hardware version, and software version. Configuration and safety-related parameters are stored in non-volatile memory and are therefore considered critical assets. From a security perspective, the primary interfaces are the HTTP-based IoTCore web interface, the associated REST API services, the PROFINET and PROFIsafe communication services, the DCP configuration functions, and the firmware update service. These interfaces represent the main externally reachable attack surface of the device and therefore form the focus of the security assessment presented in this thesis.
 
-
-
-
-
-
-
-
-
-
-
-| Asset ID | Asset | Description | Primary protection objectives | Typical affected resources | Source |
-| - | - | - | - | - | - |
-| A | Trusted Safety Function | SRIO correctly executes its specified safety function. | Integrity, Availability | Safe CPU, SysCom, DI/DO, PROFIsafe channel | 
-| B | Integrity of Safety Configuration | Safe behavior is determined by the intended configuration. | Integrity, Authenticity | Safe CPU, SysCom, CPU3/COM, PROFINET parameterization | 
-| C | Integrity and Authenticity of Safety-Relevant Process Data | Input, output and PROFIsafe data correspond to the actual safety state. | Integrity, Authenticity, Availability | Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO | 
-| D | Authenticity and Integrity of Safety Software | Bootloader and firmware remain authentic and unmodified. | Authenticity, Integrity | Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow | 
-| E | Integrity of Safety Monitoring | Self-tests, plausibility checks, diagnostics and fault responses remain trustworthy. | Integrity, Availability | Safe CPU, SysCom, diagnostics, watchdog | 
-| F | Separation of Safety and Non-Safety Domain | A compromised COM system must not affect the integrity of the safety function. | Integrity, Isolation, Availability | Safe CPU, SysCom, COM, IoT, Shared Flash | 
-| G | Integrity of Operating Mode | Test and update functions must not be activated or used without authorization. | Integrity, Authenticity, Availability | Rotary switches, IoT service functions, update mode, COM/SCPU control path | 
-| H | SRIO Functionality | Availability of SRIO functionality shall be ensured. | Availability, Fail-safe behavior | Power supply, COM, SCPU, network channels, field I/O | 
-
+\begin{table}[htbp]
+	\centering
+	\renewcommand{\arraystretch}{1.3} % Etwas mehr Platz zwischen den Zeilen
+	\small % Schriftgröße leicht reduziert für bessere Passform
+	\begin{tabularx}{\textwidth}{@{} c >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l @{}}
+		\toprule
+		\textbf{ID} & \textbf{Asset} & \textbf{Description} & \textbf{Primary protection objectives} & \textbf{Typical affected resources} & \textbf{Source} \\ 
+		\midrule
+		
+		A & Trusted Safety Function & SRIO correctly executes its specified safety function. & Integrity, Availability & Safe CPU, SysCom, DI/DO, PROFIsafe channel & \\ 
+		
+		B & Integrity of Safety Configuration & Safe behavior is determined by the intended configuration. & Integrity, Authenticity & Safe CPU, SysCom, CPU3/COM, PROFINET parameterization & \\ 
+		
+		C & Integrity and Authenticity of Safety-Relevant Process Data & Input, output and PROFIsafe data correspond to the actual safety state. & Integrity, Authenticity, Availability & Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO & \\ 
+		
+		D & Authenticity and Integrity of Safety Software & Bootloader and firmware remain authentic and unmodified. & Authenticity, Integrity & Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow & \\ 
+		
+		E & Integrity of Safety Monitoring & Self-tests, plausibility checks, diagnostics and fault responses remain trustworthy. & Integrity, Availability & Safe CPU, SysCom, diagnostics, watchdog & \\ 
+		
+		F & Separation of Safety and Non-Safety Domain & A compromised COM system must not affect the integrity of the safety function. & Integrity, Isolation, Availability & Safe CPU, SysCom, COM, IoT, Shared Flash & \\ 
+		
+		G & Integrity of Operating Mode & Test and update functions must not be activated or used without authorization. & Integrity, Authenticity, Availability & Rotary switches, IoT service functions, update mode, COM/SCPU control path & \\ 
+		
+		H & SRIO Functionality & Availability of SRIO functionality shall be ensured. & Availability, Fail-safe behavior & Power supply, COM, SCPU, network channels, field I/O & \\ 
+		\bottomrule
+	\end{tabularx}
+	\caption{Overview of Assets and Protection Objectives}
+	\label{tab:assets}
+\end{table}
 
 
 

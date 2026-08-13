@@ -1,15 +1,18 @@
+%TODO: Strukturierung des Grundlagenkapitel \chapter{Fundamentals} \label{chap:fundamentals} \section{Industrial Gateways in IT/OT Environments} \subsection{Fundamentals of Industrial Gateways} \subsection{IT/OT Interfaces} \subsection{Gateway Architecture and Physical Interfaces} \section{Cybersecurity Fundamentals} \subsection{Security Objectives} \subsection{Assets and Attack Surfaces} \subsection{Threats, Vulnerabilities, and Attack Vectors} \subsection{Security Functions and Technical Controls} \section{Regulatory and Standardization Framework} \subsection{Regulation (EU) 2023/1230} \subsection{prEN 50742} \subsection{IEC 62443 Series} \subsubsection{IEC 62443-3-3} \subsubsection{IEC 62443-4-1} \subsubsection{IEC 62443-4-2} \subsection{Relationship between Regulatory and Technical Requirements} \section{Risk-Based Security Engineering} \subsection{Threat Analysis and Risk Assessment} \subsection{STRIDE Threat Classification} \subsection{Risk Evaluation} \subsection{Risk Treatment and Security Controls} \subsection{Derivation of Security Requirements} \section{Security Testing Fundamentals} \subsection{Functional Security and Vulnerability Testing} \subsection{Black-Box, White-Box, and Grey-Box Testing} \subsection{Static and Dynamic Security Analysis} \subsection{Vulnerability Assessment and Scanning} \subsection{Robustness Testing and Fuzzing} \subsection{Penetration Testing} \subsection{Security Regression Testing}
+
+
+
+
 \chapter{Fundamentals} \label{chap:fundamentals} 
 % mind. 18 Seiten 
 
+This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
 
 \section{Industrial Gateways in IT/OT Environments} 
 \label{sec:industrial_gateways} 
 
-\subsection{Fundamentals of Industrial Gateways}
-\label{subsec:industrial_gateways_fundamentals}
-
 Industrial gateways represent crucial architectural components that bridge the gap between distinct network environments by integrating both hardware and software functionalities. Their primary objective is to enable seamless communication between heterogeneous systems operating on different communication protocols. To achieve this, a gateway intercepts incoming data packets from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[pp. 277]{Gsell2026}.
-
+%TODO Evtl. interessant hier zu erwähnen, dass Gateways auch quasi protokoll freie Kommunikation Binär/Analog in ein Bussystem einbinden kann --> so wie wir das ja machen (nur binär in unserem Fall).
 A gateway can operate across all layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. In the context of this thesis, industrial gateways specifically facilitate the transition between Information Technology (IT) networks, typically dominant in layers 4 to 7, and Operational Technology (OT) networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints. These include differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
 To ensure efficient translation, the protocol implementation and mapping generally occur at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
 
@@ -18,7 +21,8 @@ To ensure efficient translation, the protocol implementation and mapping general
 \subsection{IT/OT Interfaces} 
 \label{subsec:it_ot_interfaces} 
 
-The ongoing digitization and networking within industrial value chains necessitate an increasing integration of two domains: Information Technology (IT) and Operational Technology (OT). While IT systems are primarily designed for the electronic storage, calculation, and transport of data, OT comprises a combination of hardware and software components explicitly utilized to monitor and control the performance of physical devices, machines, plants, and infrastructures. Operating predominantly within manufacturing and industrial environments, OT relies heavily on Industrial Control Systems, such as Supervisory Control and Data Acquisition (SCADA) systems \cite[p. 1]{8586807}. Traditionally, OT environments were realized as isolated networks relying on proprietary technologies. However, in the context of modern industrial paradigms, they are increasingly penetrated by networked technologies \cite[p. 1]{8586807}.
+The increasing exchange of data across industrial systems requires interfaces between Information Technology (IT) and Operational Technology (OT). While IT systems are primarily designed for the electronic storage, calculation, and transport of data, OT comprises a combination of hardware and software components explicitly utilized to monitor and control the performance of physical devices, machines, plants, and infrastructures. Operating predominantly within manufacturing and industrial environments, OT relies heavily on Industrial Control Systems, such as Supervisory Control and Data Acquisition (SCADA) systems. The increasing integration of standardized network technologies has transformed traditionally isolated and proprietary OT environments into interconnected architectures \cite[p. 1]{8586807}.
+%TODO Gründe
 
 Typical representatives of the IT domain include business-oriented software applications such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems. Conversely, the OT domain encompasses physical components on the shop floor, such as machines, scales, scanners, and sensors, along with the integrated control software that orchestrates them, such as Manufacturing Execution Systems (MES) \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
 
@@ -27,10 +31,10 @@ To systematically structure industrial environments, the architectural compositi
 	\item \textbf{Process Level:} This level consists of physical sensors and actuators that interact directly with the physical environment to perform actual mechanical work
 	\item \textbf{Control Level:} This layer comprises Programmable Logic Controllers (PLCs) and automated controllers that execute the underlying process logic and regulate physical operations in real-time
 	\item \textbf{Supervisory/Operation Level:} This level involves Human-Machine Interfaces (HMIs) and SCADA systems, which allow human operators to monitor system states visually, analyze anomalies, and intervene manually when necessary
-	\item \textbf{Operation IT / Data Layer:} Within this domain, raw OT data is aggregated, processed, and structured to make it valuable and actionable for higher-level applications
+	\item \textbf{Operation IT / Data Layer:} Within this domain, raw OT data is aggregated, processed, and structured to make it valuable and actionable for higher-level applications %TODO das ist der Grund für zunehmende Verbindung IT & OT
 \end{enumerate}
 
-The technological convergence of IT and OT yields substantial operational and economic advantages. These advantages include enhanced transparency through the real-time acquisition of process data, the implementation of predictive maintenance strategies, the enablement of remote operation and maintenance, and comprehensive data-driven process optimization. Despite these benefits, IT/OT convergence introduces significant challenges, primarily because both domains operate under fundamentally conflicting requirements and distinct paradigms. These differences manifest across various dimensions, particularly regarding security priorities, protocols, and lifecycle management \cite{hwi_ot_definition}.
+The technological convergence of IT and OT yields substantial operational and economic advantages. These advantages include enhanced transcy through the real-time acquisition of process data, the implementation of predictive maintenance strategies, the enablement of remote operation and maintenance, and comprehensive data-driven process optimization. Despite these benefits, IT/OT convergence introduces significant challenges, primarily because both domains operate under fundamentally conflicting requirements and distinct paradigms. These differences manifest across various dimensions, particularly regarding security priorities, protocols, and lifecycle management \cite{hwi_ot_definition}.
 
 \begin{table}[htbp]
 	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments \cite[p. 1]{8586807} \cite{hwi_ot_definition}}
@@ -53,11 +57,14 @@ The attributes summarized in Table \ref{tab:it_ot_comparison} highlight the fund
 
 This divergence further dictates how software maintenance and network communication are handled. While IT infrastructures rely on frequent, rapid security patching and standard communication protocols (such as HTTP or SQL), OT infrastructures adopt a highly conservative update policy. Because OT systems require rigorous validation and recertification to guarantee absolute operational safety, patches are applied rarely and only during planned maintenance windows. Furthermore, the underlying network communication in OT utilizes deterministic, low-overhead protocols like Modbus or Profinet, which lack built-in security features such as encryption \cite{hwi_ot_definition}.
 
+%TODO ganze Seite ist schon richtig gut! Updates sind ein tolles Beispiel. Jeweilige Motivation für unterschiedliches Verhalten bei IT/OT ggf. noch mehr in den Vordergrund stellen.
+
 
 \subsection{Attack Surface and Asset Identification} 
 \label{subsec:attack_surface_asset_identification} 
-
+%TODO eher allgemein über Assets und Attack Surfaces schreiben und nicht Einordnen in den Kontext eines Industrial Gateways
 For a systematic assessment of Industrial Internet of Things components such as industrial gateways, a granular decomposition of the target architecture into hardware, software, and data assets throughout the entire product life cycle is required \cite[pp. 1]{liebl2024analyzingattacksurfacethreats}. 
+%TODO nicht über Industrial Internet of Things components schreiben, sondern, wenn überhaupt über industrial gateways
 
 The hardware asset dimension comprises the physical enclosure. It may include tamper protection features, alongside the underlying printed circuit boards (PCB) and core microprocessors or microcontrollers. These processing units often embed specialized security mechanisms like Trusted Execution Environments, True Random Number Generators and cryptographic accelerators. Furthermore, hardware assets encompass volatile and non-volatile memory components such as SRAM and EEPROM structures, as well as removable storage like SD cards or USB sticks \cite{liebl2024analyzingattacksurfacethreats}. Dedicated secure cryptoprocessors, including Trusted Platform Modules and Secure Elements, are part of this domain, together with connectivity structures and various physical input and output elements \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
 
@@ -72,8 +79,142 @@ The software and application attack surface is primarily driven by vulnerabiliti
 The network interface exposes the device to classic automation protocol weaknesses that lack native security controls, enabling man-in-the-middle and replay attacks, distributed denial of service (DDoS) attempts, and port scans \cite[p. 9]{liebl2024analyzingattacksurfacethreats}.
 
 
+
+
+%
+%
+%
+%---------------------
+%6.1 Definition of Asset
+%The definition of an asset can be as simple as an object that has value, as defined
+%in [1]. For a TARA according to ISO/SAE 21434, the asset is something that has
+%value and that has cybersecurity properties associated with it, such as confidentiality,
+%integrity, and availability. The compromise of a cybersecurity property of an asset
+%as a result of a cybersecurity attack can lead to one or more damage scenarios. In
+%principle, any physical object or logical artifact such as data can be considered an
+%asset. The ISO/SAE 21434 standard does not provide a catalog of assets, nor does it
+%restrict what can be an asset. Depending on the scope of a TARA, the assetmay be of a
+%different nature. For example, when analyzing embedded devices, typical assets may
+%include communication interfaces such as CAN or Ethernet, debugging interfaces,
+%internal memory blocks, software components such as the bootloader or software
+%applications, personal or sensitive data stored in the device, sensors, actuators, and
+%others.Whenperforming aTARAon a vehicle backend architecture ormanufacturing
+%plant, assets may include software applications, data on cell phones, databases on
+%backend servers, payment information, and so on.
+%6.2 Asset Identification
+%According to ISO/SAE 21434, asset identification can be based on a variety of
+%activities or sources, such as analyzing the item definition, performing an impact
+%rating, deriving assets from threat scenarios, or using predefined catalogs (see
+%[RQ-15-02] on [1]). In this section, we focus on analyzing the item definition in
+%detail, which is the most comprehensive and natural way to identify assets. However,
+%it is important to note that these activities and sources are not mutually exclusive,
+%and new assets can be identified during subsequent steps of the TARA process, such
+%as mapping threats or defining damage scenarios. Ultimately, the goal is to ensure a
+%complete and thorough TARA that includes all relevant assets, threats, and risks.
+%In our experience, the most effective way to identify assets is through discussion
+%with the engineering team and joint analysis of a system architecture diagram of
+%the item. The analysis can begin with a functionality-based approach. The major
+%functions of the item can be identified, along with their components, and the analysis
+%can begin by essentially answering the questions what could happen if the function or
+%component is compromised? and how can the function/component be compromised?
+%The asset identification working group may typically include representatives from
+%the following areas:
+%• Cybersecurity: The cybersecurity team, composed of one or more cybersecurity
+%architects (or cybersecurity engineers, or similar cybersecurity-role names) coordinates
+%the TARA activities and provides expertise on asset identification. The
+%cybersecurity team is the main actor involved in the discussion about whether an
+%asset is important or not from a cybersecurity perspective and for the scope of the
+%TARA (e.g., if it can be compromised as thought, if there are damage scenarios,
+%if the asset and cybersecurity property are in the scope of the TARA)
+%• Systems Engineering: In cybersecurity analysis, it is essential to understand the big
+%picture, i.e., how all the parts of the item under consideration interact. A systems
+%engineer also provides useful information about the item’s operating environment.
+%This is especially important for reuse items, where a generic item or an item from
+%another project is applied to a new project.
+%• Hardware Architecture: When performing TARAfor embedded devices, hardware
+%design engineers can provide useful insight into the overall hardware design and
+%interfaces of the device.
+%• Networking Engineering: In today’s connected vehicles, or when analyzing IT/OT
+%systems in amanufacturing plant, the networking ecosystem plays a very important
+%role. Network architects can help identify data flows and relevant network devices
+%in the vehicle or plant.
+%• Software Architecture: The software team must be involved in a TARA to provide
+%information about the software parts of the item. We emphasize that an in-depth
+%analysis of the internal software development may not be necessary due to the
+%simple fact that for cybersecurity, we analyze systems that are already working
+%in the field. This means that the software is already compiled and running on the
+%system. Typical relevant information for a TARA is the high-level architecture and
+%distribution of software components, e.g., if there are configuration files stored separately
+%from the binaries, if one or more bootloaders are running, if virtualization
+%technologies are used, or how the software updates work.
+%A reasonable approach when involving different areas and teams is to divide the
+%analysis into groups of experts because typically not all components are owned by
+%the same people. For example, when analyzing an embedded device such as a head
+%unit, the cybersecurity team leading the TARA can identify relevant functional components
+%such as general interfaces, SoC for communication, SoC for video analysis,
+%and so on, and invite the responsible people to different interview sessions. The asset
+%identification steps with the support team are an iterative process until a consensus
+%is reached between the cybersecurity team and the entire team.We depict these steps
+%in Fig. 6.21. \cite[pp. 85]{doCarmo2025} 
+%
+%Im Mittelpunkt des Risikomanagements stehen die Assets des betrachteten Systems.
+%Nach ISO 21434 kann ein kompromittiertes Asset Schäden für dessen Besitzer hervorrufen.
+%Zu den Assets bzw. schützenswerten Gütern zählen unterschiedliche materielle
+%und immaterielle Bestandteile des Systems, etwa sensible Informationen, Fahrzeugfunktionen,
+%Softwarekomponenten, Hardwarekomponenten, Infrastrukturkomponenten
+%und Kommunikationsverbindungen. Die verschiedenen, standardisierten
+%Vorgehensmodelle für die Risikobewertung, s. [12, 24] und [7], legen für die einzelnen
+%Assets ihre jeweiligen Security-Eigenschaften wie Vertraulichkeit, Integrität und Verfügbarkeit
+%fest und definieren dadurch ihren Schutzbedarf.
+% \cite[p. 5]{Wurm2022}
+%
+
+
 \section{Regulatory and Standardization Framework} 
 \label{sec:regulatory_framework} 
+
+%TODO Das ganze Kapitel tendiert für mich auch wieder sehr zu einer Einordnung und Bewertung der Maschinenrichtlinie bzw. deren Änderungen --> was ich gut finde weil das eine Leistung von dir im Rahmen dieser Arbeit ist, dass du das betrachtest. Damit ist es aber nicht "stumpfer" Teil der Grundlagen sondern gehört in ein extra Kapitel/Hauptteil --> klare Unterscheidung zwischen Grundlagen und Einordnung mit Eigenanteil, evtl. Inhalte für das Kapitel Vorgehen verwenden
+
+%1. Was davon sind Grundlagen?
+%
+%Als Grundlagen gelten Inhalte, die den Stand von Recht, Normung und Technik neutral und reproduzierbar beschreiben, zum Beispiel:
+%
+%Inkrafttreten und Anwendungsbeginn der Maschinenverordnung
+%Unterschied zwischen EU-Richtlinie und EU-Verordnung
+%Aufbau und Anwendungsbereich der Verordnung
+%allgemeine Beschreibung von Anhang III, Abschnitt 1.1.9 und 1.2.1
+%Zweck und Aufbau von prEN 50742
+%Beschreibung der Ansätze A und B
+%Aufbau der IEC-62443-Reihe
+%Definition der Foundational Requirements und Security Levels
+%Unterschied zwischen IEC 62443-3-3, IEC 62443-4-1 und IEC 62443-4-2
+%
+%Diese Inhalte beantworten die Frage:
+%
+%Welche regulatorischen und normativen Konzepte existieren?
+%
+%Das ist klassischer Grundlagenstoff.
+%
+%2. Was ist bereits Eigenleistung?
+%
+%Eigenleistung beginnt dort, wo du die Quellen für deinen konkreten Untersuchungsgegenstand interpretierst, vergleichst oder operationalisierst. Dazu gehören insbesondere:
+%
+%die Bewertung, welche Vorschriften für industrielle Gateways relevant sind
+%die Einordnung eines Gateways als System, Komponente oder Netzwerkkomponente
+%die Auswahl relevanter IEC-62443-Anforderungen
+%die Verknüpfung von MVO, prEN 50742 und IEC 62443
+%die Ableitung technischer Security-Funktionen
+%die Übersetzung abstrakter Anforderungen in überprüfbare Testanforderungen
+%die Begründung, warum bestimmte physische IT/OT-Schnittstellen getestet werden
+%die Zuordnung von Normanforderungen zu Testmethoden
+%eine Gap-Analyse zwischen regulatorischen Anforderungen und dem bestehenden Testprozess
+%
+%Diese Inhalte beantworten die Frage:
+%
+%Welche Bedeutung haben die Regelwerke für den betrachteten Gateway und wie werden daraus Tests abgeleitet?
+%
+%Das ist klarer Eigenanteil.
+
 
 \subsection{Regulation (EU) 2023/1230}
 \label{subsec:eu_machinery_regulation}
@@ -177,8 +318,6 @@ For instance, while a system requires restricted data flow under FR 5, IEC 62443
 \section{Cybersecurity Fundamentals} 
 \label{sec:cybersecurity_fundamentals} 
 
-
-
 \subsection{Security Goals} 
 \label{subsec:security_goals} 
 
@@ -192,6 +331,51 @@ Within the domain of digital information security, the systemic alignment of cyb
 
 
 In practical deployment, these three primary security goals do not operate in isolation but exhibit a complex dynamic where they concurrently work together and against each other, frequently necessitating deliberate design trade-offs to balance conflicting requirements. While this triad establishes an essential baseline for data protection, modern distributed network environments demand explicit extensions to the classical CIA framework to address sophisticated threat vectors comprehensively. Possible additions include the goals of authenticity, and usefulness. Authenticity focuses on verifying that the transmitted information or system state genuinely is what it claims to be and incontrovertibly originates from the expected, legitimate source. Utility demands that data remains in a structurally usable, meaningful, and actionable form rather than merely being technically accessible to the organization \cite{CIAtriadEICTA2026} \cite[pp. 102]{doCarmo2025}.
+
+%TODO Accountablity fehlt
+
+
+Authenticity
+Authenticity can be defined as the property of information or assets being genuine,
+verifiable, and trustworthy [44]. In other words, authenticity is the ability to be
+sure that data came from the expected sender or owner. The term should not be
+confused with authentication, which is the act of validating the identity of a user
+or entity. Authenticity is an important property in today’s systems. For example, in
+embedded devices for vehicles, the ECU can verify that the code installed in the ECU
+was generated by the OEM or another valid provider. This can be achieved using
+public certificates and digital signatures. The ECU can also verify the authenticity
+of software updates received by the ECU before installing them.\cite[p. 102]{doCarmo2025}
+
+Non-Repudiation
+Non-repudiation is a classic property in the field of information security and cryptography,
+and consists of making it impossible for an individual or entity to falsely
+deny having performed an action [45]. In simpler terms, it prevents a sender from
+later denying that they sent a message or carried out a specific activity [42]. Nonrepudiation
+is an important cybersecurity property in the context ofmodern connected
+vehicles. Consider the example of V2X communication, where vehicles exchange
+critical messages such as speed information, traffic conditions, or speed limit data.
+In such scenarios, it is critical to have a mechanism in place that uniquely identifies
+the sender of the message and ensures non-repudiation. By implementing nonrepudiation
+measures, it becomes possible to hold the sender accountable for their actions and establish a level of trust in the communication system. When a sender
+is uniquely identified and their actions are non-repudiable, they can be held legally
+responsible for the information they transmit. This is particularly important in situations
+where critical decisions, such as autonomous vehicle operations or safetycritical
+notifications, depend on accurate and trusted data exchange \cite[pp. 102]{doCarmo2025}
+
+Accountability
+Accountability is the property that ensures that information or actions of an entity,
+such as a person or a system, can be uniquely traced to the entity that can be held
+responsible for that information or action [40, 46]. In the context of cybersecurity,
+accountability is often linked to enterprise-level policies as defined by standards such
+as IEC 62443 [40]. These policies outline areas of responsibility within an organization,
+such as IT and plant operations, and assign specific roles and obligations to
+ensure accountability. By clearly defining these responsibilities, organizations can
+establish a framework for accountability and enforce proper actions and behaviors.
+For instance, in the case of autonomous or highly automated vehicles, accountability
+becomes a significant legal challenge. Accidents involving such vehicles raise questions
+about who should be held liable and responsible. Establishing accountability in
+this context requires defining the roles and responsibilities of various stakeholders,
+including vehicle manufacturers, technology providers, and regulatory bodies. \cite[pp. 103]{doCarmo2025}
 
 
 
@@ -225,6 +409,7 @@ Ultimately, the successful exploitation of these vectors allows attack actors to
 \label{subsec:tara} 
 
 Threat Analysis and Risk Assessment (TARA) serves as a systematic methodology in cybersecurity to identify potential threats, assess associated risks, and formulate countermeasures to mitigate them to an acceptable level \cite[p. 37]{doCarmo2025}. Rather than relying on guesswork, TARA functions as a central tool to methodically derive concrete Cybersecurity Goals \cite{microtool_tara_2026}. As part of overall risk management, it plays a critical role in ensuring regulatory compliance and producing secure products. The process is universally applicable across domains. However, conducting a TARA requires deep knowledge of the target system combined with specialized cybersecurity expertise. While it uncovers vulnerabilities and weaknesses, a TARA cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}.
+%TODO: what can? Dein Punkt ist absolut richtig an der Stelle. Ggf. hinzufügen, dann es das nicht gibt also in dem Sinne auch kein Mangel der TARA ist.
 
 Throughout the system lifecycle, TARA is implemented iteratively across four distinct phases \cite[p. 40]{doCarmo2025}. An initial TARA occurs during early requirements engineering to evaluate baseline risks and define high-level security goals for the architecture. Before implementation begins, a detailed development TARA identifies component-level risks or adapts existing assessments for reused parts. During production, TARA evaluates manufacturing environments to prevent introducing vulnerabilities into the physical product. Finally, post-release TARAs are triggered by software updates or newly discovered vulnerabilities to continuously keep the risk profile up to date \cite[p. 40]{doCarmo2025}.
 
@@ -235,6 +420,7 @@ In practice, these workflow steps structure the primary operational domains of t
 
 \subsection{STRIDE Methodology} 
 \label{subsec:stride} 
+%TODO: überprüfen ob es eine Methode ist? oder eine Klassifizierung von Bedrohungen/Sicherheitsrisiken?
 
 The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
 
@@ -245,7 +431,7 @@ The acronym STRIDE represents six distinct threat categories:
 	
 	\item \textbf{Tampering:} Refers to the unauthorized, malicious modification of data or system functionalities. Examples include altering persistent data in a database, modifying firmware, or tampering with data in transit over an open network 
 	
-	\item \textbf{Repudiation:} Occurs when an attacker performs a prohibited action in a system that lacks the ability to trace or audit operations, allowing the actor to deny performing the action without the system having proof otherwise
+	\item \textbf{Repudiation:} Refers to the ability of an entity to deny having performed an action when the system does not provide sufficient audit records to verify the event.
 	
 	\item \textbf{Information Disclosure:} Involves the exposure of data to unauthorized individuals. This includes data breaches, unauthorized file access, or reading data in transit across network connections 
 	
@@ -348,14 +534,12 @@ Once potential threats and corresponding countermeasures are established, a syst
 Even after implementing technical controls, a residual risk, may remain high. Residual risk represents the actual risk level present when an adversary attempts an attack path while active technical controls are in place \cite[pp. 200]{doCarmo2025}.
 
 
-
-
-
-
 \section{Security Testing Approaches}
 \label{sec:security_testing_approaches}
 
-Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses \cite[p. 291]{tauqeer2021analysis}.
+Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses and verify the effectiveness of protective measures \cite[p. 291]{tauqeer2021analysis}.
+%TODO --> security kann durchaus funktional sein, bei einer Firewall zum Beispiel, weil security die Funktion des Produktes ist.
+
 
 Software security testing activities are divided into functional security testing and security vulnerability testing. Functional security testing verifies the correct operation of planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Vulnerability testing aims to discover unaddressed design flaws and implementation bugs \cite[p. 8]{richier2011security}. A comprehensive testing strategy must combine both approaches to validate security features while simulating realistic attack scenarios \cite[p. 81 f]{1341418}.
 
@@ -409,8 +593,6 @@ Combining both static approaches increases overall vulnerability detection effec
 \textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
 
 
-
-
 \subsection{Vulnerability Assessment, Robustness, and Penetration Testing}
 \label{subsec:vulnerabilities_fuzzing_pentesting}
 
@@ -426,13 +608,4 @@ A comprehensive testing framework requires evaluating feature functionality, per
 	
 	\item \textbf{Fault Injection and Mutation Testing:} Fault injection evaluates interaction points by forcing the system to process malicious commands \cite[p. 296]{tauqeer2021analysis}. Mutation testing evaluates test suite effectiveness by injecting single syntactic changes, such as variable renaming or operator replacements, to create faulty software versions. It relies on three core assumptions: competent programmers make small errors, selected mutation operators represent typical human errors, and a coupling effect allows simple mutations to uncover subtle bugs \cite[p. 50]{richier2011security}.
 \end{itemize}
-
-
-	
-	
-	
-
-
-
-
 
