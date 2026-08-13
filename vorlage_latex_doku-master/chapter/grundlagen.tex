@@ -1,12 +1,305 @@
-%TODO: Strukturierung des Grundlagenkapitel \chapter{Fundamentals} \label{chap:fundamentals} \section{Industrial Gateways in IT/OT Environments} \subsection{Fundamentals of Industrial Gateways} \subsection{IT/OT Interfaces} \subsection{Gateway Architecture and Physical Interfaces} \section{Cybersecurity Fundamentals} \subsection{Security Objectives} \subsection{Assets and Attack Surfaces} \subsection{Threats, Vulnerabilities, and Attack Vectors} \subsection{Security Functions and Technical Controls} \section{Regulatory and Standardization Framework} \subsection{Regulation (EU) 2023/1230} \subsection{prEN 50742} \subsection{IEC 62443 Series} \subsubsection{IEC 62443-3-3} \subsubsection{IEC 62443-4-1} \subsubsection{IEC 62443-4-2} \subsection{Relationship between Regulatory and Technical Requirements} \section{Risk-Based Security Engineering} \subsection{Threat Analysis and Risk Assessment} \subsection{STRIDE Threat Classification} \subsection{Risk Evaluation} \subsection{Risk Treatment and Security Controls} \subsection{Derivation of Security Requirements} \section{Security Testing Fundamentals} \subsection{Functional Security and Vulnerability Testing} \subsection{Black-Box, White-Box, and Grey-Box Testing} \subsection{Static and Dynamic Security Analysis} \subsection{Vulnerability Assessment and Scanning} \subsection{Robustness Testing and Fuzzing} \subsection{Penetration Testing} \subsection{Security Regression Testing}
 
-
-
-
-\chapter{Fundamentals} \label{chap:fundamentals} 
+\chapter{Fundamentals} 
+\label{chap:fundamentals} 
 % mind. 18 Seiten 
 
 This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
+
+
+
+\section{Cybersecurity} 
+\label{sec:cybersecurity_fundamentals} 
+%TODO was ist Cybersecurity
+\subsection{Security Goals} 
+\label{subsec:security_goals} 
+
+Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the \textit{CIA (Confidentiality-Integrity-Availability ) triad} \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
+
+\begin{itemize}
+	\item \textbf{Confidentiality:} Focuses on ensuring that sensitive data and information are strictly protected from unauthorized access or disclosure to unintended individuals, entities, and processes \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. In the specific context of IACS, the maintenance of authorized restrictions on access becomes paramount to secure proprietary information, data configurations, and core operational parameters from illicit exposure \cite[p. 23]{IEC62443-3-3}.
+	\item \textbf{Integrity:} Revolves around the complete assurance that information and system components remain accurate, reliable, and trustworthy throughout their entire lifecycle \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. This objective actively safeguards digital assets against accidental or unauthorized modifications, deletions, and fabrications, which prevents erroneous decision-making or potential operational harm caused by altered data \cite[pp. 4]{Khanna2024}.
+	\item \textbf{Availability:} Guarantees that essential services, computing systems, and communication interfaces remain continuously accessible and operational for authorized users precisely when needed \cite[pp. 4]{Khanna2024} \cite[p. 3]{app16126260}. This dimension dictates the overall resilience of the architecture against malicious disruptions, ensuring that operations can be sustained or recovered quickly to maintain customer trust and minimize financial losses \cite[p. 5]{Khanna2024}.
+\end{itemize}
+
+
+In practice, these primary goals do not operate in isolation. They often require deliberate design trade-offs to balance conflicting requirements. While the CIA triad establishes a vital baseline, modern connected environments demand explicit extensions to address sophisticated threats. Key additions include authenticity, non-repudiation, and accountability \cite[pp. 102]{doCarmo2025} \cite{CIAtriadEICTA2026}:
+
+\begin{itemize}
+	\item \textbf{Authenticity:} Ensures that information and assets are genuine, verifiable, and trustworthy. It confirms that data originates from the expected sender \cite[p. 102]{doCarmo2025}.
+	\item \textbf{Non-Repudiation:} Prevents an entity from falsely denying having performed an action or sent a message. It establishes trust and legal responsibility by uniquely identifying the sender of safety-critical data \cite[pp. 102]{doCarmo2025}.
+	\item \textbf{Accountability:} Guarantees that actions or information can be uniquely traced back to the responsible entity. It is often enforced through enterprise-level policies, such as IEC 62443, which assign specific roles and obligations \cite[p. 103]{doCarmo2025}.
+\end{itemize}
+
+
+\subsection{Threats, Vulnerabilities and Attack Vectors} 
+\label{subsec:threats_vulnerabilities_risks} 
+
+A \textbf{threat} constitutes a circumstance, an event, or a various sequence of events capable of adversely affecting or compromising operations, including an organization's mission, functions, reputation, or standing. Furthermore, threats can directly target physical facilities, assets, automation and control systems, or individuals. These adverse impacts are typically realized through specific malicious actions, such as unauthorized access to data, its destruction, unauthorized disclosure, data alteration, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
+
+
+A \textbf{vulnerability} represents a flaw in a system's design, implementation, or operation that can be exploited to corrupt system integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are categorized into distinct types, the exact probability of their malicious exploitation cannot be predicted. Crucially, vulnerabilities do not create new physical hazards on their own. However, their exploitation can compromise integrated protective measures, which necessitates a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, designers must adhere to a strict three-step mitigation hierarchy. First, present vulnerabilities that could cause hazardous situations must be eliminated entirely. Second, if complete elimination is technically unfeasible, the designer must actively mitigate the identified weakness. Finally, for any residual vulnerabilities, the information for use must provide the operator with detailed instructions for compensating countermeasures \cite[p. 14]{prEN50742_2025}.
+
+An \textbf{attack vector} defines the specific method or means by which hackers gain unauthorized access to target systems in order to carry out a cyberattack. To ensure that no potential attack vectors are overlooked during the architectural analysis, a thorough, granular itemization of all hardware components, software components, and data types is required \cite[p. 2]{liebl2024analyzingattacksurfacethreats} \cite[p. 11]{liebl2024analyzingattacksurfacethreats}. Together, an organization's active attack vectors and its technical vulnerabilities constitute its total attack surface. In modern connected environments, this attack surface has continuously increased, exposing industrial assets to various common types of attack vectors utilized by adversaries, including:
+\begin{itemize}
+	\item Third-party and supply chain compromises
+	\item Denial-of-Service (DoS) attacks
+	\item Compromised credentials
+	\item Insider threats
+	\item Exploitation of unpatched software or hardware vulnerabilities
+	\item Injection and execution of malware
+	\item Physical attacks on the infrastructure 
+\end{itemize}
+Ultimately, the successful exploitation of these vectors allows attack actors to disable or destroy critical operational assets, which subsequently leads to significant business and economic disruptions \cite{IBM_AttackVector}.
+%TODO
+%\subsection{Assets and Attack Surfaces} 
+%\label{subsec:assets_attack_surfaces}
+%% Allgemeine Definition von Hardware-, Software- und Data-Assets sowie der Angriffsfläche...
+%
+%\subsection{Threats, Vulnerabilities, and Attack Vectors} 
+%\label{subsec:threats_vulnerabilities_attack_vectors}
+%% Wie nutzen Bedrohungen Schwachstellen über Vektoren aus...
+%
+%
+
+
+
+\section{Risk-Based Security Engineering} 
+\label{sec:risk_based_security_engineering} 
+
+
+\subsection{Threat Analysis and Risk Assessment (TARA)} 
+\label{subsec:tara} 
+
+Threat Analysis and Risk Assessment (TARA) serves as a systematic methodology in cybersecurity to identify potential threats, assess associated risks, and formulate countermeasures to mitigate them to an acceptable level \cite[p. 37]{doCarmo2025}. Rather than relying on guesswork, TARA functions as a central tool to methodically derive concrete Cybersecurity Goals \cite{microtool_tara_2026}. As part of overall risk management, it plays a critical role in ensuring regulatory compliance and producing secure products. The process is universally applicable across domains. However, conducting a TARA requires deep knowledge of the target system combined with specialized cybersecurity expertise. While it uncovers vulnerabilities and weaknesses, a TARA cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}.
+%TODO: what can? Dein Punkt ist absolut richtig an der Stelle. Ggf. hinzufügen, dann es das nicht gibt also in dem Sinne auch kein Mangel der TARA ist.
+
+Throughout the system lifecycle, TARA is implemented iteratively across four distinct phases \cite[p. 40]{doCarmo2025}. An initial TARA occurs during early requirements engineering to evaluate baseline risks and define high-level security goals for the architecture. Before implementation begins, a detailed development TARA identifies component-level risks or adapts existing assessments for reused parts. During production, TARA evaluates manufacturing environments to prevent introducing vulnerabilities into the physical product. Finally, post-release TARAs are triggered by software updates or newly discovered vulnerabilities to continuously keep the risk profile up to date \cite[p. 40]{doCarmo2025}.
+
+The general workflow executes a sequential multi-step process from Item Definition and Asset Identification to Threat Analysis, Impact Rating, Feasibility Assessment, Risk Determination, and Risk Treatment. Within this context, a threat describes a potential event violating a cybersecurity property (Confidentiality, Integrity, or Availability), whereas a vulnerability represents a concrete weakness in design or implementation enabling that threat \cite{microtool_tara_2026}.
+
+In practice, these workflow steps structure the primary operational domains of the assessment \cite[p. 47, 49]{doCarmo2025}. First, Asset Identification determines system assets, their required CIA properties, and prospective damage scenarios to establish an initial impact rating \cite[p. 46, 49]{doCarmo2025}\cite{microtool_tara_2026}. Next, Threat Scenario Analysis defines potential attack vectors alongside specific attack paths, which detail the sequential steps an adversary must execute \cite[p. 46]{doCarmo2025}\cite{microtool_tara_2026}. Because no single threat source is comprehensive, team brainstorming supported by catalogs and the \hyperref[subsec:stride]{STRIDE} methodology offers an efficient approach to threat identification \cite[p. 135, 137]{doCarmo2025}. Subsequently, Risk Evaluation combines the calculated impact ratings with attack feasibility metrics to derive overall risk levels \cite[p. 47, 49]{doCarmo2025}\cite{microtool_tara_2026}. Finally, the Risk Treatment Decision determines final Cybersecurity Controls, Goals, and Claims to effectively reduce identified risks \cite[p. 37, 49]{doCarmo2025}\cite{microtool_tara_2026}.
+
+
+\subsection{STRIDE Threat Model} 
+\label{subsec:stride} 
+%TODO: überprüfen ob es eine Methode ist? oder eine Klassifizierung von Bedrohungen/Sicherheitsrisiken?
+
+The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
+
+The acronym STRIDE represents six distinct threat categories:
+
+\begin{itemize}
+	\item \textbf{Spoofing:} The attacker pretends to be someone or something else. This involves illegally accessing and using another entity's authentication credentials, such as a username and password, or spoofing components and signals within embedded networks
+	
+	\item \textbf{Tampering:} Refers to the unauthorized, malicious modification of data or system functionalities. Examples include altering persistent data in a database, modifying firmware, or tampering with data in transit over an open network 
+	
+	\item \textbf{Repudiation:} Refers to the ability of an entity to deny having performed an action when the system does not provide sufficient audit records to verify the event.
+	
+	\item \textbf{Information Disclosure:} Involves the exposure of data to unauthorized individuals. This includes data breaches, unauthorized file access, or reading data in transit across network connections 
+	
+	\item \textbf{Denial of Service:} Threat actions aiming to disrupt system operation or deny access to legitimate users. Examples include making web servers temporarily unusable or flooding bus systems with traffic to block valid messages 
+	
+	\item \textbf{Elevation of Privilege:} An unprivileged attacker exploits vulnerabilities to gain higher access privileges than authorized. This allows the attacker to penetrate system defenses, access critical subsystems, and potentially compromise the entire system \cite{microsoft_stride_model} \cite[p. 144]{doCarmo2025}
+\end{itemize}
+
+To systematically analyze these threats, Table \ref{tab:stride_mapping} illustrates how each STRIDE category maps directly to the specific cybersecurity property it violates.
+
+\begin{table}[htbp]
+	\caption{Mapping of STRIDE Threat Categories to Violated Cybersecurity Properties \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}}
+	\label{tab:stride_mapping}
+	\centering
+	\begin{tabularx}{\textwidth}{X X}
+		\toprule
+		\textbf{Threat Category} & \textbf{Cybersecurity Property Violated} \\
+		\midrule
+		Spoofing & Authenticity \\
+		Tampering & Integrity \\
+		Repudiation & Non-repudiation \\
+		Information Disclosure & Confidentiality \\
+		Denial of Service & Availability \\
+		Elevation of Privilege & Authorization \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+As shown in Table \ref{tab:stride_mapping}, the STRIDE threat categories represent the direct opposite of fundamental security objectives. By systematically evaluating system components against these paired relationships, threat lists can be derived to identify potential attacker goals and define required security controls \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
+
+
+
+\subsection{Risk Evaluation} 
+\label{subsec:risk_evaluation} 
+
+Risk evaluation serves as the central mechanism to determine and quantify the overall risk level associated with identified threat scenarios. Fundamentally, risk is defined as a combination of the potential impact resulting from an attack and its corresponding likelihood or feasibility \cite[p. 196]{doCarmo2025}. In literature, this relationship is frequently expressed through formal mathematical models. For instance, the risk level ($R$) can be determined by multiplying the likelihood ($L$) by the severity ($S$) of the impact \cite[p. 648]{10.1007/978-3-030-85969-5_37}:
+\begin{equation}
+	R = L \cdot S
+\end{equation}
+
+To systematically assess the impact parameter ($I$), criteria are established based on operational and safety domains. In safety-critical industrial environments, the impact rating evaluates potential physical harm to humans across four distinct levels \cite[p. 106]{doCarmo2025}:
+\begin{itemize}
+	\item \textbf{Severe (S3):} Fatal injuries or severe, life-threatening injuries where survival is uncertain
+	\item \textbf{Major (S2):} Severe and life-threatening injuries where survival is probable
+	\item \textbf{Moderate (S1):} Light to moderate physical injuries
+	\item \textbf{Negligible (S0):} No physical injuries occur
+\end{itemize}
+
+Complementarily, the feasibility evaluation ($F$) determines the probability of occurrence by analyzing the technical effort and capabilities required for an adversary to execute specific attack paths \cite[p. 135]{doCarmo2025}. Attack feasibility is categorized into four distinct ratings \cite[p. 151]{doCarmo2025}:
+\begin{itemize}
+	\item \textbf{High:} The attack path can be accomplished utilizing low effort
+	\item \textbf{Medium:} The attack path can be accomplished utilizing medium effort
+	\item \textbf{Low:} The attack path can be accomplished utilizing high effort
+	\item \textbf{Very Low:} The attack path can be accomplished utilizing very high effort
+\end{itemize}
+
+For the final evaluation, assets, threat scenarios, attack paths, and resulting damage scenarios are combined into a structured matrix \cite[p. 180]{doCarmo2025}. By mapping the discrete impact ratings against the corresponding attack feasibility levels in a standardized risk matrix, the final numerical risk value is calculated. For instance, a damage scenario categorized with a \textit{moderate} impact rating and a \textit{high} attack feasibility yields a resulting risk value of three \cite[p. 180]{doCarmo2025}. Depending on specific institutional requirements and risk tolerance thresholds, individual organizations can make tailored adjustments to the underlying risk matrix structures \cite[p. 182]{doCarmo2025}.
+
+
+
+
+\subsection{Risk Treatment Strategies} 
+\label{subsec:risk_treatment_strategies} 
+
+Following the evaluation of identified risks, appropriate risk treatment strategies must be defined. Generally, four primary strategies are available to address identified risks: risk reduction, risk avoidance, risk sharing, and risk acceptance \cite[pp. 200]{doCarmo2025}.
+
+\textbf{Risk Reduction:} Risk reduction aims to decrease either the impact or the likelihood of a threat scenario. This is achieved by implementing technical countermeasures, also known as cybersecurity controls, which are typically derived from standardized or corporate catalogs \cite[p. 200]{doCarmo2025}. Table \ref{tab:stride_mitigations} summarizes standard technical mitigation techniques mapped to the corresponding \hyperref[subsec:stride]{STRIDE} threat categories \cite{owasp_threat_modeling_process}.
+
+\begin{table}[htbp]
+	\caption{Technical Mitigation Techniques Mapped to STRIDE Threat Categories \cite{owasp_threat_modeling_process}}
+	\label{tab:stride_mitigations}
+	\centering
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{Threat Type} & \textbf{Mitigation Techniques} \\
+		\midrule
+		Spoofing Identity & Appropriate authentication, protection of secret data, avoiding secret storage \\ \addlinespace
+		Tampering & Appropriate authorization, cryptographic hashes, MACs, digital signatures, tamper-resistant protocols \\ \addlinespace
+		Repudiation & Digital signatures, timestamps, audit trails \\ \addlinespace
+		Information Disclosure & Authorization, privacy-enhanced protocols, encryption, protection or non-storage of secrets \\ \addlinespace
+		Denial of Service & Appropriate authentication and authorization, traffic filtering, throttling, Quality of Service \\ \addlinespace
+		Elevation of Privilege & Execution under the principle of least privilege \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\textbf{Risk Avoidance:} Risk avoidance involves modifying the fundamental design of the system component to eliminate the source of the risk entirely \cite[p. 200]{doCarmo2025}.
+
+\textbf{Risk Sharing:} Risk sharing distributes the risk among other stakeholders via contractual agreements or transfers it through insurance policies. In this case, a formal rationale in the form of a cybersecurity claim must be documented \cite[p. 201]{doCarmo2025}.
+
+\textbf{Risk Acceptance:} If the resulting risk level, impact, or attack feasibility is sufficiently low, accepting the risk represents a valid decision. Risk acceptance does not mean ignoring the threat. It strictly requires a documented rationale and cybersecurity claim to justify the acceptance \cite[p. 201]{doCarmo2025}.
+
+Once potential threats and corresponding countermeasures are established, a system threat profile can be derived into three distinct levels of mitigation \cite{owasp_threat_modeling_process}:
+\begin{itemize}
+	\item \textbf{Non-mitigated threats:} Threats without countermeasures that expose fully exploitable vulnerabilities.
+	\item \textbf{Partially mitigated threats:} Threats partially addressed by controls, resulting in limited exploitability and impact.
+	\item \textbf{Fully mitigated threats:} Threats with adequate countermeasures in place that leave no exposed vulnerabilities.
+\end{itemize}
+
+Even after implementing technical controls, a residual risk, may remain high. Residual risk represents the actual risk level present when an adversary attempts an attack path while active technical controls are in place \cite[pp. 200]{doCarmo2025}.
+
+
+
+
+
+\section{Security Testing Approaches}
+\label{sec:security_testing_approaches}
+
+Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses and verify the effectiveness of protective measures \cite[p. 291]{tauqeer2021analysis}.
+%TODO --> security kann durchaus funktional sein, bei einer Firewall zum Beispiel, weil security die Funktion des Produktes ist.
+
+
+Software security testing activities are divided into functional security testing and security vulnerability testing. Functional security testing verifies the correct operation of planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Vulnerability testing aims to discover unaddressed design flaws and implementation bugs \cite[p. 8]{richier2011security}. A comprehensive testing strategy must combine both approaches to validate security features while simulating realistic attack scenarios \cite[p. 81 f]{1341418}.
+
+\subsection{Testing Methodologies}
+\label{subsec:testing_taxonomy}
+
+Security testing approaches are categorized by the level of internal system knowledge available to the tester \cite[p. 296]{tauqeer2021analysis}:
+
+\begin{itemize}
+	\item \textbf{Black-Box Testing:} The tester has no knowledge of the internal system structure \cite[p. 296]{tauqeer2021analysis}. Testing evaluates external software interfaces by executing the program with various inputs \cite[p. 82]{1341418}. Subcategories include fuzzy testing, which injects randomly generated data to infect or damage a system, and property-based testing, a model-based approach converting security properties into specifications via program slicing \cite[p. 296]{tauqeer2021analysis}.
+	
+	\item \textbf{White-Box Testing:} The evaluator has full access to the source code, logical paths, and architectural design. It enables manual code reviews, model-based techniques that check system models against security requirements, and fault injection to test interaction limits under malicious commands \cite[p. 296]{tauqeer2021analysis}.
+	
+	\item \textbf{Grey-Box Testing:} Tests are conducted with limited knowledge of the internal architecture by combining white-box and black-box techniques across multiple system layers \cite[p. 296]{tauqeer2021analysis}.
+\end{itemize}
+
+Techniques that cannot be strictly categorized into these paradigms include ethical hacking, penetration testing, and security regression testing. Penetration testing mimics actual attacker behavior to exploit system vulnerabilities. Ethical hacking expands this focus to evaluate weak points across the entire environment, including human operators and clients. Security regression testing specifically verifies that system upgrades or changes do not introduce new vulnerabilities \cite[p. 296]{tauqeer2021analysis}.
+
+
+\subsection{Static and Dynamic Analysis}
+\label{subsec:static_dynamic_analysis}
+
+Security analysis techniques are structured into static and dynamic execution paradigms. Static analysis inspects source code or control and data flow graphs using checklists without exercising the system with real runtime data \cite[p. 35]{richier2011security}. It detects errors early in development, but may miss runtime flaws \cite[p. 1]{cong2024overview}. Conversely, dynamic analysis evaluates system behavior during runtime under different configurations and input data, comparing actual outputs against formal specifications \cite[p. 35]{richier2011security}. Dynamic testing provides real-world validation, it can disrupt system operations \cite[p. 1]{cong2024overview}.
+
+\textbf{Static Analysis Mechanisms:} Static Application Security Testing (SAST) examines source code or binaries without execution \cite{GeeksforGeeksSecurityTesting}. As shown in Table \ref{tab:static_analysis_comparison}, static detection primarily relies on code similarity-based and code pattern-based approaches \cite[pp. 3]{cong2024overview}:
+
+\begin{itemize}
+	\item \textbf{Code Similarity-Based Detection:} Identifies potential vulnerabilities by searching for known vulnerable code clones via string comparison, syntax analysis, or machine learning \cite[p. 3]{cong2024overview}. Grammar-based techniques analyze grammatical code structures, whereas semantic-based techniques evaluate control and data flows to determine code meaning \cite[pp. 4 ]{cong2024overview}. This approach requires less training data but cannot detect novel vulnerabilities \cite[p. 8]{cong2024overview}.
+	
+	\item \textbf{Code Pattern-Based Detection:} Utilizes machine learning and deep learning during a training and detection phase to recognize specific vulnerable code patterns \cite[p. 5]{cong2024overview}. While dependent on data, it can discover new vulnerabilities \cite[p. 8]{cong2024overview}.
+\end{itemize}
+
+Combining both static approaches increases overall vulnerability detection effectiveness \cite[p. 8]{cong2024overview}.
+
+\begin{table}[htbp]
+	\caption{Comparison of Static Analysis Detection Approaches \cite[p. 3, 8]{cong2024overview}}
+	\label{tab:static_analysis_comparison}
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
+		\toprule
+		\textbf{Property} & \textbf{Code Similarity-Based} & \textbf{Code Pattern-Based} \\
+		\midrule
+		Operating Principle & Searches for similar code clones & Identifies specific code patterns \\ \addlinespace
+		Techniques Used & String comparison, syntax and semantic analysis & Machine learning, deep learning \\ \addlinespace
+		Advantages & Less dependent on training data & Capable of detecting new vulnerabilities \\ \addlinespace
+		Disadvantages & Unable to detect new vulnerabilities & Highly dependent on training data \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
+
+
+\subsection{Vulnerability Assessment, Robustness, and Penetration Testing}
+\label{subsec:vulnerabilities_fuzzing_pentesting}
+
+
+A comprehensive testing framework requires evaluating feature functionality, performance, and robustness \cite[p. 48]{richier2011security}:
+
+\begin{itemize}
+	\item \textbf{Vulnerability Scanning:} Automated tools scan hosts, open ports, and operating systems to match system configurations against databases of known vulnerabilities \cite[p. 27]{nist_sp800_115}.
+	
+	\item \textbf{Robustness Testing and Fuzzing:} Robustness measures a system's ability to operate correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness testing technique that repeatedly injects invalid, random, or unexpected inputs into target interfaces to provoke data handling errors or crashes. Fuzzing varies by input generation: ``dumb'' fuzzing performs random mutations without input format knowledge, while ``smart'' fuzzing uses input models. Based on system access, white-box fuzzing utilizes program analysis, grey-box fuzzing uses lightweight instrumentation, and black-box fuzzing operates without internal knowledge \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}.
+	
+	\item \textbf{Penetration Testing:} Evaluators mimic real-world cyberattacks to identify exploitable vulnerability combinations \cite[p. 296]{tauqeer2021analysis}. According to NIST SP 800-115, penetration testing follows four stages: \textit{Planning}, \textit{Discovery}, \textit{Attack}, and \textit{Reporting} \cite[p. 37]{nist_sp800_115}.
+	
+	\item \textbf{Fault Injection and Mutation Testing:} Fault injection evaluates interaction points by forcing the system to process malicious commands \cite[p. 296]{tauqeer2021analysis}. Mutation testing evaluates test suite effectiveness by injecting single syntactic changes, such as variable renaming or operator replacements, to create faulty software versions. It relies on three core assumptions: competent programmers make small errors, selected mutation operators represent typical human errors, and a coupling effect allows simple mutations to uncover subtle bugs \cite[p. 50]{richier2011security}.
+\end{itemize}
+
+
+
+
+%\section{Security Testing Approaches}
+%\label{sec:security_testing_approaches}
+%
+%\subsection{Testing Methodologies}
+%\label{subsec:testing_methodologies}
+%% Black-Box, White-Box, Grey-Box...
+%
+%\subsection{Static and Dynamic Analysis}
+%\label{subsec:static_dynamic_analysis}
+%% SAST, DAST, SCA...
+%
+%\subsection{Vulnerability Assessment and Robustness Testing}
+%\label{subsec:vulnerabilities_fuzzing_pentesting}
+%% Pentesting, Fuzzing, Scanning...
+%
+
+
+
+
+
+
+
+
 
 \section{Industrial Gateways in IT/OT Environments} 
 \label{sec:industrial_gateways} 
@@ -169,6 +462,17 @@ The network interface exposes the device to classic automation protocol weakness
 % \cite[p. 5]{Wurm2022}
 %
 
+%
+%\section{Industrial Gateways in IT/OT Environments} 
+%\label{sec:industrial_gateways}
+%
+%\subsection{IT/OT Convergence and Interfaces} 
+%\label{subsec:it_ot_interfaces}
+%% Warum wachsen die Welten zusammen, CIA vs. AIC...
+%
+%\subsection{Architectural Role of Industrial Gateways} 
+%\label{subsec:architectural_role_gateways}
+%% OSI-Layer, Protokollübersetzung, neutral beschrieben...
 
 \section{Regulatory and Standardization Framework} 
 \label{sec:regulatory_framework} 
@@ -315,297 +619,24 @@ Analogous to the system-level standard, the concrete technical specifications wi
 For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as the network component's ability to enforce logical isolation, manage access control lists, and securely route or filter traffic at the physical IT/OT interface 
 \cite[pp. 61]{IEC62443-4-2}. 
 
-\section{Cybersecurity Fundamentals} 
-\label{sec:cybersecurity_fundamentals} 
 
-\subsection{Security Goals} 
-\label{subsec:security_goals} 
 
-Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the \textit{CIA (Confidentiality-Integrity-Availability ) triad} \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
 
-\begin{itemize}
-	\item \textbf{Confidentiality:} Focuses on ensuring that sensitive data and information are strictly protected from unauthorized access or disclosure to unintended individuals, entities, and processes \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. In the specific context of IACS, the maintenance of authorized restrictions on access becomes paramount to secure proprietary information, data configurations, and core operational parameters from illicit exposure \cite[p. 23]{IEC62443-3-3}.
-	\item \textbf{Integrity:} Revolves around the complete assurance that information and system components remain accurate, reliable, and trustworthy throughout their entire lifecycle \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. This objective actively safeguards digital assets against accidental or unauthorized modifications, deletions, and fabrications, which prevents erroneous decision-making or potential operational harm caused by altered data \cite[pp. 4]{Khanna2024}.
-	\item \textbf{Availability:} Guarantees that essential services, computing systems, and communication interfaces remain continuously accessible and operational for authorized users precisely when needed \cite[pp. 4]{Khanna2024} \cite[p. 3]{app16126260}. This dimension dictates the overall resilience of the architecture against malicious disruptions, ensuring that operations can be sustained or recovered quickly to maintain customer trust and minimize financial losses \cite[p. 5]{Khanna2024}.
-\end{itemize}
+%
+%
+%\section{Regulatory and Standardization Framework} 
+%\label{sec:regulatory_framework}
+%
+%\subsection{Regulation (EU) 2023/1230}
+%\label{subsec:eu_machinery_regulation}
+%% Was ist die MVO, Anhang III...
+%
+%\subsection{prEN 50742} 
+%\label{subsec:pren_50742}
+%% Ansatz A und B, grundlegende Ziele...
+%
+%\subsection{EN IEC 62443 Series} 
+%\label{subsec:iec_62443}
+%% Foundational Requirements (FRs), Security Levels (SLs)...
 
-
-In practical deployment, these three primary security goals do not operate in isolation but exhibit a complex dynamic where they concurrently work together and against each other, frequently necessitating deliberate design trade-offs to balance conflicting requirements. While this triad establishes an essential baseline for data protection, modern distributed network environments demand explicit extensions to the classical CIA framework to address sophisticated threat vectors comprehensively. Possible additions include the goals of authenticity, and usefulness. Authenticity focuses on verifying that the transmitted information or system state genuinely is what it claims to be and incontrovertibly originates from the expected, legitimate source. Utility demands that data remains in a structurally usable, meaningful, and actionable form rather than merely being technically accessible to the organization \cite{CIAtriadEICTA2026} \cite[pp. 102]{doCarmo2025}.
-
-%TODO Accountablity fehlt
-
-
-Authenticity
-Authenticity can be defined as the property of information or assets being genuine,
-verifiable, and trustworthy [44]. In other words, authenticity is the ability to be
-sure that data came from the expected sender or owner. The term should not be
-confused with authentication, which is the act of validating the identity of a user
-or entity. Authenticity is an important property in today’s systems. For example, in
-embedded devices for vehicles, the ECU can verify that the code installed in the ECU
-was generated by the OEM or another valid provider. This can be achieved using
-public certificates and digital signatures. The ECU can also verify the authenticity
-of software updates received by the ECU before installing them.\cite[p. 102]{doCarmo2025}
-
-Non-Repudiation
-Non-repudiation is a classic property in the field of information security and cryptography,
-and consists of making it impossible for an individual or entity to falsely
-deny having performed an action [45]. In simpler terms, it prevents a sender from
-later denying that they sent a message or carried out a specific activity [42]. Nonrepudiation
-is an important cybersecurity property in the context ofmodern connected
-vehicles. Consider the example of V2X communication, where vehicles exchange
-critical messages such as speed information, traffic conditions, or speed limit data.
-In such scenarios, it is critical to have a mechanism in place that uniquely identifies
-the sender of the message and ensures non-repudiation. By implementing nonrepudiation
-measures, it becomes possible to hold the sender accountable for their actions and establish a level of trust in the communication system. When a sender
-is uniquely identified and their actions are non-repudiable, they can be held legally
-responsible for the information they transmit. This is particularly important in situations
-where critical decisions, such as autonomous vehicle operations or safetycritical
-notifications, depend on accurate and trusted data exchange \cite[pp. 102]{doCarmo2025}
-
-Accountability
-Accountability is the property that ensures that information or actions of an entity,
-such as a person or a system, can be uniquely traced to the entity that can be held
-responsible for that information or action [40, 46]. In the context of cybersecurity,
-accountability is often linked to enterprise-level policies as defined by standards such
-as IEC 62443 [40]. These policies outline areas of responsibility within an organization,
-such as IT and plant operations, and assign specific roles and obligations to
-ensure accountability. By clearly defining these responsibilities, organizations can
-establish a framework for accountability and enforce proper actions and behaviors.
-For instance, in the case of autonomous or highly automated vehicles, accountability
-becomes a significant legal challenge. Accidents involving such vehicles raise questions
-about who should be held liable and responsible. Establishing accountability in
-this context requires defining the roles and responsibilities of various stakeholders,
-including vehicle manufacturers, technology providers, and regulatory bodies. \cite[pp. 103]{doCarmo2025}
-
-
-
-
-\subsection{Threats, Vulnerabilities and Attack Vectors} 
-\label{subsec:threats_vulnerabilities_risks} 
-
-A \textbf{threat} constitutes a circumstance, an event, or a various sequence of events capable of adversely affecting or compromising operations, including an organization's mission, functions, reputation, or standing. Furthermore, threats can directly target physical facilities, assets, automation and control systems, or individuals. These adverse impacts are typically realized through specific malicious actions, such as unauthorized access to data, its destruction, unauthorized disclosure, data alteration, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
-
-
-A \textbf{vulnerability} represents a flaw in a system's design, implementation, or operation that can be exploited to corrupt system integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are categorized into distinct types, the exact probability of their malicious exploitation cannot be predicted. Crucially, vulnerabilities do not create new physical hazards on their own. However, their exploitation can compromise integrated protective measures, which necessitates a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, designers must adhere to a strict three-step mitigation hierarchy. First, present vulnerabilities that could cause hazardous situations must be eliminated entirely. Second, if complete elimination is technically unfeasible, the designer must actively mitigate the identified weakness. Finally, for any residual vulnerabilities, the information for use must provide the operator with detailed instructions for compensating countermeasures \cite[p. 14]{prEN50742_2025}.
-
-An \textbf{attack vector} defines the specific method or means by which hackers gain unauthorized access to target systems in order to carry out a cyberattack. To ensure that no potential attack vectors are overlooked during the architectural analysis, a thorough, granular itemization of all hardware components, software components, and data types is required \cite[p. 2]{liebl2024analyzingattacksurfacethreats} \cite[p. 11]{liebl2024analyzingattacksurfacethreats}. Together, an organization's active attack vectors and its technical vulnerabilities constitute its total attack surface. In modern connected environments, this attack surface has continuously increased, exposing industrial assets to various common types of attack vectors utilized by adversaries, including:
-\begin{itemize}
-	\item Third-party and supply chain compromises
-	\item Denial-of-Service (DoS) attacks
-	\item Compromised credentials
-	\item Insider threats
-	\item Exploitation of unpatched software or hardware vulnerabilities
-	\item Injection and execution of malware
-	\item Physical attacks on the infrastructure 
-\end{itemize}
-Ultimately, the successful exploitation of these vectors allows attack actors to disable or destroy critical operational assets, which subsequently leads to significant business and economic disruptions \cite{IBM_AttackVector}.
-
-
-\section{Risk-Based Security Engineering} 
-\label{sec:risk_based_security_engineering} 
-
-
-\subsection{Threat Analysis and Risk Assessment (TARA)} 
-\label{subsec:tara} 
-
-Threat Analysis and Risk Assessment (TARA) serves as a systematic methodology in cybersecurity to identify potential threats, assess associated risks, and formulate countermeasures to mitigate them to an acceptable level \cite[p. 37]{doCarmo2025}. Rather than relying on guesswork, TARA functions as a central tool to methodically derive concrete Cybersecurity Goals \cite{microtool_tara_2026}. As part of overall risk management, it plays a critical role in ensuring regulatory compliance and producing secure products. The process is universally applicable across domains. However, conducting a TARA requires deep knowledge of the target system combined with specialized cybersecurity expertise. While it uncovers vulnerabilities and weaknesses, a TARA cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}.
-%TODO: what can? Dein Punkt ist absolut richtig an der Stelle. Ggf. hinzufügen, dann es das nicht gibt also in dem Sinne auch kein Mangel der TARA ist.
-
-Throughout the system lifecycle, TARA is implemented iteratively across four distinct phases \cite[p. 40]{doCarmo2025}. An initial TARA occurs during early requirements engineering to evaluate baseline risks and define high-level security goals for the architecture. Before implementation begins, a detailed development TARA identifies component-level risks or adapts existing assessments for reused parts. During production, TARA evaluates manufacturing environments to prevent introducing vulnerabilities into the physical product. Finally, post-release TARAs are triggered by software updates or newly discovered vulnerabilities to continuously keep the risk profile up to date \cite[p. 40]{doCarmo2025}.
-
-The general workflow executes a sequential multi-step process from Item Definition and Asset Identification to Threat Analysis, Impact Rating, Feasibility Assessment, Risk Determination, and Risk Treatment. Within this context, a threat describes a potential event violating a cybersecurity property (Confidentiality, Integrity, or Availability), whereas a vulnerability represents a concrete weakness in design or implementation enabling that threat \cite{microtool_tara_2026}.
-
-In practice, these workflow steps structure the primary operational domains of the assessment \cite[p. 47, 49]{doCarmo2025}. First, Asset Identification determines system assets, their required CIA properties, and prospective damage scenarios to establish an initial impact rating \cite[p. 46, 49]{doCarmo2025}\cite{microtool_tara_2026}. Next, Threat Scenario Analysis defines potential attack vectors alongside specific attack paths, which detail the sequential steps an adversary must execute \cite[p. 46]{doCarmo2025}\cite{microtool_tara_2026}. Because no single threat source is comprehensive, team brainstorming supported by catalogs and the \hyperref[subsec:stride]{STRIDE} methodology offers an efficient approach to threat identification \cite[p. 135, 137]{doCarmo2025}. Subsequently, Risk Evaluation combines the calculated impact ratings with attack feasibility metrics to derive overall risk levels \cite[p. 47, 49]{doCarmo2025}\cite{microtool_tara_2026}. Finally, the Risk Treatment Decision determines final Cybersecurity Controls, Goals, and Claims to effectively reduce identified risks \cite[p. 37, 49]{doCarmo2025}\cite{microtool_tara_2026}.
-
-
-\subsection{STRIDE Methodology} 
-\label{subsec:stride} 
-%TODO: überprüfen ob es eine Methode ist? oder eine Klassifizierung von Bedrohungen/Sicherheitsrisiken?
-
-The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
-
-The acronym STRIDE represents six distinct threat categories:
-
-\begin{itemize}
-	\item \textbf{Spoofing:} The attacker pretends to be someone or something else. This involves illegally accessing and using another entity's authentication credentials, such as a username and password, or spoofing components and signals within embedded networks
-	
-	\item \textbf{Tampering:} Refers to the unauthorized, malicious modification of data or system functionalities. Examples include altering persistent data in a database, modifying firmware, or tampering with data in transit over an open network 
-	
-	\item \textbf{Repudiation:} Refers to the ability of an entity to deny having performed an action when the system does not provide sufficient audit records to verify the event.
-	
-	\item \textbf{Information Disclosure:} Involves the exposure of data to unauthorized individuals. This includes data breaches, unauthorized file access, or reading data in transit across network connections 
-	
-	\item \textbf{Denial of Service:} Threat actions aiming to disrupt system operation or deny access to legitimate users. Examples include making web servers temporarily unusable or flooding bus systems with traffic to block valid messages 
-	
-	\item \textbf{Elevation of Privilege:} An unprivileged attacker exploits vulnerabilities to gain higher access privileges than authorized. This allows the attacker to penetrate system defenses, access critical subsystems, and potentially compromise the entire system \cite{microsoft_stride_model} \cite[p. 144]{doCarmo2025}
-\end{itemize}
-
-To systematically analyze these threats, Table \ref{tab:stride_mapping} illustrates how each STRIDE category maps directly to the specific cybersecurity property it violates.
-
-\begin{table}[htbp]
-	\caption{Mapping of STRIDE Threat Categories to Violated Cybersecurity Properties \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}}
-	\label{tab:stride_mapping}
-	\centering
-	\begin{tabularx}{\textwidth}{X X}
-		\toprule
-		\textbf{Threat Category} & \textbf{Cybersecurity Property Violated} \\
-		\midrule
-		Spoofing & Authenticity \\
-		Tampering & Integrity \\
-		Repudiation & Non-repudiation \\
-		Information Disclosure & Confidentiality \\
-		Denial of Service & Availability \\
-		Elevation of Privilege & Authorization \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-As shown in Table \ref{tab:stride_mapping}, the STRIDE threat categories represent the direct opposite of fundamental security objectives. By systematically evaluating system components against these paired relationships, threat lists can be derived to identify potential attacker goals and define required security controls \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
-
-
-
-\subsection{Risk Evaluation} 
-\label{subsec:risk_evaluation} 
-
-Risk evaluation serves as the central mechanism to determine and quantify the overall risk level associated with identified threat scenarios. Fundamentally, risk is defined as a combination of the potential impact resulting from an attack and its corresponding likelihood or feasibility \cite[p. 196]{doCarmo2025}. In literature, this relationship is frequently expressed through formal mathematical models. For instance, the risk level ($R$) can be determined by multiplying the likelihood ($L$) by the severity ($S$) of the impact \cite[p. 648]{10.1007/978-3-030-85969-5_37}:
-\begin{equation}
-	R = L \cdot S
-\end{equation}
-
-To systematically assess the impact parameter ($I$), criteria are established based on operational and safety domains. In safety-critical industrial environments, the impact rating evaluates potential physical harm to humans across four distinct levels \cite[p. 106]{doCarmo2025}:
-\begin{itemize}
-	\item \textbf{Severe (S3):} Fatal injuries or severe, life-threatening injuries where survival is uncertain
-	\item \textbf{Major (S2):} Severe and life-threatening injuries where survival is probable
-	\item \textbf{Moderate (S1):} Light to moderate physical injuries
-	\item \textbf{Negligible (S0):} No physical injuries occur
-\end{itemize}
-
-Complementarily, the feasibility evaluation ($F$) determines the probability of occurrence by analyzing the technical effort and capabilities required for an adversary to execute specific attack paths \cite[p. 135]{doCarmo2025}. Attack feasibility is categorized into four distinct ratings \cite[p. 151]{doCarmo2025}:
-\begin{itemize}
-	\item \textbf{High:} The attack path can be accomplished utilizing low effort
-	\item \textbf{Medium:} The attack path can be accomplished utilizing medium effort
-	\item \textbf{Low:} The attack path can be accomplished utilizing high effort
-	\item \textbf{Very Low:} The attack path can be accomplished utilizing very high effort
-\end{itemize}
-
-For the final evaluation, assets, threat scenarios, attack paths, and resulting damage scenarios are combined into a structured matrix \cite[p. 180]{doCarmo2025}. By mapping the discrete impact ratings against the corresponding attack feasibility levels in a standardized risk matrix, the final numerical risk value is calculated. For instance, a damage scenario categorized with a \textit{moderate} impact rating and a \textit{high} attack feasibility yields a resulting risk value of three \cite[p. 180]{doCarmo2025}. Depending on specific institutional requirements and risk tolerance thresholds, individual organizations can make tailored adjustments to the underlying risk matrix structures \cite[p. 182]{doCarmo2025}.
-
-
-
-
-\subsection{Risk Treatment Strategies} 
-\label{subsec:risk_treatment_strategies} 
-
-Following the evaluation of identified risks, appropriate risk treatment strategies must be defined. Generally, four primary strategies are available to address identified risks: risk reduction, risk avoidance, risk sharing, and risk acceptance \cite[pp. 200]{doCarmo2025}.
-
-\textbf{Risk Reduction:} Risk reduction aims to decrease either the impact or the likelihood of a threat scenario. This is achieved by implementing technical countermeasures, also known as cybersecurity controls, which are typically derived from standardized or corporate catalogs \cite[p. 200]{doCarmo2025}. Table \ref{tab:stride_mitigations} summarizes standard technical mitigation techniques mapped to the corresponding \hyperref[subsec:stride]{STRIDE} threat categories \cite{owasp_threat_modeling_process}.
-
-\begin{table}[htbp]
-	\caption{Technical Mitigation Techniques Mapped to STRIDE Threat Categories \cite{owasp_threat_modeling_process}}
-	\label{tab:stride_mitigations}
-	\centering
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{Threat Type} & \textbf{Mitigation Techniques} \\
-		\midrule
-		Spoofing Identity & Appropriate authentication, protection of secret data, avoiding secret storage \\ \addlinespace
-		Tampering & Appropriate authorization, cryptographic hashes, MACs, digital signatures, tamper-resistant protocols \\ \addlinespace
-		Repudiation & Digital signatures, timestamps, audit trails \\ \addlinespace
-		Information Disclosure & Authorization, privacy-enhanced protocols, encryption, protection or non-storage of secrets \\ \addlinespace
-		Denial of Service & Appropriate authentication and authorization, traffic filtering, throttling, Quality of Service \\ \addlinespace
-		Elevation of Privilege & Execution under the principle of least privilege \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-		
-		\textbf{Risk Avoidance:} Risk avoidance involves modifying the fundamental design of the system component to eliminate the source of the risk entirely \cite[p. 200]{doCarmo2025}.
-		
-		\textbf{Risk Sharing:} Risk sharing distributes the risk among other stakeholders via contractual agreements or transfers it through insurance policies. In this case, a formal rationale in the form of a cybersecurity claim must be documented \cite[p. 201]{doCarmo2025}.
-		
-		\textbf{Risk Acceptance:} If the resulting risk level, impact, or attack feasibility is sufficiently low, accepting the risk represents a valid decision. Risk acceptance does not mean ignoring the threat. It strictly requires a documented rationale and cybersecurity claim to justify the acceptance \cite[p. 201]{doCarmo2025}.
-		
-Once potential threats and corresponding countermeasures are established, a system threat profile can be derived into three distinct levels of mitigation \cite{owasp_threat_modeling_process}:
-	\begin{itemize}
-		\item \textbf{Non-mitigated threats:} Threats without countermeasures that expose fully exploitable vulnerabilities.
-		\item \textbf{Partially mitigated threats:} Threats partially addressed by controls, resulting in limited exploitability and impact.
-		\item \textbf{Fully mitigated threats:} Threats with adequate countermeasures in place that leave no exposed vulnerabilities.
-	\end{itemize}
-		
-Even after implementing technical controls, a residual risk, may remain high. Residual risk represents the actual risk level present when an adversary attempts an attack path while active technical controls are in place \cite[pp. 200]{doCarmo2025}.
-
-
-\section{Security Testing Approaches}
-\label{sec:security_testing_approaches}
-
-Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses and verify the effectiveness of protective measures \cite[p. 291]{tauqeer2021analysis}.
-%TODO --> security kann durchaus funktional sein, bei einer Firewall zum Beispiel, weil security die Funktion des Produktes ist.
-
-
-Software security testing activities are divided into functional security testing and security vulnerability testing. Functional security testing verifies the correct operation of planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Vulnerability testing aims to discover unaddressed design flaws and implementation bugs \cite[p. 8]{richier2011security}. A comprehensive testing strategy must combine both approaches to validate security features while simulating realistic attack scenarios \cite[p. 81 f]{1341418}.
-
-\subsection{Testing Methodologies}
-\label{subsec:testing_taxonomy}
-
-Security testing approaches are categorized by the level of internal system knowledge available to the tester \cite[p. 296]{tauqeer2021analysis}:
-
-\begin{itemize}
-	\item \textbf{Black-Box Testing:} The tester has no knowledge of the internal system structure \cite[p. 296]{tauqeer2021analysis}. Testing evaluates external software interfaces by executing the program with various inputs \cite[p. 82]{1341418}. Subcategories include fuzzy testing, which injects randomly generated data to infect or damage a system, and property-based testing, a model-based approach converting security properties into specifications via program slicing \cite[p. 296]{tauqeer2021analysis}.
-	
-	\item \textbf{White-Box Testing:} The evaluator has full access to the source code, logical paths, and architectural design. It enables manual code reviews, model-based techniques that check system models against security requirements, and fault injection to test interaction limits under malicious commands \cite[p. 296]{tauqeer2021analysis}.
-	
-	\item \textbf{Grey-Box Testing:} Tests are conducted with limited knowledge of the internal architecture by combining white-box and black-box techniques across multiple system layers \cite[p. 296]{tauqeer2021analysis}.
-\end{itemize}
-
-Techniques that cannot be strictly categorized into these paradigms include ethical hacking, penetration testing, and security regression testing. Penetration testing mimics actual attacker behavior to exploit system vulnerabilities. Ethical hacking expands this focus to evaluate weak points across the entire environment, including human operators and clients. Security regression testing specifically verifies that system upgrades or changes do not introduce new vulnerabilities \cite[p. 296]{tauqeer2021analysis}.
-
-
-\subsection{Static and Dynamic Analysis}
-\label{subsec:static_dynamic_analysis}
-
-Security analysis techniques are structured into static and dynamic execution paradigms. Static analysis inspects source code or control and data flow graphs using checklists without exercising the system with real runtime data \cite[p. 35]{richier2011security}. It detects errors early in development, but may miss runtime flaws \cite[p. 1]{cong2024overview}. Conversely, dynamic analysis evaluates system behavior during runtime under different configurations and input data, comparing actual outputs against formal specifications \cite[p. 35]{richier2011security}. Dynamic testing provides real-world validation, it can disrupt system operations \cite[p. 1]{cong2024overview}.
-
-\textbf{Static Analysis Mechanisms:} Static Application Security Testing (SAST) examines source code or binaries without execution \cite{GeeksforGeeksSecurityTesting}. As shown in Table \ref{tab:static_analysis_comparison}, static detection primarily relies on code similarity-based and code pattern-based approaches \cite[pp. 3]{cong2024overview}:
-
-\begin{itemize}
-	\item \textbf{Code Similarity-Based Detection:} Identifies potential vulnerabilities by searching for known vulnerable code clones via string comparison, syntax analysis, or machine learning \cite[p. 3]{cong2024overview}. Grammar-based techniques analyze grammatical code structures, whereas semantic-based techniques evaluate control and data flows to determine code meaning \cite[pp. 4 ]{cong2024overview}. This approach requires less training data but cannot detect novel vulnerabilities \cite[p. 8]{cong2024overview}.
-	
-	\item \textbf{Code Pattern-Based Detection:} Utilizes machine learning and deep learning during a training and detection phase to recognize specific vulnerable code patterns \cite[p. 5]{cong2024overview}. While dependent on data, it can discover new vulnerabilities \cite[p. 8]{cong2024overview}.
-\end{itemize}
-
-Combining both static approaches increases overall vulnerability detection effectiveness \cite[p. 8]{cong2024overview}.
-
-\begin{table}[htbp]
-	\caption{Comparison of Static Analysis Detection Approaches \cite[p. 3, 8]{cong2024overview}}
-	\label{tab:static_analysis_comparison}
-	\centering
-	\begin{tabularx}{\textwidth}{l X X}
-			\toprule
-			\textbf{Property} & \textbf{Code Similarity-Based} & \textbf{Code Pattern-Based} \\
-			\midrule
-			Operating Principle & Searches for similar code clones & Identifies specific code patterns \\ \addlinespace
-			Techniques Used & String comparison, syntax and semantic analysis & Machine learning, deep learning \\ \addlinespace
-			Advantages & Less dependent on training data & Capable of detecting new vulnerabilities \\ \addlinespace
-			Disadvantages & Unable to detect new vulnerabilities & Highly dependent on training data \\
-			\bottomrule
-		\end{tabularx}
-\end{table}
-
-\textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
-
-
-\subsection{Vulnerability Assessment, Robustness, and Penetration Testing}
-\label{subsec:vulnerabilities_fuzzing_pentesting}
-
-
-A comprehensive testing framework requires evaluating feature functionality, performance, and robustness \cite[p. 48]{richier2011security}:
-
-\begin{itemize}
-	\item \textbf{Vulnerability Scanning:} Automated tools scan hosts, open ports, and operating systems to match system configurations against databases of known vulnerabilities \cite[p. 27]{nist_sp800_115}.
-	
-	\item \textbf{Robustness Testing and Fuzzing:} Robustness measures a system's ability to operate correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness testing technique that repeatedly injects invalid, random, or unexpected inputs into target interfaces to provoke data handling errors or crashes. Fuzzing varies by input generation: ``dumb'' fuzzing performs random mutations without input format knowledge, while ``smart'' fuzzing uses input models. Based on system access, white-box fuzzing utilizes program analysis, grey-box fuzzing uses lightweight instrumentation, and black-box fuzzing operates without internal knowledge \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}.
-	
-	\item \textbf{Penetration Testing:} Evaluators mimic real-world cyberattacks to identify exploitable vulnerability combinations \cite[p. 296]{tauqeer2021analysis}. According to NIST SP 800-115, penetration testing follows four stages: \textit{Planning}, \textit{Discovery}, \textit{Attack}, and \textit{Reporting} \cite[p. 37]{nist_sp800_115}.
-	
-	\item \textbf{Fault Injection and Mutation Testing:} Fault injection evaluates interaction points by forcing the system to process malicious commands \cite[p. 296]{tauqeer2021analysis}. Mutation testing evaluates test suite effectiveness by injecting single syntactic changes, such as variable renaming or operator replacements, to create faulty software versions. It relies on three core assumptions: competent programmers make small errors, selected mutation operators represent typical human errors, and a coupling effect allows simple mutations to uncover subtle bugs \cite[p. 50]{richier2011security}.
-\end{itemize}
 

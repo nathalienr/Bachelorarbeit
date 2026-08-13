@@ -1,7 +1,7 @@
 \chapter{Note on the Use of Artificial Intelligence}
 
 
-Within the scope of this thesis, tools based on Artificial Intelligence (\acrshort{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
+Within the scope of this thesis, tools based on Artificial Intelligence (\acrshort{acr:AI})\index{Artificial Intelligence} were used. Table~\ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
 
 \begin{table}[hbt]	
 	\centering
@@ -45,12 +45,12 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\acrsho
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section~\ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex~III, Sections~1.1.9 and~1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN~50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC~62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
 
-\section{Security Requirements Derived from Regulation (EU) 2023/1230}
+\section{Security Requirements Derived from Regulation~(EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table~\ref{tab:mvo-requirements} lists the 14 requirements derived from Annex~III, Sections~1.1.9 and~1.2.1 of Regulation~(EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
 
 \renewcommand{\arraystretch}{1.25}
 \begin{longtable}{|>{\bfseries}l|p{11cm}|}
@@ -269,10 +269,10 @@ Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex II
 
 \end{longtable}
 
-\section{Mapping to prEN 50742}
+\section{Mapping to prEN~50742}
 \label{app:sec:mapping_pren50742}
 
-Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  (\emph{Safety of machinery - Protection against corruption}). 
+Table~\ref{tab:pren50742-mapping} maps the 14 requirements of Table~\ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  (\emph{Safety of machinery - Protection against corruption}). The mapping covers Approach~A (Sections~4, 5, 7) and Annex~ZZ, which are the only parts of the source text providing clause-level content. Approach~B (Sections~6, 8) is referenced only where it explicitly names a target standard or clause (e.g.\ \texttt{CR~2.8}); CR and SR numbers not present in the source text are not inferred.
 
 
 \begin{longtable}{|>{\bfseries}p{1cm}|p{2.5cm}|p{9cm}|>{\centering\arraybackslash}p{2cm}|}
@@ -291,103 +291,102 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	\hline
 	\endlastfoot
+	
 	RQ-001 &
-	\S4.2; \S4.3 &
+	\S4.2 &
 	Design/construction of machinery shall not permit hazardous situations arising from connections (physical, logical, indirect). &
-	\S4.2: Supporting \newline\S4.3: Supporting \\
+	Direct \\
 	\hline
 	
-	
 	RQ-002 &
-	\S1; \S3.5; \S7.1; \S7.2.1 &
+	\S1; \S7.1; \S7.2.1 &
 	Scope explicitly includes hardware components/interfaces (incl. remote-device interfaces) that transmit signals/data affecting machine safety; \S7.1 requires identification and protection of accessible interfaces by compensating/countermeasures. &
-	\S1, \S3.5, \S7.2.1: Supporting\newline\S7.1: Partial \\
+	Partial \\
 	\hline
 	
 	RQ-003 &
-	\S3.4; \S7.3.3; \S7.4.3.4.5 &
-	``Evidence'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); \S7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable; \S7.4.3.4.5 is the only operative requirement mandating detection of physical manipulation (SRSL0-3).  &
-	\S3.4: Supporting\newline\S7.3.3, \S7.4.3.4.5: Partial \\
+	\S3.4; \S7.3.3 &
+	``Evidence'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); \S7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable. &
+	Partial \\
 	\hline
 	
 	RQ-004 &
-	\S3.12; \S7.5 &
+	\S3.12; \S7.5; \S7.4.1 &
 	``Critical data'' defined as data whose manipulation can increase hazard; \S7.5 requires identification of software versions/configuration data relevant for protection against falsification. &
-	\S3.12: Supporting\newline\S7.5: Partial \\
+	Partial \\
 	\hline
 	
 	RQ-005 &
-	\S3.5; \S7.1; \S7.4.3.4.1 &
+	\S7.4.3.4.1 &
 	SRSL-graded software/information integrity requirements, from checksum verification at start-up (SRSL1) to cryptographic hash/HMAC/CMAC verification during operation (SRSL3). &
-	\S3.5, \S7.1: Supporting\newline\S7.4.3.4.1: Partial \\
+	Direct \\
 	\hline
 	
-	
 	RQ-006 &
-	\S7.5; \S9 &
-	Identification of software versions/configuration data ``relevant for protection against falsification'' must be available; \S9 additionally requires that user information include the identification of software versions and configuration data relevant for safety functions. &
-	\S7.5: Partial\newline\S9: Supporting \\
+	\S7.5 &
+	Identification of software versions/configuration data ``relevant for protection against falsification'' must be available. &
+	Partial \\
 	\hline
 	
 	RQ-007 &
-	\S7.5; \S9 &
-	Identification data ``must be available on request'', in readable form, via an integrated system or an external tool; \S9 requires user information to include instructions for accessing this data and its modifications. Note: prEN 50742 requires availability ``on request'' rather than ``at all times'' as mandated by the regulation, so the mapping remains partial. &
-	\S7.5: Partial\newline\S9: Supporting \\
+	\S7.5 &
+	Identification data ``must be available on request'', in readable form, via an integrated system or an external tool. &
+	Partial \\
 	\hline
 	
 	RQ-008 &
-	\S3.2; \S7.3.1; \S7.3.2; \S7.3.3; \S7.3.4 &
-	Enumerated intervention types with minimum recorded data; \S7.3.4 specifies the log must at least include the records of the last intervention of each type. &
-	\S3.2: Supporting\newline\S7.3.1, \S7.3.2, \S7.3.3, \S7.3.4: Partial\\
+	\S3.2; \S7.3.1; \S7.3.2; \S7.3.3 &
+	Enumerated intervention types (safety parametrization, SRESW/SRASW update, HMI parametrization, safety-instruction display software) with minimum recorded data (type, correlation means, log-deletion event). &
+	Direct \\
 	\hline
 	
 	RQ-009 &
-	\S3.2; \S3.3; \S7.3.1; \S7.3.2; \S7.3.3; \S7.3.4 &
-	``Modification'' is defined as a change caused by an ``intervention'', incl. software version, sensor calibration, configuration data); \S7.3.1 b)/c) require identification means (version number, CRC) for SRESW/SRASW updates; \S7.3.4 specifies the associated minimum retention of at least five years per intervention type. &
-	\S3.2, \S3.3: Supporting\newline\S7.3.1, \S7.3.2, \S7.3.3, \S7.3.4: Partial \\
+	\S3.2; \S3.3; \S7.3.1; \S7.3.2 &
+	``Modification'' is defined as a change caused by an ``intervention'', incl. software version, sensor calibration, configuration data); \S7.3.1 b)/c) require identification means (version number, CRC) for SRESW/SRASW updates. &
+	Direct \\
 	\hline
 	
 	RQ-010 &
-	\S4.3; \S7.1; \S7.2.1; \S7.4.2; \S7.4.3 &
-	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures; \S7.1 requires identification and protection of accessible interfaces, \S7.2.1 requires risk-based selection of security measures, and \S7.4.2/\S7.4.3 require determination and maintenance of SRSL-graded security requirements, all contributing to withstanding malicious third-party attempts. &
-	\S4.3, \S7.2.1, \S7.4.2: Supporting\newline\S7.1, \S7.4.3: Partial \\
+	\S4.3; Introduction &
+	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures (Annex C). &
+	Partial \\
 	\hline
 	
 	RQ-011 &
-	\S7.4.3.3.1; \S3.2; \S3.3 &
-	SRSL-graded authorization requirements for interventions (SRSL1/2: authorization required; SRSL3: privileged/role-based authorization); the ``intervention'' definition names safety routines, safety variables, and calibration data as examples. Note: prEN 50742 contains no provision addressing learning-phase or self-evolving machinery behaviour; Annex ZZ correlation table (Table ZZ.1) does not correlate 1.2.1, Abs. 2, Punkt d) with any clause &
-	\S7.4.3.3.1: Partial\newline\S3.2, \S3.3: Supporting \\
+	\S7.4.3.3.1; \S3.2 &
+	SRSL-graded authorization requirements for interventions (SRSL1/2: authorization required; SRSL3: privileged/role-based authorization); the ``intervention'' definition names safety routines, safety variables, and calibration data as examples. &
+	Partial \\
 	\hline
 	
 	RQ-012 &
-	\S7.3.1; \S7.3.3; \S7.3.4 &
+	\S7.3.4 &
 	Log must contain at least the evidence of the last intervention of each type; records retained at least five years; log active at the latest from the time the machinery is put into service. &
-	\S7.3.1, \S7.3.3, \S7.3.4: Partial \\
+	Direct \\
 	\hline
 	
 	RQ-013 &
 	\S7.3.1 &
 	Explicit exclusion: versions of SRASW/SRESW binaries need not be stored in the tracing log. &
-	No mapping \\
+	Not identified \\
 	\hline
 	
 	RQ-014 &
-	\S7.3.5; \S7.3.3; \S7.4.3.3.1 &
+	\S7.3.5; \S7.3.3 &
 	Logs must be ``properly secured'' against tampering; deletion only via an authorized procedure; digital evidence must be readable and accessible. &
-	\S7.3.5, \S7.3.3: Supporting\newline\S7.4.3.3.1: Partial \\
+	Partial \\
 	\hline
 	
 	
 \end{longtable}
 
-
-\section{Mapping to IEC 62443-4-2}
+\section{Mapping to IEC~62443-4-2}
 \label{app:sec:mapping_iec62443}
 
-Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  to IEC 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. IEC 62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
+Table~\ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  to IEC~62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN~50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation~(EU) 2023/1230}}. IEC~62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section~\ref{subsec:iec_62443}.
+
 
 \footnotesize
-\begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
+\begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.2cm}|}
 	\caption{Mapping of MVO-derived security requirements via prEN 50742 and the IEC 62443 Foundational Requirements to IEC 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
 	\textbf{MVO ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 Topic} & \textbf{Mapping Rationale} & \textbf{Type} \\
@@ -399,146 +398,134 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\textbf{MVO ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 Topic} & \textbf{Mapping Rationale} & \textbf{Type} \\
 	\hline
 	\endhead
-	
+
 	
 	\hline
 	\endlastfoot
 	
 	RQ-001 &
 	FR3 &
-	CR 3.1 &
+	\texttt{CR 3.1} &
 	Communication integrity &
-	CR 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
+	prEN \S4.2 requires that physical, logical, and indirect connections not create hazardous situations; CR 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
 	Partial \\
 	\hline
 	
 	RQ-002 &
-	FR3 &
-	CR 3.1; \newline EDR 3.11 &
-	Communication integrity; Physical tamper resistance and detection (embedded device) &
-	CR 3.1 covers the integrity of the information transmitted over such an interface, while EDR 3.11 covers protection of the interface hardware itself against unauthorized physical access and corruption. &
+	FR2; FR3 &
+	\texttt{CR 3.1}; \newline \texttt{CR 2.13} &
+	Communication integrity; Use of physical diagnostic/test interfaces &
+	prEN \S7.1 requires identification and protection of accessible interfaces (incl.\ remote-device interfaces) by compensating/countermeasures: CR 3.1 covers the integrity of transmitted information itself; CR 2.13 covers control of physical diagnostic/test interfaces, the interface class prEN singles out (e.g.\ RJ45, \S3.4). &
 	Partial \\
 	\hline
 	
 	RQ-003 &
 	FR2; FR3 &
-	CR 2.8; \newline CR 2.12; \newline EDR 3.11 &
-	Auditable events; Non-repudiation; Physical tamper resistance and detection (embedded device) &
-	prEN \S7.3.3 makes physical evidence (EDR 3.11) the fallback used only where digital evidence collection (CR 2.8) is not practicable. CR 2.8 supplies the primary digital-evidence/event-generation mechanism; CR 2.12 supplies the attribution property implied by ``legitimate or illegitimate'' (the evidence must be undeniably traceable to the causing action) &
-	Partial \\
+	\texttt{CR 2.8}; \newline \texttt{CR 2.12}; \newline  \texttt{CR 2.13};\newline  \texttt{CR 3.11} &
+	Auditable events; Non-repudiation; Use of physical diagnostic/test interfaces; Physical tamper resistance and detection &
+	prEN \S7.3.3 makes physical evidence (CR 3.11) the fallback used only where digital evidence collection (CR 2.8) is not practicable. CR 2.8 supplies the primary digital-evidence/event-generation mechanism; CR 2.12 supplies the attribution property implied by ``legitimate or illegitimate'' (the evidence must be undeniably traceable to the causing action); CR 2.13 matches prEN's own physical diagnostic/test-interface example (RJ45 cover, \S3.4). &
+	Direct \\
 	\hline
 	
 	RQ-004 &
 	FR7 &
-	CR 7.8 &
+	\texttt{CR 7.8} &
 	Control system component inventory &
-	CR 7.8's component-inventory capability is the closest CR-level asset-identification control. &
-	Supporting \\
+	prEN's ``critical data'' definition and \S7.5 require identification of software versions/configuration data relevant to falsification protection; CR 7.8's component-inventory capability is the closest CR-level asset-identification control. &
+	Partial \\
 	\hline
 	
 	RQ-005 &
 	FR3 &
-	CR 3.4; \newline EDR 3.14 &
+	\texttt{CR 3.4}; \newline \texttt{EDR 3.14} &
 	Software and information integrity; Integrity of the boot process (embedded device) &
-	prEN's SRSL-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ EDR 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
-	Partial \\
+	prEN's SRSL-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ CR 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2). Since prEN~50742's machinery controllers are typically embedded devices, the embedded-device-specific EDR~3.14 applies rather than the generic base CR~3.14. &
+	Direct \\
 	\hline
 	
 	RQ-006 &
 	FR7 &
-	CR 7.8 &
+	\texttt{CR 7.8} &
 	Control system component inventory &
-	CR 7.8's inventory capability is the closest CR-level match for tracking installed-software identity. &
-	Supporting \\
+	Same underlying identification obligation as RQ-004 and RQ-007; CR~7.8's inventory capability is the closest CR-level match for tracking installed-software identity. &
+	Partial \\
 	\hline
 	
 	RQ-007 &
 	FR7 &
-	CR 7.8 &
+	\texttt{CR 7.8} &
 	Control system component inventory &
-	CR 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability. &
-	Supporting \\
+	prEN requires availability ``on request'' rather than ``at all times''; CR~7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability, so the mapping only partially closes the MVO obligation. &
+	Partial \\
 	\hline
 	
 	RQ-008 &
-	FR2 &
-	CR 2.8; \newline CR 2.12 &
-	Auditable events; Non-repudiation &
-	prEN \S7.3.1/\S7.3.2 anchor the enumerated intervention types and minimum recorded data to CR 2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches CR 2.12 (non-repudiation). &
-	CR 2.8: Partial\newline CR 2.12: Supporting \\
+	FR2; FR3 &
+	\texttt{CR 2.8};  \newline \texttt{CR 2.12}; \newline  \texttt{CR 3.4} &
+	Auditable events; Non-repudiation; Software and information integrity &
+	prEN \S8.5 anchors the enumerated intervention types and minimum recorded data to CR~2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches CR~2.12 (non-repudiation). &
+	Direct \\
 	\hline
 	
 	RQ-009 &
 	FR2; FR3 &
-	CR 2.8; \newline CR 2.12; \newline CR 3.4 &
-	Auditable events; Non-repudiation; Software and information integrity &
-	prEN's ``modification'' definition and the version-number/CRC identification means combine an audit obligation (CR 2.8) with an integrity-verification obligation (CR 3.4). Because a modification is defined as a change caused by an intervention (\S3.2), the attribution qualifier extends to modification evidence, which CR 2.12 (non-repudiation) addresses. &
-	CR 2.8, CR 3.4: Partial \newline CR 2.12: Supporting \\
+	\texttt{CR 2.8}; \newline  \texttt{CR 2.12}; \newline \texttt{CR 3.4} &
+	Auditable events; Software and information integrity; Non-repudiation &
+	prEN's ``modification'' definition and the version-number/CRC identification means in \S7.3.1~b)/c) combine an audit obligation (CR~2.8) with an integrity-verification obligation (CR~3.4); CR~2.12 is added for consistency with RQ-003 and RQ-008 since modification evidence is likewise subject to the attribution qualifier. &
+	Direct \\
 	\hline
 	
 	RQ-010 &
-	FR7 &
-	CR 7.1 (1) &
-	Protection against denial-of-service events &
-	The regulation's requirement that control systems withstand reasonably foreseeable malicious third-party attempts corresponds, at the component level, to CR 7.1 (protection against denial-of-service events) together with its RE(1) (mitigation of communication-load flooding). &
-	Partial \\
+	- &
+	- &
+	- &
+	This is a process-level risk-treatment principle rather than a technical component capability; IEC~62443-4-2 defines component-technical CRs and assigns such process obligations to IEC~62443-4-1. No corresponding CR exists. &
+	No direct mapping \\
 	\hline
 	
 	RQ-011 &
-	FR1; FR2; FR3 &
-	CR 1.1; \newline CR 1.2; \newline CR 2.1 (2); \newline CR 3.4 &
-	Human/device identification and authentication; Authorization enforcement (role-based); Software and information integrity &
-	prEN's SRSL-graded authorization requirement for interventions corresponds to CR 2.1, with role/task-based authorization at SRSL3 (\S7.4.3.3.1) matching CR 2.1's RE(2) (mapping of permissions to roles). CR 1.1 addresses authentication of the human-operator path, CR 1.2 (identification and authentication of software processes and devices) additionally applies to that path. CR 3.4 is included because ``preventing modifications to safety-relevant settings or rules'' is fundamentally a configuration-integrity property. The learning-phase/self-evolving-behaviour aspect has no counterpart in IEC 62443-4-2. &
-	CR 1.1, CR 1.2, CR 3.4: Supporting \newline CR 2.1 (2): Partial\\
+	FR1; FR2 &
+	\texttt{CR 1.1}; \newline \texttt{CR 2.1} &
+	Human user identification and authentication; Authorization enforcement &
+	prEN's SRSL-graded authorization requirement for ``interventions'' corresponds to CR~2.1; CR~1.1 is added because \S7.4.3.2.1's entity-authentication precondition must be satisfied before CR~2.1's authorization enforcement is meaningful. The learning-phase aspect has no counterpart in either prEN or IEC~62443-4-2. &
+	Partial \\
 	\hline
 	
 	RQ-012 &
 	FR2 &
-	CR 2.8; \newline CR 2.9 &
+	\texttt{CR 2.8}; \newline  \texttt{CR 2.9} &
 	Auditable events; Audit storage capacity &
-	prEN's requirement that the log retain at least the evidence of the last intervention of each type combines the event-generation obligation of CR 2.8 with the storage-capacity obligation of CR 2.9. IEC 62443-4-2 defines no Component Requirement mandating a specific retention duration. &
-	CR 2.8, CR 2.9: Partial \\
+	prEN's requirement that the log retain at least the evidence of the last intervention of each type, kept for five years, combines the event-generation obligation of CR~2.8 with the storage-capacity obligation of CR~2.9. &
+	Direct \\
 	\hline
 	
 	RQ-013 &
 	FR2 &
-	CR 2.8 CR 2.9 &
-	Auditable events (configuration changes); Audit storage capacity &
-	CR 2.8's auditable-event categories include configuration changes and automation-system events, which are broad enough to cover the upload of a new safety-software version as a recordable event, and CR 2.9 provides the associated storage-capacity capability (without mandating the specific five-year, per-upload retention period). &
-	CR 2.8, CR 2.9: Partial \\
+	\texttt{CR 2.8} (conflict); \newline \texttt{CR 2.9} &
+	Auditable events &
+	prEN explicitly excludes SRASW/SRESW binary versions from the tracing log, which conflicts with the MVO's software-version-upload-logging requirement. This is a confirmed conflict rather than a supporting mapping. &
+	No direct mapping \\
 	\hline
 	
 	RQ-014 &
-	FR2; FR3; FR4; FR6 &
-	CR 2.1; \newline CR 3.9; \newline CR 4.1; \newline CR 6.1 (supporting) &
-	Authorization enforcement; Protection of audit information; Data confidentiality; Audit log accessibility (supporting) &
-	CR 2.1 (authorization enforcement) is the primary control restricting who may access the log and for what purpose, and CR 4.1 (confidentiality of information at rest for which read authorization is explicitly required). CR 3.9 additionally protects the log against tampering and unauthorized deletion. CR 6.1 (ability to access event logs) is included only as a supporting control, since it ensures that an already-authorized party can retrieve the log on request. &
-	CR 2.1: Partial\newline CR 3.9, CR 4.1, CR 6.1: Supporting \\
+	FR3; FR6 &
+	\texttt{CR 3.9}; \newline \texttt{CR 6.1} &
+	Protection of audit information; Audit log accessibility &
+	prEN requires logs to be secured against tampering, with deletion only via an authorized procedure (CR~3.9); \S7.3.3 requires that digital evidence be readable and accessible (CR~6.1). The MVO's additional purpose-restriction (access exclusively for conformity demonstration) is not reflected in either source. &
+	Partial \\
 	\hline
 	
 \end{longtable}
 \normalsize
 
+
 \chapter{Secure Development Lifecycle}
 \label{app:SecureDevelopmentLifecycle}
-
-
-Figure \ref{fig:secure-system-development-lifecycle-main-overview} summarizes a high-level reference model in which the activities shown are decomposed into further sub-activities. 
-The model is based on the process-oriented security practices of IEC 62443-4-1 \cite{DIN_EN_IEC_62443_4_1_2018} and on complementary lifecycle-oriented security approaches \cite{NiemannPuls2023}. 
-
-The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A Threat Analysis and Risk Assessment (TARA), as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
-
-The implemented security measures are evaluated by means of static and dynamic analysis. The verification phase further comprises the definition and preparation of the security test strategy, the development of test cases, and the execution of the corresponding security tests. Identified findings are returned to the development phase for remediation and subsequent re-evaluation. The verification results provide the evidence required to support the release decision \cite[pp. 788]{Muller2026} \cite[pp. 6, 16]{NiemannPuls2023}. Following release, continuous monitoring is applied to identify newly discovered vulnerabilities, emerging threats, and security-relevant incidents. The resulting observations may initiate a reassessment or an incident-response process \cite[pp. 18]{NiemannPuls2023}.
-
-The dashed connections shown in Figure \ref{fig:secure-system-development-lifecycle-main-overview} represent feedback paths and emphasize that the lifecycle is iterative rather than strictly sequential. Findings identified during security testing are returned to secure implementation for remediation. Architectural constraints may require the assumptions or results of the risk assessment to be reconsidered. In addition, information obtained through continuous monitoring may trigger a reassessment or incident response, thereby re-entering the lifecycle at the risk-assessment stage. These feedback paths support the continuous refinement of the risk assessment, security architecture, implementation, and verification activities 
-
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{"images/Secure System Development Lifecycle-Main Overview.drawio"}
-	\caption{High-level overview of the Secure Development Lifecycle}
+	\caption{}
 	\label{fig:secure-system-development-lifecycle-main-overview}
-	\footnotetext{Author's own illustration based on \cite{DIN_EN_IEC_62443_4_1_2018} and \cite{NiemannPuls2023}}
 \end{figure}
 
 
@@ -579,6 +566,8 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 %IEC 62443 FR3			Integrity
 %IEC 62443 FR6			Logging
 %IEC 62443 FR7			Availabiliy
+
+
 
 %\chapter{Asset Analysis and Security Tests}
 %\label{ch:appendix_asset_analysis}
@@ -763,3 +752,352 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 %	\caption{Entry Points and Corresponding Security Tests}
 %	\label{tab:security_tests}
 %\end{table}
+%\section{Security Requirements Derived from Regulation~(EU) 2023/1230}
+%\label{app:sec:mvo_requirements}
+%
+%Table~\ref{tab:mvo-requirements} lists the 23 individual requirements derived from Annex~III, Sections~1.1.9, 1.2.1, 1.2.6, 3.3, and 3.3.3 of Regulation~(EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text. The derivation principles applied (traceability, atomicity, verifiability, product relevance) are described in Section~\ref{subsec:derivation_principles}.
+%
+%\renewcommand{\arraystretch}{1.25}
+%\begin{longtable}{|>{\bfseries}l|p{11cm}|}
+%	\caption{Security Requirements Derived from Regulation (EU) 2023/1230} \label{tab:mvo-requirements} \\
+%	\hline
+%	\textbf{Field} & \textbf{Description} \\
+%	\hline
+%	\endfirsthead
+%	
+%	\multicolumn{2}{c}{\tablename\ \thetable{} continued from previous page} \\
+%	\hline
+%	\textbf{Field} & \textbf{Description} \\
+%	\hline
+%	\endhead
+%	
+%	\hline
+%	\multicolumn{2}{r}{Continued on next page} \\
+%	\endfoot
+%	
+%	\hline
+%	\endlastfoot
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-001}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall be designed so that the connection of another device, including any remote device that communicates with it, does not lead to a hazardous situation. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Secure Communication \\
+%	\hline
+%	Rationale & The regulatory text directly requires that any connection made by an external or remote device shall not compromise the safety of the machinery, which is a foundational requirement for secure interfacing. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-002}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall protect hardware components transmitting signal or data relevant to connection or access to safety-critical software against corruption, whether accidental or intentional. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Data Integrity \\
+%	\hline
+%	Rationale & The regulation requires adequate protection of safety-relevant hardware transmission paths against corruption irrespective of whether the cause is accidental or a deliberate third-party action; both causes are combined into a single verifiable protection property. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-003}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall collect evidence of any legitimate or illegitimate intervention in hardware components relevant for connection or access to safety-critical software. \\
+%	\hline
+%	Security Objective & Accountability \\
+%	\hline
+%	Requirement Type & Logging and Auditability \\
+%	\hline
+%	Rationale & The regulation mandates tamper-evidence for safety-relevant hardware, which is a direct accountability and forensic-traceability requirement. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-004}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall identify the software and data that are critical for compliance with the essential health and safety requirements. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Configuration Protection \\
+%	\hline
+%	Rationale & The identification obligation is separated from the protection obligation contained in the same sentence, since each represents an independently verifiable engineering activity. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-005}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall protect identified safety-critical software and data against corruption, whether accidental or intentional. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Data Integrity \\
+%	\hline
+%	Rationale & Protection against corruption of safety-critical software and data is a single verifiable integrity property covering both accidental and deliberate causes named in the regulation. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-006}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall identify the software installed on it that is necessary for safe operation. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Configuration Protection \\
+%	\hline
+%	Rationale & This decomposes the identification obligation from the provisioning-of-information obligation of the same sentence, keeping one verifiable capability per requirement. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-007}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall be able to provide the identification information of safety-relevant installed software at all times in an easily accessible form. \\
+%	\hline
+%	Security Objective & Availability \\
+%	\hline
+%	Requirement Type & Configuration Protection \\
+%	\hline
+%	Rationale & The requirement to make identification information accessible at all times is an independent, separately testable obligation on availability of configuration data. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-008}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall collect evidence of any legitimate or illegitimate intervention in the software installed on it. \\
+%	\hline
+%	Security Objective & Accountability \\
+%	\hline
+%	Requirement Type & Logging and Auditability \\
+%	\hline
+%	Rationale & The obligation to collect evidence of interventions in software is separated from the obligation to collect evidence of modifications to software or configuration, as intervention and modification are distinct event classes. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-009}} \\
+%	\hline
+%	Source & Annex III, Section 1.1.9 \\
+%	\hline
+%	Requirement & The system shall collect evidence of any modification of the installed software or its configuration. \\
+%	\hline
+%	Security Objective & Accountability \\
+%	\hline
+%	Requirement Type & Logging and Auditability \\
+%	\hline
+%	Rationale & Modification of software or configuration is a distinct event class from mere intervention, and each requires an independent, verifiable evidence-collection capability. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-010}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The control system shall withstand reasonably foreseeable malicious attempts from third parties that could lead to a hazardous situation. \\
+%	\hline
+%	Security Objective & Availability \\
+%	\hline
+%	Requirement Type & Availability / Resilience \\
+%	\hline
+%	Rationale & The regulatory text explicitly names malicious third-party attempts as a factor that control systems must withstand, which is an explicit cybersecurity aspect within a broader functional-safety requirement. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-011}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The system shall prevent modifications to safety-relevant settings or rules, including those generated during a learning phase, where such modifications could lead to a hazardous situation. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Configuration Protection \\
+%	\hline
+%	Rationale & The prohibition against unauthorized modification of safety-relevant settings or rules is a direct configuration-integrity protection requirement. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-012}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The system shall enable a tracing log of data generated in relation to an intervention for five years after the machinery or related product has been placed on the market or put into service. \\
+%	\hline
+%	Security Objective & Accountability \\
+%	\hline
+%	Requirement Type & Logging and Auditability \\
+%	\hline
+%	Rationale & This requirement isolates the intervention-data logging obligation and its five-year enablement period as a single, independently verifiable capability. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-013}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The system shall enable a tracing log of the versions of safety software uploaded after the machinery or related product has been placed on the market or put into service, for five years after each upload. \\
+%	\hline
+%	Security Objective & Accountability \\
+%	\hline
+%	Requirement Type & Logging and Auditability \\
+%	\hline
+%	Rationale & Logging of safety software versions is separated from logging of intervention data because it concerns a distinct data object with its own retention trigger. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-014}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The system shall restrict access to the tracing log data exclusively to demonstrating conformity further to a reasoned request from a competent national authority. \\
+%	\hline
+%	Security Objective & Confidentiality \\
+%	\hline
+%	Requirement Type & Access Control \\
+%	\hline
+%	Rationale & The regulation constrains the purpose for which the logged data may be accessed, which is a distinct access-control obligation separate from the logging and retention obligations. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-015}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The system shall prevent unauthorised use of controls where necessary. \\
+%	\hline
+%	Security Objective & Authorization \\
+%	\hline
+%	Requirement Type & Access Control \\
+%	\hline
+%	Rationale & This is a direct access-control obligation restricting the operation of controls to authorized users; the protected property is authorization rather than identity verification, which is addressed separately by RQ-016 and RQ-019. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-016}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The system shall ensure that each remote control unit clearly identifies the machinery or related product it controls. \\
+%	\hline
+%	Security Objective & Authenticity \\
+%	\hline
+%	Requirement Type & Authentication \\
+%	\hline
+%	Rationale & Unique identification of the controlled machinery by the control unit is a prerequisite for preventing cross-control interference and is directly stated in the regulation. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-017}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The remote control system shall affect only the machinery or related product it is intended to control. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Authorization \\
+%	\hline
+%	Rationale & Restricting the scope of effect of a remote control system to the intended machinery is an authorization boundary requirement separated from the restriction to intended functions. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-018}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The remote control system shall affect only the functions it is intended to control. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Authorization \\
+%	\hline
+%	Rationale & Restricting the scope of effect of a remote control system to the intended functions is a separate authorization boundary from the restriction to the intended machinery. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-019}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The remote-controlled system shall respond only to signals originating from its intended control units. \\
+%	\hline
+%	Security Objective & Authenticity \\
+%	\hline
+%	Requirement Type & Authentication \\
+%	\hline
+%	Rationale & This requirement establishes an explicit source-authentication obligation for signals accepted by a remote-controlled machinery or related product. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-020}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.1 \\
+%	\hline
+%	Requirement & The control system shall ensure that a failure or fault of the wireless communication or connection used for wireless control does not lead to a hazardous situation. \\
+%	\hline
+%	Security Objective & Availability \\
+%	\hline
+%	Requirement Type & Secure Communication \\
+%	\hline
+%	Rationale & The regulation requires that a failure of the wireless communication link, including a faulty connection, shall not result in a hazardous situation, which is a direct availability and resilience requirement for the wireless channel relied upon by the control system. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-021}} \\
+%	\hline
+%	Source & Annex III, Section 1.2.6 \\
+%	\hline
+%	Requirement & The system shall ensure that interruption, re-establishment after interruption, or fluctuation of the communication network connection does not lead to a hazardous situation. \\
+%	\hline
+%	Security Objective & Availability \\
+%	\hline
+%	Requirement Type & Secure Communication \\
+%	\hline
+%	Rationale & The regulation directly addresses resilience of the communication network connection itself, independent of the wireless-specific clause in section 1.2.1, and is a technology-neutral requirement on any communication link, including one implemented via an industrial gateway. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-022}} \\
+%	\hline
+%	Source & Annex III, Section 3.3.3 \\
+%	\hline
+%	Requirement & Remote-controlled machinery or related products shall stop operation automatically and immediately if no validation signal is detected within a specified time. \\
+%	\hline
+%	Security Objective & Availability \\
+%	\hline
+%	Requirement Type & Secure Communication \\
+%	\hline
+%	Rationale & This establishes a verifiable watchdog/heartbeat mechanism whereby loss of the expected periodic validation signal on the remote-control communication channel triggers an automatic safe stop, which is a concrete and testable fail-safe behaviour distinct from the general resilience obligation of section 1.2.6. \\
+%	\hline
+%	\hline
+%	
+%	\multicolumn{2}{|l|}{\textbf{Requirement RQ-023}} \\
+%	\hline
+%	Source & Annex III, Section 3.3 \\
+%	\hline
+%	Requirement & The control system shall perform the required safety functions independently of commands issued through a remote supervisory function. \\
+%	\hline
+%	Security Objective & Integrity \\
+%	\hline
+%	Requirement Type & Authorization \\
+%	\hline
+%	Rationale & The regulation requires that safety functions remain under the control system's own authority even when a remote supervisory channel is used to issue actions, which limits the ability of a compromised or malicious remote-control path implemented via an industrial gateway to override or bypass safety-critical functions. \\
+%	\hline
+%	\hline
+%	
+%\end{longtable}
