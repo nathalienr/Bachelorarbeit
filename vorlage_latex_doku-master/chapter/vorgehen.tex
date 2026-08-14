@@ -1,402 +1,332 @@
-\chapter{Methodology and Framework Design}
+\chapter{Methodology}
 \label{chap:methodology}
 
-Building upon the theoretical foundations established in Chapter \ref{chap:fundamentals}, this chapter translates abstract regulatory and normative concepts into a practical, verifiable engineering artifact. It begins by outlining the overarching research methodology. It then systematically derives verifiable security requirements from the legal obligations of the Machinery Regulation, including the classification of the industrial gateway within the IEC 62443 series and the identification of the security functions these requirements demand. Building on this requirement baseline, the chapter defines the empirical scope of the investigation, including the rationale for focusing on the physical IT/OT interface and the delimitation of functional verification from robustness and penetration testing. Based on this scope, the architecture of the functional security testing methodology is developed, including its traceability model, testing taxonomy, generic test environment and execution requirements, and integration into the development lifecycle. The chapter then defines the quantitative metrics used to evaluate the framework's effectiveness and compliance, before concluding with an explicit account of the methodological limitations that bound the interpretation of the resulting framework.
+Building upon the theoretical foundations established in Chapter \ref{chap:fundamentals}, this chapter develops a practical security testing methodology. It translates abstract regulatory requirements into a verifiable engineering framework. 
+
+First, Section \ref{sec:research_design} outlines the overarching research design and defines the methodological scope. Section \ref{sec:traceability} explains the systematic derivation of test cases to ensure full regulatory traceability. Next, Section \ref{sec:test_environment} designs the physical and logical test environment. Section \ref{sec:execution_governance} defines the execution procedure and the required evidence collection. Finally, Section \ref{sec:evaluation_metrics} establishes quantitative metrics to evaluate the framework's effectiveness and regulatory compliance.
 
 
-\section{Research Design and Methodology}
+\section{Research Design and Methodological Scope}
 \label{sec:research_design}
 
-To systematically address the challenge of verifying cybersecurity compliance for industrial gateways, this research follows the Design Science Research Methodology (DSRM) proposed by \citeauthor{Peffers}. DSRM provides a structured, universally accepted process for solving practical engineering and information systems problems through the creation and evaluation of innovative artifacts \cite[p. 46]{Peffers}. In the context of this thesis, the primary artifact is the standards-based functional security testing framework, which is designed to enable the traceable, repeatable, and systematic verification of security functions at the IT/OT interface.
+To systematically address the challenge of verifying cybersecurity compliance for industrial gateways, this research follows the Design Science Research Methodology (DSRM) proposed by \citeauthor{Peffers}. DSRM provides a structured process for solving practical engineering problems through the creation and evaluation of innovative artifacts \cite[p. 46]{Peffers}. In this thesis, the primary artifact is a standards-based functional security testing framework. This framework enables the traceable, repeatable, and systematic verification of security functions at the IT/OT interface.
 
-The six fundamental activities of the DSRM process are mapped directly to the structure of this thesis:
+The six fundamental activities of the DSRM process map directly to the structure of this thesis:
 
 \begin{enumerate}
 	\item \textbf{Problem Identification and Motivation:} The lack of structured testing approaches for the new cybersecurity obligations under Regulation (EU) 2023/1230 is established in Chapter \ref{chap:introduction}.
-	\item \textbf{Definition of the Objectives for a Solution:} The need for a traceable, standards-based verification framework utilizing prEN 50742 and the IEC 62443 series is defined in Chapter \ref{chap:introduction}.
-	\item \textbf{Design and Development:} This core phase is addressed within the current chapter (Chapter \ref{chap:methodology}) through the formal derivation of security requirements and the architectural design of the testing framework.
-	\item \textbf{Demonstration:} The practical application of the developed framework to a physical industrial gateway (the System Under Test) is conducted in Chapter \ref{chap:implementation_results_evaluation}.
-	\item \textbf{Evaluation:} The framework's effectiveness and fulfillment of the regulatory documentation requirements are quantitatively assessed in Chapter \ref{chap:implementation_results_evaluation}, using the metrics defined in Section \ref{sec:evaluation_metrics}.
-	\item \textbf{Communication:} The documentation, critical discussion, and dissemination of the research results are achieved through the composition of this thesis.
+	\item \textbf{Definition of Objectives:} The need for a traceable, standards-based verification framework utilizing prEN 50742 and the IEC 62443 series is defined in Chapter \ref{chap:introduction}.
+	\item \textbf{Design and Development:} This core phase is addressed in the current chapter (Chapter \ref{chap:methodology}) by designing the testing framework, the environment, and the execution governance.
+	\item \textbf{Demonstration:} The practical application of the developed framework to a physical industrial gateway (System Under Test) is conducted in Chapter \ref{chap:implementation_results_evaluation}.
+	\item \textbf{Evaluation:} The framework's effectiveness and fulfillment of the regulatory documentation requirements are quantitatively assessed in Chapter \ref{chap:implementation_results_evaluation}.
+	\item \textbf{Communication:} The documentation, critical discussion, and dissemination of the research results are achieved through this thesis.
 \end{enumerate}
 
+To ensure valid and reproducible results, the scope of this methodology must be strictly delimited. The proposed framework focuses exclusively on \textbf{functional security testing}. It verifies whether explicitly planned security mechanisms (e.g., authentication, access control) operate correctly and fulfill their normative purpose \cite[p. 82]{1341418}.
+%TODO Quelle überpürfen
+Consequently, exploratory vulnerability discovery, such as unstructured penetration testing or automated fuzzing, remains explicitly out of scope. While these techniques are valuable for finding unknown software bugs, they cannot systematically prove the existence and correct operation of mandatory security controls required by Regulation (EU) 2023/1230.
 
-\section{Regulatory Analysis and Requirement Derivation}
-\label{sec:security_requirements}
 
-The aim of this phase is to produce a structured, traceable set of product requirements for an industrial gateway at the IT/OT interface, grounded in the legal obligations of Regulation (EU) 2023/1230. This section first classifies the industrial gateway within the IEC 62443 taxonomy (Section \ref{subsec:classification_iec62443}), since this classification determines which categories of technical requirements are admissible mapping targets, before presenting the derivation methodology (Section \ref{subsec:derivation_methodology}) and its results (Sections \ref{subsec:derived_requirements} and \ref{subsec:security_function_identification}). The complete requirement catalogue, including the detailed mapping to prEN 50742 and IEC 62443-4-2, is documented in Appendix \ref{app:requirement_derivation}.
+\section{Systematic Requirement Engineering and Traceability}
+\label{sec:traceability}
 
-\subsection{System Classification within the IEC 62443 Series}
-\label{subsec:classification_iec62443}
+The first phase of the methodology translates abstract legal obligations into verifiable engineering test cases. A systematic approach is crucial to ensure no regulatory requirement is overlooked and every executed test serves a distinct compliance purpose.
 
-Based on the architectural characteristics outlined in Section \ref{sec:industrial_gateways}, an industrial gateway operating at the IT/OT interface cannot be assessed merely as a standalone software application. Within the taxonomy of \textbf{IEC 62443-4-2}, the gateway primarily fulfills the definition of a \textit{Network Component}, as its core function is to route, filter, and translate communication between different network zones \cite[p. 25]{IEC62443-4-2}.
+\subsection{Regulatory Derivation and Asset Mapping}
+\label{subsec:derivation_mapping}
 
-Furthermore, since industrial gateways typically consist of tightly integrated hardware and firmware without a user-accessible general-purpose operating system, they also inherit the characteristics of an \textit{Embedded Device}. Consequently, the requirement derivation in this methodology applies general Component Requirements (CRs) alongside specific Embedded Device Requirements (EDRs) and Network Component Requirements (NDRs) where applicable \cite[p. 17]{IEC62443-4-2}.
+To bridge the gap between Regulation (EU) 2023/1230 and practical engineering, the 14 cybersecurity requirements derived from the Machinery Regulation (MVO) must be operationalized. As documented in Appendix \ref{app:requirement_derivation}, these abstract legal obligations are first mapped to the harmonized standard draft prEN 50742 and subsequently translated into concrete Component Requirements (CRs) of IEC 62443-4-2. 
 
-\subsection{Derivation Methodology}
-\label{subsec:derivation_methodology}
+However, abstract standard clauses cannot be tested in isolation. To create executable test cases, the methodology dictates a mandatory asset-mapping step. Before any test can be designed, the specific target system must be decomposed into its constituent physical and logical assets (e.g., hardware interfaces, software APIs, or data stores). Each derived requirement must then be systematically paired with the relevant assets. This procedural step ensures that it is clearly defined not only \textit{what} needs to be tested, but exactly \textit{where} the corresponding security mechanism must be verified during the practical implementation.
+%TODO: Quelle
 
-Building on the system classification established in Section \ref{subsec:classification_iec62443}, the derivation follows a three-stage hierarchical chain:
+\subsection{The Traceability Model}
+\label{subsec:traceability_model}
 
-\begin{enumerate}
-	\item \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}} defines the legally binding protection objectives for machinery, including explicit cybersecurity obligations.
-	\item \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} operationalizes these legal objectives for connected machinery and acts as the normative bridge to the IEC 62443 series.
-	\item \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} specifies the concrete component-level technical security requirements (CRs, REs, EDRs) that can be verified through functional testing.
-\end{enumerate}
+To guarantee legal compliance, the framework employs a strict, unbroken traceability model. It ensures that every test case is linked to a specific legal obligation. The logical flow of this traceability chain is defined as follows:
+%TODO Quellen für Ablauf
 
-None of the three sources is independently sufficient to construct a testing framework. Regulation (EU) 2023/1230 defines mandatory objectives but lacks component-level technical specifications. Conversely, IEC 62443-4-2 provides precise technical controls but does not establish which of these controls are legally required for Machinery Regulation conformity. The harmonized standard draft prEN 50742 solves this by preserving legal traceability while introducing technically interpretable obligations.
 
-To maintain general applicability, this derivation does not exclusively commit to a single conformity assessment path. Requirement extraction draws heavily on Sections 4, 5, and 7 of prEN 50742, as these sections contain the clause-level normative technical content applicable to machinery products regardless of the chosen conformity path. Sections 6 and 8, which are specific to Approach B, are utilized only where they explicitly name a target IEC standard or clause (see Appendix \ref{app:sec:mapping_pren50742}). The subsequent mapping onto IEC 62443-4-2 Component Requirements is performed solely to establish technical traceability and verification coverage, independent of the conformity path a given manufacturer may ultimately choose.
+\begin{center}
+	Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Security Function $\rightarrow$ Test Case $\rightarrow$ Evidence
+\end{center}
 
-\hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}} establishes that machinery certified under a cybersecurity scheme pursuant to Regulation (EU) 2019/881 is presumed to comply with the essential health and safety requirements of Annex III. The cybersecurity provisions explicitly addressed by this presumption are:
-
+The individual nodes of this chain are defined as:
 \begin{itemize}
-	\item \textbf{Section 1.1.9} (Protection against corruption): Obligations concerning safety-relevant hardware interfaces, software and data protection, and evidence collection.
-	\item \textbf{Section 1.2.1} (Safety and reliability of control systems): Obligations concerning resilience against malicious third-party attempts and logging of safety-relevant interventions.
+	\item \textbf{Requirement:} The legal obligation (e.g., RQ-011) and its mapped IEC 62443-4-2 control (e.g., CR 2.1).
+	\item \textbf{Asset:} The concrete gateway component where the requirement applies.
+	\item \textbf{Threat:} The specific attacker goal (derived via STRIDE) that targets the asset.
+	\item \textbf{Security Function:} The technical countermeasure implemented to mitigate the threat.
+	\item \textbf{Test Case:} The practical procedure used to verify the correct operation of the security function.
+	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome \cite[p. 3, 5]{nist_sp800_115} \cite[p. 82]{1341418}.
 \end{itemize}
 
-Each regulatory clause was analytically decomposed into candidate requirements based on four strict criteria:
+This structural traceability ensures that every test case carries an unbroken reference back to its originating regulatory clause. Conversely, no regulatory clause remains without a corresponding verification path. This satisfies the technical documentation obligations under Article 10(2) of the MVO \cite{EU2023_1230}.
+
+\subsection{Standardized Test Specification}
+\label{subsec:test_specification}
+
+To ensure methodological rigor and reproducibility, the test cases are not custom-invented. Instead, they are derived from established industry frameworks tailored to the specific asset type. For example, the OWASP Web Security Testing Guide (WSTG) dictates the test procedures for web-based API assets. Similarly, NIST SP 800-115 provides the methodological baseline for network-level testing on physical OT interfaces.
+% TODO Quellen
+% TODO was ist mit &22443 sind da auch testcases
+
+Each derived test case is documented using a standardized data sheet. This uniform structure guarantees that every test is executed and evaluated consistently. The data sheet comprises the following core elements:
+
+\begin{itemize}
+	\item \textbf{Test ID and Objective:} A unique identifier (e.g., TC-01) and a clear description of the test goal (e.g., "Verification of firmware update authorization").
+	\item \textbf{Normative Reference:} The direct link to the MVO requirement and IEC 62443-4-2 CR.
+	\item \textbf{Preconditions:} The required initial state of the gateway (e.g., specific rotary switch position, active network connections).
+	\item \textbf{Execution Procedure:} Step-by-step instructions detailing the applied tools (e.g., Nmap, OWASP ZAP) and the injected payloads.
+	\item \textbf{Acceptance Criterion (PASS):} The exact, expected system behavior that constitutes a successful defense (e.g., the gateway returns an HTTP 403 Forbidden status).
+\end{itemize}
+%TODO Quelle
+
+
+
+\section{Design of the Security Test Environment}
+\label{sec:test_environment}
+
+Security testing, particularly active vulnerability scanning and malicious payload injection, poses a severe risk to the stability of industrial networks. In Operational Technology (OT), where availability is the highest priority (AIC triad), testing must never occur in a production environment. Consequently, establishing a dedicated, isolated test architecture is a mandatory methodological requirement, strongly advocated by guidelines such as NIST SP 800-82.
+
+\subsection{Architectural Blueprint of the Testbed}
+\label{subsec:architectural_blueprint}
+
+Before determining the network isolation strategy, the internal architecture of the test environment must be defined. A valid functional security testbed for an industrial gateway requires four generic architectural components:
 
 \begin{enumerate}
-	\item \textbf{Traceability:} The requirement must trace directly to an explicit obligation in Regulation (EU) 2023/1230.
-	\item \textbf{Atomicity:} Each requirement must express exactly one verifiable technical property. Clauses combining multiple independent obligations were split.
-	\item \textbf{Verifiability:} The requirement must be testable in principle by a functional test or a delimited technical assessment.
-	\item \textbf{Product Relevance:} The requirement must describe a property of the gateway as a product, excluding organizational, documentation, or purely functional-safety obligations.
+	\item \textbf{Test Execution Node (Attacker Machine):} A dedicated workstation equipped with specialized penetration testing frameworks and security auditing tools. It simulates external threat actors and injects malicious or malformed payloads into the network.
+	\item \textbf{System Under Test (SUT):} The industrial gateway itself. It represents the central defense layer where the normative security mechanisms (e.g., authentication, protocol filtering) are evaluated.
+	\item \textbf{Simulated OT Target Node:} A physical or virtual Programmable Logic Controller (PLC) placed behind the gateway. This node is essential to verify whether the SUT successfully protects downstream industrial components from unauthorized traffic.
+	\item \textbf{Local Networking Backbone:} A dedicated physical switch and cabling infrastructure that connects the execution node, the SUT, and the target node, facilitating the controlled flow of test traffic.
 \end{enumerate}
 
-Each candidate requirement was then compared against \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to determine whether the draft standard provides a technically defensible interpretation. Four mapping types were defined:
+%TODO Quelle 
+%TODO Architektut deines Testlabors
+
+
+\subsection{Isolation Strategies}
+\label{subsec:isolation_strategies}
+%TODO QUellen
+Designing the test environment requires balancing security constraints with operational efficiency. Two primary isolation paradigms exist in industry practice:
+
+\textbf{Physical Isolation (Standalone / Air-Gap):} The testbed operates entirely disconnected from any corporate or production network. This approach guarantees maximum safety, as malicious traffic cannot physically escape the test setup. Furthermore, it bypasses complex IT approval processes. However, it introduces significant operational friction. Transferring tool updates or extracting test evidence requires physical media (e.g., USB drives). This "sneakernet" approach is inefficient and severely limits future integration into automated Continuous Integration/Continuous Deployment (CI/CD) pipelines.
+
+\textbf{Logical Isolation (VLAN):} The test environment connects to the corporate network but remains segregated through Virtual Local Area Networks (VLANs) and strict firewall rules. This aligns with the "Zones and Conduits" model defined in IEC 62443-3-2. While it enables efficient data exchange and future test automation, it requires extensive administrative overhead. Additionally, it carries a residual risk: a firewall misconfiguration could allow active network scans to bleed into the corporate network, potentially triggering false alarms or system crashes.
+
+\subsection{The Hybrid Approach}
+\label{subsec:hybrid_approach}
+%TODO Quelle
+For the empirical execution of this thesis, establishing a logically isolated VLAN presents prohibitive administrative delays. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, the methodology utilizes a pragmatic hybrid architecture.
+
+The core testbed—consisting of the attacker machine, the System Under Test (the industrial gateway), and simulated OT endpoints—is physically air-gapped from the corporate infrastructure using an independent, local switch. This guarantees zero risk to internal corporate operations. Simultaneously, the attacker machine maintains an out-of-band wireless connection to an unprivileged external network, such as a corporate guest WLAN. 
+
+This isolated wireless link provides the necessary internet access for security tools and enables secure evidence exfiltration via email or cloud storage. Crucially, the guest WLAN is already segregated from the productive corporate IT by default. This hybrid approach successfully satisfies the strict isolation mandates of industrial cybersecurity standards while ensuring practical feasibility within the given research constraints.
+
+
+
+
+
+
+\section{Test Execution Framework and Governance}
+\label{sec:execution_governance}
+
+Once the test environment is established and the test cases are specified, the actual execution phase begins. This phase defines how the tests are practically conducted, how the results are legally documented, and who bears the organizational responsibility for the outcomes.
+
+\subsection{Test Execution and Tooling}
+\label{subsec:execution_tooling}
+%TODO Quellen
+To systematically verify the targeted security functions, the execution phase relies on specialized, industry-standard auditing tools. A centralized security distribution, such as Kali Linux, typically serves as the methodological foundation for the execution node. Instead of writing custom exploit scripts, the methodology utilizes established tool categories depending on the specific test case and asset:
+
 \begin{itemize}
-	\item \textbf{Direct:} Clause-level match.
-	\item \textbf{Partial:} Scope or trigger condition differs slightly.
-	\item \textbf{Indirect:} Related principle, but no explicit clause-level match.
-	\item \textbf{Not identified:} Confirmed normative gap or conflict.
+	\item \textbf{Network Scanners:} Tools like Nmap are used to verify open ports, running services, and the correct configuration of physical network interfaces.
+	\item \textbf{Interception Proxies:} Tools such as OWASP ZAP or Burp Suite are deployed to intercept, inspect, and manipulate HTTP/API requests to test authentication and authorization mechanisms.
+	\item \textbf{Stress Testing Utilities:} Tools like Siege or Slowloris are utilized to evaluate system availability and resilience against Denial-of-Service (DoS) conditions.
+	\item \textbf{Brute-Force Applications:} Tools like Hydra test the robustness of login portals against automated credential-guessing attacks.
 \end{itemize}
 
-The \textit{Indirect} category was retained for methodological completeness, though no requirement in the final dataset fell into this category. Where prEN 50742 provided clause-level support, the corresponding IEC 62443-4-2 CRs, REs, and EDRs were identified. One additional mapping type was introduced for this final IEC stage: \textbf{No direct mapping} (where no CR addresses the specific obligation).
+The execution strictly follows the step-by-step procedures defined in the standardized test data sheets (see Section \ref{subsec:test_specification}).
 
-Confirmed normative gaps arose for two requirements within the scope of Sections 1.1.9 and 1.2.1. RQ-010 addresses resilience against malicious third-party attempts at a system level. IEC 62443-4-2 assigns such process-level obligations to IEC 62443-4-1; therefore, no component-level CR provides a direct mapping. RQ-013 presents a confirmed conflict: The MVO requires logging of uploaded safety software versions, whereas prEN 50742 explicitly excludes binary software versions from the tracing log. These two gaps define the boundaries where the standard-based test approach must be supplemented by product-specific verification.
+\subsection{Evidence Collection and Documentation}
+\label{subsec:evidence_collection}
+%TODO Quelle
+Executing a test is insufficient if the outcome cannot be formally proven. Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 explicitly mandate comprehensive technical documentation to demonstrate conformity \cite{EU2023_1230}. Therefore, meticulous evidence collection is a mandatory methodological step.
 
+For every executed test case, digital artifacts must be recorded. This includes raw console outputs (logs), network traffic captures (PCAP files), and screenshots showing blocked access attempts or error codes (e.g., HTTP 403 Forbidden). These artifacts serve as the indisputable empirical proof that a security mechanism successfully mitigated an attack. In the context of regulatory compliance, this evidence acts as the mandatory certification proof (colloquially the "TÜV-Beweis"). Without this attached evidence, a test case cannot legitimately receive a passing verdict, regardless of the observed system behavior.
 
-\subsection{Derived Security Requirements}
-\label{subsec:derived_requirements}
+\subsection{Lifecycle Integration and RACI Governance}
+\label{subsec:lifecycle_governance}
+%TODO Quelle
+%TODO verweis anhang
 
-The derivation process produced 14 distinct requirements (RQ-001 to RQ-014). Each requirement was additionally classified by the security objective it primarily expresses, corresponding to the foundational concepts introduced in Sections \ref{subsec:security_goals} and \ref{subsec:iec_62443}; the objective assigned to each individual requirement is recorded alongside its source clause and rationale in the complete requirement catalogue in Appendix \ref{app:sec:mvo_requirements}. Table \ref{tab:req_categories} aggregates the fourteen requirements by this security objective and summarizes, for each objective, the mapping outcome achieved against IEC 62443-4-2 (Section \ref{subsec:derivation_methodology}).
+The verification activities defined in this framework are not executed in isolation. They must be structurally integrated into a comprehensive Secure Software Development Life Cycle (SSDLC). A high-level reference model of this overarching lifecycle, illustrating the iterative feedback loops between design, implementation, and verification, is provided in Appendix \ref{app:SecureDevelopmentLifecycle} (see Figure \ref{fig:secure-system-development-lifecycle-main-overview}). 
 
-\renewcommand{\arraystretch}{1.2}
+To ensure clear organizational accountability during the verification phase of this lifecycle, the methodology utilizes a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026}. Table \ref{tab:raci_matrix_verification} defines the distribution of responsibilities across the defined testing phases.
+
 \begin{table}[htbp]
-	\caption{Derived Security Requirements Aggregated by Security Objective}
-	\label{tab:req_categories}
+	\caption{RACI Matrix for the Verification Lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
+	\label{tab:raci_matrix_verification}
 	\centering
-	\begin{tabularx}{\textwidth}{|l | X | X|}
+	\begin{tabularx}{\textwidth}{l c c c c c c}
 		\toprule
-		\textbf{Security Objective} & \textbf{Requirement IDs} & \textbf{IEC 62443-4-2 Mapping Outcome} \\
-		\midrule
-		Integrity        & RQ-001, RQ-002, RQ-004, RQ-005, RQ-006, RQ-011 & Direct (RQ-005); Partial (RQ-001, RQ-002, RQ-004, RQ-006, RQ-011) \\ \addlinespace
-		Accountability    & RQ-003, RQ-008, RQ-009, RQ-012, RQ-013         & Direct (RQ-003, RQ-008, RQ-009, RQ-012); No direct mapping (RQ-013) \\ \addlinespace
-		Availability      & RQ-007, RQ-010                                 & Partial (RQ-007); No direct mapping (RQ-010) \\ \addlinespace
-		Confidentiality   & RQ-014                                         & Partial (RQ-014) \\
+		\textbf{Activity} & \makecell{\textbf{Sec.}\\\textbf{Eng.}} & \makecell{\textbf{Sys/Req}\\\textbf{Eng.}} & \makecell{\textbf{Test}\\\textbf{Eng.}} & \makecell{\textbf{SW/FW}\\\textbf{Dev.}} & \makecell{\textbf{QA/}\\\textbf{Compl.}} & \makecell{\textbf{Release}\\\textbf{Auth.}} \\ \midrule
+		Design & A & C & R & I & I & I \\ \addlinespace
+		Preparation & C & I & A/R & C & I & I \\ \addlinespace
+		Execution & A & I & R & C & I & I \\ \addlinespace
+		Evidence/Eval. & C & I & R & C & A & I \\ \addlinespace
+		Release Decision & I & I & I & I & C & A/R \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
-In total, of the 14 requirements, 5 achieve a \textit{Direct} IEC 62443-4-2 mapping, 7 achieve a \textit{Partial} mapping, and 2 obtain \textit{No direct mapping}. The complete requirement catalogue detailing the source text, security objective, requirement type, and rationale is provided in Appendix \ref{app:sec:mvo_requirements}.
-
-The derived requirement base defines the test scope of this thesis. Requirements with a \textit{Direct} or \textit{Partial} IEC 62443-4-2 mapping form the primary basis for functional test case design, since they correspond to established, technology-neutral component security capabilities. Partially mapped requirements require interpretive judgment when converted into executable test procedures. Requirements classified as \textit{No direct mapping} define the normative boundary of the standard-based approach, necessitating explicit documentation of the remaining conformity gap.
-
-Section \ref{subsec:test_case_taxonomy} subsequently regroups these same fourteen requirements into operational test domains that reflect shared verification logic rather than security objective alone, in order to structure the test case design in Chapter \ref{chap:implementation_results_evaluation}. The security-objective view of Table \ref{tab:req_categories} and the operational test-domain view of Section \ref{subsec:test_case_taxonomy} are therefore deliberately maintained as two distinct, orthogonal classifications of the same requirement set.
+This governance model ensures an organizational separation of duties, which is a fundamental requirement of IEC 62443-4-1. The role responsible for executing a test (Test Engineering) is strictly separated from the role accountable for evaluating the compliance evidence and the final release readiness (Quality/Compliance Management).
 
 
-\subsection{Identification of Relevant Security Functions}
-\label{subsec:security_function_identification}
-
-Each requirement established in Section \ref{subsec:derived_requirements} is, in turn, associated with one or more concrete \textbf{security functions}. In this methodology, a security function is defined as the technical control named by the IEC 62443-4-2 Component Requirement, Requirement Enhancement, or Embedded Device Requirement mapped to a given requirement in Appendix \ref{app:sec:mapping_iec62443} (e.g. ``Software and information integrity'' for \texttt{CR~3.4}, or ``Auditable events'' for \texttt{CR~2.8}). Where a requirement maps to more than one CR/RE, the associated security functions are treated as jointly necessary rather than alternative controls, since Appendix \ref{app:sec:mapping_iec62443} documents each additional CR as covering a distinct aspect of the same requirement (e.g. event generation and non-repudiation for RQ-008).
-
-This explicit identification step closes the gap between the abstract requirement baseline (Section \ref{sec:security_requirements}) and the asset- and threat-level granularity required by the traceability model (Section \ref{subsec:traceability_model}): a security function only becomes verifiable once it has been located at a specific asset and associated with the STRIDE threat category it is intended to counter. Requirements carrying a \textit{No direct mapping} outcome (RQ-010, RQ-013) possess no corresponding CR-level security function and are therefore excluded from the test-case-level traceability chain; they are carried forward exclusively as documented gaps (Section \ref{sec:methodology_limitations}).
 
 
-\section{Scope, Focus, and Delimitation of the Empirical Investigation}
-\label{sec:normative_scoping}
-
-Section \ref{sec:security_requirements} derived the complete requirement baseline (RQ-001 to RQ-014) that defines, in principle, what a fully compliant industrial gateway must satisfy under Regulation (EU) 2023/1230. This section now defines which parts of that baseline, and which testing paradigm, the empirical demonstration in Chapter \ref{chap:implementation_results_evaluation} actually addresses. It first justifies narrowing the empirical object of investigation to the physical IT/OT interface (Section \ref{subsec:physical_interface_focus}), before delimiting the functional verification approach pursued in this thesis from adjacent testing paradigms such as robustness testing and penetration testing (Section \ref{subsec:scope_boundaries}).
-
-\subsection{Focus on the Physical IT/OT Interface}
-\label{subsec:physical_interface_focus}
-
-While Section \ref{subsec:assets_attack_surfaces} establishes hardware, software, and data as the three general asset categories relevant to a cybersecurity assessment, this thesis narrows its empirical object of investigation to the \textbf{physical IT/OT interface} of the industrial gateway. Three considerations, all grounded in the architectural role of industrial gateways established in Section \ref{subsec:architectural_role_gateways}, justify this delimitation.
-
-First, the gateway's defining function is to reconcile IT protocols, dominant in OSI layers 4 to 7, with OT protocols, dominant in OSI layers 1 to 3, at a physical boundary between two previously isolated network domains \cite{gfg_osi_model_2026}. The physical interfaces located at this boundary, including communication ports and the physical diagnostic and test interfaces named in prEN 50742 \S7.1 and mapped to CR 2.13 in Appendix \ref{app:sec:mapping_iec62443}, therefore constitute the primary point at which the connection of an external or remote device, as addressed by RQ-001, can materialize.
-
-Second, physical interfaces are subject to a fundamentally different mitigation cycle than software-level vulnerabilities. As summarized in Table \ref{tab:it_ot_comparison}, OT environments apply update cycles that are rare, conservative, and strictly validated. A hardware- or firmware-level defect exposed at a physical interface cannot be remediated through the frequent patching cycles available in IT environments, so such a defect can persist over the operational lifetime of the machinery. Physical, hardware-level attack vectors are correspondingly identified a distinct class of threat that requires targeted, dedicated verification \cite{liebl2024analyzingattacksurfacethreats}.
-
-Third, the requirement-to-standard mapping in Appendix \ref{app:sec:mapping_pren50742} explicitly names physical tamper evidence, such as broken seals or damaged interface covers, as the evidentiary fallback prEN 50742 requires where digital evidence collection is not practicable (RQ-003). This directly anchors part of the requirement baseline to the physical interface layer and motivates its treatment as a first-class object of investigation rather than a secondary concern.
-
-Software- and application-layer interfaces are not excluded from the requirement baseline derived in Section \ref{sec:security_requirements} itself. However, consistent with the delimitations defined in Section \ref{subsec:scope_boundaries}, the empirical test execution and demonstration in Chapter \ref{chap:implementation_results_evaluation} concentrate on interfaces with a physical manifestation.
-
-\subsection{Scope, Exclusions, and Delimitations}
-\label{subsec:scope_boundaries}
-
-This thesis is delimited to \textbf{functional verification}. It focuses on testing implemented security functions against the requirement baseline derived in Section \ref{sec:security_requirements}. This approach must be distinguished from robustness testing or penetration testing at the gateway's IT/OT interfaces, as classified in Section \ref{sec:security_testing_approaches}.
-
-Within this scope, the framework verifies that the security functions and countermeasures mandated by RQ-001 to RQ-014 are actually implemented and operate as specified at the interfaces identified as gateway assets. Open-ended fuzzing, comprehensive penetration testing, and general vulnerability scanning are explicitly out of scope, consistent with the exclusions defined in Chapter \ref{chap:introduction}. These techniques aim to discover unknown weaknesses rather than verify a specified, requirement-bound behavior. Therefore, they answer a fundamentally different question than the one posed by this framework \cite[p. 8, 29]{richier2011security}.
-
-The two confirmed normative gaps identified during requirement derivation (RQ-010, RQ-013; Section \ref{subsec:derivation_methodology}) further delimit the boundary of the standard-based approach: neither requirement is carried forward into the test-case-level traceability chain (Section \ref{subsec:traceability_model}), and both are revisited as explicit methodological limitations in Section \ref{sec:methodology_limitations}.
 
 
-\section{Development of the Functional Security Testing Methodology}
-\label{sec:framework_architecture}
-
-Building on the scope and exclusions established in Section \ref{subsec:scope_boundaries}, this section develops the architecture of the functional security testing methodology. It defines how a derived requirement (Section \ref{sec:security_requirements}) and its associated security function (Section \ref{subsec:security_function_identification}) are systematically converted into an executable, evidenced test case: first through an explicit traceability model, then through a reusable test case classification and data sheet, followed by the generic requirements placed on the test environment and the execution procedure, and finally through the organizational governance of these activities.
-
-\subsection{Traceability Model}
-\label{subsec:traceability_model}
-
-The traceability chain reflects the perspective of the tester executing the framework. It links an abstract regulatory obligation directly to a concrete, evidenced test result. Each relationship within this chain is one-to-many: a single requirement may apply to several assets, and one test category may be instantiated by several test cases.
-
-The logical flow of the traceability chain is defined as follows:
-\begin{center}
-	Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Security Function $\rightarrow$ Test Category $\rightarrow$ Test Method $\rightarrow$ Test Case $\rightarrow$ Evidence and Verdict
-\end{center}
-
-The individual nodes of the chain are defined as follows:
-\begin{itemize}
-	\item The \textbf{Requirement} is one of the obligations (RQ-001 to RQ-014) alongside its mapped IEC 62443-4-2 CR/RE (Section \ref{sec:security_requirements}).
-	\item The \textbf{Asset} is the concrete gateway component (Section \ref{subsec:assets_attack_surfaces}) to which the requirement applies, anchoring the abstract obligation to a testable artifact.
-	\item The \textbf{Threat} is the STRIDE category (Section \ref{subsec:stride}) that the requirement is intended to counter at that specific asset.
-	\item The \textbf{Security Function} is the concrete technical control identified in Section \ref{subsec:security_function_identification} that must be demonstrably implemented at the asset to counter the identified threat.
-	\item The \textbf{Test Category} groups requirement-asset-threat combinations by their shared verification logic, as defined in Section \ref{subsec:test_case_taxonomy}.
-	\item The \textbf{Test Method} is the established functional testing technique assigned to that category (Section \ref{sec:security_testing_approaches}), ensuring the tester verifies the correct operation of a planned security mechanism \cite[p. 82]{1341418}.
-	\item The \textbf{Test Case} is the concrete instantiation of that method, applied with a specific tool and procedure to the test object (demonstrated in Chapter \ref{chap:implementation_results_evaluation}).
-	\item Finally, \textbf{Evidence and Verdict} comprises the recorded artifacts (logs, captures) and the discrete outcome assigned to the test case, satisfying the documentation discipline required by structured security testing \cite[p. 3, 5]{nist_sp800_115}.
-\end{itemize}
-
-During the design phase, an analogous forward traceability from threat to control is typically established by the TARA workflow (Section \ref{subsec:tara}). The chain defined here resumes where the TARA process ends. It carries the specified mitigation forward, from the tester's perspective, through the concrete test method to an executed and evidenced verdict. Consequently, no mitigation is credited as effective solely on the basis of its specification.
-
-By adhering strictly to this model, the framework systemically guarantees 100\% forward and backward traceability. Every test case carries an unbroken reference back to its originating regulatory clause, and no regulatory clause remains without a corresponding verification path. This structural traceability is the primary precondition for fulfilling the technical documentation obligations under Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 \cite{EU2023_1230}.
-
-
-\subsection{Functional Security Test Classification}
-\label{subsec:test_case_taxonomy}
-
-This subsection operationalizes the consolidated requirement baseline and the abstract \textit{Test Category} node of the traceability chain into a reusable classification system for functional security test cases. It provides a testing-oriented structure to organize the design, execution, and evidence collection in Chapter \ref{chap:implementation_results_evaluation}.
-
-A direct, one-to-one classification along the seven IEC 62443 Foundational Requirements (Section \ref{subsec:iec_62443}) was considered but rejected. As the complete requirement-to-CR mapping in Appendix \ref{app:sec:mapping_iec62443} shows, individual requirements routinely anchor to CRs spanning more than one FR (e.g., RQ-002 spans FR2 and FR3; RQ-011 spans FR1 and FR2). An FR-partitioned taxonomy would therefore artificially split single operational security functions across several domains or duplicate identical test procedures.
-
-Instead, five operational test domains are established directly from the shared IEC 62443-4-2 CR/RE/EDR anchors identified during requirement derivation (Appendix \ref{app:sec:mapping_iec62443}): individual requirements that anchor to the same CR, or to CRs addressing the same underlying technical mechanism, are grouped into a common domain, since they can be verified by the same test procedure. The IEC 62443 Foundational Requirements are retained merely as a normative cross-reference layer attached to each domain, and the security objectives of Table \ref{tab:req_categories} are retained as a complementary, orthogonal classification rather than as the basis for this operational grouping. Table \ref{tab:test_domains} summarizes these five test domains alongside their normative FR cross-references and representative functional subdomains.
-
-\renewcommand{\arraystretch}{1.2}
-\begin{longtable}{p{0.22\textwidth} p{0.38\textwidth} p{0.12\textwidth} p{0.20\textwidth}}
-	\caption{Functional Security Test Domains, Subdomains, and Normative FR Cross-References}
-	\label{tab:test_domains} \\
-	\toprule
-	\textbf{Test Domain} & \textbf{Representative Functional Subdomains} & \textbf{FR} & \textbf{Req.\ IDs}
-	\\
-	\midrule
-	\endfirsthead
-	\caption{Functional Security Test Domains, Subdomains, and Normative FR Cross-References continued} \\
-	\toprule
-	\textbf{Test Domain} & \textbf{Representative Functional Subdomains} & \textbf{FR} & \textbf{Req.\ IDs}
-	\\ \midrule
-	\endhead
-	\midrule
-	\multicolumn{4}{r}{Continued on next page}
-	\\
-	\endfoot
-	\bottomrule
-	\endlastfoot
-	Secure Communication & Protocol-level integrity and input validation at communication interfaces & FR3 & RQ-001 \\ \addlinespace
-	Data and Software Integrity & Configuration and application data integrity; firmware and software integrity & FR2, FR3 & RQ-002, RQ-005 \\ \addlinespace
-	Configuration Protection & Identity and authentication for configuration access; privilege enforcement; hardening of exposed services & FR1, FR2, FR7 & RQ-004, RQ-006, RQ-007, RQ-011 \\ \addlinespace
-	Logging and Auditability & Generation and tamper-resistant recording of security-relevant events; restriction of access to logged data to authorized purposes & FR2, FR3, FR6 & RQ-003, RQ-008, RQ-009, RQ-012, RQ-013, RQ-014 \\ \addlinespace
-	Availability / Resilience & Preservation of essential gateway functions under resource stress & & RQ-010 \\
-\end{longtable}
-
-Each test domain is further subdivided into \textbf{functional subdomains}, which identify the concrete gateway security function addressed (e.g., ``firmware integrity'' within Data and Software Integrity). Each subdomain is grounded in the hardware, software, and data asset classes established in Section \ref{subsec:assets_attack_surfaces}. Because the underlying requirements are not mutually exclusive in the technical mechanisms they rely on, functional subdomains that recur under more than one domain are cross-listed rather than duplicated as independent test procedures.
-
-Of particular note is the placement of RQ-014 within the Logging and Auditability domain rather than in a dedicated domain of its own. RQ-014 is classified under the security objective \textit{Confidentiality} in Table \ref{tab:req_categories}, since its fundamental intent is to restrict access to logged data to a specific, authorized purpose. However, its supporting IEC 62443-4-2 anchors, \texttt{CR~3.9} (protection of audit information) and \texttt{CR~6.1} (audit log accessibility, Appendix \ref{app:sec:mapping_iec62443}), address the protection and controlled accessibility of the audit trail itself, which is the same underlying verification logic already required to test RQ-003, RQ-008, RQ-009, and RQ-012. Consequently, RQ-014 is grouped operationally with these requirements rather than assigned a standalone domain, since a domain built around a single, CR-adjacent requirement would fragment the shared audit-log verification logic without introducing any distinct test procedure of its own. This illustrates the general principle underlying Table \ref{tab:test_domains}: a requirement's security objective (Table \ref{tab:req_categories}) and its operational test domain are independent classifications and need not coincide.
-
-To document a generic test case in a reproducible, auditable form, every test case is recorded in a standardized data sheet. Table \ref{tab:test_case_sheet} defines the retained fields, distinguishing between design-time, preparation, execution-time, and evidence evaluation information.
-
-\begin{longtable}{|p{0.18\textwidth}|p{0.57\textwidth}|p{0.18\textwidth}|}
-	\caption{Standardized Test Case Data Sheet}
-	\label{tab:test_case_sheet}\\
-	\hline
-	\textbf{Field} & \textbf{Purpose} & \textbf{Phase} \\ \hline
-	\endfirsthead \hline
-	\textbf{Field} & \textbf{Purpose} & \textbf{Phase} \\ \hline
-	\endhead \hline
-	\multicolumn{3}{r}{\textit{Continued on next page}} \\ \hline
-	\endfoot \hline
-	\endlastfoot
-	Test Case ID & Unique identifier for indexing and cross-referencing & Design \\ \hline
-	Test Domain / Subdomain & Classification per Table \ref{tab:test_domains} & Design \\ \hline
-	Requirement Reference & RQ-ID and mapped IEC 62443-4-2 CR/RE/EDR (Section \ref{sec:security_requirements}) & Design \\ \hline
-	Related Asset & Gateway asset (Section \ref{subsec:assets_attack_surfaces}) & Design \\ \hline
-	Related Threat & STRIDE category countered (Section \ref{subsec:stride}) & Design \\ \hline
-	Test Objective & Security function or mitigation under verification & Design \\ \hline
-	Test Type & Positive or negative verification condition & Design \\ \hline
-	Preconditions & Required system and test-environment state prior to execution & Preparation \\ \hline
-	Test Method & Abstract, product-independent verification technique assigned to the subdomain & Preparation \\ \hline
-	Test Procedure & Ordered steps; refined into a product-specific test instruction & Execution \\ \hline
-	Tool Reference & Concrete tool and configuration, instantiated in Chapter \ref{chap:implementation_results_evaluation} & Execution \\ \hline
-	Acceptance Criteria & Observable condition constituting a PASS & Evidence \\ \hline
-	Evidence & Reference to the collected artifact substantiating the result & Evidence \\ \hline
-	Verdict & Discrete outcome per the assessment scheme of Section \ref{sec:evaluation_metrics} & Evaluation \\ \hline
-\end{longtable}
-
-The assignment of a concrete \textbf{Test Method} (Table \ref{tab:test_case_sheet}) to a functional subdomain follows the black-box, white-box, and grey-box classification introduced in Section \ref{subsec:testing_taxonomy}, selected according to the internal knowledge available for the corresponding asset and interface. Consistent with the scope defined in Section \ref{subsec:scope_boundaries}, every assigned method remains a form of \textit{functional} security testing: it verifies that a specified security mechanism behaves as required, rather than searching for previously unknown weaknesses.
-% TODO Add justification for test selection.
-
-Within this functional scope, the \textbf{Test Type} field of the data sheet distinguishes positive from negative verification conditions. A positive test case confirms that a security function performs its intended action under a compliant precondition (e.g. an authorized configuration change is accepted). A negative test case confirms that the same function correctly rejects a non-compliant condition (e.g. an unauthenticated or unauthorized intervention attempt is denied). Negative test cases thereby provide a bounded, requirement-driven analogue to the misuse-case principle described in Section \ref{sec:security_testing_approaches}, without extending into the open-ended attacker simulation associated with penetration testing or fuzzing, both of which remain excluded under Section \ref{subsec:scope_boundaries}.
-
-
-\subsection{Test Environment and Experimental Setup Requirements}
-\label{subsec:test_environment_requirements}
-
-Because every test case verdict (Section \ref{sec:evaluation_metrics}) depends on the correct establishment of its documented \textbf{Preconditions} (Table \ref{tab:test_case_sheet}), the test environment itself must satisfy generic reproducibility requirements before a single test case is executed:
-
-\begin{itemize}
-	\item \textbf{Isolation:} The test bench must be logically or physically separated from productive machinery, so that fault injection, negative test conditions, or interface-level manipulation cannot propagate into an operational environment.
-	\item \textbf{Representativeness:} The configuration of the SUT, including hardware revision, firmware version, and network topology at the physical IT/OT interface (Section \ref{subsec:physical_interface_focus}), must be recorded and held constant for the duration of a test campaign, since a change in any of these parameters invalidates the Preconditions of already-executed test cases.
-	\item \textbf{Instrumentation:} Observation of the physical IT/OT interface requires tooling capable of capturing, and where applicable injecting, traffic or signals at the relevant interface, so that the Evidence field of the data sheet can be populated with an objective artifact rather than an operator's unverified observation.
-	\item \textbf{Documentation:} Every deviation from the intended test bench configuration must be recorded, consistent with the documentation discipline required for structured security testing \cite[p. 3, 5]{nist_sp800_115}.
-\end{itemize}
-
-The concrete instantiation of these generic requirements, including the specific tools, interfaces, and configuration of the System Under Test, is presented in Chapter \ref{chap:implementation_results_evaluation}.
-% TODO Verify consistency with appendix evidence.
-
-\subsection{Test Execution Procedure}
-\label{subsec:test_execution_procedure}
-
-Building on the phase structure already assigned to the test case data sheet (Table \ref{tab:test_case_sheet}), every test case is executed according to the same generic procedure, independent of its assigned test domain:
-
-\begin{enumerate}
-	\item Verify that the documented \textbf{Preconditions} are met within the test environment defined in Section \ref{subsec:test_environment_requirements}; if not, the test case is suspended until the environment is corrected.
-	\item Execute the documented \textbf{Test Procedure} using the referenced \textbf{Tool Reference}.
-	\item Capture the resulting \textbf{Evidence} in the form defined by the tool reference (e.g. log excerpt, packet capture, configuration export).
-	\item Compare the captured evidence against the documented \textbf{Acceptance Criteria}.
-	\item Assign a discrete \textbf{Verdict} according to the assessment scheme defined in Section \ref{sec:evaluation_metrics}.
-	\item Aggregate the verdicts of all test cases tracing to the same requirement to determine the requirement-level verdict (Section \ref{sec:evaluation_metrics}).
-\end{enumerate}
-
-This procedure applies uniformly across all test domains defined in Table \ref{tab:test_domains}; only the concrete tool, procedure, and acceptance criteria differ between individual test cases.
-
-
-\subsection{Verification Lifecycle and Governance}
-\label{subsec:verification_lifecycle_governance}
-
-The verification activities defined in this framework are not executed in isolation. They must be anchored to defined stages of the product lifecycle so that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}.
-
-Figure \ref{fig:secure-system-development-lifecycle-main-overview} (see Appendix \ref{app:SecureDevelopmentLifecycle}) consolidates standard SSDLC and DevSecOps phase models into a single overview. Consistent with the scope restriction defined in Section \ref{subsec:scope_boundaries}, this thesis addresses only the verification-relevant subset of such a lifecycle. Upstream design stages and downstream deployment stages are treated as boundary conditions that supply inputs to, or consume outputs from, the verification stages defined here.
-
-The generic test case data sheet (Table \ref{tab:test_case_sheet}) already assigns each of its fields to a Design, Preparation, Execution, or Evidence phase. Responsibility for these four phases is governed through a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
-
-\begin{itemize}
-	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
-	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
-	\item \textbf{Test Engineering:} Responsible for procedure preparation, execution, and verdict assignment.
-	\item \textbf{Software/Firmware Development:} Consulted on findings and tasked with implementing corrective actions.
-	\item \textbf{Quality/Compliance Management:} Responsible for coverage review and evidence governance.
-	\item \textbf{Release Authority:} Accountable for the final release decision.
-\end{itemize}
-
-\begin{longtable}{p{4cm}|c c c c c c}
-	\caption{RACI Matrix for the Verification Lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
-	\label{tab:raci_matrix_verification}\\
-	\toprule
-	\textbf{Activity} & \makecell{\textbf{Sec.}\\\textbf{Eng.}} & \makecell{\textbf{Sys/Req}\\\textbf{Eng.}} & \makecell{\textbf{Test}\\\textbf{Eng.}} & \makecell{\textbf{SW/FW}\\\textbf{Dev.}} & \makecell{\textbf{QA/}\\\textbf{Compl.}} & \makecell{\textbf{Release}\\\textbf{Auth.}} \\ \midrule \endfirsthead
-	\multicolumn{7}{l}{\tablename\ \thetable\ - Continued from previous page} \\ \toprule
-	\textbf{Activity} & \makecell{\textbf{Sec.}\\\textbf{Eng.}} & \makecell{\textbf{Sys/Req}\\\textbf{Eng.}} & \makecell{\textbf{Test}\\\textbf{Eng.}} & \makecell{\textbf{SW/FW}\\\textbf{Dev.}} & \makecell{\textbf{QA/}\\\textbf{Compl.}} & \makecell{\textbf{Release}\\\textbf{Auth.}} \\ \midrule \endhead
-	\bottomrule \multicolumn{7}{r}{Continued on next page} \\ \endfoot
-	\bottomrule \endlastfoot
-	Design & A & C & R & I & I & I \\ \addlinespace
-	Preparation & C & I & A/R & C & I & I \\ \addlinespace
-	Execution & A & I & R & C & I & I \\ \addlinespace
-	Evidence/Evaluation & C & I & R & C & A & I \\ \addlinespace
-	Release Decision & I & I & I & I & C & A/R \\
-\end{longtable}
-
-As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases because it follows the organizational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Security Engineering is Accountable during Design and Execution, where critical mechanism-verification decisions are made. Test Engineering is Accountable during Preparation, where test-bed configuration is an operational task under its direct control. Finally, Quality/Compliance Management is Accountable during Evidence Evaluation, where release-readiness is assessed.
-
-Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labor documented in secure software engineering literature \cite[p. 5]{219394}. Ultimately, these lifecycle phases and role assignments directly support IEC 62443-4-1 Practice 5 (Security Verification and Validation Testing), which mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[p. 37 f]{DIN_EN_IEC_62443_4_1_2018}.
-
-Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative, lifecycle-wide application of TARA described in Section \ref{subsec:tara}, the requirement baseline (Section \ref{sec:security_requirements}) and the associated test case data sheets require re-evaluation whenever a new product variant is introduced, a referenced normative document (\hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230}, \hyperref[subsec:pren_50742]{prEN 50742}, or IEC 62443-4-2) is revised, or a post-release vulnerability affecting a mapped security function is disclosed. Under the RACI model of Table \ref{tab:raci_matrix_verification}, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for confirming that the resulting update is reflected in the technical documentation.
-
-\section{Evaluation Metrics and Assessment Scheme}
+\section{Evaluation Metrics and Compliance Assessment}
 \label{sec:evaluation_metrics}
-
-Evaluating the proposed functional security testing framework requires criteria at more than one level of aggregation. This methodology distinguishes three evaluation levels:
-\begin{itemize}
-	\item The result of an individual test case.
-	\item The fulfillment of a single security requirement derived in Section \ref{sec:security_requirements}.
-	\item The quality and compliance coverage of the testing methodology as a whole.
-\end{itemize}
-
-This distinction follows directly from the traceability chain established in Section \ref{subsec:traceability_model}, in which a single regulatory requirement traces to one or more test cases. The set of all requirement-level outcomes, in turn, characterizes the effectiveness of the methodology when applied to the test object in Chapter \ref{chap:implementation_results_evaluation}. Test metrics literature similarly separates metrics addressing individual test outcomes from metrics addressing the overarching test process \cite[p. 144, 217]{Witte2019}.
+%TODO Quelle
+To objectively assess the system's security posture and the framework's methodological quality, quantitative evaluation criteria are required. This assessment occurs at two levels: the discrete verdicts for individual test cases and the aggregated statistical metrics that evaluate overall engineering rigor and regulatory compliance.
 
 \subsection{Test Case and Requirement Verdicts}
+\label{subsec:verdicts}
 
-At the level of the individual \textbf{test case}, a verdict is assigned using the acceptance criteria and the sufficiency of the collected evidence, as recorded in the test case data sheet (Table \ref{tab:test_case_sheet}). Based on acceptance-oriented assessment concepts reported in literature, four discrete verdicts are distinguished \cite[p. 1553]{11050621} \cite[p. 23]{richier2011security}:
+At the level of the individual test case, a verdict is assigned based on the defined acceptance criteria and the sufficiency of the collected evidence. Four discrete verdicts are distinguished:
 
 \begin{itemize}
-	\item \textbf{PASS:} The test case has been executed, all mandatory acceptance criteria are satisfied, and the collected evidence is sufficient to support this conclusion.
-	\item \textbf{PARTIAL:} The test case has been executed and mandatory criteria are satisfied, but non-critical criteria remain unfulfilled or are only partly demonstrated.
-	\item \textbf{FAIL:} The test case has been executed, and a mandatory or critical acceptance criterion is violated.
-	\item \textbf{NOT APPLICABLE (N/A):} An applicability decision taken before execution. It requires a documented technical justification based on intended use, system architecture, available interfaces, or the scope limitations defined in Section \ref{subsec:scope_boundaries}.
+	\item \textbf{PASS:} The test case was executed, all mandatory acceptance criteria are satisfied, and the collected evidence is sufficient to prove successful mitigation.
+	\item \textbf{PARTIAL:} The test case was executed and mandatory criteria are satisfied, but non-critical criteria remain unfulfilled or the defense mechanism showed minor degradation.
+	\item \textbf{FAIL:} The test case was executed, and a mandatory security control was bypassed, highlighting an exploitable vulnerability.
+	\item \textbf{NOT APPLICABLE (N/A):} An applicability decision taken prior to execution. It requires a documented technical justification based on system architecture or the defined scope limits.
 \end{itemize}
 
-Insufficient evidence inherently prevents a \textit{PASS} verdict, and a rigorous technical justification is mandatory for every \textit{NOT APPLICABLE} decision.
-
-At the level of the individual \textbf{security requirement}, the underlying test-case verdicts are aggregated to determine whether the applied methods verify the corresponding obligation of Regulation (EU) 2023/1230. A requirement is verdicted \textit{FAIL} if any test case tracing to it is verdicted \textit{FAIL}. A requirement is verdicted \textit{PASS} only if every test case tracing to it is verdicted \textit{PASS}. It is verdicted \textit{PARTIAL} if none of its test cases fail, but at least one is \textit{PARTIAL}. Finally, a requirement is verdicted \textit{NOT APPLICABLE} where its non-applicability has been successfully justified.
+These test case verdicts are subsequently aggregated to evaluate the fulfillment of the overarching legal requirement. A requirement is verdicted \textit{FAIL} if any associated test case fails. It achieves a \textit{PASS} only if every associated test case passes. 
 
 \subsection{Core Framework Metrics}
+\label{subsec:framework_metrics}
+%TODO Quelle
+To evaluate both the technical security level of the industrial gateway and the quality of the testing methodology itself, four core Key Performance Indicators (KPIs) are defined. All metrics are calculated excluding logically justified \textit{N/A} elements to prevent data skewing.
 
-At the level of the \textbf{testing methodology}, the objective is to determine how much of the entire requirement baseline the applied test methods actually cover. The requirement baseline comprises the fourteen requirements (RQ-001 to RQ-014). A requirement counts as \textit{applicable} unless it carries a documented \textit{NOT APPLICABLE} justification.
-
-To evaluate the effectiveness of the proposed testing framework without inflating the assessment with redundant formulas, this methodology focuses on four core indicators. These metrics evaluate the theoretical design phase, the practical execution phase, the actual security posture of the device, and the regulatory compliance output required by the MVO. Every metric is computed strictly over applicable requirements, ensuring that a documented exclusion is never falsely penalized as a coverage gap. Following the ratio-based style used for test-process metrics in the literature \cite[p. 145]{Witte2019}, these indicators are defined as follows:
-
-\textbf{Requirement Mapping Coverage ($C_{map}$)} indicates the proportion of applicable requirements for which at least one suitable test case has been specified (based on \cite[p. 223]{Witte2019}). The mere existence of a test case specification is not treated as evidence of execution.
+\textbf{Requirement Compliance Rate ($RCR$)} is the primary legal indicator. It measures the strict fulfillment of the derived normative obligations from Regulation (EU) 2023/1230 and IEC 62443-4-2.
 \begin{equation}
-	C_{map} = \frac{\text{Applicable requirements with a specified test case}}{\text{Applicable requirements}}
+	RCR = \frac{\text{Applicable requirements verdicted PASS}}{\text{Total applicable requirements}}
 \end{equation}
 
-\textbf{Executed Requirement Coverage ($C_{exec}$)} indicates the proportion of applicable requirements for which the specified test cases have actually been executed in the laboratory environment.
+\textbf{Threat Mitigation Coverage ($TMC$)} evaluates the technical security posture from an engineering perspective. Referencing the STRIDE threat model defined in Section \ref{subsec:stride}, this metric calculates the proportion of identified, asset-specific threat vectors that were successfully blocked by the tested security functions.
 \begin{equation}
-	C_{exec} = \frac{\text{Applicable requirements with executed test cases}}{\text{Applicable requirements}}
+	TMC = \frac{\text{Successfully mitigated STRIDE threats}}{\text{Total modeled STRIDE threats for tested assets}}
 \end{equation}
 
-\textbf{Requirement Fulfilment Rate ($C_{fulfil}$)} is the primary indicator of the device's security posture. It represents the proportion of applicable requirements successfully assessed as \textit{PASS} (based on \cite[p. 223]{Witte2019}). The absolute counts of requirements verdicted \textit{PARTIAL} and \textit{FAIL} are reported separately.
+\textbf{Test Effectiveness Ratio ($TER$)} measures the methodological quality of the test design. A test is considered highly effective if it yields a definitive empirical outcome (\textit{PASS} or \textit{FAIL}) rather than failing due to testbed errors, tool crashes, or inconclusive system behavior.
 \begin{equation}
-	C_{fulfil} = \frac{\text{Applicable requirements verdicted PASS}}{\text{Applicable requirements}}
+	TER = \frac{\text{Executed test cases yielding a definitive PASS or FAIL}}{\text{Total executed test cases}}
 \end{equation}
 
-\textbf{Technical Documentation Evidence Coverage ($TDEC$)} indicates the proportion of applicable requirements for which complete, traceable evidence suitable for technical documentation has been generated. This metric directly addresses the evidentiary obligations under Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 \cite{EU2023_1230}. While a high $TDEC$ score demonstrates rigorous verification, it does not by itself constitute legal certification.
+\textbf{Evidence Traceability Score ($ETS$)} assesses audit readiness. It indicates the proportion of executed tests supported by complete, traceable digital artifacts (e.g., PCAP files, system logs). This directly addresses the strict evidentiary obligations for the technical documentation under Article 10(2) of the Machinery Regulation.
 \begin{equation}
-	TDEC = \frac{\text{Applicable requirements with complete, traceable evidence}}{\text{Applicable requirements}}
+	ETS = \frac{\text{Executed test cases with comprehensive digital evidence}}{\text{Total executed test cases}}
 \end{equation}
 
-By adhering strictly to the structured test case data sheet (Table \ref{tab:test_case_sheet}) and the traceability model (Section \ref{subsec:traceability_model}), the framework systemically guarantees 100\% forward and backward traceability for all executed tests. Consequently, calculating separate mathematical metrics for traceability ($T_{fwd}$, $T_{bwd}$) or evidence completeness ($EC$) is unnecessary, as these properties are structural prerequisites for achieving a valid $TDEC$ score.
+\subsection{Methodological Limitations}
+\label{subsec:methodology_limitations}
+%TODO Quelle
+While this functional security testing methodology ensures systemic traceability and verifies the correct operation of planned security mechanisms, its inherent limitations must be acknowledged. 
 
-\subsection{Validation Scope and Suitability for Future Product Releases}
-\label{subsec:validation_scope}
+First, functional security testing does not guarantee absolute immunity against novel zero-day exploits. It confirms that a mechanism (e.g., authentication) works as intended under known attack vectors, but it does not aggressively hunt for deep architectural vulnerabilities, such as memory corruption bugs, which would require dedicated dynamic analysis or fuzzing. 
 
-The metrics defined above operate at two distinct levels of validation that must not be conflated. At the \textbf{security function level}, the test case and requirement verdicts (Section \ref{sec:evaluation_metrics}) validate whether a specific, individual security function is correctly implemented on the System Under Test. At the \textbf{methodology level}, $C_{map}$, $C_{exec}$, $C_{fulfil}$, and $TDEC$ validate whether the framework as a whole provides complete and evidenced coverage of the applicable requirement baseline, independent of whether any individual security function passed or failed. A device may therefore exhibit a low $C_{fulfil}$ score, indicating a poor security posture, while the methodology itself achieves a high $C_{map}$ and $C_{exec}$ score, indicating that the framework correctly identified and exercised the underlying failure.
-
-Because the requirement baseline (Section \ref{sec:security_requirements}) and the resulting test domains (Table \ref{tab:test_domains}) are derived from the general product classification of Section \ref{subsec:classification_iec62443} rather than from the configuration of a single product instance, the same requirement catalogue, traceability chain, and data sheet structure apply without modification to subsequent releases or variants of the industrial gateway. Only the \textbf{Test Procedure} and \textbf{Tool Reference} fields of the data sheet (Table \ref{tab:test_case_sheet}) require re-instantiation to reflect the specific hardware and firmware configuration of a new release, consistent with the maintenance triggers described in Section \ref{subsec:verification_lifecycle_governance}. An empirical confirmation of this repeatability across multiple, successive product releases is beyond the scope of the single demonstration presented in Chapter \ref{chap:implementation_results_evaluation} and is therefore treated as a limitation of the present validation (Section \ref{sec:methodology_limitations}).
-% TODO Add academic source supporting this methodological choice.
+Second, the effectiveness of this framework relies heavily on the quality of the initial threat modeling and asset mapping (see Section \ref{subsec:derivation_mapping}). If a critical asset or threat vector is misidentified or omitted during the derivation phase, the resulting test cases will inherently contain blind spots. Consequently, this methodology should be viewed as a foundational pillar for regulatory compliance verification, complementing rather than replacing exhaustive penetration testing.
 
 
-\section{Limitations of the Methodology}
-\label{sec:methodology_limitations}
 
-Consistent with the principle that a methodology cannot be presented without an explicit account of its boundaries, five limitations of the proposed functional security testing framework are identified.
 
-First, the requirement baseline itself contains two confirmed normative gaps identified during derivation (Section \ref{subsec:derivation_methodology}). RQ-010 addresses a process-level obligation for which IEC 62443-4-2 provides no component-level CR, and is therefore assigned to the organizational domain of IEC 62443-4-1 rather than to a functional test case. RQ-013 presents a confirmed conflict between the Machinery Regulation's logging obligation and prEN 50742's explicit exclusion of software version data from the tracing log. Both requirements remain outside the test-case-level traceability chain (Section \ref{subsec:security_function_identification}) and must be closed through product-specific verification or a documented rationale rather than through the standard-based approach developed here.
 
-Second, the framework is strictly delimited to \textbf{functional verification} of specified security mechanisms (Section \ref{subsec:scope_boundaries}). It does not include open-ended vulnerability scanning, fuzzing, or comprehensive penetration testing. Consequently, a fully \textit{PASS}-verdicted requirement baseline demonstrates that the specified security functions operate as intended; it does not demonstrate, and must not be interpreted as demonstrating, the absence of unknown vulnerabilities. This restriction is consistent with the general limitation of TARA-based risk assessments described in Section \ref{subsec:tara}: no system can be shown to provide absolute security.
 
-Third, the normative basis of the derivation itself is not yet finalized. prEN 50742 remains a draft standard at the time of writing (Section \ref{subsec:pren_50742}), and its clause numbering, scope, or technical content may change prior to formal publication. Any such change would require the requirement derivation in Section \ref{sec:security_requirements} and the resulting mapping in Appendix \ref{app:sec:mapping_pren50742} to be revisited.
+%
+%\subsection{Verification Lifecycle and Governance}
+%\label{subsec:verification_lifecycle_governance}
+%
+%The verification activities defined in this framework are not executed in isolation. They must be anchored to defined stages of the product lifecycle so that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}.
+%
+%Figure \ref{fig:secure-system-development-lifecycle-main-overview} (see Appendix \ref{app:SecureDevelopmentLifecycle}) consolidates standard SSDLC and DevSecOps phase models into a single overview. Consistent with the scope restriction defined in Section \ref{subsec:scope_boundaries}, this thesis addresses only the verification-relevant subset of such a lifecycle. Upstream design stages and downstream deployment stages are treated as boundary conditions that supply inputs to, or consume outputs from, the verification stages defined here.
+%
+%The generic test case data sheet (Table \ref{tab:test_case_sheet}) already assigns each of its fields to a Design, Preparation, Execution, or Evidence phase. Responsibility for these four phases is governed through a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
+%
+%\begin{itemize}
+%	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
+%	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
+%	\item \textbf{Test Engineering:} Responsible for procedure preparation, execution, and verdict assignment.
+%	\item \textbf{Software/Firmware Development:} Consulted on findings and tasked with implementing corrective actions.
+%	\item \textbf{Quality/Compliance Management:} Responsible for coverage review and evidence governance.
+%	\item \textbf{Release Authority:} Accountable for the final release decision.
+%\end{itemize}
+%
+%
+%
+%As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases because it follows the organizational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Security Engineering is Accountable during Design and Execution, where critical mechanism-verification decisions are made. Test Engineering is Accountable during Preparation, where test-bed configuration is an operational task under its direct control. Finally, Quality/Compliance Management is Accountable during Evidence Evaluation, where release-readiness is assessed.
+%
+%Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labor documented in secure software engineering literature \cite[p. 5]{219394}. Ultimately, these lifecycle phases and role assignments directly support IEC 62443-4-1 Practice 5 (Security Verification and Validation Testing), which mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[p. 37 f]{DIN_EN_IEC_62443_4_1_2018}.
+%
+%Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative, lifecycle-wide application of TARA described in Section \ref{subsec:tara}, the requirement baseline (Section \ref{sec:security_requirements}) and the associated test case data sheets require re-evaluation whenever a new product variant is introduced, a referenced normative document (\hyperref[subsec:eu_machinery_regulation]{Regulation (EU) 2023/1230}, \hyperref[subsec:pren_50742]{prEN 50742}, or IEC 62443-4-2) is revised, or a post-release vulnerability affecting a mapped security function is disclosed. Under the RACI model of Table \ref{tab:raci_matrix_verification}, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for confirming that the resulting update is reflected in the technical documentation.
+%
+%\section{Evaluation Metrics and Assessment Scheme}
+%\label{sec:evaluation_metrics}
+%
+%Evaluating the proposed functional security testing framework requires criteria at more than one level of aggregation. This methodology distinguishes three evaluation levels:
+%\begin{itemize}
+%	\item The result of an individual test case.
+%	\item The fulfillment of a single security requirement derived in Section \ref{sec:security_requirements}.
+%	\item The quality and compliance coverage of the testing methodology as a whole.
+%\end{itemize}
+%
+%This distinction follows directly from the traceability chain established in Section \ref{subsec:traceability_model}, in which a single regulatory requirement traces to one or more test cases. The set of all requirement-level outcomes, in turn, characterizes the effectiveness of the methodology when applied to the test object in Chapter \ref{chap:implementation_results_evaluation}. Test metrics literature similarly separates metrics addressing individual test outcomes from metrics addressing the overarching test process \cite[p. 144, 217]{Witte2019}.
+%
+%\subsection{Test Case and Requirement Verdicts}
+%
+%At the level of the individual \textbf{test case}, a verdict is assigned using the acceptance criteria and the sufficiency of the collected evidence, as recorded in the test case data sheet (Table \ref{tab:test_case_sheet}). Based on acceptance-oriented assessment concepts reported in literature, four discrete verdicts are distinguished \cite[p. 1553]{11050621} \cite[p. 23]{richier2011security}:
+%
+%\begin{itemize}
+%	\item \textbf{PASS:} The test case has been executed, all mandatory acceptance criteria are satisfied, and the collected evidence is sufficient to support this conclusion.
+%	\item \textbf{PARTIAL:} The test case has been executed and mandatory criteria are satisfied, but non-critical criteria remain unfulfilled or are only partly demonstrated.
+%	\item \textbf{FAIL:} The test case has been executed, and a mandatory or critical acceptance criterion is violated.
+%	\item \textbf{NOT APPLICABLE (N/A):} An applicability decision taken before execution. It requires a documented technical justification based on intended use, system architecture, available interfaces, or the scope limitations defined in Section \ref{subsec:scope_boundaries}.
+%\end{itemize}
+%
+%Insufficient evidence inherently prevents a \textit{PASS} verdict, and a rigorous technical justification is mandatory for every \textit{NOT APPLICABLE} decision.
+%
+%At the level of the individual \textbf{security requirement}, the underlying test-case verdicts are aggregated to determine whether the applied methods verify the corresponding obligation of Regulation (EU) 2023/1230. A requirement is verdicted \textit{FAIL} if any test case tracing to it is verdicted \textit{FAIL}. A requirement is verdicted \textit{PASS} only if every test case tracing to it is verdicted \textit{PASS}. It is verdicted \textit{PARTIAL} if none of its test cases fail, but at least one is \textit{PARTIAL}. Finally, a requirement is verdicted \textit{NOT APPLICABLE} where its non-applicability has been successfully justified.
+%
+%\subsection{Core Framework Metrics}
+%
+%At the level of the \textbf{testing methodology}, the objective is to determine how much of the entire requirement baseline the applied test methods actually cover. The requirement baseline comprises the fourteen requirements (RQ-001 to RQ-014). A requirement counts as \textit{applicable} unless it carries a documented \textit{NOT APPLICABLE} justification.
+%
+%To evaluate the effectiveness of the proposed testing framework without inflating the assessment with redundant formulas, this methodology focuses on four core indicators. These metrics evaluate the theoretical design phase, the practical execution phase, the actual security posture of the device, and the regulatory compliance output required by the MVO. Every metric is computed strictly over applicable requirements, ensuring that a documented exclusion is never falsely penalized as a coverage gap. Following the ratio-based style used for test-process metrics in the literature \cite[p. 145]{Witte2019}, these indicators are defined as follows:
+%
+%\textbf{Requirement Mapping Coverage ($C_{map}$)} indicates the proportion of applicable requirements for which at least one suitable test case has been specified (based on \cite[p. 223]{Witte2019}). The mere existence of a test case specification is not treated as evidence of execution.
+%\begin{equation}
+%	C_{map} = \frac{\text{Applicable requirements with a specified test case}}{\text{Applicable requirements}}
+%\end{equation}
+%
+%\textbf{Executed Requirement Coverage ($C_{exec}$)} indicates the proportion of applicable requirements for which the specified test cases have actually been executed in the laboratory environment.
+%\begin{equation}
+%	C_{exec} = \frac{\text{Applicable requirements with executed test cases}}{\text{Applicable requirements}}
+%\end{equation}
+%
+%\textbf{Requirement Fulfilment Rate ($C_{fulfil}$)} is the primary indicator of the device's security posture. It represents the proportion of applicable requirements successfully assessed as \textit{PASS} (based on \cite[p. 223]{Witte2019}). The absolute counts of requirements verdicted \textit{PARTIAL} and \textit{FAIL} are reported separately.
+%\begin{equation}
+%	C_{fulfil} = \frac{\text{Applicable requirements verdicted PASS}}{\text{Applicable requirements}}
+%\end{equation}
+%
+%\textbf{Technical Documentation Evidence Coverage ($TDEC$)} indicates the proportion of applicable requirements for which complete, traceable evidence suitable for technical documentation has been generated. This metric directly addresses the evidentiary obligations under Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 \cite{EU2023_1230}. While a high $TDEC$ score demonstrates rigorous verification, it does not by itself constitute legal certification.
+%\begin{equation}
+%	TDEC = \frac{\text{Applicable requirements with complete, traceable evidence}}{\text{Applicable requirements}}
+%\end{equation}
+%
+%By adhering strictly to the structured test case data sheet (Table \ref{tab:test_case_sheet}) and the traceability model (Section \ref{subsec:traceability_model}), the framework systemically guarantees 100\% forward and backward traceability for all executed tests. Consequently, calculating separate mathematical metrics for traceability ($T_{fwd}$, $T_{bwd}$) or evidence completeness ($EC$) is unnecessary, as these properties are structural prerequisites for achieving a valid $TDEC$ score.
 
-Fourth, the empirical demonstration of the framework in Chapter \ref{chap:implementation_results_evaluation} is conducted on a single System Under Test. While Section \ref{subsec:validation_scope} argues that the requirement baseline and traceability structure are, by design, independent of a specific product configuration, the repeatability of this claim across multiple product variants or successive releases has not been empirically confirmed within the scope of this thesis.
-% TODO Verify consistency with appendix evidence.
 
-Fifth, the $TDEC$ metric (Section \ref{sec:evaluation_metrics}) quantifies the completeness of generated technical documentation evidence but does not itself constitute a legal conformity assessment or certification decision under Regulation (EU) 2023/1230; the metric is a documentation-quality indicator intended to support, not replace, the formal conformity assessment procedure.
+
+
+
+
