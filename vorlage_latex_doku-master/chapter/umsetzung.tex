@@ -296,7 +296,7 @@
 
 
 
-Below the domain and subdomain level, the classification distinguishes further concepts that must not be used interchangeably. A \textbf{test method} is the general, product-independent verification approach assigned to a subdomain (e.g., black-box functional probing of an authentication interface, drawing on the testing methodologies of Section \ref{subsec:testing_taxonomy}). A \textbf{generic test case} instantiates one test method into a concrete objective, precondition, procedure, and acceptance criterion, without reference to a specific gateway. A \textbf{product-specific test instruction} adapts a generic test case to the concrete test object and is introduced only in Section \ref{sec:application_methodology}. And a \textbf{tool configuration} implements that instruction with a specific tool, introduced only in Section \ref{sec:testbed_setup}. The resulting hierarchy , test domain, functional subdomain, test method, generic test case, product-specific test instruction, tool configuration, evidence and verdict , keeps Chapter 3 tool-independent: no test domain, subdomain, objective, or acceptance criterion depends on which concrete asset instance or tool is later selected in Chapter \ref{chap:implementation_results_evaluation}.
+%Below the domain and subdomain level, the classification distinguishes further concepts that must not be used interchangeably. A \textbf{test method} is the general, product-independent verification approach assigned to a subdomain (e.g., black-box functional probing of an authentication interface, drawing on the testing methodologies of Section \ref{subsec:testing_taxonomy}). A \textbf{generic test case} instantiates one test method into a concrete objective, precondition, procedure, and acceptance criterion, without reference to a specific gateway. A \textbf{product-specific test instruction} adapts a generic test case to the concrete test object and is introduced only in Section \ref{sec:application_methodology}. And a \textbf{tool configuration} implements that instruction with a specific tool, introduced only in Section \ref{sec:testbed_setup}. The resulting hierarchy , test domain, functional subdomain, test method, generic test case, product-specific test instruction, tool configuration, evidence and verdict , keeps Chapter 3 tool-independent: no test domain, subdomain, objective, or acceptance criterion depends on which concrete asset instance or tool is later selected in Chapter \ref{chap:implementation_results_evaluation}.
 \section{Testbed Setup and Target Specification}
 \label{sec:testbed_setup}
 
@@ -317,7 +317,7 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 	\small % Schriftgröße leicht reduziert für bessere Passform
 	\begin{tabularx}{\textwidth}{@{} c >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l @{}}
 		\toprule
-		\textbf{ID} & \textbf{Asset} & \textbf{Description} & \textbf{Primary protection objectives} & \textbf{Typical affected resources} & \textbf{Source} \\ 
+		\textbf{ID} & \textbf{Asset} & \textbf{Description} & \textbf{Primary protection objectives} & \textbf{Typical affected resources} \\ 
 		\midrule
 		
 		A & Trusted Safety Function & SRIO correctly executes its specified safety function. & Integrity, Availability & Safe CPU, SysCom, DI/DO, PROFIsafe channel & \\ 
@@ -401,237 +401,362 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 
 
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT > nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
+%
+%
+%
+%
+%
+%\begin{table}[H]
+%	\centering
+%	\begin{tabularx}{\textwidth}{l X X}
+%		\toprule
+%		FR & Name & Relevant Gateway Assets \\
+%		\midrule
+%		FR1 & Identification and Authentication Control (IAC) & IoT Core, Firmware Update \\
+%		FR2 & Use Control (UC) & IoT Core, Configuration functions \\
+%		\textbf{FR3} & System Integrity (SI) & Firmware Update, PROFIsafe, Configuration \\
+%		FR4 & Data Confidentiality (DC) & HTTP Interface, Configuration data \\
+%		FR5 & Restricted Data Flow (RDF) & Ethernet, PROFINET, IoT Core \\
+%		FR6 & Timely Response to Events (TRE) & Error Log, Diagnostics \\
+%		FR7 & Resource Availability (RA) & Ethernet, PROFINET, DCP \\
+%		\bottomrule
+%	\end{tabularx}
+%	\caption{Foundational Requirements and Relevant Gateway Assets}
+%	\label{tab:fr_gateway_assets}
+%\end{table}
+%
+%Mapping Attack Surface > Testverfahren
+%Attack Surface		Threat		Test Method
+%Web Interface		Spoofing	Authentication Test
+%REST API			Tampering	API Security Test
+%Modbus Interface	Replay		Protocol Test
+%Firmware Update		Tampering	Integrity Test
+%Ethernet Port		DoS			Robustness Test
+%
+%
+%
+%STRIDE-Mapping auf IEC 62443 / MaschVO:
+%
+%Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1)
+%
+%Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III)
+%
+%Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6)
+%
+%Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4)
+%
+%Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7)
+%
+%Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2)
+%
+%
+%
+%Beispiel 1: HTTP-based IoTCore / REST-API Interface
+%Involved Assets: Configuration Data, Firmware, Device Identity Data.
+%
+%Threat Identification (STRIDE):
+%
+%Spoofing: Unauthenticated access using default/weak credentials.
+%
+%Tampering: Request Manipulation (Parameter Tampering) to alter network/IP configurations without proper authorization.
+%
+%Information Disclosure: Unencrypted transport of credentials or device identity data.
+%
+%Denial of Service: HTTP/REST API flooding (Resource Exhaustion).
+%
+%Elevation of Privilege: Broken Access Control (Bypassing authentication to reach administrative endpoints).
+%
+%\subsubsection{HTTP-Based IoTCore Web Interface} 
+%\begin{table}[H] 
+%	\centering 
+%	\begin{tabular}{|l|l|} \hline 
+%		STRIDE Category & Identified Threat \\ \hline 
+%		Spoofing & Unauthorized Access \\ 
+%		Spoofing & Session Spoofing \\ Tampering & Request Manipulation \\ Tampering & Configuration Manipulation \\ Repudiation & Missing Audit Trail \\ Information Disclosure & Disclosure of Device Information \\ Information Disclosure & Disclosure of Diagnostic Data \\ Denial of Service & HTTP Flooding \\ Denial of Service & Resource Exhaustion \\ Elevation of Privilege & Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the IoTCore web interface} \end{table}
+%
+%\subsubsection{REST API} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Unauthorized API Access \\ Tampering & Parameter Manipulation \\ Tampering & API Request Manipulation \\ Repudiation & Missing Request Logging \\ Information Disclosure & Exposure of Device Information \\ Information Disclosure & Exposure of Log Data \\ Denial of Service & API Flooding \\ Elevation of Privilege & Access to Restricted Functions \\ \hline \end{tabular} \caption{Threats identified for the REST API} \end{table}
+%
+%\subsubsection{Firmware Update Mechanism} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake Update Source \\ Tampering & Modified Firmware \\ Tampering & Firmware Downgrade \\ Tampering & Corrupted Firmware Package \\ Repudiation & Missing Update Traceability \\ Information Disclosure & Firmware Extraction \\ Denial of Service & Interrupted Update Process \\ Denial of Service & Invalid Firmware Installation \\ Elevation of Privilege & Execution of Unauthorized Firmware \\ \hline \end{tabular} \caption{Threats identified for firmware updates} \end{table}
+%
+%
+%\subsubsection{PROFINET Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Device Spoofing \\ Spoofing & Faked PLC/F-Host \\ Tampering & Process Data Manipulation \\ Tampering & DCP Parameter Manipulation \\ Repudiation & Missing Configuration Traceability \\ Information Disclosure & Network Enumeration \\ Information Disclosure & Device Discovery \\ Denial of Service & Network Flooding \\ Denial of Service & Communication Disruption \\ Elevation of Privilege & Unauthorized Configuration Changes \\ \hline \end{tabular} \caption{Threats identified for PROFINET communication} \end{table}
+%
+%
+%\subsubsection{PROFIsafe Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake F-Host \\ Tampering & Safety Telegram Manipulation \\ Tampering & Safety Parameter Manipulation \\ Repudiation & Missing Safety Event Logging \\ Information Disclosure & Disclosure of Safety Parameters \\ Denial of Service & Communication Timeout Attack \\ Denial of Service & Message Flooding \\ Elevation of Privilege & Unauthorized Safety Functions \\ \hline \end{tabular} \caption{Threats identified for PROFIsafe communication} \end{table}
+%
+%
+%
+%\subsubsection{Persistent Storage} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Identity Data Manipulation \\ Tampering & Configuration Tampering \\ Tampering & Safety Parameter Tampering \\ Information Disclosure & Extraction of Stored Data \\ Denial of Service & Corrupted Configuration Data \\ \hline \end{tabular} \caption{Threats identified for persistent storage} \end{table}
+%
+%
+%\subsubsection{Debug Interface} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Tampering & Firmware Modification \\ Tampering & Memory Manipulation \\ Information Disclosure & Firmware Extraction \\ Information Disclosure & Memory Dump \\ Denial of Service & Device Lockup \\ Elevation of Privilege & Debug-Based Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the debug interface} \end{table}
+%
+%\subsubsection{Engineering Environment} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Malicious Engineering Station \\ Tampering & Manipulated GSDML File \\ Tampering & Manipulated Parameter Set \\ Tampering & Manipulated CRC Tool Output \\ Repudiation & Missing Change Tracking \\ Information Disclosure & Disclosure of Engineering Data \\ Denial of Service & Invalid Device Configuration \\ Elevation of Privilege & Unauthorized Engineering Changes \\ \hline \end{tabular} \caption{Threats identified for engineering assets} \end{table}
+%
+%Threat Catalogue:
+%\begin{itemize} 
+%	\item Unauthorized access to the IoTCore web interface 
+%	\item Authentication bypass 
+%	\item Session hijacking 
+%	\item Brute-force login attempts 
+%	\item REST API request manipulation 
+%	\item Unauthorized configuration changes 
+%	\item Firmware manipulation 
+%	\item Unauthorized firmware updates 
+%	\item Firmware downgrade attacks 
+%	\item Denial-of-Service against network services 
+%	\item Ethernet packet manipulation 
+%	\item PROFINET device spoofing 
+%	\item Replay attacks on industrial communication 
+%	\item Manipulation of safety-related parameters 
+%	\item Unauthorized access to persistent configuration storage 
+%	\item Disclosure of device identity information 
+%\end{itemize}
+%
+%
+%Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs- Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
+%
+%Beispiel 1: Unauthorised Access auf IoTCore Web Interface
+%Feld	InhaltThreat ID	T-001
+%Asset ID	A-001
+%Asset Name	Configuration Data
+%Description	Network and device configuration parameters
+%Threat	Unauthorized Access
+%Threat description	Attacker gains access to configuration functions without authorization
+%Protection Goal	Integrity, Confidentiality
+%Attacker / Skill-Level	Low
+%Rationale	Web interface reachable via Ethernet
+%predefined likelihood	Medium
+%Exposure Level	High
+%Exploitability	Medium
+%Likelihood based on Matrix	High
+%Impact	High
+%Risk	High
+%Weakness	Missing or weak authentication
+%Mitigation	Role-based authentication and password policy
+%Mitigation-ID	M-001
+%Risk strategy	Reduce
+%predefined Risk	High
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	High
+%Risk after mitigation	Medium
+%
+%
+%Beispiel 2: Firmware Manipulation
+%Feld	InhaltThreat ID	T-002
+%Asset ID	A-002
+%Asset Name	Firmware
+%Description	COM, SCPU, Bootloader and NetX90 firmware
+%Threat	Firmware Manipulation
+%Threat description	Modified firmware is uploaded and executed
+%Protection Goal	Integrity, Authenticity
+%Attacker / Skill-Level	Medium
+%Rationale	Firmware update mechanism accessible via IoTCore
+%predefined likelihood	Medium
+%Exposure Level	High
+%Exploitability	Medium
+%Likelihood based on Matrix	High
+%Impact	Very High
+%Risk	Critical
+%Weakness	Missing firmware signature validation
+%Mitigation	Digital signature verification
+%Mitigation-ID	M-002
+%Risk strategy	Reduce
+%predefined Risk	Critical
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	Very High
+%Risk after mitigation	Medium
+%Beispiel 3: REST API Parameter Manipulation
+%Feld	InhaltThreat ID	T-003
+%Asset ID	A-001
+%Asset Name	Configuration Data
+%Description	Device configuration accessible through REST API
+%Threat	Request Manipulation
+%Threat description	Manipulated API requests modify configuration values
+%Protection Goal	Integrity
+%Attacker / Skill-Level	Low
+%Rationale	REST API exposed over Ethernet
+%predefined likelihood	High
+%Exposure Level	High
+%Exploitability	High
+%Likelihood based on Matrix	High
+%Impact	High
+%Risk	High
+%Weakness	Missing input validation
+%Mitigation	Server-side validation and authorization checks
+%Mitigation-ID	M-003
+%Risk strategy	Reduce
+%predefined Risk	High
+%Exposure Level	Medium
+%Exploitability	Low
+%Likelihood	Low
+%Severity	High
+%Risk after mitigation	Medium
+%Beispiel 4: Replay Attack auf PROFINET / PROFIsafe
+%Feld	InhaltThreat ID	T-004
+%Asset ID	A-004
+%Asset Name	Process Data
+%Description
+%
+%
+%
+%Threat	Functional TestUnauthorized Access	Zugriff ohne gültige Anmeldung prüfen
+%Request Manipulation	Manipulierte API Requests senden
+%Brute Force	Mehrfache Logins testen
+%Firmware Manipulation	Modifizierte Firmware hochladen
+%Replay Attack	Aufgezeichnete Telegramme erneut senden
+%Unauthorized Configuration Change	Konfiguration ohne Berechtigung ändern
+%DoS	Hohe Anzahl Requests senden
+%Session Hijacking	Session Token wiederverwenden
+%
+%- **Safety zone** — Safety CPU1 (SCPU1), Safety CPU2 (SCPU2), their EEPROMs, Safe uCOS-II OS, Safe State Logic, PROFIsafe F-Parameters, Own Safe Address Storage, iPar CRC Value, F-DI/F-DO channels, Hardware Watchdog. Highest integrity/availability requirement; safety-impact relevant.
+%- **Non-safe host zone** — Host CPU3 (COM/VHIP3), its EEPROM/flash, IoT-Core Web Interface, eRPC, bootloaders, firmware transfer/install services, error log, device tag.
+%- **External OT zone** (conduit-connected) — the PLC/engineering network reached via PROFINET Fieldbus Ports, NetX90, DCP Protocol Service, GSD/GSDML distribution.
+%- **External IT zone** (conduit-connected) — remote/maintenance clients reached via the IoT-Core Web Interface (HTTP), used for diagnostics and firmware management.
+%- **Physical/production zone** — rotary switch, LEDs, debug interfaces, power/FE paths, production-mode state; requires physical access.
+%
+%
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Vorhandene Security-Funktionen: nur HTTP-Verbindung, Firmware-Update-Geschützt, Read-only-IoT > nicht alles, Netztrennung Safety/Standardkommunikation, Fehler-und Ergebnisprotokollierung, Kommunikationsüberwachung, PROFIsafe Schutzmechanismen
-
-
-
-
-
-\begin{table}[H]
-	\centering
-	\begin{tabularx}{\textwidth}{l X X}
-		\toprule
-		FR & Name & Relevant Gateway Assets \\
-		\midrule
-		FR1 & Identification and Authentication Control (IAC) & IoT Core, Firmware Update \\
-		FR2 & Use Control (UC) & IoT Core, Configuration functions \\
-		\textbf{FR3} & System Integrity (SI) & Firmware Update, PROFIsafe, Configuration \\
-		FR4 & Data Confidentiality (DC) & HTTP Interface, Configuration data \\
-		FR5 & Restricted Data Flow (RDF) & Ethernet, PROFINET, IoT Core \\
-		FR6 & Timely Response to Events (TRE) & Error Log, Diagnostics \\
-		FR7 & Resource Availability (RA) & Ethernet, PROFINET, DCP \\
-		\bottomrule
-	\end{tabularx}
-	\caption{Foundational Requirements and Relevant Gateway Assets}
-	\label{tab:fr_gateway_assets}
-\end{table}
-
-Mapping Attack Surface > Testverfahren
-Attack Surface		Threat		Test Method
-Web Interface		Spoofing	Authentication Test
-REST API			Tampering	API Security Test
-Modbus Interface	Replay		Protocol Test
-Firmware Update		Tampering	Integrity Test
-Ethernet Port		DoS			Robustness Test
-
-
-
-STRIDE-Mapping auf IEC 62443 / MaschVO:
-
-Spoofing (Identitätsdiebstahl) $\rightarrow$ Authentizität (IEC 62443 FR1)
-
-Tampering (Manipulation) $\rightarrow$ Integrität (IEC 62443 FR3 / MaschVO Anhang III)
-
-Repudiation (Abstreitbarkeit) $\rightarrow$ Non-repudiation (IEC 62443 FR6)
-
-Information Disclosure (Offenlegung) $\rightarrow$ Vertraulichkeit (IEC 62443 FR4)
-
-Denial of Service (Dienstblockade) $\rightarrow$ Verfügbarkeit (IEC 62443 FR7)
-
-Elevation of Privilege (Rechteausweitung) $\rightarrow$ Autorisierung (IEC 62443 FR2)
-
-
-
-Beispiel 1: HTTP-based IoTCore / REST-API Interface
-Involved Assets: Configuration Data, Firmware, Device Identity Data.
-
-Threat Identification (STRIDE):
-
-Spoofing: Unauthenticated access using default/weak credentials.
-
-Tampering: Request Manipulation (Parameter Tampering) to alter network/IP configurations without proper authorization.
-
-Information Disclosure: Unencrypted transport of credentials or device identity data.
-
-Denial of Service: HTTP/REST API flooding (Resource Exhaustion).
-
-Elevation of Privilege: Broken Access Control (Bypassing authentication to reach administrative endpoints).
-
-\subsubsection{HTTP-Based IoTCore Web Interface} 
-\begin{table}[H] 
-	\centering 
-	\begin{tabular}{|l|l|} \hline 
-		STRIDE Category & Identified Threat \\ \hline 
-		Spoofing & Unauthorized Access \\ 
-		Spoofing & Session Spoofing \\ Tampering & Request Manipulation \\ Tampering & Configuration Manipulation \\ Repudiation & Missing Audit Trail \\ Information Disclosure & Disclosure of Device Information \\ Information Disclosure & Disclosure of Diagnostic Data \\ Denial of Service & HTTP Flooding \\ Denial of Service & Resource Exhaustion \\ Elevation of Privilege & Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the IoTCore web interface} \end{table}
-
-\subsubsection{REST API} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Unauthorized API Access \\ Tampering & Parameter Manipulation \\ Tampering & API Request Manipulation \\ Repudiation & Missing Request Logging \\ Information Disclosure & Exposure of Device Information \\ Information Disclosure & Exposure of Log Data \\ Denial of Service & API Flooding \\ Elevation of Privilege & Access to Restricted Functions \\ \hline \end{tabular} \caption{Threats identified for the REST API} \end{table}
-
-\subsubsection{Firmware Update Mechanism} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake Update Source \\ Tampering & Modified Firmware \\ Tampering & Firmware Downgrade \\ Tampering & Corrupted Firmware Package \\ Repudiation & Missing Update Traceability \\ Information Disclosure & Firmware Extraction \\ Denial of Service & Interrupted Update Process \\ Denial of Service & Invalid Firmware Installation \\ Elevation of Privilege & Execution of Unauthorized Firmware \\ \hline \end{tabular} \caption{Threats identified for firmware updates} \end{table}
-
-
-\subsubsection{PROFINET Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Device Spoofing \\ Spoofing & Faked PLC/F-Host \\ Tampering & Process Data Manipulation \\ Tampering & DCP Parameter Manipulation \\ Repudiation & Missing Configuration Traceability \\ Information Disclosure & Network Enumeration \\ Information Disclosure & Device Discovery \\ Denial of Service & Network Flooding \\ Denial of Service & Communication Disruption \\ Elevation of Privilege & Unauthorized Configuration Changes \\ \hline \end{tabular} \caption{Threats identified for PROFINET communication} \end{table}
-
-
-\subsubsection{PROFIsafe Communication} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Fake F-Host \\ Tampering & Safety Telegram Manipulation \\ Tampering & Safety Parameter Manipulation \\ Repudiation & Missing Safety Event Logging \\ Information Disclosure & Disclosure of Safety Parameters \\ Denial of Service & Communication Timeout Attack \\ Denial of Service & Message Flooding \\ Elevation of Privilege & Unauthorized Safety Functions \\ \hline \end{tabular} \caption{Threats identified for PROFIsafe communication} \end{table}
-
-
-
-\subsubsection{Persistent Storage} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Identity Data Manipulation \\ Tampering & Configuration Tampering \\ Tampering & Safety Parameter Tampering \\ Information Disclosure & Extraction of Stored Data \\ Denial of Service & Corrupted Configuration Data \\ \hline \end{tabular} \caption{Threats identified for persistent storage} \end{table}
-
-
-\subsubsection{Debug Interface} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Tampering & Firmware Modification \\ Tampering & Memory Manipulation \\ Information Disclosure & Firmware Extraction \\ Information Disclosure & Memory Dump \\ Denial of Service & Device Lockup \\ Elevation of Privilege & Debug-Based Privilege Escalation \\ \hline \end{tabular} \caption{Threats identified for the debug interface} \end{table}
-
-\subsubsection{Engineering Environment} \begin{table}[H] \centering \begin{tabular}{|l|l|} \hline STRIDE Category & Identified Threat \\ \hline Spoofing & Malicious Engineering Station \\ Tampering & Manipulated GSDML File \\ Tampering & Manipulated Parameter Set \\ Tampering & Manipulated CRC Tool Output \\ Repudiation & Missing Change Tracking \\ Information Disclosure & Disclosure of Engineering Data \\ Denial of Service & Invalid Device Configuration \\ Elevation of Privilege & Unauthorized Engineering Changes \\ \hline \end{tabular} \caption{Threats identified for engineering assets} \end{table}
-
-Threat Catalogue:
-\begin{itemize} 
-	\item Unauthorized access to the IoTCore web interface 
-	\item Authentication bypass 
-	\item Session hijacking 
-	\item Brute-force login attempts 
-	\item REST API request manipulation 
-	\item Unauthorized configuration changes 
-	\item Firmware manipulation 
-	\item Unauthorized firmware updates 
-	\item Firmware downgrade attacks 
-	\item Denial-of-Service against network services 
-	\item Ethernet packet manipulation 
-	\item PROFINET device spoofing 
-	\item Replay attacks on industrial communication 
-	\item Manipulation of safety-related parameters 
-	\item Unauthorized access to persistent configuration storage 
-	\item Disclosure of device identity information 
-\end{itemize}
-
-
-Feld / SpalteBeispiel-InhaltThreat IDTH-FW-01Asset IDAST-02Asset NameSCPU FirmwareDescriptionSteuerungs- Firmware für sicherheitsgerichtete Funktionen (Safety-CPU).ThreatTampering (Manipulation)Threat descriptionEin Angreifer lädt eine präparierte Firmware über die REST-API/HTTP-Schnittstelle hoch, um Sicherheitsfunktionen zu deaktivieren.Protection GoalIntegrity (IEC 62443-4-2 CR 3.4 - Software Integrity)Attacker / Skill-LevelNetwork Attacker / High SkillsRationaleRelevanz für MaschVO Anhang III: Manipulation führt zum Verlust der Funktionalen Sicherheit.Exposure LevelHigh (Über IT/OT-Schnittstelle erreichbar)ExploitabilityHigh (Falls keine Signaturprüfung vorhanden ist)Likelihood b. mit.HighImpactCritical (Gefahr von Personenschäden durch fehlerhafte Steuerung)Risk (before)HIGH / UNACCEPTABLEWeaknessFehlende Überprüfung der Integrität und Authentizität des Update-Images (CWE-345).MitigationImplementierung einer Asymmetrischen Signaturprüfung (z. B. ECDSA/RSA) im Secure Bootloader vor dem Einspielen.Risk strategyMitigateExploitability (after)Low (Signatur kann ohne privaten Schlüssel nicht gefälscht werden)Likelihood (after)LowSeverity (after)Critical (Schadenspotenzial im Erfolgsfall bleibt hoch, aber Ausführung unwahrscheinlich)Risk after mit.LOW / ACCEPTABLE
-
-Beispiel 1: Unauthorised Access auf IoTCore Web Interface
-Feld	InhaltThreat ID	T-001
-Asset ID	A-001
-Asset Name	Configuration Data
-Description	Network and device configuration parameters
-Threat	Unauthorized Access
-Threat description	Attacker gains access to configuration functions without authorization
-Protection Goal	Integrity, Confidentiality
-Attacker / Skill-Level	Low
-Rationale	Web interface reachable via Ethernet
-predefined likelihood	Medium
-Exposure Level	High
-Exploitability	Medium
-Likelihood based on Matrix	High
-Impact	High
-Risk	High
-Weakness	Missing or weak authentication
-Mitigation	Role-based authentication and password policy
-Mitigation-ID	M-001
-Risk strategy	Reduce
-predefined Risk	High
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	High
-Risk after mitigation	Medium
-
-
-Beispiel 2: Firmware Manipulation
-Feld	InhaltThreat ID	T-002
-Asset ID	A-002
-Asset Name	Firmware
-Description	COM, SCPU, Bootloader and NetX90 firmware
-Threat	Firmware Manipulation
-Threat description	Modified firmware is uploaded and executed
-Protection Goal	Integrity, Authenticity
-Attacker / Skill-Level	Medium
-Rationale	Firmware update mechanism accessible via IoTCore
-predefined likelihood	Medium
-Exposure Level	High
-Exploitability	Medium
-Likelihood based on Matrix	High
-Impact	Very High
-Risk	Critical
-Weakness	Missing firmware signature validation
-Mitigation	Digital signature verification
-Mitigation-ID	M-002
-Risk strategy	Reduce
-predefined Risk	Critical
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	Very High
-Risk after mitigation	Medium
-Beispiel 3: REST API Parameter Manipulation
-Feld	InhaltThreat ID	T-003
-Asset ID	A-001
-Asset Name	Configuration Data
-Description	Device configuration accessible through REST API
-Threat	Request Manipulation
-Threat description	Manipulated API requests modify configuration values
-Protection Goal	Integrity
-Attacker / Skill-Level	Low
-Rationale	REST API exposed over Ethernet
-predefined likelihood	High
-Exposure Level	High
-Exploitability	High
-Likelihood based on Matrix	High
-Impact	High
-Risk	High
-Weakness	Missing input validation
-Mitigation	Server-side validation and authorization checks
-Mitigation-ID	M-003
-Risk strategy	Reduce
-predefined Risk	High
-Exposure Level	Medium
-Exploitability	Low
-Likelihood	Low
-Severity	High
-Risk after mitigation	Medium
-Beispiel 4: Replay Attack auf PROFINET / PROFIsafe
-Feld	InhaltThreat ID	T-004
-Asset ID	A-004
-Asset Name	Process Data
-Description
-
-
-
-Threat	Functional TestUnauthorized Access	Zugriff ohne gültige Anmeldung prüfen
-Request Manipulation	Manipulierte API Requests senden
-Brute Force	Mehrfache Logins testen
-Firmware Manipulation	Modifizierte Firmware hochladen
-Replay Attack	Aufgezeichnete Telegramme erneut senden
-Unauthorized Configuration Change	Konfiguration ohne Berechtigung ändern
-DoS	Hohe Anzahl Requests senden
-Session Hijacking	Session Token wiederverwenden
-
-- **Safety zone** — Safety CPU1 (SCPU1), Safety CPU2 (SCPU2), their EEPROMs, Safe uCOS-II OS, Safe State Logic, PROFIsafe F-Parameters, Own Safe Address Storage, iPar CRC Value, F-DI/F-DO channels, Hardware Watchdog. Highest integrity/availability requirement; safety-impact relevant.
-- **Non-safe host zone** — Host CPU3 (COM/VHIP3), its EEPROM/flash, IoT-Core Web Interface, eRPC, bootloaders, firmware transfer/install services, error log, device tag.
-- **External OT zone** (conduit-connected) — the PLC/engineering network reached via PROFINET Fieldbus Ports, NetX90, DCP Protocol Service, GSD/GSDML distribution.
-- **External IT zone** (conduit-connected) — remote/maintenance clients reached via the IoT-Core Web Interface (HTTP), used for diagnostics and firmware management.
-- **Physical/production zone** — rotary switch, LEDs, debug interfaces, power/FE paths, production-mode state; requires physical access.
+%
+%2. Was ist bereits Eigenleistung?
+%
+%Eigenleistung beginnt dort, wo du die Quellen für deinen konkreten Untersuchungsgegenstand interpretierst, vergleichst oder operationalisierst. Dazu gehören insbesondere:
+%
+%die Bewertung, welche Vorschriften für industrielle Gateways relevant sind
+%die Einordnung eines Gateways als System, Komponente oder Netzwerkkomponente
+%die Auswahl relevanter IEC-62443-Anforderungen
+%die Verknüpfung von MVO, prEN 50742 und IEC 62443
+%die Ableitung technischer Security-Funktionen
+%die Übersetzung abstrakter Anforderungen in überprüfbare Testanforderungen
+%die Begründung, warum bestimmte physische IT/OT-Schnittstellen getestet werden
+%die Zuordnung von Normanforderungen zu Testmethoden
+%eine Gap-Analyse zwischen regulatorischen Anforderungen und dem bestehenden Testprozess
+%
+%Diese Inhalte beantworten die Frage:
+%
+%Welche Bedeutung haben die Regelwerke für den betrachteten Gateway und wie werden daraus Tests abgeleitet?
+%
+%Das ist klarer Eigenanteil.
+%\subsection{Regulation (EU) 2023/1230}
+%\label{subsec:eu_machinery_regulation}
+%
+%%% Was ist die MVO, Anhang III...
+%%
+%
+%
+%With the publication of Regulation (EU) 2023/1230 (MVO) on June 29, 2023, in the Official Journal of the European Union, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
+%
+%The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \cite[p. 32]{https://doi.org/10.1002/citp.202501012} \cite[p. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[p. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as  ``substantial modification'', formally clarifying when an alteration to an existing machine turns an operator legally into a manufacturer subject to full conformity assessment procedures \cite[p. 25]{EU2023_1230}.
+%
+%A key driver for this overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the Regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, demonstrating that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
+%
+%This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions, establishing that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \cite[p. 42 f]{EU2023_1230}. Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \cite[p. 19]{EU2023_1230}.
+%
+%Specific requirements apply to the components under Regulation (EU) 2023/1230 \cite[pp. 44]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
+%\begin{itemize}
+%	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[p. 48]{EU2023_1230}
+%	\item Hardware components transmitting signals or data relevant to safety-related software must be adequately protected against accidental or intentional corruption 
+%	\item Software and data essential for compliance with safety requirements must be identified as such and adequately protected against corruption
+%	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[p. 49]{EU2023_1230}
+%\end{itemize}
+%
+%Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems, requiring them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[p. 49]{EU2023_1230}.
+%
+%Furthermore, Article 10(2) \cite[p. 18]{EU2023_1230} and Annex IV Part A \cite[p. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include the risk assessment, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[p. 83]{EU2023_1230}. Upon a reasoned request from competent national authorities, access to the source code or programming logic of safety-related software must also be provided \cite[p. 84]{EU2023_1230}.
+%
+%\subsection{prEN 50742} 
+%\label{subsec:pren_50742} 
+%%% Ansatz A und B, grundlegende Ziele...
+%
+%While the new MVO defines the overarching regulatory safety objectives regarding cybersecurity, the harmonized standard draft prEN 50742 (published in Germany as DIN EN 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 (\textit{Protection against corruption}) and 1.2.1 (\textit{Safety and reliability of control systems}) \cite[p. 70]{prEN50742_2025}. PrEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[p. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not under any circumstances compromise or degrade the functional safety of the machine, for instance by introducing impermissible latencies in safety-critical communication loops \cite[p. 14]{prEN50742_2025}.
+%
+%To accommodate different organizational prerequisites and product architectures, the standard defines two distinct conformity paths for manufacturers \cite[p. 15]{prEN50742_2025}. Approach A represents a standalone, machine-specific methodology directly linked to classical safety risk assessments according to EN ISO 12100 \cite[p. 16]{prEN50742_2025}. Under Approach A, the required strength of countermeasures is determined by calculating the Safety Related Security Level (SRSL 0 to 3), which is derived from the attack potential combined with the severity of potential safety-related harm \cite[pp. 19]{prEN50742_2025}. 
+%
+%In contrast, Approach B is specifically designed for complex systems and components that are integrated into larger industrial communication networks. Instead of using the standalone SRSL framework, Approach B directly utilizes the established \hyperref[subsec:iec_62443]{EN IEC 62443 series} to define and verify technical security requirements \cite[pp. 16, pp. 24]{prEN50742_2025}. Under this approach, the system as a whole must comply with EN IEC 62443-3-3, while individual machine components must meet the technical security requirements of EN IEC 62443-4-2 at a specified Capability Security Level (typically SL-C 1 or SL-C 2) \cite[p. 24]{prEN50742_2025}.
+%
+%Despite their methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[p. 15]{prEN50742_2025}. Depending on the determined security level (SRSL under Approach A or SL-C under Approach B), both frameworks mandate equivalent critical mitigation measures. First, entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization to prevent unauthorized physical or logical access \cite[pp. 17, pp. 24]{prEN50742_2025}. Second, the integrity of safety-related application software (SRASW), embedded software (SRESW), and configuration data must be verified cryptographically (e.g., during secure boot or continuously during operation) \cite[p. 17 f]{prEN50742_2025}. Furthermore, the integrity of exchanged information across network boundaries must be secured to prevent spoofing or tampering, which includes a strict validation of input data at external interfaces \cite[p. 50]{prEN50742_2025}. Both approaches require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[p. 19, S. 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone. All implemented technical countermeasures must be structurally verified. Under Approach B, this verification directly maps to the testing of security functions defined by the EN IEC 62443 sub-standards \cite[p. 14]{prEN50742_2025}. 
+%
+%\subsection{EN IEC 62443 Series} 
+%\label{subsec:iec_62443} 
+%%% Foundational Requirements (FRs), Security Levels (SLs)...
+%Within the landscape of industrial cybersecurity, the international standard series 
+%IEC 62443 serves as the foundational framework for securing Industrial Automation 
+%and Control Systems \cite[p. 13]{IEC62443-3-3}. 
+%
+%
+%\textbf{IEC 62443-3-3} delineates the system-level security requirements, thereby bridging the gap between high-level organizational policies and technical implementation  \cite[p. 15]{IEC62443-3-3}. The primary objective of this standard is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[p. 6]{IEC62443-3-3}. 
+%
+%To achieve this objective, the standard establishes seven core pillars, referred to 
+%as Foundational Requirements (FRs), which define the essential technical capabilities 
+%a system must possess:
+%\begin{itemize}
+%	\item \textbf{FR 1: Identification and Authentication Control (IAC):} Ensures that all 
+%	users, software processes, and devices are uniquely identified and authenticated 
+%	before being granted access to the system \cite[p. 29]{IEC62443-3-3}. 
+%	\item \textbf{FR 2: Use Control (UC):} Monitors and restricts the privileges of 
+%	authenticated entities, ensuring they can only execute authorized actions 
+%	in accordance with the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
+%	\item \textbf{FR 3: System Integrity (SI):} Protects the system, applications, and data 
+%	from unauthorized or malicious modifications to guarantee the trustworthy 
+%	operation of OT components \cite[p. 50]{IEC62443-3-3}.
+%	\item \textbf{FR 4: Data Confidentiality (DC):} Safeguards sensitive information against 
+%	unauthorized disclosure both at rest and in transit across communication channels \cite[p. 57]{IEC62443-3-3}.
+%	\item \textbf{FR 5: Restricted Data Flow (RDF):} Segmentizes the industrial network into 
+%	defined security zones and conduits, limiting data communication to the absolute 
+%	necessary minimum to prevent lateral movement of threats \cite[p. 61]{IEC62443-3-3}.
+%	\item \textbf{FR 6: Timely Response to Events (TRE):} Mandates continuous security monitoring, 
+%	logging, and anomaly detection to facilitate rapid incident response and mitigation 
+%	in the event of a breach \cite[p. 65]{IEC62443-3-3}.
+%	\item \textbf{FR 7: Resource Availability (RA):} Ensures that the system remains operational and critical functions are maintained even when subjected to faults or 
+%	Denial-of-Service attacks \cite[p. 67]{IEC62443-3-3}.
+%\end{itemize}
+%
+%The fulfillment of these foundational requirements is evaluated through a granular 
+%metric known as Security Levels (SL), which quantify the system's resilience 
+%against various adversary profiles \cite[p. 16]{IEC62443-3-3}. These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
+%utilizing significant resources \cite[p. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[p. 26]{IEC62443-3-3}.
+%
+%
+%However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, I\textbf{EC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
+%\begin{itemize}
+%	\item \textbf{Practice 1: Security Management (SM):} Ensures that security activities are planned, documented, and governed throughout the entire product lifecycle \cite[Chapter:  Security Management]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 2: Specification of Security Requirements (SR):} Defines functional and non-functional security requirements based on product intent and threat scenarios \cite[Chapter: Specification of Security Requirements]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 3: Secure by Design (SD):} Mandates secure architecture principles, defense-in-depth strategies, and threat modeling during system design \cite[Chapter: Secure by Design]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 4: Secure Implementation (SI):} Focuses on secure coding standards, code reviews, and avoiding known software vulnerabilities \cite[Chapter: Secure Implementation]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 5: Security Verification and Validation Testing (SV):} Requires systematic security testing, including dynamic analysis, interface testing, and fuzzing prior to release \cite[Chapter: Security Verification and Validation Testing]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 6: Management of Security-Related Issues (DM):} Establishes processes for tracking, analyzing, and resolving identified vulnerabilities or defects \cite[Chapter:  Management of Security-Related Issues]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 7: Security Update Management (SUM):} Defines procedures for creating, testing, and distributing security patches to affected deployments \cite[Chapter: Security Update Management]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 8: Security Guidelines (SG):} Demands comprehensive documentation to enable end users to securely configure, deploy, and operate the component \cite[Chapter: Security Guidelines]{DIN_EN_IEC_62443_4_1_2018}.
+%\end{itemize}
+%
+%To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+%
+%Building upon these lifecycle practice, \textbf{IEC 62443-4-2} shifts the focus to the individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
+%To achieve this, the standard maps the seven Foundational Requirements (FRs) defined in the system-level framework directly onto four distinct component types: software applications, embedded devices, host 
+%devices, and network components \cite[p. 17]{IEC62443-4-2}. 
+%
+%Analogous to the system-level standard, the concrete technical specifications within IEC 62443-4-2 are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs)\cite[pp. 32]{IEC62443-4-2}. These CRs and REs are directly derived from the seven FRs, acting as the granular technical criteria that a component must satisfy to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. 
+%
+%For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as the network component's ability to enforce logical isolation, manage access control lists, and securely route or filter traffic at the physical IT/OT interface 
+%\cite[pp. 61]{IEC62443-4-2}. 
 
 

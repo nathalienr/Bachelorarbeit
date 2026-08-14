@@ -6,14 +6,20 @@
 This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
 
 
-
 \section{Cybersecurity} 
 \label{sec:cybersecurity_fundamentals} 
-%TODO was ist Cybersecurity
+
+Cybersecurity comprises the processes, best practices, and technology solutions used to protect critical systems, networks, and data from digital threats. Its primary objective is to prevent unauthorized access, data breaches, and operational disruptions \cite{microsoft2026cybersecurity}. The impact of cyberattacks extends beyond data loss. They can severely disrupt business operations, damage physical infrastructure, and cause significant economic harm. Therefore, effective cybersecurity requires multiple layers of protection across an organization's entire infrastructure \cite{ibm_cybersecurity}.
+
+In modern environments, the scope of cybersecurity goes beyond traditional IT networks. It explicitly includes cyberspace-enabled systems, such as industrial control systems and cyber-physical architectures. Fundamentally, cybersecurity organizes resources and structures to defend these assets against a wide range of occurrences, including intentional attacks, accidental events, and natural hazards \cite[p. 17]{835}. 
+
+To systematically address these challenges, the following subsections outline the foundational concepts of digital information security. These include the primary security goals, the definition of target assets, and the relationship between threats, vulnerabilities, and attack vectors.
+
+
 \subsection{Security Goals} 
 \label{subsec:security_goals} 
 
-Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the \textit{CIA (Confidentiality-Integrity-Availability ) triad} \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
+Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the CIA (Confidentiality-Integrity-Availability) triad \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
 
 \begin{itemize}
 	\item \textbf{Confidentiality:} Focuses on ensuring that sensitive data and information are strictly protected from unauthorized access or disclosure to unintended individuals, entities, and processes \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. In the specific context of IACS, the maintenance of authorized restrictions on access becomes paramount to secure proprietary information, data configurations, and core operational parameters from illicit exposure \cite[p. 23]{IEC62443-3-3}.
@@ -31,15 +37,31 @@ In practice, these primary goals do not operate in isolation. They often require
 \end{itemize}
 
 
-\subsection{Threats, Vulnerabilities and Attack Vectors} 
-\label{subsec:threats_vulnerabilities_risks} 
+\subsection{Assets and Attack Surfaces} 
+\label{subsec:assets_attack_surfaces}
 
-A \textbf{threat} constitutes a circumstance, an event, or a various sequence of events capable of adversely affecting or compromising operations, including an organization's mission, functions, reputation, or standing. Furthermore, threats can directly target physical facilities, assets, automation and control systems, or individuals. These adverse impacts are typically realized through specific malicious actions, such as unauthorized access to data, its destruction, unauthorized disclosure, data alteration, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
+In the context of cybersecurity, an \textbf{asset} represents any physical object, logical artifact, or information that holds value to an organization \cite[p. 85]{doCarmo2025} \cite[p. 5]{Wurm2022}. The compromise of an asset's cybersecurity properties can lead to significant damage scenarios \cite[p. 85]{doCarmo2025}. A comprehensive cybersecurity assessment requires a granular decomposition of a system into three primary asset categories:
+
+\begin{itemize}
+	\item \textbf{Hardware Assets:} This category encompasses physical components such as microcontrollers, printed circuit boards (PCBs), memory blocks, and physical communication interfaces.
+	\item \textbf{Software Assets:} This dimension includes the operating system, bootloaders, embedded firmware, communication protocol stacks, and specific application logic.
+	\item \textbf{Data Assets:} This group consists of sensitive information stored or processed by the system. Examples include configuration files, calibration data, cryptographic keys, and user credentials \cite[pp. 85]{doCarmo2025} \cite[p. 5]{Wurm2022} \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
+\end{itemize}
+
+Every asset possesses specific cybersecurity properties, primarily based on the CIA triad, which define its individual protection needs \cite[p. 5]{Wurm2022}.
+
+The \textbf{attack surface} of a system is defined as the union of all accessible code, interfaces, services, and protocols. It represents the sum of all externally visible actions and resources where unauthorized users can inject malicious inputs or attempt to compromise the system \cite[p. 1]{THEISEN201894} \cite[p. 80]{richier2011security}. Analyzing this surface is the starting point for mapping potential threats to the identified assets \cite[p. 80]{richier2011security}.
 
 
-A \textbf{vulnerability} represents a flaw in a system's design, implementation, or operation that can be exploited to corrupt system integrity \cite[p. 12]{prEN50742_2025}. Although vulnerabilities are categorized into distinct types, the exact probability of their malicious exploitation cannot be predicted. Crucially, vulnerabilities do not create new physical hazards on their own. However, their exploitation can compromise integrated protective measures, which necessitates a formal threat assessment \cite[p. 9]{prEN50742_2025}. To manage these latent risks, designers must adhere to a strict three-step mitigation hierarchy. First, present vulnerabilities that could cause hazardous situations must be eliminated entirely. Second, if complete elimination is technically unfeasible, the designer must actively mitigate the identified weakness. Finally, for any residual vulnerabilities, the information for use must provide the operator with detailed instructions for compensating countermeasures \cite[p. 14]{prEN50742_2025}.
+\subsection{Threats, Vulnerabilities, and Attack Vectors} 
+\label{subsec:threats_vulnerabilities_attack_vectors}
 
-An \textbf{attack vector} defines the specific method or means by which hackers gain unauthorized access to target systems in order to carry out a cyberattack. To ensure that no potential attack vectors are overlooked during the architectural analysis, a thorough, granular itemization of all hardware components, software components, and data types is required \cite[p. 2]{liebl2024analyzingattacksurfacethreats} \cite[p. 11]{liebl2024analyzingattacksurfacethreats}. Together, an organization's active attack vectors and its technical vulnerabilities constitute its total attack surface. In modern connected environments, this attack surface has continuously increased, exposing industrial assets to various common types of attack vectors utilized by adversaries, including:
+A \textbf{threat} constitutes a circumstance or event capable of adversely affecting an organization's operations, assets, or individuals. These adverse impacts are realized through malicious actions, such as unauthorized data access, system destruction, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
+
+A \textbf{vulnerability} represents a specific flaw or weakness in a system's design, implementation, or operation \cite[p. 12]{prEN50742_2025}. While vulnerabilities do not create hazards independently, their exploitation compromises integrated protective measures \cite[p. 9]{prEN50742_2025}. Consequently, designers must follow a strict mitigation hierarchy. Vulnerabilities must be eliminated, actively mitigated, or addressed through documented compensating countermeasures \cite[p. 14]{prEN50742_2025}.
+
+An \textbf{attack vector} defines the specific method or path an adversary uses to exploit a vulnerability. Attack vectors bridge the gap between theoretical threats and practical exploitation \cite[p. 80]{richier2011security}. To ensure no potential vector is overlooked, all hardware, software, and data assets must be systematically analyzed \cite[p. 2, p. 11]{liebl2024analyzingattacksurfacethreats}. In modern connected environments, common attack vectors include:
+
 \begin{itemize}
 	\item Third-party and supply chain compromises
 	\item Denial-of-Service (DoS) attacks
@@ -49,40 +71,31 @@ An \textbf{attack vector} defines the specific method or means by which hackers 
 	\item Injection and execution of malware
 	\item Physical attacks on the infrastructure 
 \end{itemize}
-Ultimately, the successful exploitation of these vectors allows attack actors to disable or destroy critical operational assets, which subsequently leads to significant business and economic disruptions \cite{IBM_AttackVector}.
-%TODO
-%\subsection{Assets and Attack Surfaces} 
-%\label{subsec:assets_attack_surfaces}
-%% Allgemeine Definition von Hardware-, Software- und Data-Assets sowie der Angriffsfläche...
-%
-%\subsection{Threats, Vulnerabilities, and Attack Vectors} 
-%\label{subsec:threats_vulnerabilities_attack_vectors}
-%% Wie nutzen Bedrohungen Schwachstellen über Vektoren aus...
-%
-%
+
+Ultimately, the successful exploitation of an attack vector allows adversaries to compromise critical assets \cite{IBM_AttackVector}. 
+
 
 
 
 \section{Risk-Based Security Engineering} 
 \label{sec:risk_based_security_engineering} 
 
-
 \subsection{Threat Analysis and Risk Assessment (TARA)} 
 \label{subsec:tara} 
 
-Threat Analysis and Risk Assessment (TARA) serves as a systematic methodology in cybersecurity to identify potential threats, assess associated risks, and formulate countermeasures to mitigate them to an acceptable level \cite[p. 37]{doCarmo2025}. Rather than relying on guesswork, TARA functions as a central tool to methodically derive concrete Cybersecurity Goals \cite{microtool_tara_2026}. As part of overall risk management, it plays a critical role in ensuring regulatory compliance and producing secure products. The process is universally applicable across domains. However, conducting a TARA requires deep knowledge of the target system combined with specialized cybersecurity expertise. While it uncovers vulnerabilities and weaknesses, a TARA cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}.
-%TODO: what can? Dein Punkt ist absolut richtig an der Stelle. Ggf. hinzufügen, dann es das nicht gibt also in dem Sinne auch kein Mangel der TARA ist.
+Threat Analysis and Risk Assessment (TARA) is a systematic methodology used to identify potential threats, assess associated risks, and formulate countermeasures \cite[p. 37]{doCarmo2025}. It functions as the central tool to methodically derive concrete cybersecurity goals instead of relying on guesswork \cite{microtool_tara_2026}. A comprehensive TARA systematically investigates all possible attack vectors and adversary intentions targeting a specific system \cite[p. 33, 35]{Wurm2022}.
 
-Throughout the system lifecycle, TARA is implemented iteratively across four distinct phases \cite[p. 40]{doCarmo2025}. An initial TARA occurs during early requirements engineering to evaluate baseline risks and define high-level security goals for the architecture. Before implementation begins, a detailed development TARA identifies component-level risks or adapts existing assessments for reused parts. During production, TARA evaluates manufacturing environments to prevent introducing vulnerabilities into the physical product. Finally, post-release TARAs are triggered by software updates or newly discovered vulnerabilities to continuously keep the risk profile up to date \cite[p. 40]{doCarmo2025}.
+While a TARA successfully uncovers vulnerabilities, it cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}. However, this is not a shortcoming of the methodology itself. No system can provide absolute security. This limitation arises from human uncertainty, system life cycle dynamics, and practical constraints regarding cost, schedule, and feasibility \cite[p. 31]{ross2022engineering}.
 
-The general workflow executes a sequential multi-step process from Item Definition and Asset Identification to Threat Analysis, Impact Rating, Feasibility Assessment, Risk Determination, and Risk Treatment. Within this context, a threat describes a potential event violating a cybersecurity property (Confidentiality, Integrity, or Availability), whereas a vulnerability represents a concrete weakness in design or implementation enabling that threat \cite{microtool_tara_2026}.
+In cyber-physical environments, TARA fundamentally differs from traditional Hazard Analysis and Risk Assessment (HARA). While functional safety (HARA) focuses on random hardware failures to protect humans from the system, cybersecurity (TARA) addresses intentional, malicious attacks to protect the system from human adversaries. Furthermore, safety risks are typically static after development. In contrast, security risks require continuous reassessment due to a constantly evolving threat landscape \cite[p. 70]{Wurm2022}.
 
-In practice, these workflow steps structure the primary operational domains of the assessment \cite[p. 47, 49]{doCarmo2025}. First, Asset Identification determines system assets, their required CIA properties, and prospective damage scenarios to establish an initial impact rating \cite[p. 46, 49]{doCarmo2025}\cite{microtool_tara_2026}. Next, Threat Scenario Analysis defines potential attack vectors alongside specific attack paths, which detail the sequential steps an adversary must execute \cite[p. 46]{doCarmo2025}\cite{microtool_tara_2026}. Because no single threat source is comprehensive, team brainstorming supported by catalogs and the \hyperref[subsec:stride]{STRIDE} methodology offers an efficient approach to threat identification \cite[p. 135, 137]{doCarmo2025}. Subsequently, Risk Evaluation combines the calculated impact ratings with attack feasibility metrics to derive overall risk levels \cite[p. 47, 49]{doCarmo2025}\cite{microtool_tara_2026}. Finally, the Risk Treatment Decision determines final Cybersecurity Controls, Goals, and Claims to effectively reduce identified risks \cite[p. 37, 49]{doCarmo2025}\cite{microtool_tara_2026}.
+Consequently, TARA is implemented iteratively across the entire system lifecycle. Initial assessments define high-level security goals during early requirements engineering. Detailed assessments identify component-level risks during development and production. Finally, post-release TARAs continuously update the risk profile in response to new vulnerabilities or software updates \cite[p. 40]{doCarmo2025}.
+
+The general TARA workflow executes a sequential multi-step process \cite[p. 47, 49]{doCarmo2025}. First, \textit{Asset Identification} determines the system assets, their required security properties, and potential damage scenarios \cite[p. 46, 49]{doCarmo2025}. Next, \textit{Threat Scenario Analysis} maps out potential attack paths using frameworks like the \hyperref[subsec:stride]{STRIDE} methodology \cite[pp. 46, 135]{doCarmo2025}. \textit{Risk Evaluation} then combines the impact of a successful attack with its technical feasibility to calculate the overall risk level \cite[p. 47, 49]{doCarmo2025} \cite[p. 49]{Wurm2022}. Finally, the \textit{Risk Treatment} phase determines the final cybersecurity controls required to mitigate the identified risks effectively \cite[p. 37, 49]{doCarmo2025} \cite{microtool_tara_2026}.
 
 
 \subsection{STRIDE Threat Model} 
 \label{subsec:stride} 
-%TODO: überprüfen ob es eine Methode ist? oder eine Klassifizierung von Bedrohungen/Sicherheitsrisiken?
 
 The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
 
@@ -124,8 +137,6 @@ To systematically analyze these threats, Table \ref{tab:stride_mapping} illustra
 
 As shown in Table \ref{tab:stride_mapping}, the STRIDE threat categories represent the direct opposite of fundamental security objectives. By systematically evaluating system components against these paired relationships, threat lists can be derived to identify potential attacker goals and define required security controls \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
 
-
-
 \subsection{Risk Evaluation} 
 \label{subsec:risk_evaluation} 
 
@@ -151,9 +162,6 @@ Complementarily, the feasibility evaluation ($F$) determines the probability of 
 \end{itemize}
 
 For the final evaluation, assets, threat scenarios, attack paths, and resulting damage scenarios are combined into a structured matrix \cite[p. 180]{doCarmo2025}. By mapping the discrete impact ratings against the corresponding attack feasibility levels in a standardized risk matrix, the final numerical risk value is calculated. For instance, a damage scenario categorized with a \textit{moderate} impact rating and a \textit{high} attack feasibility yields a resulting risk value of three \cite[p. 180]{doCarmo2025}. Depending on specific institutional requirements and risk tolerance thresholds, individual organizations can make tailored adjustments to the underlying risk matrix structures \cite[p. 182]{doCarmo2025}.
-
-
-
 
 \subsection{Risk Treatment Strategies} 
 \label{subsec:risk_treatment_strategies} 
@@ -202,11 +210,15 @@ Even after implementing technical controls, a residual risk, may remain high. Re
 \section{Security Testing Approaches}
 \label{sec:security_testing_approaches}
 
-Functional testing verifies whether a System Under Test (SUT) fulfills its specified primary functions. In contrast, non-functional testing evaluates aspects such as performance, usability, and security. Ensuring software security requires dedicated effort during development to identify vulnerabilities and implement effective protective measures. Security testing serves as a primary method to uncover these weaknesses and verify the effectiveness of protective measures \cite[p. 291]{tauqeer2021analysis}.
-%TODO --> security kann durchaus funktional sein, bei einer Firewall zum Beispiel, weil security die Funktion des Produktes ist.
+Traditional software engineering often classifies security purely as a non-functional requirement, alongside performance and usability \cite[p. 291]{tauqeer2021analysis}. However, this strict distinction blurs significantly for security-centric components. When the primary purpose of a product is to provide protection, security mechanisms constitute the core functional requirements of the system. In these instances, the security architecture must operate equivalently to primary business processes, providing dedicated security functions and services to fulfill specified protection goals \cite[p. 61]{Barz2025}. 
 
+Consequently, ensuring software security requires dedicated testing efforts that bridge both functional and non-functional paradigms. Security testing activities are generally divided into functional security testing and security vulnerability testing. 
 
-Software security testing activities are divided into functional security testing and security vulnerability testing. Functional security testing verifies the correct operation of planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Vulnerability testing aims to discover unaddressed design flaws and implementation bugs \cite[p. 8]{richier2011security}. A comprehensive testing strategy must combine both approaches to validate security features while simulating realistic attack scenarios \cite[p. 81 f]{1341418}.
+Functional security testing verifies the correct operation of explicitly planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Test cases for this approach can be derived systematically from security requirements, similar to traditional use-case-based functional testing \cite[p. 56]{JOT:issue_2003_01/column6}. This helps verify that the implemented functional architecture correctly addresses the defined security demands \cite[p. 61]{Barz2025}. 
+
+In contrast, vulnerability testing aims to discover unaddressed design flaws, implementation bugs, and unexpected system behavior under duress \cite[p. 8]{richier2011security}. It utilizes misuse cases to simulate realistic attacker behavior \cite[p. 56]{JOT:issue_2003_01/column6}. For example, while standard functional testing verifies that a system handles ordinary user requests, security testing employs load and stress testing to validate anti-Denial-of-Service (DoS) capabilities against malicious request flooding \cite[p. 56, 60]{JOT:issue_2003_01/column6}.
+
+Ultimately, a comprehensive testing strategy must combine both approaches to validate specified security features while simultaneously evaluating the system's resilience against real-world attack scenarios \cite[pp. 81]{1341418}.
 
 \subsection{Testing Methodologies}
 \label{subsec:testing_taxonomy}
@@ -258,9 +270,8 @@ Combining both static approaches increases overall vulnerability detection effec
 \textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
 
 
-\subsection{Vulnerability Assessment, Robustness, and Penetration Testing}
+\subsection{Vulnerability Assessment and Robustness Testing}
 \label{subsec:vulnerabilities_fuzzing_pentesting}
-
 
 A comprehensive testing framework requires evaluating feature functionality, performance, and robustness \cite[p. 48]{richier2011security}:
 
@@ -276,61 +287,30 @@ A comprehensive testing framework requires evaluating feature functionality, per
 
 
 
-
-%\section{Security Testing Approaches}
-%\label{sec:security_testing_approaches}
-%
-%\subsection{Testing Methodologies}
-%\label{subsec:testing_methodologies}
-%% Black-Box, White-Box, Grey-Box...
-%
-%\subsection{Static and Dynamic Analysis}
-%\label{subsec:static_dynamic_analysis}
-%% SAST, DAST, SCA...
-%
-%\subsection{Vulnerability Assessment and Robustness Testing}
-%\label{subsec:vulnerabilities_fuzzing_pentesting}
-%% Pentesting, Fuzzing, Scanning...
-%
-
-
-
-
-
-
-
-
-
 \section{Industrial Gateways in IT/OT Environments} 
 \label{sec:industrial_gateways} 
 
-Industrial gateways represent crucial architectural components that bridge the gap between distinct network environments by integrating both hardware and software functionalities. Their primary objective is to enable seamless communication between heterogeneous systems operating on different communication protocols. To achieve this, a gateway intercepts incoming data packets from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[pp. 277]{Gsell2026}.
-%TODO Evtl. interessant hier zu erwähnen, dass Gateways auch quasi protokoll freie Kommunikation Binär/Analog in ein Bussystem einbinden kann --> so wie wir das ja machen (nur binär in unserem Fall).
-A gateway can operate across all layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. In the context of this thesis, industrial gateways specifically facilitate the transition between Information Technology (IT) networks, typically dominant in layers 4 to 7, and Operational Technology (OT) networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints. These include differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
-To ensure efficient translation, the protocol implementation and mapping generally occur at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
+\subsection{IT/OT Convergence and Interfaces} 
+\label{subsec:it_ot_interfaces}
 
+Traditionally, Operational Technology (OT) environments, comprising the hardware and software used to monitor and control physical processes, operated as isolated, proprietary networks. These systems were managed entirely independently of Information Technology (IT) networks, which handle the electronic storage, calculation, and transport of business data \cite[p. 2]{EHIE2020103166} \cite[p. 199]{8586807}. 
 
+However, the rise of Industry 4.0 has transformed these isolated environments into interconnected architectures \cite[pp. 14]{Babel2024}. IT/OT convergence defines this strategic integration, where systems designed for monitoring and controlling physical machinery are connected with data-centric computing systems \cite[p. 2]{EHIE2020103166}. The primary driver for this convergence is the necessity to create a single, synergized view of enterprise operations, ensuring that the right information flows from a physical sensor to a digital application in real-time \cite[p. 4]{EHIE2020103166}.
 
-\subsection{IT/OT Interfaces} 
-\label{subsec:it_ot_interfaces} 
-
-The increasing exchange of data across industrial systems requires interfaces between Information Technology (IT) and Operational Technology (OT). While IT systems are primarily designed for the electronic storage, calculation, and transport of data, OT comprises a combination of hardware and software components explicitly utilized to monitor and control the performance of physical devices, machines, plants, and infrastructures. Operating predominantly within manufacturing and industrial environments, OT relies heavily on Industrial Control Systems, such as Supervisory Control and Data Acquisition (SCADA) systems. The increasing integration of standardized network technologies has transformed traditionally isolated and proprietary OT environments into interconnected architectures \cite[p. 1]{8586807}.
-%TODO Gründe
-
-Typical representatives of the IT domain include business-oriented software applications such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems. Conversely, the OT domain encompasses physical components on the shop floor, such as machines, scales, scanners, and sensors, along with the integrated control software that orchestrates them, such as Manufacturing Execution Systems (MES) \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
-
-To systematically structure industrial environments, the architectural composition of OT can be categorized into four fundamental elements or functional levels \cite{hwi_ot_definition}:
+To systematically understand this demand, industrial architectures can be categorized into four functional levels \cite{hwi_ot_definition}:
 \begin{enumerate}
-	\item \textbf{Process Level:} This level consists of physical sensors and actuators that interact directly with the physical environment to perform actual mechanical work
-	\item \textbf{Control Level:} This layer comprises Programmable Logic Controllers (PLCs) and automated controllers that execute the underlying process logic and regulate physical operations in real-time
-	\item \textbf{Supervisory/Operation Level:} This level involves Human-Machine Interfaces (HMIs) and SCADA systems, which allow human operators to monitor system states visually, analyze anomalies, and intervene manually when necessary
-	\item \textbf{Operation IT / Data Layer:} Within this domain, raw OT data is aggregated, processed, and structured to make it valuable and actionable for higher-level applications %TODO das ist der Grund für zunehmende Verbindung IT & OT
+	\item \textbf{Process Level:} Physical sensors and actuators interacting directly with the environment to perform mechanical work.
+	\item \textbf{Control Level:} Programmable Logic Controllers (PLCs) executing process logic and regulating physical operations in real-time.
+	\item \textbf{Supervisory/Operation Level:} Human-Machine Interfaces (HMIs) and SCADA systems allowing operators to monitor states and intervene manually.
+	\item \textbf{Operation IT / Data Layer:} The aggregation layer where raw OT data is structured and forwarded to higher-level IT applications, such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
 \end{enumerate}
 
-The technological convergence of IT and OT yields substantial operational and economic advantages. These advantages include enhanced transcy through the real-time acquisition of process data, the implementation of predictive maintenance strategies, the enablement of remote operation and maintenance, and comprehensive data-driven process optimization. Despite these benefits, IT/OT convergence introduces significant challenges, primarily because both domains operate under fundamentally conflicting requirements and distinct paradigms. These differences manifest across various dimensions, particularly regarding security priorities, protocols, and lifecycle management \cite{hwi_ot_definition}.
+This Data Layer represents the critical intersection where operational systems become direct extensions of information systems \cite[p. 4]{EHIE2020103166}. Converging these two domains yields substantial economic advantages, primarily through enhanced process transparency, predictive maintenance strategies, and data-driven optimization \cite{hwi_ot_definition}. 
+
+Despite these benefits, the physical and software integration of legacy OT equipment with modern IT networks introduces significant engineering and organizational friction \cite{orise2025itotconvergence}. This friction arises because both domains operate under fundamentally conflicting paradigms. Table \ref{tab:it_ot_comparison} summarizes these core differences.
 
 \begin{table}[htbp]
-	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments \cite[p. 1]{8586807} \cite{hwi_ot_definition}}
+	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807}}
 	\label{tab:it_ot_comparison}
 	\centering
 	\begin{tabularx}{\textwidth}{l X X}
@@ -338,7 +318,7 @@ The technological convergence of IT and OT yields substantial operational and ec
 		\textbf{Characteristic} & \textbf{Information Technology (IT)} & \textbf{Operational Technology (OT)} \\ 
 		\midrule
 		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
-		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality \\ \addlinespace
+		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability (PAIN/CIA) & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality (AIC) \\ \addlinespace
 		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
 		Protocol Examples & TCP/IP, \newline HTTP(S),\newline SQL & Modbus, \newline Profinet \\ \addlinespace
 		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
@@ -346,297 +326,90 @@ The technological convergence of IT and OT yields substantial operational and ec
 	\end{tabularx}
 \end{table}
 
-The attributes summarized in Table \ref{tab:it_ot_comparison} highlight the fundamental misalignment between the two domains, which complicates seamless interface design. The most critical divergence lies within the prioritization of the CIA triad (Confidentiality, Integrity, and Availability). In IT paradigms, data confidentiality and robust authentication mechanisms occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments prioritize maximum availability and deterministic real-time execution, as any latency or system interruption could lead to physical damage, production downtime, or severe safety hazards on the shop floor \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
+The most critical divergence lies within the prioritization of security objectives. In IT paradigms, data confidentiality and privacy occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments operate under the AIC triad, prioritizing maximum availability and deterministic real-time execution above all else \cite[p. 199]{8586807}. Any latency or system interruption on the shop floor could lead to physical damage, severe safety hazards, or costly production downtime \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
 
-This divergence further dictates how software maintenance and network communication are handled. While IT infrastructures rely on frequent, rapid security patching and standard communication protocols (such as HTTP or SQL), OT infrastructures adopt a highly conservative update policy. Because OT systems require rigorous validation and recertification to guarantee absolute operational safety, patches are applied rarely and only during planned maintenance windows. Furthermore, the underlying network communication in OT utilizes deterministic, low-overhead protocols like Modbus or Profinet, which lack built-in security features such as encryption \cite{hwi_ot_definition}.
-
-%TODO ganze Seite ist schon richtig gut! Updates sind ein tolles Beispiel. Jeweilige Motivation für unterschiedliches Verhalten bei IT/OT ggf. noch mehr in den Vordergrund stellen.
-
-
-\subsection{Attack Surface and Asset Identification} 
-\label{subsec:attack_surface_asset_identification} 
-%TODO eher allgemein über Assets und Attack Surfaces schreiben und nicht Einordnen in den Kontext eines Industrial Gateways
-For a systematic assessment of Industrial Internet of Things components such as industrial gateways, a granular decomposition of the target architecture into hardware, software, and data assets throughout the entire product life cycle is required \cite[pp. 1]{liebl2024analyzingattacksurfacethreats}. 
-%TODO nicht über Industrial Internet of Things components schreiben, sondern, wenn überhaupt über industrial gateways
-
-The hardware asset dimension comprises the physical enclosure. It may include tamper protection features, alongside the underlying printed circuit boards (PCB) and core microprocessors or microcontrollers. These processing units often embed specialized security mechanisms like Trusted Execution Environments, True Random Number Generators and cryptographic accelerators. Furthermore, hardware assets encompass volatile and non-volatile memory components such as SRAM and EEPROM structures, as well as removable storage like SD cards or USB sticks \cite{liebl2024analyzingattacksurfacethreats}. Dedicated secure cryptoprocessors, including Trusted Platform Modules and Secure Elements, are part of this domain, together with connectivity structures and various physical input and output elements \cite[p. 3]{liebl2024analyzingattacksurfacethreats}.
-
-The software asset dimension is formed by the firmware providing low-level hardware access, the underlying operating system or real-time operating system, and software-based cryptographic libraries. It also contains integrated communication protocol stacks for local, internet, or automation environments, such as TCP/IP, PROFINET, or OPC UA, alongside local or remote smart services. At the top of this stack sits the specific application logic responsible for tasks like data pre-processing or controlling actuators \cite[p. 4]{liebl2024analyzingattacksurfacethreats}. 
-
-All these components interact with various data assets that must be identified, which include the executable device code itself, configuration data, specific application data from sensor readings, diagnostic log data, and essential authentication data \cite[p. 4]{liebl2024analyzingattacksurfacethreats}.
-The overall attack surface of the device is defined by the sum of all entry points and attack vectors that target these individual components throughout the life cycle phases \cite[p. 1]{liebl2024analyzingattacksurfacethreats}. 
-
-On the hardware level, chip-level vectors include the malicious insertion of hardware Trojans during design or production, physical data manipulation, and fault injection e.g. via voltage glitching \cite[p. 8]{liebl2024analyzingattacksurfacethreats}.
-On the PCB level, vectors focus on design cloning. Device-level physical vectors involve general sabotage.
-The software and application attack surface is primarily driven by vulnerabilities within the embedded firmware components, such as flaws in network stacks that allow remote code execution or denial of service. Application-layer entries include input validation flaws like SQL injection, typical web application vulnerabilities, data injection via spoofed sensor inputs \cite[p. 8]{liebl2024analyzingattacksurfacethreats}. 
-The network interface exposes the device to classic automation protocol weaknesses that lack native security controls, enabling man-in-the-middle and replay attacks, distributed denial of service (DDoS) attempts, and port scans \cite[p. 9]{liebl2024analyzingattacksurfacethreats}.
+This reversed priority directly dictates the motivation behind differing lifecycle and maintenance strategies. IT infrastructures rely on frequent, rapid security patching to close vulnerabilities as quickly as possible. OT operators, however, view changes to a stable system as risky and costly \cite{orise2025itotconvergence}. Because industrial controllers require rigorous validation to guarantee absolute operational safety, operators fear that software updates might induce unexpected behavior or system crashes. Consequently, patches are applied rarely and strictly during planned maintenance windows. Furthermore, the underlying network communication in OT frequently utilizes legacy, low-overhead protocols that lack built-in security features such as encryption, significantly exacerbating the risk at the IT/OT interface once these networks are converged \cite{hwi_ot_definition}.
 
 
 
 
-%
-%
-%
-%---------------------
-%6.1 Definition of Asset
-%The definition of an asset can be as simple as an object that has value, as defined
-%in [1]. For a TARA according to ISO/SAE 21434, the asset is something that has
-%value and that has cybersecurity properties associated with it, such as confidentiality,
-%integrity, and availability. The compromise of a cybersecurity property of an asset
-%as a result of a cybersecurity attack can lead to one or more damage scenarios. In
-%principle, any physical object or logical artifact such as data can be considered an
-%asset. The ISO/SAE 21434 standard does not provide a catalog of assets, nor does it
-%restrict what can be an asset. Depending on the scope of a TARA, the assetmay be of a
-%different nature. For example, when analyzing embedded devices, typical assets may
-%include communication interfaces such as CAN or Ethernet, debugging interfaces,
-%internal memory blocks, software components such as the bootloader or software
-%applications, personal or sensitive data stored in the device, sensors, actuators, and
-%others.Whenperforming aTARAon a vehicle backend architecture ormanufacturing
-%plant, assets may include software applications, data on cell phones, databases on
-%backend servers, payment information, and so on.
-%6.2 Asset Identification
-%According to ISO/SAE 21434, asset identification can be based on a variety of
-%activities or sources, such as analyzing the item definition, performing an impact
-%rating, deriving assets from threat scenarios, or using predefined catalogs (see
-%[RQ-15-02] on [1]). In this section, we focus on analyzing the item definition in
-%detail, which is the most comprehensive and natural way to identify assets. However,
-%it is important to note that these activities and sources are not mutually exclusive,
-%and new assets can be identified during subsequent steps of the TARA process, such
-%as mapping threats or defining damage scenarios. Ultimately, the goal is to ensure a
-%complete and thorough TARA that includes all relevant assets, threats, and risks.
-%In our experience, the most effective way to identify assets is through discussion
-%with the engineering team and joint analysis of a system architecture diagram of
-%the item. The analysis can begin with a functionality-based approach. The major
-%functions of the item can be identified, along with their components, and the analysis
-%can begin by essentially answering the questions what could happen if the function or
-%component is compromised? and how can the function/component be compromised?
-%The asset identification working group may typically include representatives from
-%the following areas:
-%• Cybersecurity: The cybersecurity team, composed of one or more cybersecurity
-%architects (or cybersecurity engineers, or similar cybersecurity-role names) coordinates
-%the TARA activities and provides expertise on asset identification. The
-%cybersecurity team is the main actor involved in the discussion about whether an
-%asset is important or not from a cybersecurity perspective and for the scope of the
-%TARA (e.g., if it can be compromised as thought, if there are damage scenarios,
-%if the asset and cybersecurity property are in the scope of the TARA)
-%• Systems Engineering: In cybersecurity analysis, it is essential to understand the big
-%picture, i.e., how all the parts of the item under consideration interact. A systems
-%engineer also provides useful information about the item’s operating environment.
-%This is especially important for reuse items, where a generic item or an item from
-%another project is applied to a new project.
-%• Hardware Architecture: When performing TARAfor embedded devices, hardware
-%design engineers can provide useful insight into the overall hardware design and
-%interfaces of the device.
-%• Networking Engineering: In today’s connected vehicles, or when analyzing IT/OT
-%systems in amanufacturing plant, the networking ecosystem plays a very important
-%role. Network architects can help identify data flows and relevant network devices
-%in the vehicle or plant.
-%• Software Architecture: The software team must be involved in a TARA to provide
-%information about the software parts of the item. We emphasize that an in-depth
-%analysis of the internal software development may not be necessary due to the
-%simple fact that for cybersecurity, we analyze systems that are already working
-%in the field. This means that the software is already compiled and running on the
-%system. Typical relevant information for a TARA is the high-level architecture and
-%distribution of software components, e.g., if there are configuration files stored separately
-%from the binaries, if one or more bootloaders are running, if virtualization
-%technologies are used, or how the software updates work.
-%A reasonable approach when involving different areas and teams is to divide the
-%analysis into groups of experts because typically not all components are owned by
-%the same people. For example, when analyzing an embedded device such as a head
-%unit, the cybersecurity team leading the TARA can identify relevant functional components
-%such as general interfaces, SoC for communication, SoC for video analysis,
-%and so on, and invite the responsible people to different interview sessions. The asset
-%identification steps with the support team are an iterative process until a consensus
-%is reached between the cybersecurity team and the entire team.We depict these steps
-%in Fig. 6.21. \cite[pp. 85]{doCarmo2025} 
-%
-%Im Mittelpunkt des Risikomanagements stehen die Assets des betrachteten Systems.
-%Nach ISO 21434 kann ein kompromittiertes Asset Schäden für dessen Besitzer hervorrufen.
-%Zu den Assets bzw. schützenswerten Gütern zählen unterschiedliche materielle
-%und immaterielle Bestandteile des Systems, etwa sensible Informationen, Fahrzeugfunktionen,
-%Softwarekomponenten, Hardwarekomponenten, Infrastrukturkomponenten
-%und Kommunikationsverbindungen. Die verschiedenen, standardisierten
-%Vorgehensmodelle für die Risikobewertung, s. [12, 24] und [7], legen für die einzelnen
-%Assets ihre jeweiligen Security-Eigenschaften wie Vertraulichkeit, Integrität und Verfügbarkeit
-%fest und definieren dadurch ihren Schutzbedarf.
-% \cite[p. 5]{Wurm2022}
-%
 
-%
-%\section{Industrial Gateways in IT/OT Environments} 
-%\label{sec:industrial_gateways}
-%
-%\subsection{IT/OT Convergence and Interfaces} 
-%\label{subsec:it_ot_interfaces}
-%% Warum wachsen die Welten zusammen, CIA vs. AIC...
-%
-%\subsection{Architectural Role of Industrial Gateways} 
-%\label{subsec:architectural_role_gateways}
-%% OSI-Layer, Protokollübersetzung, neutral beschrieben...
+\subsection{Architectural Role of Industrial Gateways} 
+\label{subsec:architectural_role_gateways}
+
+Industrial gateways represent crucial architectural components that bridge this gap between distinct network environments. Their primary objective is to enable seamless communication between the heterogeneous systems of the IT and OT domains. 
+
+To achieve this, a gateway intercepts incoming data from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[p. 277]{Gsell2026}.
+Beyond complex protocol translation, gateways can integrate raw binary or analog signals from basic physical sensors into bus systems for further network processing \cite[p. 132]{Babel2024}\cite{kleinbongartz2008uebersetzer} .
+%TODO Evtl. interessant hier zu erwähnen, dass Gateways auch quasi protokoll freie Kommunikation Binär/Analog in ein Bussystem einbinden kann --> so wie wir das ja machen (nur binär in unserem Fall).
+
+A gateway can operate across various layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between IT networks, which are typically dominant in layers 4 to 7, and OT networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
+
+To ensure efficient translation, the protocol mapping generally occurs at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
+
 
 \section{Regulatory and Standardization Framework} 
 \label{sec:regulatory_framework} 
 
-%TODO Das ganze Kapitel tendiert für mich auch wieder sehr zu einer Einordnung und Bewertung der Maschinenrichtlinie bzw. deren Änderungen --> was ich gut finde weil das eine Leistung von dir im Rahmen dieser Arbeit ist, dass du das betrachtest. Damit ist es aber nicht "stumpfer" Teil der Grundlagen sondern gehört in ein extra Kapitel/Hauptteil --> klare Unterscheidung zwischen Grundlagen und Einordnung mit Eigenanteil, evtl. Inhalte für das Kapitel Vorgehen verwenden
-
-%1. Was davon sind Grundlagen?
-%
-%Als Grundlagen gelten Inhalte, die den Stand von Recht, Normung und Technik neutral und reproduzierbar beschreiben, zum Beispiel:
-%
-%Inkrafttreten und Anwendungsbeginn der Maschinenverordnung
-%Unterschied zwischen EU-Richtlinie und EU-Verordnung
-%Aufbau und Anwendungsbereich der Verordnung
-%allgemeine Beschreibung von Anhang III, Abschnitt 1.1.9 und 1.2.1
-%Zweck und Aufbau von prEN 50742
-%Beschreibung der Ansätze A und B
-%Aufbau der IEC-62443-Reihe
-%Definition der Foundational Requirements und Security Levels
-%Unterschied zwischen IEC 62443-3-3, IEC 62443-4-1 und IEC 62443-4-2
-%
-%Diese Inhalte beantworten die Frage:
-%
-%Welche regulatorischen und normativen Konzepte existieren?
-%
-%Das ist klassischer Grundlagenstoff.
-%
-%2. Was ist bereits Eigenleistung?
-%
-%Eigenleistung beginnt dort, wo du die Quellen für deinen konkreten Untersuchungsgegenstand interpretierst, vergleichst oder operationalisierst. Dazu gehören insbesondere:
-%
-%die Bewertung, welche Vorschriften für industrielle Gateways relevant sind
-%die Einordnung eines Gateways als System, Komponente oder Netzwerkkomponente
-%die Auswahl relevanter IEC-62443-Anforderungen
-%die Verknüpfung von MVO, prEN 50742 und IEC 62443
-%die Ableitung technischer Security-Funktionen
-%die Übersetzung abstrakter Anforderungen in überprüfbare Testanforderungen
-%die Begründung, warum bestimmte physische IT/OT-Schnittstellen getestet werden
-%die Zuordnung von Normanforderungen zu Testmethoden
-%eine Gap-Analyse zwischen regulatorischen Anforderungen und dem bestehenden Testprozess
-%
-%Diese Inhalte beantworten die Frage:
-%
-%Welche Bedeutung haben die Regelwerke für den betrachteten Gateway und wie werden daraus Tests abgeleitet?
-%
-%Das ist klarer Eigenanteil.
-
-
 \subsection{Regulation (EU) 2023/1230}
 \label{subsec:eu_machinery_regulation}
 
-With the publication of Regulation (EU) 2023/1230 (MVO) on June 29, 2023, in the Official Journal of the European Union, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
+With the publication of Regulation (EU) 2023/1230 in the Official Journal of the European Union on June 29, 2023, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation, commonly referred to as the Machinery Regulation (MVO), replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
 
-The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \cite[p. 32]{https://doi.org/10.1002/citp.202501012} \cite[p. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[p. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as  ``substantial modification'', formally clarifying when an alteration to an existing machine turns an operator legally into a manufacturer subject to full conformity assessment procedures \cite[p. 25]{EU2023_1230}.
+The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \cite[p. 32]{https://doi.org/10.1002/citp.202501012} \cite[p. 15]{EU2023_1230}. This creates a standardized, uniform legal framework across the Union without national leeway for interpretation \cite[p. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as ``substantial modification'', formally clarifying when an alteration to an existing machine legally turns an operator into a manufacturer subject to full conformity assessment procedures \cite[p. 25]{EU2023_1230}.
 
-A key driver for this overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the Regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, demonstrating that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
+A key driver for this legislative overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the Machinery Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, establishing that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
 
-This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions, establishing that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \cite[p. 42 f]{EU2023_1230}. Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \cite[p. 19]{EU2023_1230}.
+This digitalization shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfills safety functions. This establishes that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \cite[p. 42 f]{EU2023_1230}. 
 
-Specific requirements apply to the components under Regulation (EU) 2023/1230 \cite[pp. 44]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
+Specific cybersecurity requirements apply to the components under Regulation (EU) 2023/1230 \cite[p. 44]{EU2023_1230}. Annex III, Section 1.1.9 formulates explicit provisions regarding protection against corruption:
 \begin{itemize}
-	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[p. 48]{EU2023_1230}
-	\item Hardware components transmitting signals or data relevant to safety-related software must be adequately protected against accidental or intentional corruption 
-	\item Software and data essential for compliance with safety requirements must be identified as such and adequately protected against corruption
-	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[p. 49]{EU2023_1230}
+	\item The connection of any external device to the machine must not lead to a hazardous situation through any function of the connected device or via a remote access device \cite[p. 48]{EU2023_1230}.
+	\item Hardware components transmitting signals or data relevant to safety-related software must be adequately protected against accidental or intentional corruption.
+	\item Software and data essential for compliance with safety requirements must be identified as such and adequately protected against corruption.
+	\item The machine must collect evidence of legitimate or illegitimate interventions in the relevant hardware, software, or its configuration \cite[p. 49]{EU2023_1230}.
 \end{itemize}
 
-Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems, requiring them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[p. 49]{EU2023_1230}.
+Complementarily, Annex III, Section 1.2.1 addresses the safety and reliability of control systems. It requires them to be designed to withstand reasonably foreseeable malicious attempts by third parties that could lead to hazardous situations. A failure or disruption in data transmission must not cause a hazardous situation \cite[p. 49]{EU2023_1230}.
 
-Furthermore, Article 10(2) \cite[p. 18]{EU2023_1230} and Annex IV Part A \cite[p. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include the risk assessment, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[p. 83]{EU2023_1230}. Upon a reasoned request from competent national authorities, access to the source code or programming logic of safety-related software must also be provided \cite[p. 84]{EU2023_1230}.
+Furthermore, Article 10(2) \cite[p. 18]{EU2023_1230} and Annex IV Part A \cite[p. 83 f]{EU2023_1230} obligate manufacturers to maintain comprehensive technical documentation. This documentation must include risk assessments, descriptions of implemented protective measures, as well as test reports and trial results proving actual conformity with safety requirements \cite[p. 83]{EU2023_1230}. 
 
 
 \subsection{prEN 50742} 
 \label{subsec:pren_50742} 
 
-While the new MVO defines the overarching regulatory safety objectives regarding cybersecurity, the harmonized standard draft prEN 50742 (published in Germany as DIN EN 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 (\textit{Protection against corruption}) and 1.2.1 (\textit{Safety and reliability of control systems}) \cite[p. 70]{prEN50742_2025}. PrEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[p. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not under any circumstances compromise or degrade the functional safety of the machine, for instance by introducing impermissible latencies in safety-critical communication loops \cite[p. 14]{prEN50742_2025}.
+While the Machinery Regulation defines the overarching regulatory safety objectives regarding cybersecurity, the harmonized standard draft prEN 50742 (published in Germany as DIN EN 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 and 1.2.1 \cite[p. 70]{prEN50742_2025}. 
 
-To accommodate different organizational prerequisites and product architectures, the standard defines two distinct conformity paths for manufacturers \cite[p. 15]{prEN50742_2025}. Approach A represents a standalone, machine-specific methodology directly linked to classical safety risk assessments according to EN ISO 12100 \cite[p. 16]{prEN50742_2025}. Under Approach A, the required strength of countermeasures is determined by calculating the Safety Related Security Level (SRSL 0 to 3), which is derived from the attack potential combined with the severity of potential safety-related harm \cite[pp. 19]{prEN50742_2025}. 
+prEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[p. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not compromise or degrade the functional safety of the machine, for instance, by introducing impermissible latencies in safety-critical communication loops \cite[p. 14]{prEN50742_2025}.
 
-In contrast, Approach B is specifically designed for complex systems and components that are integrated into larger industrial communication networks. Instead of using the standalone SRSL framework, Approach B directly utilizes the established \hyperref[subsec:iec_62443]{EN IEC 62443 series} to define and verify technical security requirements \cite[pp. 16, pp. 24]{prEN50742_2025}. Under this approach, the system as a whole must comply with EN IEC 62443-3-3, while individual machine components must meet the technical security requirements of EN IEC 62443-4-2 at a specified Capability Security Level (typically SL-C 1 or SL-C 2) \cite[p. 24]{prEN50742_2025}.
+To accommodate different organizational prerequisites and product architectures, the standard defines two distinct conformity paths for manufacturers \cite[p. 15]{prEN50742_2025}:
+\begin{itemize}
+	\item \textbf{Approach A} represents a standalone, machine-specific methodology directly linked to classical safety risk assessments according to EN ISO 12100 \cite[p. 16]{prEN50742_2025}. Under this approach, the required strength of countermeasures is determined by calculating the Safety Related Security Level (SRSL 0 to 3), which is derived from the attack potential combined with the severity of potential safety-related harm \cite[p. 19]{prEN50742_2025}.
+	\item \textbf{Approach B} is specifically designed for complex systems and components integrated into larger industrial communication networks. Instead of using the standalone SRSL framework, Approach B directly utilizes the established EN IEC 62443 series to define and verify technical security requirements \cite[p. 16, 24]{prEN50742_2025}. Under this approach, the system as a whole must comply with EN IEC 62443-3-3, while individual machine components must meet the technical security requirements of EN IEC 62443-4-2 at a specified Capability Security Level (typically SL-C 1 or SL-C 2) \cite[p. 24]{prEN50742_2025}.
+\end{itemize}
 
-Despite their methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[p. 15]{prEN50742_2025}. Depending on the determined security level (SRSL under Approach A or SL-C under Approach B), both frameworks mandate equivalent critical mitigation measures. First, entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization to prevent unauthorized physical or logical access \cite[pp. 17, pp. 24]{prEN50742_2025}. Second, the integrity of safety-related application software (SRASW), embedded software (SRESW), and configuration data must be verified cryptographically (e.g., during secure boot or continuously during operation) \cite[p. 17 f]{prEN50742_2025}. Furthermore, the integrity of exchanged information across network boundaries must be secured to prevent spoofing or tampering, which includes a strict validation of input data at external interfaces \cite[p. 50]{prEN50742_2025}. Both approaches require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[p. 19, S. 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone. All implemented technical countermeasures must be structurally verified. Under Approach B, this verification directly maps to the testing of security functions defined by the EN IEC 62443 sub-standards \cite[p. 14]{prEN50742_2025}. 
+Despite methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[p. 15]{prEN50742_2025}. Both frameworks mandate critical mitigation measures: Entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization \cite[p. 17, 24]{prEN50742_2025}. The integrity of safety-related software and configuration data must be verified cryptographically \cite[p. 17 f]{prEN50742_2025}. Furthermore, exchanged information across network boundaries must be secured to prevent spoofing or tampering \cite[p. 50]{prEN50742_2025}. Both approaches also require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[p. 19, 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone; all implemented technical countermeasures must be structurally verified \cite[p. 14]{prEN50742_2025}.
+
 
 \subsection{EN IEC 62443 Series} 
 \label{subsec:iec_62443} 
 
-Within the landscape of industrial cybersecurity, the international standard series 
-IEC 62443 serves as the foundational framework for securing Industrial Automation 
-and Control Systems \cite[p. 13]{IEC62443-3-3}. 
+Within the landscape of industrial cybersecurity, the international standard series IEC 62443 serves as the foundational framework for securing Industrial Automation and Control Systems (IACS) \cite[p. 13]{IEC62443-3-3}. The standard is divided into multiple parts addressing different levels of a system's architecture and lifecycle.
 
-
-\textbf{IEC 62443-3-3} delineates the system-level security requirements, thereby bridging the gap between high-level organizational policies and technical implementation  \cite[p. 15]{IEC62443-3-3}. The primary objective of this standard is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[p. 6]{IEC62443-3-3}. 
-
-To achieve this objective, the standard establishes seven core pillars, referred to 
-as Foundational Requirements (FRs), which define the essential technical capabilities 
-a system must possess:
+\textbf{IEC 62443-3-3} delineates the system-level security requirements, bridging the gap between high-level organizational policies and technical implementation \cite[p. 15]{IEC62443-3-3}. Its primary objective is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[p. 6]{IEC62443-3-3}. The standard establishes seven core pillars, referred to as Foundational Requirements (FRs):
 \begin{itemize}
-	\item \textbf{FR 1: Identification and Authentication Control (IAC):} Ensures that all 
-	users, software processes, and devices are uniquely identified and authenticated 
-	before being granted access to the system \cite[p. 29]{IEC62443-3-3}. 
-	\item \textbf{FR 2: Use Control (UC):} Monitors and restricts the privileges of 
-	authenticated entities, ensuring they can only execute authorized actions 
-	in accordance with the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
-	\item \textbf{FR 3: System Integrity (SI):} Protects the system, applications, and data 
-	from unauthorized or malicious modifications to guarantee the trustworthy 
-	operation of OT components \cite[p. 50]{IEC62443-3-3}.
-	\item \textbf{FR 4: Data Confidentiality (DC):} Safeguards sensitive information against 
-	unauthorized disclosure both at rest and in transit across communication channels \cite[p. 57]{IEC62443-3-3}.
-	\item \textbf{FR 5: Restricted Data Flow (RDF):} Segmentizes the industrial network into 
-	defined security zones and conduits, limiting data communication to the absolute 
-	necessary minimum to prevent lateral movement of threats \cite[p. 61]{IEC62443-3-3}.
-	\item \textbf{FR 6: Timely Response to Events (TRE):} Mandates continuous security monitoring, 
-	logging, and anomaly detection to facilitate rapid incident response and mitigation 
-	in the event of a breach \cite[p. 65]{IEC62443-3-3}.
-	\item \textbf{FR 7: Resource Availability (RA):} Ensures that the system remains operational and critical functions are maintained even when subjected to faults or 
-	Denial-of-Service attacks \cite[p. 67]{IEC62443-3-3}.
+	\item \textbf{FR 1 (Identification and Authentication Control):} Ensures all entities are uniquely identified and authenticated before access is granted \cite[p. 29]{IEC62443-3-3}.
+	\item \textbf{FR 2 (Use Control):} Restricts the privileges of authenticated entities according to the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
+	\item \textbf{FR 3 (System Integrity):} Protects the system, applications, and data from unauthorized modifications \cite[p. 50]{IEC62443-3-3}.
+	\item \textbf{FR 4 (Data Confidentiality):} Safeguards sensitive information against unauthorized disclosure at rest and in transit \cite[p. 57]{IEC62443-3-3}.
+	\item \textbf{FR 5 (Restricted Data Flow):} Segments the industrial network to limit data communication and prevent lateral threat movement \cite[p. 61]{IEC62443-3-3}.
+	\item \textbf{FR 6 (Timely Response to Events):} Mandates security monitoring and logging for rapid incident response \cite[p. 65]{IEC62443-3-3}.
+	\item \textbf{FR 7 (Resource Availability):} Ensures the system remains operational under resource stress or Denial-of-Service attacks \cite[p. 67]{IEC62443-3-3}.
 \end{itemize}
+The fulfillment of these FRs is evaluated through Security Levels (SL 1 to SL 4), which quantify the system's resilience against various adversary profiles \cite[p. 16, 26]{IEC62443-3-3}. 
 
-The fulfillment of these foundational requirements is evaluated through a granular 
-metric known as Security Levels (SL), which quantify the system's resilience 
-against various adversary profiles \cite[p. 16]{IEC62443-3-3}. These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
-utilizing significant resources \cite[p. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[p. 26]{IEC62443-3-3}.
+Achieving system-level security also requires a structured development process. \textbf{IEC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. It structures lifecycle capabilities across eight core practice areas, ranging from Security Management (SM) and Secure by Design (SD) to Security Verification and Validation Testing (SV) and Security Update Management (SUM). To measure organizational rigor, it introduces Maturity Levels (ML 1 to ML 4) \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
 
-
-However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, I\textbf{EC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
-\begin{itemize}
-	\item \textbf{Practice 1: Security Management (SM):} Ensures that security activities are planned, documented, and governed throughout the entire product lifecycle \cite[Chapter:  Security Management]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 2: Specification of Security Requirements (SR):} Defines functional and non-functional security requirements based on product intent and threat scenarios \cite[Chapter: Specification of Security Requirements]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 3: Secure by Design (SD):} Mandates secure architecture principles, defense-in-depth strategies, and threat modeling during system design \cite[Chapter: Secure by Design]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 4: Secure Implementation (SI):} Focuses on secure coding standards, code reviews, and avoiding known software vulnerabilities \cite[Chapter: Secure Implementation]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 5: Security Verification and Validation Testing (SV):} Requires systematic security testing, including dynamic analysis, interface testing, and fuzzing prior to release \cite[Chapter: Security Verification and Validation Testing]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 6: Management of Security-Related Issues (DM):} Establishes processes for tracking, analyzing, and resolving identified vulnerabilities or defects \cite[Chapter:  Management of Security-Related Issues]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 7: Security Update Management (SUM):} Defines procedures for creating, testing, and distributing security patches to affected deployments \cite[Chapter: Security Update Management]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{Practice 8: Security Guidelines (SG):} Demands comprehensive documentation to enable end users to securely configure, deploy, and operate the component \cite[Chapter: Security Guidelines]{DIN_EN_IEC_62443_4_1_2018}.
-\end{itemize}
-
-To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}.
-
-Building upon these lifecycle practice, \textbf{IEC 62443-4-2} shifts the focus to the individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
-To achieve this, the standard maps the seven Foundational Requirements (FRs) defined in the system-level framework directly onto four distinct component types: software applications, embedded devices, host 
-devices, and network components \cite[p. 17]{IEC62443-4-2}. 
-
-Analogous to the system-level standard, the concrete technical specifications within IEC 62443-4-2 are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs)\cite[pp. 32]{IEC62443-4-2}. These CRs and REs are directly derived from the seven FRs, acting as the granular technical criteria that a component must satisfy to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. 
-
-For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as the network component's ability to enforce logical isolation, manage access control lists, and securely route or filter traffic at the physical IT/OT interface 
-\cite[pp. 61]{IEC62443-4-2}. 
-
-
-
-
-%
-%
-%\section{Regulatory and Standardization Framework} 
-%\label{sec:regulatory_framework}
-%
-%\subsection{Regulation (EU) 2023/1230}
-%\label{subsec:eu_machinery_regulation}
-%% Was ist die MVO, Anhang III...
-%
-%\subsection{prEN 50742} 
-%\label{subsec:pren_50742}
-%% Ansatz A und B, grundlegende Ziele...
-%
-%\subsection{EN IEC 62443 Series} 
-%\label{subsec:iec_62443}
-%% Foundational Requirements (FRs), Security Levels (SLs)...
+Building upon these lifecycle practices, \textbf{IEC 62443-4-2} shifts the focus to individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. It maps the seven FRs directly onto four distinct component types: software applications, embedded devices, host devices, and network components \cite[p. 17]{IEC62443-4-2}. The concrete technical specifications are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs) to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as a network component's ability to enforce logical isolation or securely route traffic at physical interfaces \cite[p. 61]{IEC62443-4-2}.
 
 

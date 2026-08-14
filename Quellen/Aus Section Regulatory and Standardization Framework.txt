@@ -1,0 +1,31 @@
+
+Additionally, in line with modern operational practices, manufacturers are now explicitly permitted to provide instructions for use in a digital format, provided that specific access, availability, and preservation requirements are met \cite[p. 19]{EU2023_1230}.
+
+
+
+
+%\subsection{EN IEC 62443 Series} 
+%\label{subsec:iec_62443} 
+
+These levels scale from SL 1, representing  protection against casual or coincidental violations, up to SL 4, which demands robust defenses against highly sophisticated, state-sponsored cyber threats 
+%utilizing significant resources \cite[p. 26 f]{IEC62443-3-3}. In the context of system validation, the standard  further distinguishes between the targeted security posture (SL-Target), the innate technical capabilities of the integrated components (SL-Capability), and the actual security level realized during operation (SL-Achieved ) \cite[p. 26]{IEC62443-3-3}.
+%
+%
+%However, achieving and verifying system-level security requires not only technical features, but also a structured development process, based on the core principle that a secure product can only emerge from a secure development lifecycle \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}. To address this, I\textbf{EC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. The standard structures these lifecycle capabilities across eight core practice areas:
+%\begin{itemize}
+%	\item \textbf{Practice 1: Security Management (SM):} Ensures that security activities are planned, documented, and governed throughout the entire product lifecycle \cite[Chapter:  Security Management]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 2: Specification of Security Requirements (SR):} Defines functional and non-functional security requirements based on product intent and threat scenarios \cite[Chapter: Specification of Security Requirements]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 3: Secure by Design (SD):} Mandates secure architecture principles, defense-in-depth strategies, and threat modeling during system design \cite[Chapter: Secure by Design]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 4: Secure Implementation (SI):} Focuses on secure coding standards, code reviews, and avoiding known software vulnerabilities \cite[Chapter: Secure Implementation]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 5: Security Verification and Validation Testing (SV):} Requires systematic security testing, including dynamic analysis, interface testing, and fuzzing prior to release \cite[Chapter: Security Verification and Validation Testing]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 6: Management of Security-Related Issues (DM):} Establishes processes for tracking, analyzing, and resolving identified vulnerabilities or defects \cite[Chapter:  Management of Security-Related Issues]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 7: Security Update Management (SUM):} Defines procedures for creating, testing, and distributing security patches to affected deployments \cite[Chapter: Security Update Management]{DIN_EN_IEC_62443_4_1_2018}.
+%	\item \textbf{Practice 8: Security Guidelines (SG):} Demands comprehensive documentation to enable end users to securely configure, deploy, and operate the component \cite[Chapter: Security Guidelines]{DIN_EN_IEC_62443_4_1_2018}.
+%\end{itemize}
+%
+%To measure the organizational rigor and repeatability of these eight practice areas, IEC 62443-4-1 introduces a metric scheme known as Maturity Levels (ML), scaling from ML 1 to ML 4. While ML 1 describes informal and unmanaged practices, ML 2 signifies adherence to documented processes. Progression to ML 3 requires organization-wide implementation and verification, whereas ML 4 mandates continuous metrics-based optimization of all lifecycle practices \cite[pection 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+%
+The primary objective of this standard is to ensure that the components integrated into an industrial system inherently possess the necessary technical capabilities to support the overarching system-level Security Levels (SL). 
+ \cite[p. 17]{IEC62443-4-2}. 
+% 
+
