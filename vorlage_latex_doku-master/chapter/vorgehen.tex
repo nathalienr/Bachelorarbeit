@@ -23,29 +23,30 @@ The six fundamental activities of the DSRM process map directly to the structure
 \end{enumerate}
 
 To ensure valid and reproducible results, the scope of this methodology must be strictly delimited. The proposed framework focuses exclusively on \textbf{functional security testing}. It verifies whether explicitly planned security mechanisms (e.g., authentication, access control) operate correctly and fulfill their normative purpose \cite[p. 82]{1341418}.
-%TODO Quelle überpürfen
 Consequently, exploratory vulnerability discovery, such as unstructured penetration testing or automated fuzzing, remains explicitly out of scope. While these techniques are valuable for finding unknown software bugs, they cannot systematically prove the existence and correct operation of mandatory security controls required by Regulation (EU) 2023/1230.
 
 
 \section{Systematic Requirement Engineering and Traceability}
 \label{sec:traceability}
-
 The first phase of the methodology translates abstract legal obligations into verifiable engineering test cases. A systematic approach is crucial to ensure no regulatory requirement is overlooked and every executed test serves a distinct compliance purpose.
 
 \subsection{Regulatory Derivation and Asset Mapping}
 \label{subsec:derivation_mapping}
+To bridge the gap between Regulation (EU) 2023/1230 and practical engineering, the methodology requires operationalizing abstract legal texts into testable criteria. This derivation process follows a strict three-step procedure:
 
-To bridge the gap between Regulation (EU) 2023/1230 and practical engineering, the 14 cybersecurity requirements derived from the Machinery Regulation (MVO) must be operationalized. As documented in Appendix \ref{app:requirement_derivation}, these abstract legal obligations are first mapped to the harmonized standard draft prEN 50742 and subsequently translated into concrete Component Requirements (CRs) of IEC 62443-4-2. 
+First, precise cybersecurity requirements are systematically extracted from the high-level legal text of the Machinery Regulation. This step is necessary to isolate specific, verifiable obligations from general legal prose (the practical application of this step yields the 14 requirements documented in Appendix \ref{app:sec:mvo_requirements}).
 
-However, abstract standard clauses cannot be tested in isolation. To create executable test cases, the methodology dictates a mandatory asset-mapping step. Before any test can be designed, the specific target system must be decomposed into its constituent physical and logical assets (e.g., hardware interfaces, software APIs, or data stores). Each derived requirement must then be systematically paired with the relevant assets. This procedural step ensures that it is clearly defined not only \textit{what} needs to be tested, but exactly \textit{where} the corresponding security mechanism must be verified during the practical implementation.
-%TODO: Quelle
+Second, the procedure maps these extracted obligations to the harmonized standard draft prEN 50742. This intermediate step is crucial because the regulation only defines overarching safety goals, whereas prEN 50742 provides the detailed technical guidance required for machinery design (see the resulting mapping in Appendix \ref{app:sec:mapping_pren50742}).
 
-\subsection{The Traceability Model}
+Finally, the framework translates these guidelines into concrete Component Requirements (CRs) of IEC 62443-4-2. This final translation is mandatory to obtain granular, component-level engineering specifications tailored specifically to industrial network devices (detailed in Appendix \ref{app:sec:mapping_iec62443}).
+
+However, abstract standard clauses cannot be tested in isolation. To create executable test cases, the methodology dictates a mandatory asset-mapping step. Before any test can be designed, the specific target system is decomposed into its constituent physical and logical assets (e.g., hardware interfaces, software APIs, or data stores). Each derived requirement is then systematically paired with the relevant assets. This procedural step ensures that it is clearly defined not only \textit{what} needs to be tested, but exactly \textit{where} the corresponding security mechanism must be verified during the practical implementation.
+
+
+\subsection{Traceability Model}
 \label{subsec:traceability_model}
 
-To guarantee legal compliance, the framework employs a strict, unbroken traceability model. It ensures that every test case is linked to a specific legal obligation. The logical flow of this traceability chain is defined as follows:
-%TODO Quellen für Ablauf
-
+To guarantee legal compliance, the framework employs a strict, unbroken traceability model. Drawing upon established cybersecurity standards (cf. \cite[pp. 36]{DIN_EN_ISO_IEC_15408_1_2024}, \cite[p. 82]{1341418} \cite[p. 21]{DIN_EN_IEC_62443_4_1_2018}), the logical flow of this traceability chain has been structured as follows:
 
 \begin{center}
 	Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Security Function $\rightarrow$ Test Case $\rightarrow$ Evidence
@@ -55,20 +56,19 @@ The individual nodes of this chain are defined as:
 \begin{itemize}
 	\item \textbf{Requirement:} The legal obligation (e.g., RQ-011) and its mapped IEC 62443-4-2 control (e.g., CR 2.1).
 	\item \textbf{Asset:} The concrete gateway component where the requirement applies.
-	\item \textbf{Threat:} The specific attacker goal (derived via STRIDE) that targets the asset.
+	\item \textbf{Threat:} The specific attacker goal (derived via \hyperref[subsec:stride]{STRIDE}) that targets the asset.
 	\item \textbf{Security Function:} The technical countermeasure implemented to mitigate the threat.
 	\item \textbf{Test Case:} The practical procedure used to verify the correct operation of the security function.
-	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome \cite[p. 3, 5]{nist_sp800_115} \cite[p. 82]{1341418}.
+	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome .
 \end{itemize}
 
-This structural traceability ensures that every test case carries an unbroken reference back to its originating regulatory clause. Conversely, no regulatory clause remains without a corresponding verification path. This satisfies the technical documentation obligations under Article 10(2) of the MVO \cite{EU2023_1230}.
 
 \subsection{Standardized Test Specification}
 \label{subsec:test_specification}
 
 To ensure methodological rigor and reproducibility, the test cases are not custom-invented. Instead, they are derived from established industry frameworks tailored to the specific asset type. For example, the OWASP Web Security Testing Guide (WSTG) dictates the test procedures for web-based API assets. Similarly, NIST SP 800-115 provides the methodological baseline for network-level testing on physical OT interfaces.
 % TODO Quellen
-% TODO was ist mit &22443 sind da auch testcases
+% TODO was ist mit 62443 sind da auch testcases
 
 Each derived test case is documented using a standardized data sheet. This uniform structure guarantees that every test is executed and evaluated consistently. The data sheet comprises the following core elements:
 
