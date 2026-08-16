@@ -42,10 +42,8 @@ Finally, the framework translates these guidelines into concrete Component Requi
 
 However, abstract standard clauses cannot be tested in isolation. To create executable test cases, the methodology dictates a mandatory asset-mapping step. Before any test can be designed, the specific target system is decomposed into its constituent physical and logical assets (e.g., hardware interfaces, software APIs, or data stores). Each derived requirement is then systematically paired with the relevant assets. This procedural step ensures that it is clearly defined not only \textit{what} needs to be tested, but exactly \textit{where} the corresponding security mechanism must be verified during the practical implementation.
 
-
 \subsection{Traceability Model}
 \label{subsec:traceability_model}
-
 To guarantee legal compliance, the framework employs a strict, unbroken traceability model. Drawing upon established cybersecurity standards (cf. \cite[pp. 36]{DIN_EN_ISO_IEC_15408_1_2024}, \cite[p. 82]{1341418} \cite[p. 21]{DIN_EN_IEC_62443_4_1_2018}), the logical flow of this traceability chain has been structured as follows:
 
 \begin{center}
@@ -59,68 +57,108 @@ The individual nodes of this chain are defined as:
 	\item \textbf{Threat:} The specific attacker goal (derived via \hyperref[subsec:stride]{STRIDE}) that targets the asset.
 	\item \textbf{Security Function:} The technical countermeasure implemented to mitigate the threat.
 	\item \textbf{Test Case:} The practical procedure used to verify the correct operation of the security function.
-	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome .
+	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome.
 \end{itemize}
 
-
-\subsection{Standardized Test Specification}
+\subsection{Test Specification}
 \label{subsec:test_specification}
 
-To ensure methodological rigor and reproducibility, the test cases are not custom-invented. Instead, they are derived from established industry frameworks tailored to the specific asset type. For example, the OWASP Web Security Testing Guide (WSTG) dictates the test procedures for web-based API assets. Similarly, NIST SP 800-115 provides the methodological baseline for network-level testing on physical OT interfaces.
-% TODO Quellen
-% TODO was ist mit 62443 sind da auch testcases
+To ensure methodological rigor, the test cases are not custom-invented. Instead, they follow a documented and repeatable methodology. The standard IEC 62443-4-1 mandates Security Verification and Validation (SVV) to formally document that all cybersecurity requirements are fulfilled and defense-in-depth strategies operate correctly \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Furthermore, executing security tests on industrial components carries inherent risks. A structured assessment methodology is necessary to provide consistency and minimize these operational disruptions \cite[p. 2-1]{nist_sp800_115}.
 
-Each derived test case is documented using a standardized data sheet. This uniform structure guarantees that every test is executed and evaluated consistently. The data sheet comprises the following core elements:
+While IEC 62443 dictates the normative requirement for verification, the concrete execution procedures rely on specialized industry frameworks. For instance, the OWASP Web Security Testing Guide (WSTG) provides the procedural depth for evaluating web-based interfaces and API assets \cite{manana2026pentest}. Conversely, NIST SP 800-115 serves as the methodological baseline for network-level assessments and infrastructural testing \cite[p. 1-1]{nist_sp800_115}.
+
+To comply with strict documentation requirements and ensure reproducibility, every derived test case is formalized in a standardized data sheet. A structured test case guarantees that another engineer can independently reproduce the exact procedure and verify the expected outcome at a later time \cite[p. 37]{Pilorget2012}. Based on established testing principles, the data sheet comprises the following core elements \cite[p. 15]{Pilorget2012}:
 
 \begin{itemize}
-	\item \textbf{Test ID and Objective:} A unique identifier (e.g., TC-01) and a clear description of the test goal (e.g., "Verification of firmware update authorization").
-	\item \textbf{Normative Reference:} The direct link to the MVO requirement and IEC 62443-4-2 CR.
-	\item \textbf{Preconditions:} The required initial state of the gateway (e.g., specific rotary switch position, active network connections).
-	\item \textbf{Execution Procedure:} Step-by-step instructions detailing the applied tools (e.g., Nmap, OWASP ZAP) and the injected payloads.
-	\item \textbf{Acceptance Criterion (PASS):} The exact, expected system behavior that constitutes a successful defense (e.g., the gateway returns an HTTP 403 Forbidden status).
+	\item \textbf{Test ID and Objective:} A unique alphanumeric identifier and a concise definition of the verification goal.
+	\item \textbf{Normative Reference:} The direct trace to the corresponding MVO requirement and IEC 62443-4-2 CR to maintain unbroken traceability.
+	\item \textbf{Preconditions:} The required initial state of the gateway, such as specific hardware configurations or active network connections.
+	\item \textbf{Execution Procedure:} Step-by-step instructions detailing the applied tools (e.g., Nmap, OWASP ZAP) and the injected payloads to enable exact replication.
+	\item \textbf{Acceptance Criterion (PASS):} The exact, expected system behavior that constitutes a successful defense (e.g., returning an HTTP 403 error).
 \end{itemize}
-%TODO Quelle
 
 
 
+
+%TODO
 \section{Design of the Security Test Environment}
 \label{sec:test_environment}
 
-Security testing, particularly active vulnerability scanning and malicious payload injection, poses a severe risk to the stability of industrial networks. In Operational Technology (OT), where availability is the highest priority (AIC triad), testing must never occur in a production environment. Consequently, establishing a dedicated, isolated test architecture is a mandatory methodological requirement, strongly advocated by guidelines such as NIST SP 800-82.
+Security testing poses a severe risk to the stability of industrial networks. Active vulnerability scanning and malicious payload injection can easily disrupt critical operations. In Operational Technology (OT), system availability and safety represent the highest priorities. Consequently, security tests must never occur within a productive production environment. Establishing a dedicated, isolated test architecture is a mandatory methodological requirement. This approach is advocated by international guidelines, including NIST SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
 
-\subsection{Architectural Blueprint of the Testbed}
+The primary objective of such a testbed is to demonstrate the application of industrial cybersecurity standards. It provides a controlled platform to measure the performance and resilience of networked control systems under attack \cite[p. 2]{8f3698f787af48ccb0aa063527bbb4de}. To achieve valid results, the test environment must balance strict security isolation with practical operational efficiency.
+
+
+\subsection{Design of the Testbed}
 \label{subsec:architectural_blueprint}
 
-Before determining the network isolation strategy, the internal architecture of the test environment must be defined. A valid functional security testbed for an industrial gateway requires four generic architectural components:
+Before determining the specific network isolation strategy, the internal architecture of the test environment must be defined. The credibility of any industrial security testbed heavily depends on its architectural components \cite[p. 4]{DesignAni}. The testbed must incorporate realistic functionality coverage. This ensures that the simulated environment accurately reflects a true industrial setup. 
+
+To achieve a holistic expression of security tests, a valid functional security testbed requires four fundamental architectural zones:
 
 \begin{enumerate}
-	\item \textbf{Test Execution Node (Attacker Machine):} A dedicated workstation equipped with specialized penetration testing frameworks and security auditing tools. It simulates external threat actors and injects malicious or malformed payloads into the network.
-	\item \textbf{System Under Test (SUT):} The industrial gateway itself. It represents the central defense layer where the normative security mechanisms (e.g., authentication, protocol filtering) are evaluated.
-	\item \textbf{Simulated OT Target Node:} A physical or virtual Programmable Logic Controller (PLC) placed behind the gateway. This node is essential to verify whether the SUT successfully protects downstream industrial components from unauthorized traffic.
-	\item \textbf{Local Networking Backbone:} A dedicated physical switch and cabling infrastructure that connects the execution node, the SUT, and the target node, facilitating the controlled flow of test traffic.
+	\item \textbf{Physical Assets and Field Devices Zone:} This zone represents the actual industrial process. It contains Programmable Logic Controllers (PLCs), sensors, and actuators. PLCs act as the primary control components to locally manage processes through closed-loop feedback \cite[p. 21]{NIST.SP.800-82r3}. Devices deployed in this zone must behave identically to the real system. They must exhibit deterministic scan cycles, accurate response times, and standard industrial protocols such as Modbus/TCP or PROFINET \cite[p. 3]{DevelopMuna}.
+	
+	\item \textbf{Gateway / System Under Test (SUT) Zone:} The industrial gateway operates at the boundary between the physical process and higher-level IT networks. It collects data from physical devices, supports Machine-to-Machine (M2M) communication, and often acts as a protocol translator \cite[p. 3]{DevelopMuna}. In this methodology, the gateway is the central System Under Test. The normative security mechanisms (e.g., authentication, protocol filtering) are explicitly evaluated at this node.
+	
+	\item \textbf{Test Execution and Measurement Zone:} This zone contains the attacker machine and analysis tools. A dedicated workstation runs specialized penetration testing frameworks, such as Kali Linux or Metasploit. Furthermore, this zone acts as a measurement enclave. It captures network traffic via port mirroring, retains syslog messages, and analyzes statistical performance metrics \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de} \Cite[p. 5]{DevelopMuna}.
+	
+	\item \textbf{Local Networking Backbone:} A dedicated physical switch and cabling infrastructure connects the aforementioned zones. This backbone manages the controlled flow of test traffic. It enables researchers to manipulate traffic intentionally, introduce packet flight time uncertainty (delay and jitter), and simulate real-world channel degradation \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de}.
 \end{enumerate}
 
-%TODO Quelle 
-%TODO Architektut deines Testlabors
+These components form a layer-based, modular platform. A modular structure ensures that the testbed remains adaptable for various industrial devices \cite[p. 4]{siboni2016securitytestbedinternetthings}. The testbed architecture must fulfill strict functional requirements. It must support targeted tests against known vulnerabilities, such as injection flaws, broken authentication, and security misconfigurations \cite[p. 3]{siboni2016securitytestbedinternetthings}. Furthermore, the architecture must facilitate the structured execution of threat scenarios based on the STRIDE model \cite[p. 9]{DevelopMuna}.
+
+%
+%\subsection{Isolation Strategies}
+%\label{subsec:isolation_strategies}
+%
+%With the internal testbed established, its integration into the surrounding facility must be addressed. Testing environments must be securely separated from productive corporate IT. When properly configured, network architectures enforce security policies and control network communications \cite[p. 72]{NIST.SP.800-82r3}. Two primary isolation paradigms exist in industry practice: physical isolation and logical isolation.
+%
+%\subsubsection{Physical Isolation (Standalone / Air-Gap)}
+%
+%Physical isolation represents the most rigorous security approach. The testbed operates entirely disconnected from any corporate or production network. All external network connections are physically removed \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}. 
+%
+%This strategy guarantees maximum safety. Malicious traffic, such as an aggressive Denial-of-Service (DoS) flood aimed at a PLC \cite[p. 11]{DevelopMuna}, cannot physically escape the test setup. A physical air-gap effectively prevents catastrophic cascading events into productive networks \cite[p. 4]{NIST.SP.800-82r3}. Furthermore, this approach bypasses complex IT approval processes, allowing for rapid deployment. 
+%
+%Physical isolation is particularly relevant when dealing with legacy equipment. Obsolete devices pose an increasing security risk and are unsuitable for direct external connectivity \cite[p. 11]{NCSC_OT_SecureConnectivity_PDF}. Testing such devices in a physically isolated environment eliminates lateral movement risks.
+%
+%However, a strict air-gap introduces significant operational friction. Transferring necessary tool updates, installing security patches, or extracting digital test evidence requires physical media (e.g., USB drives). This manual data transfer limits scalability. It severely hinders the future integration of the testbed into automated Continuous Integration and Continuous Deployment (CI/CD) pipelines.
+%
+%\subsubsection{Logical Isolation (VLAN and Network Appliances)}
+%
+%Logical isolation connects the test environment to the corporate network but segregates the traffic using specialized network appliances. This approach relies heavily on the concept of "Zones and Conduits", as defined in IEC 62443-3-2 \cite[p. 10]{8f3698f787af48ccb0aa063527bbb4de}. The testbed acts as an untrusted zone, while the corporate network represents a trusted zone. 
+%
+%To govern the information flow between these zones, organizations must deploy managed boundary protection devices \cite[p. 61]{IEC62443-3-3}. Several technologies facilitate logical isolation:
+%
+%\begin{itemize}
+%	\item \textbf{Firewalls:} Modern stateful inspection firewalls or Next-Generation Firewalls (NGFWs) enforce user-defined rule sets. They inspect network traffic at OSI Layers 3 and 4 and limit incoming and outgoing packets \cite[p. 207]{NIST.SP.800-82r3}. In an OT context, firewalls should enforce a strict "deny-all, permit-by-exception" policy \cite[p. 102]{NIST.SP.800-82r3}.
+%	\item \textbf{Virtual Local Area Networks (VLANs):} VLANs logically separate network areas when physical separation is not feasible. Modern network switches divide traffic based on switch ports, ensuring that devices only communicate within their assigned logical segment \cite[p. 207]{NIST.SP.800-82r3}.
+%	\item \textbf{Demilitarized Zones (DMZ):} A DMZ architecture prevents direct traffic between the corporate and OT networks. It hosts services accessible by enterprise users while shielding the critical testbed components \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de} \cite[p. 4]{NIST.SP.800-82r3}.
+%	\item \textbf{Unidirectional Gateways (Data Diodes):} These hardware devices only allow data transmission in a single direction \cite[p. 207]{NIST.SP.800-82r3}. They can safely transfer telemetry and logging data out of the testbed while physically preventing any inbound cyber attacks \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}.
+%\end{itemize}
+%
+%Logical isolation enables efficient data exchange and supports automated testing procedures. However, it requires extensive administrative overhead. Firewalls and VLANs must be meticulously configured by the IT department. Furthermore, logical isolation carries a residual risk. A firewall misconfiguration or an unpatched software vulnerability in the router could allow attackers to inject remote commands and bypass the security mechanisms \cite[p. 12]{DevelopMuna}. In such cases, active network scans could bleed into the productive corporate network and trigger false alarms.
+%
+%
+%\subsection{Hybrid Approach}
+%\label{subsec:hybrid_approach}
+%
+%Establishing a purely logically isolated VLAN often presents prohibitive administrative delays for rapid engineering projects. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, this methodology utilizes a pragmatic hybrid architecture. It combines physical safety with logical convenience.
+%
+%The core testbed, consisting of the SUT, the simulated PLC, and the local switch, is physically air-gapped from the productive corporate infrastructure. No Ethernet cable connects the testbed to the internal corporate IT. This physical separation guarantees zero risk to ongoing enterprise operations and safety-critical systems. 
+%
+%Simultaneously, the test execution node (the attacker machine) requires limited external connectivity. Security testing tools demand frequent signature updates, and generated reports must be exported. To facilitate this, the attacker machine maintains an out-of-band wireless connection to an unprivileged external network, such as a corporate guest WLAN. 
+%
+%This hybrid approach aligns with the concept of targeted site isolation \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}. The guest WLAN provides the necessary internet access but is already logically segregated from the internal corporate IT by default. It acts as a trusted boundary control. This architecture ensures that the critical OT components remain isolated from internet-borne threats, while the attacker machine can safely interact with external resources. Consequently, the hybrid approach successfully satisfies the strict isolation mandates of industrial cybersecurity standards while ensuring practical feasibility within the given research constraints.
+%
 
 
-\subsection{Isolation Strategies}
-\label{subsec:isolation_strategies}
-%TODO QUellen
-Designing the test environment requires balancing security constraints with operational efficiency. Two primary isolation paradigms exist in industry practice:
 
-\textbf{Physical Isolation (Standalone / Air-Gap):} The testbed operates entirely disconnected from any corporate or production network. This approach guarantees maximum safety, as malicious traffic cannot physically escape the test setup. Furthermore, it bypasses complex IT approval processes. However, it introduces significant operational friction. Transferring tool updates or extracting test evidence requires physical media (e.g., USB drives). This "sneakernet" approach is inefficient and severely limits future integration into automated Continuous Integration/Continuous Deployment (CI/CD) pipelines.
 
-\textbf{Logical Isolation (VLAN):} The test environment connects to the corporate network but remains segregated through Virtual Local Area Networks (VLANs) and strict firewall rules. This aligns with the "Zones and Conduits" model defined in IEC 62443-3-2. While it enables efficient data exchange and future test automation, it requires extensive administrative overhead. Additionally, it carries a residual risk: a firewall misconfiguration could allow active network scans to bleed into the corporate network, potentially triggering false alarms or system crashes.
 
-\subsection{The Hybrid Approach}
-\label{subsec:hybrid_approach}
-%TODO Quelle
-For the empirical execution of this thesis, establishing a logically isolated VLAN presents prohibitive administrative delays. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, the methodology utilizes a pragmatic hybrid architecture.
 
-The core testbed—consisting of the attacker machine, the System Under Test (the industrial gateway), and simulated OT endpoints—is physically air-gapped from the corporate infrastructure using an independent, local switch. This guarantees zero risk to internal corporate operations. Simultaneously, the attacker machine maintains an out-of-band wireless connection to an unprivileged external network, such as a corporate guest WLAN. 
 
-This isolated wireless link provides the necessary internet access for security tools and enables secure evidence exfiltration via email or cloud storage. Crucially, the guest WLAN is already segregated from the productive corporate IT by default. This hybrid approach successfully satisfies the strict isolation mandates of industrial cybersecurity standards while ensuring practical feasibility within the given research constraints.
+
 
 
 
