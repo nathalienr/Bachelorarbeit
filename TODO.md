@@ -17,7 +17,7 @@
 * Nimm deine MVO/IEC-Requirements und lege sie neben deine Asset-Liste (Web-API, PROFINET-Port, Rotary Switch etc.).
 * Bilde Paare: *Welches Requirement muss an welchem Asset getestet werden?* (z. B. Authentifizierung am HTTP Web-Interface).
 
-**Schritt 2.2: Methoden aus Standards ableiten**
+**Schritt 1.2: Methoden aus Standards ableiten**
 * Erfinde keine eigenen Tests! Nutze etablierte Frameworks als "Bedienungsanleitung":
   * **OWASP Web Security Testing Guide (WSTG):** Für alles rund um das Asset `IoT-Core API` (Authentifizierung, Autorisierung, API-Missbrauch).
   * **NIST SP 800-115:** Für Netzwerk-Tests (Port-Scanning, offene Dienste) am Asset `PROFINET-Schnittstelle`.
@@ -223,3 +223,34 @@ Durchführung    1. Starten von OWASP ZAP (oder Terminal) auf dem Kali-Host.
                 Optional: Senden eines POST Requests an /fit/setfit.Akzeptanzkriterium (PASS)
                 Das Gateway lehnt die Anfrage sofort ab (z. B. HTTP 403 Forbidden oder HTTP 400 Bad Request mit Fehlermeldung). Der Gerätestatus verändert sich nicht.FAIL-KriteriumDas Gateway akzeptiert den Befehl (HTTP 200 OK) und leitet den Update- oder FIT-Prozess ein.EvidenzScreenshot des abgelehnten HTTP-Responses aus OWASP ZAP (wird im Anhang gespeichert).
 
+%such as a corporate guest WLAN. 
+%
+%The guest WLAN provides the necessary internet access but is already logically segregated from the internal corporate IT by default. It acts as a trusted boundary control. This architecture ensures that the critical OT components remain isolated from internet-borne threats, while the attacker machine can safely interact with external resources. Consequently, the hybrid approach successfully satisfies the strict isolation mandates of industrial cybersecurity standards while ensuring practical feasibility within the given research constraints.
+%%
+
+\subsection{Evidence Collection and Documentation}
+\label{subsec:evidence_collection}
+%TODO Quelle
+Executing a test is insufficient if the outcome cannot be formally proven. Article 10(2) and Annex IV Part A of Regulation (EU) 2023/1230 explicitly mandate comprehensive technical documentation to demonstrate conformity \cite{EU2023_1230}. Therefore, meticulous evidence collection is a mandatory methodological step.
+
+For every executed test case, digital artifacts must be recorded. This includes raw console outputs (logs), network traffic captures (PCAP files), and screenshots showing blocked access attempts or error codes (e.g., HTTP 403 Forbidden). These artifacts serve as the indisputable empirical proof that a security mechanism successfully mitigated an attack. 
+[ Test-Runner / Orchestrierung (Python / Robot Framework) ]
+   ├── Port & Service Scan:    Nmap + NSE Scripts
+   ├── TLS & Cipher Validierung: testssl.sh / SSLyze
+   ├── Protokoll & Robustheit:   Scapy / Boofuzz (Modbus, OPC UA)
+   └── Monitoring / Nachweis:   Wireshark / TShark (Packet Capturing)
+
+Similarly, white box testing is also known as Static Analysis Security Testing (SAST) since it has access to internal
+code and it helps developers write secure source code. The SAST
+tool scans static code and reduces the number of vulnerabilities.
+Both DAST and SAST tools can fit in the development process.
+An important part of web application security testing tools is that
+they are known to be error-prone and report false positives. The
+problem of false positives and false negatives are common for the
+automated web application security testing tools. If a vulnerability
+is reported by a web application security tool but in reality it is not
+existing, it is called as false positive. If an existing vulnerability is
+missed by a web application security testing tool, this behavior is
+called as false negative. Therefore, web application security testing
+tools should have low value for false positives and the false
+negatives \cite[p. 6777]{aydos_security_2022}
