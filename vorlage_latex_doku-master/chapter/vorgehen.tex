@@ -60,209 +60,209 @@ The individual nodes of this chain are defined as:
 	\item \textbf{Evidence:} The recorded artifacts (logs, screenshots) proving the test outcome.
 \end{itemize}
 
-\subsection{Test Specification}
-\label{subsec:test_specification}
-
-To ensure methodological rigor, the test cases are not custom-invented. Instead, they follow a documented and repeatable methodology. The standard IEC 62443-4-1 mandates Security Verification and Validation (SVV) to formally document that all cybersecurity requirements are fulfilled and defense-in-depth strategies operate correctly \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Furthermore, executing security tests on industrial components carries inherent risks. A structured assessment methodology is necessary to provide consistency and minimize these operational disruptions \cite[p. 2-1]{nist_sp800_115}.
-
-While IEC 62443 dictates the normative requirement for verification, the concrete execution procedures rely on specialized industry frameworks. For instance, the OWASP Web Security Testing Guide (WSTG) provides the procedural depth for evaluating web-based interfaces and API assets \cite{manana2026pentest}. Conversely, NIST SP 800-115 serves as the methodological baseline for network-level assessments and infrastructural testing \cite[p. 1-1]{nist_sp800_115}.
-
-To comply with strict documentation requirements and ensure reproducibility, every derived test case is formalized in a standardized data sheet. A structured test case guarantees that another engineer can independently reproduce the exact procedure and verify the expected outcome at a later time \cite[p. 37]{Pilorget2012}. Based on established testing principles, the data sheet comprises the following core elements \cite[p. 15]{Pilorget2012}:
-
-\begin{itemize}
-	\item \textbf{Test ID and Objective:} A unique alphanumeric identifier and a concise definition of the verification goal.
-	\item \textbf{Normative Reference:} The direct trace to the corresponding MVO requirement and IEC 62443-4-2 CR to maintain unbroken traceability.
-	\item \textbf{Preconditions:} The required initial state of the gateway, such as specific hardware configurations or active network connections.
-	\item \textbf{Execution Procedure:} Step-by-step instructions detailing the applied tools (e.g., Nmap, OWASP ZAP) and the injected payloads to enable exact replication.
-	\item \textbf{Acceptance Criterion (PASS):} The exact, expected system behavior that constitutes a successful defense (e.g., returning an HTTP 403 error).
-\end{itemize}
-
-
-
-
-%TODO
-\section{Design of the Security Test Environment}
-\label{sec:test_environment}
-
-Security testing poses a severe risk to the stability of industrial networks. Active vulnerability scanning and malicious payload injection can easily disrupt critical operations. In Operational Technology (OT), system availability and safety represent the highest priorities. Consequently, security tests must never occur within a productive production environment. Establishing a dedicated, isolated test architecture is a mandatory methodological requirement. This approach is advocated by international guidelines, including NIST SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
-
-The primary objective of such a testbed is to demonstrate the application of industrial cybersecurity standards. It provides a controlled platform to measure the performance and resilience of networked control systems under attack \cite[p. 2]{8f3698f787af48ccb0aa063527bbb4de}. To achieve valid results, the test environment must balance strict security isolation with practical operational efficiency.
-
-
-\subsection{Design of the Testbed}
-\label{subsec:architectural_blueprint}
-
-Before determining the specific network isolation strategy, the internal architecture of the test environment must be defined. The credibility of any industrial security testbed heavily depends on its architectural components \cite[p. 4]{DesignAni}. The testbed must incorporate realistic functionality coverage. This ensures that the simulated environment accurately reflects a true industrial setup. 
-
-To achieve a holistic expression of security tests, a valid functional security testbed requires four fundamental architectural zones:
-
-\begin{enumerate}
-	\item \textbf{Physical Assets and Field Devices Zone:} This zone represents the actual industrial process. It contains Programmable Logic Controllers (PLCs), sensors, and actuators. PLCs act as the primary control components to locally manage processes through closed-loop feedback \cite[p. 21]{NIST.SP.800-82r3}. Devices deployed in this zone must behave identically to the real system. They must exhibit deterministic scan cycles, accurate response times, and standard industrial protocols such as Modbus/TCP or PROFINET \cite[p. 3]{DevelopMuna}.
-	
-	\item \textbf{Gateway / System Under Test (SUT) Zone:} The industrial gateway operates at the boundary between the physical process and higher-level IT networks. It collects data from physical devices, supports Machine-to-Machine (M2M) communication, and often acts as a protocol translator \cite[p. 3]{DevelopMuna}. In this methodology, the gateway is the central System Under Test. The normative security mechanisms (e.g., authentication, protocol filtering) are explicitly evaluated at this node.
-	
-	\item \textbf{Test Execution and Measurement Zone:} This zone contains the attacker machine and analysis tools. A dedicated workstation runs specialized penetration testing frameworks, such as Kali Linux or Metasploit. Furthermore, this zone acts as a measurement enclave. It captures network traffic via port mirroring, retains syslog messages, and analyzes statistical performance metrics \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de} \Cite[p. 5]{DevelopMuna}.
-	
-	\item \textbf{Local Networking Backbone:} A dedicated physical switch and cabling infrastructure connects the aforementioned zones. This backbone manages the controlled flow of test traffic. It enables researchers to manipulate traffic intentionally, introduce packet flight time uncertainty (delay and jitter), and simulate real-world channel degradation \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de}.
-\end{enumerate}
-
-These components form a layer-based, modular platform. A modular structure ensures that the testbed remains adaptable for various industrial devices \cite[p. 4]{siboni2016securitytestbedinternetthings}. The testbed architecture must fulfill strict functional requirements. It must support targeted tests against known vulnerabilities, such as injection flaws, broken authentication, and security misconfigurations \cite[p. 3]{siboni2016securitytestbedinternetthings}. Furthermore, the architecture must facilitate the structured execution of threat scenarios based on the STRIDE model \cite[p. 9]{DevelopMuna}.
-
-
-\subsection{Isolation Strategies}
-\label{subsec:isolation_strategies}
-
-With the internal testbed established, its integration into the surrounding facility must be addressed. Testing environments must be securely separated from productive corporate IT. When properly configured, network architectures enforce security policies and control network communications \cite[p. 72]{NIST.SP.800-82r3}. Two primary isolation paradigms exist in industry practice: physical isolation and logical isolation.
-
-
-\textbf{Physical isolation} represents the most rigorous security approach. The testbed operates entirely disconnected from any corporate or production network. All external network connections are physically removed \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}. 
-
-This strategy guarantees maximum safety. Malicious traffic, such as an aggressive Denial-of-Service (DoS) flood aimed at a PLC, cannot physically escape the test setup \cite[p. 11]{DevelopMuna}. A physical air-gap effectively prevents catastrophic cascading events into productive networks \cite[p. 4]{NIST.SP.800-82r3}. Furthermore, this approach bypasses complex IT approval processes, allowing for rapid deployment. 
-
-Physical isolation is particularly relevant when dealing with legacy equipment. Obsolete devices pose an increasing security risk and are unsuitable for direct external connectivity. Testing such devices in a physically isolated environment eliminates lateral movement risks \cite[pp. 11]{NCSC_OT_SecureConnectivity_PDF}.
-
-
-\textbf{Logical isolation} connects the test environment to the corporate network but segregates the traffic using specialized network appliances. This approach relies on the concept of "Zones and Conduits", as defined in IEC 62443-3-2 \cite[p. 10]{8f3698f787af48ccb0aa063527bbb4de}. The testbed acts as an untrusted zone, while the corporate network represents a trusted zone. 
-
-To govern the information flow between these zones, organizations must deploy managed boundary protection devices \cite[p. 61]{IEC62443-3-3}. Several technologies facilitate logical isolation:
-
-\begin{itemize}
-	\item \textbf{Firewalls:} Firewalls enforce user-defined rule sets. They inspect network traffic at OSI Layers 3 and 4 and limit incoming and outgoing packets \cite[p. 207]{NIST.SP.800-82r3}. In an OT context, firewalls should enforce a strict "deny-all, permit-by-exception" policy \cite[p. 102]{NIST.SP.800-82r3}.
-	\item \textbf{Virtual Local Area Networks (VLANs):} VLANs logically separate network areas when physical separation is not feasible. Modern network switches divide traffic based on switch ports, ensuring that devices only communicate within their assigned logical segment \cite[p. 207]{NIST.SP.800-82r3}.
-	\item \textbf{Demilitarized Zones (DMZ):} A DMZ architecture prevents direct traffic between the corporate and OT networks. It hosts services accessible by enterprise users while shielding the critical testbed components \cite[pp. 3]{8f3698f787af48ccb0aa063527bbb4de} \cite[pp. 2]{NIST.SP.800-82r3}.
-	\item \textbf{Unidirectional Gateways (Data Diodes):} These hardware devices only allow data transmission in a single direction \cite[p. 207]{NIST.SP.800-82r3}. They can safely transfer telemetry and logging data out of the testbed while physically preventing any inbound cyber attacks \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}.
-\end{itemize}
-
-Logical isolation enables efficient data exchange and supports automated testing procedures. However, it requires extensive administrative overhead. Firewalls and VLANs must be meticulously configured by the IT department. Furthermore, logical isolation carries a residual risk. A firewall misconfiguration or an unpatched software vulnerability in the router could allow attackers to inject remote commands and bypass the security mechanisms \cite[p. 12]{DevelopMuna}.
-
-
-\subsection{Hybrid Approach}
-\label{subsec:hybrid_approach}
-
-Establishing a purely logically isolated VLAN often presents prohibitive administrative delays for rapid engineering projects. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, this methodology utilizes a pragmatic hybrid architecture. It combines physical safety with logical convenience.
-
-The core testbed, consisting of the SUT, the simulated PLC, and the local switch, is physically air-gapped from the productive corporate infrastructure. No Ethernet cable connects the testbed to the internal corporate IT. This physical separation guarantees zero risk to ongoing enterprise operations and safety-critical systems. 
-
-Simultaneously, the test execution node (the attacker machine) requires limited external connectivity. Security testing tools demand frequent signature updates, and generated reports must be exported. To facilitate this, the attacker machine maintains an out-of-band wireless connection to an unprivileged external network. 
-
-
-\section{Test Execution Framework and Governance}
-\label{sec:execution_governance}
-Once the test environment is established and the test cases are specified, the actual execution phase begins. This phase defines how the tests are practically conducted, how the results are legally documented, and who bears the organizational responsibility for the outcomes.
-
-\subsection{Test Execution and Tooling}
-\label{subsec:execution_tooling}
-According to NIST SP 800-115, security testing is the process of exercising one or more assessment objects under specified conditions to compare actual and expected behaviors \cite[p. ES-1]{nist_sp800_115}. In this methodology, the execution phase focuses entirely on functional security testing to verify whether the planned security mechanisms operate correctly \cite[p. 6777]{aydos_security_2022}. 
-
-Because the industrial gateway is evaluated as a compiled, operational product without access to its internal source code, the framework employs Black-Box testing. This approach is commonly referred to as Dynamic Application Security Testing (DAST). DAST evaluates the running application from an external attacker's perspective. Conversely, Static Application Security Testing (SAST), which analyzes static source code for flaws, remains out of scope for this functional verification \cite[p. 6777]{aydos_security_2022}.
-
-To systematically execute these dynamic tests, a centralized and standardized operating environment is required. The methodology utilizes Kali Linux, an open-source, Debian-based distribution specifically tailored for advanced penetration testing. It provides a robust ecosystem of pre-configured auditing scripts \cite{kali_whatis}. This eliminates the need to develop custom exploit code and ensures that tests remain highly reproducible.
-
-The methodology selects specific tools to simulate defined threat categories, such as Spoofing, Tampering, or Denial of Service (DoS) \cite[pp. 68]{prEN50742_2025}. Based on established industry classifications \cite[p. A-1]{nist_sp800_115}, the execution relies on the following primary tool categories:
-
-\begin{itemize}
-	\item \textbf{Network Discovery and Vulnerability Scanners:} Tools such as Nmap are used for target identification \cite[p. A-1]{nist_sp800_115}. They map open ports and active services to verify the exposed network attack surface \cite[p. 8]{liebl2024analyzingattacksurfacethreats}.
-	\item \textbf{Interception Proxies:} Tools such as OWASP ZAP or Burp Suite intercept and manipulate HTTP/API traffic. They are critical for evaluating business logic, input validation, and authorization mechanisms \cite[pp. 6776]{aydos_security_2022}.
-	\item \textbf{Credential and Authentication Testers:} Brute-force applications like Hydra systematically generate password hashes. They verify the resilience of login interfaces against unauthorized access attempts \cite[p. 5-1]{nist_sp800_115}  \cite[A-1]{nist_sp800_115}.
-	\item \textbf{Stress Testing Utilities:} Specialized scripts flood the network interface with traffic to simulate DoS conditions. This verifies if the system maintains resource availability and fails securely under severe load \cite[p. 69]{prEN50742_2025} \cite[pp. 8]
-	{liebl2024analyzingattacksurfacethreats}.
-\end{itemize}
-
-During execution, these tools are operated according to the parameters and preconditions defined in the standardized test data sheets (see Section \ref{subsec:test_specification}). This disciplined execution prevents accidental operational disruptions within the testbed \cite[p. 2-1]{nist_sp800_115}.
-
-
-\subsection{Lifecycle Integration and RACI Governance}
-\label{subsec:lifecycle_governance}
-%TODO
-
-
-The verification activities defined in this framework are not executed in isolation. They must anchor to defined stages of the product lifecycle. This ensures that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process, rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}.
-
-To illustrate this integration, Figure \ref{fig:secure-system-development-lifecycle-main-overview} in Appendix \ref{app:SecureDevelopmentLifecycle} consolidates SSDLC and DevSecOps phase models into a single overview. Consistent with the methodological scope defined in Section \ref{subsec:methodological_scope}, this methodology addresses only the verification-relevant subset of such a lifecycle. Upstream design stages and downstream deployment stages are treated as boundary conditions that supply inputs to, or consume outputs from, the verification stages.
-
-To ensure strict organizational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
-
-\begin{itemize}
-	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
-	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
-	\item \textbf{Test Engineering:} Responsible for procedure preparation, execution, and verdict assignment.
-	\item \textbf{Software/Firmware Development:} Consulted on findings and tasked with implementing corrective actions.
-	\item \textbf{Quality/Compliance Management:} Responsible for coverage review and evidence governance.
-	\item \textbf{Release Authority:} Accountable for the final release decision.
-\end{itemize}
-
-Table \ref{tab:raci_matrix_verification} defines the distribution of these responsibilities across the verification phases.
-
-\begin{table}[htbp]
-	\caption{RACI Matrix for the Verification Lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
-	\label{tab:raci_matrix_verification}
-	\centering
-	\begin{tabularx}{\textwidth}{l c c c c c c}
-		\toprule
-		\textbf{Activity} & \makecell{\textbf{Sec.}\\\textbf{Eng.}} & \makecell{\textbf{Sys/Req}\\\textbf{Eng.}} & \makecell{\textbf{Test}\\\textbf{Eng.}} & \makecell{\textbf{SW/FW}\\\textbf{Dev.}} & \makecell{\textbf{QA/}\\\textbf{Compl.}} & \makecell{\textbf{Release}\\\textbf{Auth.}} \\ \midrule
-		Design & A & C & R & I & I & I \\ \addlinespace
-		Preparation & C & I & A/R & C & I & I \\ \addlinespace
-		Execution & A & I & R & C & I & I \\ \addlinespace
-		Evidence/Eval. & C & I & R & C & A & I \\ \addlinespace
-		Release Decision & I & I & I & I & C & A/R \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organizational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labor documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support IEC 62443-4-1 Practice 5 (Security Verification and Validation Testing). This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
-
-Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative application of TARA (see Section \ref{subsec:tara}), the requirement baseline and the associated test cases require re-evaluation under specific triggers. These triggers include the introduction of a new product variant, revisions to normative documents (Regulation (EU) 2023/1230, prEN 50742, or IEC 62443-4-2), or the disclosure of a post-release vulnerability. Under the RACI model, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for updating the technical documentation.
-
-
-
-\section{Evaluation Metrics and Compliance Assessment}
-\label{sec:evaluation_metrics}
-%TODO
-To objectively assess the system's security posture and the framework's methodological quality, quantitative evaluation criteria are required. Test metrics literature typically separates metrics addressing individual test outcomes from metrics evaluating the overarching test process \cite[p. 144, 217]{Witte2019}. Consequently, this assessment occurs at two levels: the discrete verdicts for individual test cases and the aggregated statistical metrics that evaluate overall engineering rigor and regulatory compliance.
-
-\subsection{Test Case and Requirement Verdicts}
-\label{subsec:verdicts}
-%TODO
-
-At the level of the individual test case, a verdict is assigned based on the defined acceptance criteria and the sufficiency of the collected evidence. Based on acceptance-oriented assessment concepts reported in literature \cite[p. 1553]{11050621} \cite[p. 23]{richier2011security}, four discrete verdicts are distinguished:
-
-\begin{itemize}
-	\item \textbf{PASS:} The test case has been executed, all mandatory acceptance criteria are satisfied, and the collected evidence is sufficient to prove successful mitigation.
-	\item \textbf{PARTIAL:} The test case has been executed and mandatory criteria are satisfied, but non-critical criteria remain unfulfilled or the defense mechanism showed minor degradation.
-	\item \textbf{FAIL:} The test case has been executed, and a mandatory security control was bypassed, highlighting an exploitable vulnerability.
-	\item \textbf{NOT APPLICABLE (N/A):} An applicability decision taken prior to execution. It requires a documented technical justification based on intended use, system architecture, or the defined scope limits.
-\end{itemize}
-
-
-Insufficient evidence inherently prevents a \textit{PASS} verdict. These test case verdicts are subsequently aggregated to evaluate the fulfillment of the overarching legal requirement. A requirement is verdicted \textit{FAIL} if any associated test case fails. It achieves a \textit{PASS} only if every associated test case passes.
-
-
-
-\subsection{Core Framework Metrics}
-\label{subsec:framework_metrics}
-%TODO
-To evaluate both the technical security level of the industrial gateway and the quality of the testing methodology itself, four core Key Performance Indicators (KPIs) are defined. Following the ratio-based style used for test-process metrics in the literature \cite[p. 145]{Witte2019}, these indicators are computed strictly over \textit{applicable} requirements, ensuring that documented exclusions (\textit{N/A}) do not negatively skew the compliance assessment.
-
-\textbf{Requirement Compliance Rate ($RCR$)} is the primary legal indicator. It measures the strict fulfillment of the derived normative obligations from Regulation (EU) 2023/1230 and IEC 62443-4-2 (based on \cite[p. 223]{Witte2019}).
-\begin{equation}
-	RCR = \frac{\text{Applicable requirements verdicted PASS}}{\text{Total applicable requirements}}
-\end{equation}
-
-\textbf{Threat Mitigation Coverage ($TMC$)} evaluates the technical security posture from an engineering perspective. Referencing the STRIDE threat model defined in Section \ref{subsec:stride}, this metric calculates the proportion of identified, asset-specific threat vectors that were successfully blocked by the tested security functions.
-\begin{equation}
-	TMC = \frac{\text{Successfully mitigated STRIDE threats}}{\text{Total modeled STRIDE threats for tested assets}}
-\end{equation}
-
-\textbf{Test Effectiveness Ratio ($TER$)} measures the methodological quality of the test execution. A test is considered highly effective if it yields a definitive empirical outcome (\textit{PASS} or \textit{FAIL}) rather than failing due to testbed errors, tool crashes, or inconclusive system behavior.
-\begin{equation}
-	TER = \frac{\text{Executed test cases yielding a definitive PASS or FAIL}}{\text{Total executed test cases}}
-\end{equation}
-
-\textbf{Evidence Traceability Score ($ETS$)} assesses audit readiness. It indicates the proportion of executed tests supported by complete, traceable digital artifacts (e.g., PCAP files, system logs). This metric directly addresses the strict evidentiary obligations for the technical documentation under Article 10(2) of the Machinery Regulation \cite{EU2023_1230}.
-\begin{equation}
-	ETS = \frac{\text{Executed test cases with comprehensive digital evidence}}{\text{Total executed test cases}}
-\end{equation}
-
-
+%\subsection{Test Specification}
+%\label{subsec:test_specification}
+%
+%To ensure methodological rigor, the test cases are not custom-invented. Instead, they follow a documented and repeatable methodology. The standard IEC 62443-4-1 mandates Security Verification and Validation (SVV) to formally document that all cybersecurity requirements are fulfilled and defense-in-depth strategies operate correctly \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Furthermore, executing security tests on industrial components carries inherent risks. A structured assessment methodology is necessary to provide consistency and minimize these operational disruptions \cite[p. 2-1]{nist_sp800_115}.
+%
+%While IEC 62443 dictates the normative requirement for verification, the concrete execution procedures rely on specialized industry frameworks. For instance, the OWASP Web Security Testing Guide (WSTG) provides the procedural depth for evaluating web-based interfaces and API assets \cite{manana2026pentest}. Conversely, NIST SP 800-115 serves as the methodological baseline for network-level assessments and infrastructural testing \cite[p. 1-1]{nist_sp800_115}.
+%
+%To comply with strict documentation requirements and ensure reproducibility, every derived test case is formalized in a standardized data sheet. A structured test case guarantees that another engineer can independently reproduce the exact procedure and verify the expected outcome at a later time \cite[p. 37]{Pilorget2012}. Based on established testing principles, the data sheet comprises the following core elements \cite[p. 15]{Pilorget2012}:
+%
+%\begin{itemize}
+%	\item \textbf{Test ID and Objective:} A unique alphanumeric identifier and a concise definition of the verification goal.
+%	\item \textbf{Normative Reference:} The direct trace to the corresponding MVO requirement and IEC 62443-4-2 CR to maintain unbroken traceability.
+%	\item \textbf{Preconditions:} The required initial state of the gateway, such as specific hardware configurations or active network connections.
+%	\item \textbf{Execution Procedure:} Step-by-step instructions detailing the applied tools (e.g., Nmap, OWASP ZAP) and the injected payloads to enable exact replication.
+%	\item \textbf{Acceptance Criterion (PASS):} The exact, expected system behavior that constitutes a successful defense (e.g., returning an HTTP 403 error).
+%\end{itemize}
+%
+%
+%
+%
+%%TODO
+%\section{Design of the Security Test Environment}
+%\label{sec:test_environment}
+%
+%Security testing poses a severe risk to the stability of industrial networks. Active vulnerability scanning and malicious payload injection can easily disrupt critical operations. In Operational Technology (OT), system availability and safety represent the highest priorities. Consequently, security tests must never occur within a productive production environment. Establishing a dedicated, isolated test architecture is a mandatory methodological requirement. This approach is advocated by international guidelines, including NIST SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
+%
+%The primary objective of such a testbed is to demonstrate the application of industrial cybersecurity standards. It provides a controlled platform to measure the performance and resilience of networked control systems under attack \cite[p. 2]{8f3698f787af48ccb0aa063527bbb4de}. To achieve valid results, the test environment must balance strict security isolation with practical operational efficiency.
+%
+%
+%\subsection{Design of the Testbed}
+%\label{subsec:architectural_blueprint}
+%
+%Before determining the specific network isolation strategy, the internal architecture of the test environment must be defined. The credibility of any industrial security testbed heavily depends on its architectural components \cite[p. 4]{DesignAni}. The testbed must incorporate realistic functionality coverage. This ensures that the simulated environment accurately reflects a true industrial setup. 
+%
+%To achieve a holistic expression of security tests, a valid functional security testbed requires four fundamental architectural zones:
+%
+%\begin{enumerate}
+%	\item \textbf{Physical Assets and Field Devices Zone:} This zone represents the actual industrial process. It contains Programmable Logic Controllers (PLCs), sensors, and actuators. PLCs act as the primary control components to locally manage processes through closed-loop feedback \cite[p. 21]{NIST.SP.800-82r3}. Devices deployed in this zone must behave identically to the real system. They must exhibit deterministic scan cycles, accurate response times, and standard industrial protocols such as Modbus/TCP or PROFINET \cite[p. 3]{DevelopMuna}.
+%	
+%	\item \textbf{Gateway / System Under Test (SUT) Zone:} The industrial gateway operates at the boundary between the physical process and higher-level IT networks. It collects data from physical devices, supports Machine-to-Machine (M2M) communication, and often acts as a protocol translator \cite[p. 3]{DevelopMuna}. In this methodology, the gateway is the central System Under Test. The normative security mechanisms (e.g., authentication, protocol filtering) are explicitly evaluated at this node.
+%	
+%	\item \textbf{Test Execution and Measurement Zone:} This zone contains the attacker machine and analysis tools. A dedicated workstation runs specialized penetration testing frameworks, such as Kali Linux or Metasploit. Furthermore, this zone acts as a measurement enclave. It captures network traffic via port mirroring, retains syslog messages, and analyzes statistical performance metrics \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de} \Cite[p. 5]{DevelopMuna}.
+%	
+%	\item \textbf{Local Networking Backbone:} A dedicated physical switch and cabling infrastructure connects the aforementioned zones. This backbone manages the controlled flow of test traffic. It enables researchers to manipulate traffic intentionally, introduce packet flight time uncertainty (delay and jitter), and simulate real-world channel degradation \cite[p. 3]{8f3698f787af48ccb0aa063527bbb4de}.
+%\end{enumerate}
+%
+%These components form a layer-based, modular platform. A modular structure ensures that the testbed remains adaptable for various industrial devices \cite[p. 4]{siboni2016securitytestbedinternetthings}. The testbed architecture must fulfill strict functional requirements. It must support targeted tests against known vulnerabilities, such as injection flaws, broken authentication, and security misconfigurations \cite[p. 3]{siboni2016securitytestbedinternetthings}. Furthermore, the architecture must facilitate the structured execution of threat scenarios based on the STRIDE model \cite[p. 9]{DevelopMuna}.
+%
+%
+%\subsection{Isolation Strategies}
+%\label{subsec:isolation_strategies}
+%
+%With the internal testbed established, its integration into the surrounding facility must be addressed. Testing environments must be securely separated from productive corporate IT. When properly configured, network architectures enforce security policies and control network communications \cite[p. 72]{NIST.SP.800-82r3}. Two primary isolation paradigms exist in industry practice: physical isolation and logical isolation.
+%
+%
+%\textbf{Physical isolation} represents the most rigorous security approach. The testbed operates entirely disconnected from any corporate or production network. All external network connections are physically removed \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}. 
+%
+%This strategy guarantees maximum safety. Malicious traffic, such as an aggressive Denial-of-Service (DoS) flood aimed at a PLC, cannot physically escape the test setup \cite[p. 11]{DevelopMuna}. A physical air-gap effectively prevents catastrophic cascading events into productive networks \cite[p. 4]{NIST.SP.800-82r3}. Furthermore, this approach bypasses complex IT approval processes, allowing for rapid deployment. 
+%
+%Physical isolation is particularly relevant when dealing with legacy equipment. Obsolete devices pose an increasing security risk and are unsuitable for direct external connectivity. Testing such devices in a physically isolated environment eliminates lateral movement risks \cite[pp. 11]{NCSC_OT_SecureConnectivity_PDF}.
+%
+%
+%\textbf{Logical isolation} connects the test environment to the corporate network but segregates the traffic using specialized network appliances. This approach relies on the concept of "Zones and Conduits", as defined in IEC 62443-3-2 \cite[p. 10]{8f3698f787af48ccb0aa063527bbb4de}. The testbed acts as an untrusted zone, while the corporate network represents a trusted zone. 
+%
+%To govern the information flow between these zones, organizations must deploy managed boundary protection devices \cite[p. 61]{IEC62443-3-3}. Several technologies facilitate logical isolation:
+%
+%\begin{itemize}
+%	\item \textbf{Firewalls:} Firewalls enforce user-defined rule sets. They inspect network traffic at OSI Layers 3 and 4 and limit incoming and outgoing packets \cite[p. 207]{NIST.SP.800-82r3}. In an OT context, firewalls should enforce a strict "deny-all, permit-by-exception" policy \cite[p. 102]{NIST.SP.800-82r3}.
+%	\item \textbf{Virtual Local Area Networks (VLANs):} VLANs logically separate network areas when physical separation is not feasible. Modern network switches divide traffic based on switch ports, ensuring that devices only communicate within their assigned logical segment \cite[p. 207]{NIST.SP.800-82r3}.
+%	\item \textbf{Demilitarized Zones (DMZ):} A DMZ architecture prevents direct traffic between the corporate and OT networks. It hosts services accessible by enterprise users while shielding the critical testbed components \cite[pp. 3]{8f3698f787af48ccb0aa063527bbb4de} \cite[pp. 2]{NIST.SP.800-82r3}.
+%	\item \textbf{Unidirectional Gateways (Data Diodes):} These hardware devices only allow data transmission in a single direction \cite[p. 207]{NIST.SP.800-82r3}. They can safely transfer telemetry and logging data out of the testbed while physically preventing any inbound cyber attacks \cite[p. 32]{NCSC_OT_SecureConnectivity_PDF}.
+%\end{itemize}
+%
+%Logical isolation enables efficient data exchange and supports automated testing procedures. However, it requires extensive administrative overhead. Firewalls and VLANs must be meticulously configured by the IT department. Furthermore, logical isolation carries a residual risk. A firewall misconfiguration or an unpatched software vulnerability in the router could allow attackers to inject remote commands and bypass the security mechanisms \cite[p. 12]{DevelopMuna}.
+%
+%
+%\subsection{Hybrid Approach}
+%\label{subsec:hybrid_approach}
+%
+%Establishing a purely logically isolated VLAN often presents prohibitive administrative delays for rapid engineering projects. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, this methodology utilizes a pragmatic hybrid architecture. It combines physical safety with logical convenience.
+%
+%The core testbed, consisting of the SUT, the simulated PLC, and the local switch, is physically air-gapped from the productive corporate infrastructure. No Ethernet cable connects the testbed to the internal corporate IT. This physical separation guarantees zero risk to ongoing enterprise operations and safety-critical systems. 
+%
+%Simultaneously, the test execution node (the attacker machine) requires limited external connectivity. Security testing tools demand frequent signature updates, and generated reports must be exported. To facilitate this, the attacker machine maintains an out-of-band wireless connection to an unprivileged external network. 
+%
+%
+%\section{Test Execution Framework and Governance}
+%\label{sec:execution_governance}
+%Once the test environment is established and the test cases are specified, the actual execution phase begins. This phase defines how the tests are practically conducted, how the results are legally documented, and who bears the organizational responsibility for the outcomes.
+%
+%\subsection{Test Execution and Tooling}
+%\label{subsec:execution_tooling}
+%According to NIST SP 800-115, security testing is the process of exercising one or more assessment objects under specified conditions to compare actual and expected behaviors \cite[p. ES-1]{nist_sp800_115}. In this methodology, the execution phase focuses entirely on functional security testing to verify whether the planned security mechanisms operate correctly \cite[p. 6777]{aydos_security_2022}. 
+%
+%Because the industrial gateway is evaluated as a compiled, operational product without access to its internal source code, the framework employs Black-Box testing. This approach is commonly referred to as Dynamic Application Security Testing (DAST). DAST evaluates the running application from an external attacker's perspective. Conversely, Static Application Security Testing (SAST), which analyzes static source code for flaws, remains out of scope for this functional verification \cite[p. 6777]{aydos_security_2022}.
+%
+%To systematically execute these dynamic tests, a centralized and standardized operating environment is required. The methodology utilizes Kali Linux, an open-source, Debian-based distribution specifically tailored for advanced penetration testing. It provides a robust ecosystem of pre-configured auditing scripts \cite{kali_whatis}. This eliminates the need to develop custom exploit code and ensures that tests remain highly reproducible.
+%
+%The methodology selects specific tools to simulate defined threat categories, such as Spoofing, Tampering, or Denial of Service (DoS) \cite[pp. 68]{prEN50742_2025}. Based on established industry classifications \cite[p. A-1]{nist_sp800_115}, the execution relies on the following primary tool categories:
+%
+%\begin{itemize}
+%	\item \textbf{Network Discovery and Vulnerability Scanners:} Tools such as Nmap are used for target identification \cite[p. A-1]{nist_sp800_115}. They map open ports and active services to verify the exposed network attack surface \cite[p. 8]{liebl2024analyzingattacksurfacethreats}.
+%	\item \textbf{Interception Proxies:} Tools such as OWASP ZAP or Burp Suite intercept and manipulate HTTP/API traffic. They are critical for evaluating business logic, input validation, and authorization mechanisms \cite[pp. 6776]{aydos_security_2022}.
+%	\item \textbf{Credential and Authentication Testers:} Brute-force applications like Hydra systematically generate password hashes. They verify the resilience of login interfaces against unauthorized access attempts \cite[p. 5-1]{nist_sp800_115}  \cite[A-1]{nist_sp800_115}.
+%	\item \textbf{Stress Testing Utilities:} Specialized scripts flood the network interface with traffic to simulate DoS conditions. This verifies if the system maintains resource availability and fails securely under severe load \cite[p. 69]{prEN50742_2025} \cite[pp. 8]
+%	{liebl2024analyzingattacksurfacethreats}.
+%\end{itemize}
+%
+%During execution, these tools are operated according to the parameters and preconditions defined in the standardized test data sheets (see Section \ref{subsec:test_specification}). This disciplined execution prevents accidental operational disruptions within the testbed \cite[p. 2-1]{nist_sp800_115}.
+%
+%
+%\subsection{Lifecycle Integration and RACI Governance}
+%\label{subsec:lifecycle_governance}
+%%TODO
+%
+%
+%The verification activities defined in this framework are not executed in isolation. They must anchor to defined stages of the product lifecycle. This ensures that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process, rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}.
+%
+%To illustrate this integration, Figure \ref{fig:secure-system-development-lifecycle-main-overview} in Appendix \ref{app:SecureDevelopmentLifecycle} consolidates SSDLC and DevSecOps phase models into a single overview. Consistent with the methodological scope defined in Section \ref{subsec:methodological_scope}, this methodology addresses only the verification-relevant subset of such a lifecycle. Upstream design stages and downstream deployment stages are treated as boundary conditions that supply inputs to, or consume outputs from, the verification stages.
+%
+%To ensure strict organizational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
+%
+%\begin{itemize}
+%	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
+%	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
+%	\item \textbf{Test Engineering:} Responsible for procedure preparation, execution, and verdict assignment.
+%	\item \textbf{Software/Firmware Development:} Consulted on findings and tasked with implementing corrective actions.
+%	\item \textbf{Quality/Compliance Management:} Responsible for coverage review and evidence governance.
+%	\item \textbf{Release Authority:} Accountable for the final release decision.
+%\end{itemize}
+%
+%Table \ref{tab:raci_matrix_verification} defines the distribution of these responsibilities across the verification phases.
+%
+%\begin{table}[htbp]
+%	\caption{RACI Matrix for the Verification Lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
+%	\label{tab:raci_matrix_verification}
+%	\centering
+%	\begin{tabularx}{\textwidth}{l c c c c c c}
+%		\toprule
+%		\textbf{Activity} & \makecell{\textbf{Sec.}\\\textbf{Eng.}} & \makecell{\textbf{Sys/Req}\\\textbf{Eng.}} & \makecell{\textbf{Test}\\\textbf{Eng.}} & \makecell{\textbf{SW/FW}\\\textbf{Dev.}} & \makecell{\textbf{QA/}\\\textbf{Compl.}} & \makecell{\textbf{Release}\\\textbf{Auth.}} \\ \midrule
+%		Design & A & C & R & I & I & I \\ \addlinespace
+%		Preparation & C & I & A/R & C & I & I \\ \addlinespace
+%		Execution & A & I & R & C & I & I \\ \addlinespace
+%		Evidence/Eval. & C & I & R & C & A & I \\ \addlinespace
+%		Release Decision & I & I & I & I & C & A/R \\
+%		\bottomrule
+%	\end{tabularx}
+%\end{table}
+%
+%As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organizational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labor documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support IEC 62443-4-1 Practice 5 (Security Verification and Validation Testing). This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
+%
+%Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative application of TARA (see Section \ref{subsec:tara}), the requirement baseline and the associated test cases require re-evaluation under specific triggers. These triggers include the introduction of a new product variant, revisions to normative documents (Regulation (EU) 2023/1230, prEN 50742, or IEC 62443-4-2), or the disclosure of a post-release vulnerability. Under the RACI model, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for updating the technical documentation.
+%
+%
+%
+%\section{Evaluation Metrics and Compliance Assessment}
+%\label{sec:evaluation_metrics}
+%%TODO
+%To objectively assess the system's security posture and the framework's methodological quality, quantitative evaluation criteria are required. Test metrics literature typically separates metrics addressing individual test outcomes from metrics evaluating the overarching test process \cite[p. 144, 217]{Witte2019}. Consequently, this assessment occurs at two levels: the discrete verdicts for individual test cases and the aggregated statistical metrics that evaluate overall engineering rigor and regulatory compliance.
+%
+%\subsection{Test Case and Requirement Verdicts}
+%\label{subsec:verdicts}
+%%TODO
+%
+%At the level of the individual test case, a verdict is assigned based on the defined acceptance criteria and the sufficiency of the collected evidence. Based on acceptance-oriented assessment concepts reported in literature \cite[p. 1553]{11050621} \cite[p. 23]{richier2011security}, four discrete verdicts are distinguished:
+%
+%\begin{itemize}
+%	\item \textbf{PASS:} The test case has been executed, all mandatory acceptance criteria are satisfied, and the collected evidence is sufficient to prove successful mitigation.
+%	\item \textbf{PARTIAL:} The test case has been executed and mandatory criteria are satisfied, but non-critical criteria remain unfulfilled or the defense mechanism showed minor degradation.
+%	\item \textbf{FAIL:} The test case has been executed, and a mandatory security control was bypassed, highlighting an exploitable vulnerability.
+%	\item \textbf{NOT APPLICABLE (N/A):} An applicability decision taken prior to execution. It requires a documented technical justification based on intended use, system architecture, or the defined scope limits.
+%\end{itemize}
+%
+%
+%Insufficient evidence inherently prevents a \textit{PASS} verdict. These test case verdicts are subsequently aggregated to evaluate the fulfillment of the overarching legal requirement. A requirement is verdicted \textit{FAIL} if any associated test case fails. It achieves a \textit{PASS} only if every associated test case passes.
+%
+%
+%
+%\subsection{Core Framework Metrics}
+%\label{subsec:framework_metrics}
+%%TODO
+%To evaluate both the technical security level of the industrial gateway and the quality of the testing methodology itself, four core Key Performance Indicators (KPIs) are defined. Following the ratio-based style used for test-process metrics in the literature \cite[p. 145]{Witte2019}, these indicators are computed strictly over \textit{applicable} requirements, ensuring that documented exclusions (\textit{N/A}) do not negatively skew the compliance assessment.
+%
+%\textbf{Requirement Compliance Rate ($RCR$)} is the primary legal indicator. It measures the strict fulfillment of the derived normative obligations from Regulation (EU) 2023/1230 and IEC 62443-4-2 (based on \cite[p. 223]{Witte2019}).
+%\begin{equation}
+%	RCR = \frac{\text{Applicable requirements verdicted PASS}}{\text{Total applicable requirements}}
+%\end{equation}
+%
+%\textbf{Threat Mitigation Coverage ($TMC$)} evaluates the technical security posture from an engineering perspective. Referencing the STRIDE threat model defined in Section \ref{subsec:stride}, this metric calculates the proportion of identified, asset-specific threat vectors that were successfully blocked by the tested security functions.
+%\begin{equation}
+%	TMC = \frac{\text{Successfully mitigated STRIDE threats}}{\text{Total modeled STRIDE threats for tested assets}}
+%\end{equation}
+%
+%\textbf{Test Effectiveness Ratio ($TER$)} measures the methodological quality of the test execution. A test is considered highly effective if it yields a definitive empirical outcome (\textit{PASS} or \textit{FAIL}) rather than failing due to testbed errors, tool crashes, or inconclusive system behavior.
+%\begin{equation}
+%	TER = \frac{\text{Executed test cases yielding a definitive PASS or FAIL}}{\text{Total executed test cases}}
+%\end{equation}
+%
+%\textbf{Evidence Traceability Score ($ETS$)} assesses audit readiness. It indicates the proportion of executed tests supported by complete, traceable digital artifacts (e.g., PCAP files, system logs). This metric directly addresses the strict evidentiary obligations for the technical documentation under Article 10(2) of the Machinery Regulation \cite{EU2023_1230}.
+%\begin{equation}
+%	ETS = \frac{\text{Executed test cases with comprehensive digital evidence}}{\text{Total executed test cases}}
+%\end{equation}
+%
+%
 
 

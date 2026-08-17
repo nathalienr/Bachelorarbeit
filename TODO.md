@@ -9,6 +9,7 @@
 * Testplan in Polarion für Security erstellen
 * Raussuchen welches die IT/OT Schnittstellen sind
 * GSD, MRP fehlt
+* Anhang unterschied Supporting/Partial usws.
 ---
 
 ## Phase 1: Vorbereitung & Test-Design 
@@ -240,17 +241,3 @@ For every executed test case, digital artifacts must be recorded. This includes 
    ├── Protokoll & Robustheit:   Scapy / Boofuzz (Modbus, OPC UA)
    └── Monitoring / Nachweis:   Wireshark / TShark (Packet Capturing)
 
-Similarly, white box testing is also known as Static Analysis Security Testing (SAST) since it has access to internal
-code and it helps developers write secure source code. The SAST
-tool scans static code and reduces the number of vulnerabilities.
-Both DAST and SAST tools can fit in the development process.
-An important part of web application security testing tools is that
-they are known to be error-prone and report false positives. The
-problem of false positives and false negatives are common for the
-automated web application security testing tools. If a vulnerability
-is reported by a web application security tool but in reality it is not
-existing, it is called as false positive. If an existing vulnerability is
-missed by a web application security testing tool, this behavior is
-called as false negative. Therefore, web application security testing
-tools should have low value for false positives and the false
-negatives \cite[p. 6777]{aydos_security_2022}

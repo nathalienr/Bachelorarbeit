@@ -127,7 +127,7 @@ To systematically analyze these threats, Table \ref{tab:stride_mapping} illustra
 		\midrule
 		Spoofing & Authenticity \\
 		Tampering & Integrity \\
-		Repudiation & Non-repudiation \\
+		Repudiation & Non-repudiation, Accountability \\
 		Information Disclosure & Confidentiality \\
 		Denial of Service & Availability \\
 		Elevation of Privilege & Authorization \\
@@ -342,7 +342,7 @@ Industrial gateways represent crucial architectural components that bridge this 
 
 To achieve this, a gateway intercepts incoming data from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[p. 277]{Gsell2026}.
 Beyond complex protocol translation, gateways can integrate raw binary or analog signals from basic physical sensors into bus systems for further network processing \cite[p. 132]{Babel2024}\cite{kleinbongartz2008uebersetzer} .
-%TODO Evtl. interessant hier zu erwähnen, dass Gateways auch quasi protokoll freie Kommunikation Binär/Analog in ein Bussystem einbinden kann --> so wie wir das ja machen (nur binär in unserem Fall).
+
 
 A gateway can operate across various layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between IT networks, which are typically dominant in layers 4 to 7, and OT networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
 
