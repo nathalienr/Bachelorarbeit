@@ -148,3 +148,29 @@ Wie du es nutzt: Du ziehst dir daraus die Verhaltensregeln für das Testen. Dort
 
 Wie das im Test Case Data Sheet aussieht
 
+
+
+
+
+
+
+
+
+
+
+Ziel-Interface	STRIDE-Bedrohung	Empfohlenes Tool	Begründung / BezugPROFINET (Ethernet, Discovery)	Spoofing, Information Disclosure	Nmap (Service-/Port-Scan) + Wireshark/tshark (PROFINET-Dissector)	Verifiziert, dass nur die dokumentierten Ports offen sind (kein HTTPS/443, kein MQTT/1883, kein WS) – direkter Soll/Ist-Abgleich gegen SRIO-7905/7906/7907
+
+PROFINET DCP-Dienst	Tampering, DoS	Scapy (Custom DCP-Frames) oder PRONETA/PN-Tools	Testet Factory-Reset-Modi, DCP.hello()-Missbrauch, Identify-Blinken – abgeleitet aus SRIO-7772 (Reset-Modi)
+
+IoT-Core / HTTP-Interface	Spoofing, Elevation of Privilege, DoS	OWASP ZAP oder Burp Suite	Prüft insbesondere: (a) Durchsetzung "read-only" trotz fehlender Auth, (b) Verhalten bei >2 gleichzeitigen Verbindungen (SRIO-7909), (c) Fehlermeldungs-Verhalten (Information Disclosure)
+
+Firmware-Update-Kanal	Tampering, Elevation of Privilege	Custom Python-Skript (BLOB-Chunking nachbauen) + Firmware-Diffing (z. B. binwalk)	Testet Downgrade-Angriff (explizit erlaubt laut SRIO-15094 – Frage: gibt es eine Mindestversion/Rollback-Schutz?), Kompatibilitäts-Check-Bypass, Verhalten bei Rotary-Switch ≠ 999
+
+PROFIsafe / iParCRC	Tampering	Scapy (Frame-Manipulation) + Wireshark	Verifiziert F\_WD\_Time-Timeout-Verhalten, CRC-Mismatch-Behandlung (SRIO-8574/8575)
+
+Debug-/JTAG-Interface	Elevation of Privilege	OpenOCD / JTAG-Boundary-Scan-Tool	Verifiziert, dass das Interface nach Produktion tatsächlich gefused/gesperrt ist (SRIO-8331) – physischer Pentest-Schritt
+
+Rotary-/DIL-Switches	Tampering, Elevation of Privilege	Manuelle physische Manipulation (kein Software-Tool)	Testet, ob Wertänderung während Operate (SRIO-10812: "nur beim Init gelesen") tatsächlich wirkungslos bleibt
+
+
+
