@@ -83,15 +83,16 @@ To comply with strict documentation requirements and ensure reproducibility, eve
 %TODO
 \section{Design of the Security Test Environment}
 \label{sec:test_environment}
+%TODO
 
 Security testing poses a severe risk to the stability of industrial networks. Active vulnerability scanning and malicious payload injection can easily disrupt critical operations. In Operational Technology (OT), system availability and safety represent the highest priorities. Consequently, security tests must never occur within a productive production environment. Establishing a dedicated, isolated test architecture is a mandatory methodological requirement. This approach is advocated by international guidelines, including NIST SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
 
 The primary objective of such a testbed is to demonstrate the application of industrial cybersecurity standards. It provides a controlled platform to measure the performance and resilience of networked control systems under attack \cite[p. 2]{8f3698f787af48ccb0aa063527bbb4de}. To achieve valid results, the test environment must balance strict security isolation with practical operational efficiency.
 
 
-\subsection{Design of the Testbed}
-\label{subsec:architectural_blueprint}
-
+\subsection{Design of the Testbed} 
+%TODO
+\label{subsec:architectural_blueprint} The credibility of the testbed depends on accurately reflecting the dual-interface nature of the System Under Test (SUT). Unlike a generic protocol-translating gateway, the SUT under investigation is a safety-related I/O component (SRIO) that executes a trusted safety function (Asset A) via the PROFIsafe black-channel principle, while simultaneously exposing an IoT-Core diagnostic interface over HTTP. This dual nature requires the testbed to separate the deterministic, safety-critical fieldbus path from the non-deterministic IT/IoT diagnostic path, even though both terminate in the same physical device. To achieve a holistic expression of security tests, the testbed is structured into five functional zones: \begin{enumerate} \item \textbf{Safety Control Zone:} A fail-safe PLC (F-CPU), configured with a representative safety program, generates and receives PROFIsafe telegrams (F-ParCRC/F-iParCRC) toward the SUT. This zone represents the trusted counterpart referenced in CR 3.1 and must remain under the tester's exclusive control to allow controlled telegram manipulation (e.g., CRC corruption) for CR 3.1 / RQ-002 test cases. \item \textbf{Gateway/SUT Zone:} The device under test, exposing (a) a PROFINET/PROFIsafe field interface toward the Safety Control Zone, (b) an IoT-Core HTTP interface (\texttt{/deviceinfo/*}) toward the diagnostic network, and (c) a physical configuration interface (rotary/DIL switches, tamper seals) accessible only via direct physical contact. \item \textbf{OT Test and Measurement Path:} A mirrored PROFINET segment permitting passive traffic capture (e.g., via a managed switch with port mirroring) and, where required, active telegram injection using tools capable of parsing the PROFIsafe profile. \item \textbf{IT/IoT Test and Measurement Path:} A logically and physically separated segment hosting the attacker workstation for HTTP/API-based testing (Nmap, OWASP ZAP, Hydra, stress tools), strictly decoupled from the OT Test Path to prevent test-induced jitter or load from propagating into the safety-critical fieldbus communication. \item \textbf{Physical Access Test Lane:} A documented, supervised procedure for direct physical manipulation of the rotary/DIL switches and tamper-evident seals, required to evaluate EDR 3.11 and the physical-access-control requirements of CR 1.1/CR 2.1 (RQ-011). \end{enumerate}
 %Before determining the specific network isolation strategy, the internal architecture of the test environment must be defined. The credibility of any industrial security testbed heavily depends on its architectural components \cite[p. 4]{DesignAni}. The testbed must incorporate realistic functionality coverage. This ensures that the simulated environment accurately reflects a true industrial setup. 
 %
 %To achieve a holistic expression of security tests, a valid functional security testbed requires four fundamental architectural zones:
@@ -109,8 +110,10 @@ The primary objective of such a testbed is to demonstrate the application of ind
 %These components form a layer-based, modular platform. A modular structure ensures that the testbed remains adaptable for various industrial devices \cite[p. 4]{siboni2016securitytestbedinternetthings}. The testbed architecture must fulfill strict functional requirements. It must support targeted tests against known vulnerabilities, such as injection flaws, broken authentication, and security misconfigurations \cite[p. 3]{siboni2016securitytestbedinternetthings}. Furthermore, the architecture must facilitate the structured execution of threat scenarios based on the STRIDE model \cite[p. 9]{DevelopMuna}.
 
 
-\subsection{Isolation Strategies}
-\label{subsec:isolation_strategies}
+\subsection{Isolation Strategies} 
+\label{subsec:isolation_strategies} 
+%TODO
+Given the dual-interface architecture described above, isolation must be applied \emph{asymmetrically}: the OT/PROFIsafe path and the IT/IoT path require different isolation regimes. The \textbf{Safety Control Zone and the PROFINET/PROFIsafe path} are physically air-gapped at all times, consistent with the safety-related nature of the communication (Asset A, C). No Ethernet uplink, wireless bridge, or shared switch fabric connects this segment to any network outside the testbed, eliminating the risk of an external DoS or manipulation attempt propagating into the safety function under test. The \textbf{IoT-Core/HTTP path} is logically isolated using a managed switch enforcing VLAN separation and a firewall configured with a strict "deny-all, permit-by-exception" policy \cite[p. 102]{NIST.SP.800-82r3}. This segment alone carries the limited, out-of-band connectivity required for tool updates and evidence export. Critically, the two paths share no common physical switch port or backbone segment. This prevents a scenario in which HTTP-based load testing (RQ-007, CR 7.1) inadvertently introduces latency into the PROFIsafe cycle time, which would violate the requirement that cybersecurity testing must not compromise functional safety \cite[p. 14]{prEN50742_2025}.
 
 %With the internal testbed established, its integration into the surrounding facility must be addressed. Testing environments must be securely separated from productive corporate IT. When properly configured, network architectures enforce security policies and control network communications \cite[p. 72]{NIST.SP.800-82r3}. Two primary isolation paradigms exist in industry practice: physical isolation and logical isolation.
 %
@@ -144,8 +147,10 @@ The primary objective of such a testbed is to demonstrate the application of ind
 %Logical isolation enables efficient data exchange and supports automated testing procedures. However, it requires extensive administrative overhead. Firewalls and VLANs must be meticulously configured by the IT department. Furthermore, logical isolation carries a residual risk. A firewall misconfiguration or an unpatched software vulnerability in the router could allow attackers to inject remote commands and bypass the security mechanisms \cite[p. 12]{DevelopMuna}.
 
 
-\subsection{Hybrid Approach}
-\label{subsec:hybrid_approach}
+\subsection{Hybrid Approach} 
+\label{subsec:hybrid_approach} 
+% TODO
+The safety-critical core of the testbed, the Safety Control Zone, the SUT's PROFINET/PROFIsafe interface, and the associated OT measurement path remains strictly air-gapped throughout all testing activities, without exception. Only the attacker workstation operating against the IoT-Core/HTTP interface maintains an out-of-band wireless connection to an unprivileged external network, exclusively for signature updates and report export. This node has no physical or logical path back into the Safety Control Zone or the PROFINET segment, ensuring that the hybrid convenience granted to the IT/IoT test path never extends to the safety-critical fieldbus communication.
 %
 %Establishing a purely logically isolated VLAN often presents prohibitive administrative delays for rapid engineering projects. Conversely, a strict physical air-gap restricts the necessary retrieval of software updates and the extraction of digital evidence. To resolve this conflict, this methodology utilizes a pragmatic hybrid architecture. It combines physical safety with logical convenience.
 %

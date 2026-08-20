@@ -337,6 +337,8 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 		G & Integrity of Operating Mode & Test and update functions must not be activated or used without authorization. & Accountability, Authorization, Integrity, Authenticity, Availability & Rotary switches, IoT service functions, update mode, COM/SCPU control path & \\ 
 		
 		H & SRIO Functionality & Availability of SRIO functionality shall be ensured. & Availability & Power supply, COM, SCPU, network channels, field I/O & \\ 
+		
+		I & Integrity, Availability and Confidentiality of Audit/Tracing Data & Evidence of interventions, configuration changes and installed software versions must be generated, retained for the mandated period and access-restricted. & Accountability, Availability, Confidentiality & COM Error Log (circular buffer), IoT-Core /devicestatus/errorlog, /firmware/version, /deviceinfo/*, I\&M data  \\
 		\bottomrule
 	\end{tabularx}
 	\caption{Overview of Assets and Protection Objectives}
@@ -358,8 +360,10 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 \section{Application of the Testing Methodology} 
 \label{sec:application_methodology} 
+Tools
+\Cite{10275637}
 
-
+\cite{BSI2024ICSCompendium}
 
 \subsection{Authentication Tests} 
 \label{subsec:authentication_tests} 

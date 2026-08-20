@@ -10,6 +10,7 @@
 * GSD, MRP fehlt
 * Anhang unterschied Supporting/Partial usws.
 * Testumgebung informieren
+* Testfall DCP factory reset 
 ---
 
 ## Phase 1: Vorbereitung & Test-Design 

