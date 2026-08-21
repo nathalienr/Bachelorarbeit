@@ -349,7 +349,22 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 
 
 
+1. Physische/Hardware-Ebene ist im ursprünglichen Framework gar nicht vorgesehen Die 10 CMs sind ausschließlich Netzwerk-/Web-fokussiert. Für RQ-003, RQ-008, RQ-011 (JTAGulator, Logic-Analyzer, physische Siegelprüfung, Power-Cycle-Tests) gibt es in der Ursprungsliste keinerlei Entsprechung – das Framework kennt keine Hardware-Debug-Interface-Prüfung, weil es für reine IT-/IoT-Software-Assets entworfen wurde, nicht für ein Gerät mit physischen Rotary-Switches und JTAG-Fusing.
 
+2. Firmware-/Binary-Ebene fehlt komplett RQ-005 (Firmware-Signaturprüfung via binwalk/checksec) hat in den 10 CMs ebenfalls kein Äquivalent. Das ursprüngliche Framework prüft Betriebssystem-Härtung (Lynis) und Web-Schwachstellen, aber keine Firmware-Image-Analyse – dafür braucht es die OWASP-FSTM-Werkzeuge.
+
+3. Manche Tools waren zwar in der Liste, aber für den falschen Zweck vorgesehen boofuzz stand ursprünglich für generisches Protokoll-Fuzzing in der CM-Liste (CM-010, "Fuzzing/Robustheit"). Wir haben aber gezeigt, dass boofuzz für RQ-002/005 (gezielte CRC-Kollision) ungeeignet ist, aber für RQ-010 (Protokoll-Robustheit/Flooding) tatsächlich passend – das Tool blieb also teilweise erhalten, aber musste requirement-spezifisch neu zugeordnet werden statt pauschal wie in der CM-Liste vorgesehen.
+
+4. Web-Tools (ZAP, Nikto) waren oft überdimensioniert Wir haben mehrfach festgestellt (RQ-004, RQ-006, RQ-013, RQ-014), dass für einzelne, bereits bekannte IoT-Core-Endpunkte ein simples curl genügt – ZAP/Nikto sind für Exploration unbekannter Web-Angriffsflächen gedacht, nicht für die gezielte Prüfung eines einzelnen, dokumentierten Endpunkts. Das ist kein technisches Ungeeignet-Sein, sondern Overkill für die konkrete Fragestellung.
+
+5. Profisafe layer : nmap/scapy
+
+
+Scapy (custom PROFINET/PROFIsafe-Layer) NeinIn keiner der 5 Quellen namentlich enthalten pnio\_dcp / profi-dcp / scapy.contrib.pnio\_dcp NeinEbenfalls in keiner Quelle erwähntWireshark mit PROFIsafe-Dissector speziell TeilweiseWireshark selbst ja, der spezifische Dissector/Anwendungsfall auf Fieldbus-Ebene nicht
+
+Der Abgleich zeigt, dass die verfügbaren Testframeworks (internes Kali-Framework, NIST SP 800-115, OWASP FSTM, OWASP ISTG) für IT-, Firmware- und IoT-Consumer-typische Interfaces ausgelegt sind, jedoch keines von ihnen Werkzeuge oder Methodiken für deterministische industrielle Echtzeit-Feldbusprotokolle mit Safety-Erweiterung (PROFINET/PROFIsafe) vorsieht. Für die entsprechenden Testfälle (RQ-001, RQ-002, RQ-005, RQ-010, RQ-011) musste daher auf ein generisches Paketmanipulations-Framework (Scapy) mit protokollspezifischen Erweiterungen zurückgegriffen werden. Dies bestätigt eine in der Fachliteratur (vgl. Solapse, 2024) beschriebene, strukturelle Lücke: Klassische IT-Sicherheitswerkzeuge sind für OT-Echtzeitprotokolle auf OSI-Layer 2 grundsätzlich ungeeignet, da sie weder deren Framestruktur verstehen noch die strengen Timing-Anforderungen (z. B. F\_WD\_Time) respektieren.
+
+PROFINET-Echtzeitkommunikation (RT/IRT) verwendet gemäß Spezifikation rohe Ethernet-Frames auf OSI-Layer 2 (EtherType 0x8892) unter Umgehung des IP-Stacks, um deterministische Zykluszeiten im Millisekunden- bis Mikrosekundenbereich zu gewährleisten [Siemens/PI-Referenz]. Generische IP-basierte Scan-Tools wie Nmap sind für diese Kommunikationsebene nicht konzipiert; in der OT-Security-Praxis gelten aktive Scans in Echtzeitsegmenten als riskant, da sie durch Netzwerklast bereits getestete Geräte in einen Fehlerzustand versetzen können [Undercode Testing, 2025]. Das PROFINET-eigene Discovery-Protokoll DCP arbeitet ebenfalls auf Layer 2 und ist grundsätzlich unauthentifiziert [OT/ICS Monitor, 2026].
 
 \subsection{Test Setup} 
 \label{subsec:test_setup} 
