@@ -346,6 +346,15 @@ The data assets include network configuration parameters, PROFIsafe configuratio
 \end{table}
 
 
+Ziel "empirische Evidenz der Wirksamkeit technischer Gegenmaßnahmen" ist, bietet sich als methodischer Rahmen IEC 62443-4-1, Practice 5 "Security Verification and Validation Testing" (SVV) an – diese Norm definiert genau vier Testarten, die sich sauber auf deine Fragestellung abbilden lassen:
+
+SVV-1 Requirements-based Testing	Funktionale Verifikation, Grenzwerte, Fehlerinjektion	Verifiziert direkt, ob eine CR/RQ-Anforderung funktional implementiert ist 
+
+SVV-2 Threat Mitigation Testing	Wirksamkeit der Gegenmaßnahmen gegen das Bedrohungsmodell(STRIDE-Modell)	Das ist exakt deine Zielsetzung "empirische Evidenz der Effizienz technischer Mitigationsmaßnahmen"
+
+SVV-3 Vulnerability Testing	Fuzzing, bekannte Schwachstellen, Regelverletzungen	Für die physischen Schnittstellen (Ethernet/PROFINET-Stack, USB, IoT-API)
+
+SVV-4 Penetration Testing	Aktive Exploitation mit Tools/Techniken	Für Asset F (Domain-Separation) und H (Verfügbarkeit) – realistische Angriffssimulation auf die physische IT/OT-Grenze
 
 
 
@@ -365,6 +374,11 @@ Scapy (custom PROFINET/PROFIsafe-Layer) NeinIn keiner der 5 Quellen namentlich e
 Der Abgleich zeigt, dass die verfügbaren Testframeworks (internes Kali-Framework, NIST SP 800-115, OWASP FSTM, OWASP ISTG) für IT-, Firmware- und IoT-Consumer-typische Interfaces ausgelegt sind, jedoch keines von ihnen Werkzeuge oder Methodiken für deterministische industrielle Echtzeit-Feldbusprotokolle mit Safety-Erweiterung (PROFINET/PROFIsafe) vorsieht. Für die entsprechenden Testfälle (RQ-001, RQ-002, RQ-005, RQ-010, RQ-011) musste daher auf ein generisches Paketmanipulations-Framework (Scapy) mit protokollspezifischen Erweiterungen zurückgegriffen werden. Dies bestätigt eine in der Fachliteratur (vgl. Solapse, 2024) beschriebene, strukturelle Lücke: Klassische IT-Sicherheitswerkzeuge sind für OT-Echtzeitprotokolle auf OSI-Layer 2 grundsätzlich ungeeignet, da sie weder deren Framestruktur verstehen noch die strengen Timing-Anforderungen (z. B. F\_WD\_Time) respektieren.
 
 PROFINET-Echtzeitkommunikation (RT/IRT) verwendet gemäß Spezifikation rohe Ethernet-Frames auf OSI-Layer 2 (EtherType 0x8892) unter Umgehung des IP-Stacks, um deterministische Zykluszeiten im Millisekunden- bis Mikrosekundenbereich zu gewährleisten [Siemens/PI-Referenz]. Generische IP-basierte Scan-Tools wie Nmap sind für diese Kommunikationsebene nicht konzipiert; in der OT-Security-Praxis gelten aktive Scans in Echtzeitsegmenten als riskant, da sie durch Netzwerklast bereits getestete Geräte in einen Fehlerzustand versetzen können [Undercode Testing, 2025]. Das PROFINET-eigene Discovery-Protokoll DCP arbeitet ebenfalls auf Layer 2 und ist grundsätzlich unauthentifiziert [OT/ICS Monitor, 2026].
+
+
+
+\cite{256946}
+
 
 \subsection{Test Setup} 
 \label{subsec:test_setup} 

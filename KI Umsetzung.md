@@ -1,4 +1,3 @@
-Das ist eine spannende und methodisch anspruchsvolle Fragestellung – lass mich kurz die einschlägigen Normen-Details zu Testmethodik (IEC 62443-4-1 SVV, prEN 50742 Prüfverfahren) verifizieren, damit ich dir eine fundierte, normkonforme Antwort geben kann.Basierend auf dem, was du bereits erarbeitet hast (Requirement-Derivation RQ-001–014 → prEN 50742 → IEC 62443-4-2 CRs, plus die Asset-Tabelle A–I für dein SRIO-Gateway), fehlt methodisch noch genau ein Bindeglied, bevor du zu konkreten Testfällen kommst – und das ist gleichzeitig die Antwort auf deine Frage nach "konkreter Umsetzung und Resultat".
 
 Wo du in der Kette stehst
 
@@ -8,7 +7,8 @@ Deine drei Tabellen bilden die Anforderungsableitung (Regulation → Norm → Ko
 
 Praktisch bedeutet das: Für jedes Requirement (RQ-XXX) prüfst du, welches Asset (A–I) es schützt, und leitest daraus einen Testfall ab, der die zugehörige CR/EDR aus IEC 62443-4-2 am physischen Gateway verifiziert. Ein Beispiel, wie diese Tabelle aussehen könnte:
 
-RQ-ID	Asset	CR/EDR	Testfall (Beispiel)	TesttypRQ-002/005	D (Authentizität/Integrität Safety-SW)	EDR 3.14, CR 3.4	Manipulierte Firmware-Datei via IoT-Schnittstelle/Update-Workflow einspielen; verifizieren, dass Boot-Integritätsprüfung den Start verweigert	Requirements-based + Threat Mitigation
+RQ-ID	Asset	CR/EDR	Testfall (Beispiel)	Testtyp
+RQ-002/005	D (Authentizität/Integrität Safety-SW)	EDR 3.14, CR 3.4	Manipulierte Firmware-Datei via IoT-Schnittstelle/Update-Workflow einspielen; verifizieren, dass Boot-Integritätsprüfung den Start verweigert	Requirements-based + Threat Mitigation
 RQ-003	D, G	EDR 3.11	Physische Manipulation am Gehäuse/RJ45-Interface (Siegel, Abdeckung) simulieren; prüfen, ob Ereignis im Error Log erscheint	Threat Mitigation
 RQ-010	H (SRIO-Verfügbarkeit)	CR 7.1 (1)	Flooding-Angriff auf COM-Netzwerkschnittstelle; verifizieren, dass Safe CPU/PROFIsafe-Kanal unbeeinflusst bleibt	Penetration/Threat Mitigation
 RQ-011	G (Integrität Betriebsmodus)	CR 1.1, CR 2.1 (2)	Versuch, Update-Modus/Rotary Switch ohne Autorisierung zu aktivieren	Vulnerability + Penetration
@@ -20,7 +20,8 @@ Diese Matrix ist das strukturelle Herzstück, das deine drei Anhang-Tabellen mit
 
 Da dein Thema explizit "Functional Testing of Security" heißt und dein Ziel "empirische Evidenz der Wirksamkeit technischer Gegenmaßnahmen" ist, bietet sich als methodischer Rahmen IEC 62443-4-1, Practice 5 "Security Verification and Validation Testing" (SVV) an – diese Norm definiert genau vier Testarten, die sich sauber auf deine Fragestellung abbilden lassen:
 
-SVV-Typ	Fokus	Bezug zu deiner ArbeitSVV-1 Requirements-based Testing	Funktionale Verifikation, Grenzwerte, Fehlerinjektion	Verifiziert direkt, ob eine CR/RQ-Anforderung funktional implementiert ist (z. B. "wird beim Boot ein Integritätscheck durchgeführt?")
+SVV-Typ	Fokus	Bezug zu deiner Arbeit
+SVV-1 Requirements-based Testing	Funktionale Verifikation, Grenzwerte, Fehlerinjektion	Verifiziert direkt, ob eine CR/RQ-Anforderung funktional implementiert ist (z. B. "wird beim Boot ein Integritätscheck durchgeführt?")
 SVV-2 Threat Mitigation Testing	Wirksamkeit der Gegenmaßnahmen gegen das Bedrohungsmodell	Das ist exakt deine Zielsetzung "empirische Evidenz der Effizienz technischer Mitigationsmaßnahmen"
 SVV-3 Vulnerability Testing	Fuzzing, bekannte Schwachstellen, Regelverletzungen	Für die physischen Schnittstellen (Ethernet/PROFINET-Stack, USB, IoT-API)
 SVV-4 Penetration Testing	Aktive Exploitation mit Tools/Techniken	Für Asset F (Domain-Separation) und H (Verfügbarkeit) – realistische Angriffssimulation auf die physische IT/OT-Grenze
@@ -57,4 +58,57 @@ Organisatorische Handlungsempfehlung: Wie wird diese Methodik dauerhaft in den E
 
 Damit schließt sich der Kreis zu deiner ursprünglichen Zielsetzung: Du lieferst nicht nur Testfälle für ein einzelnes Gerät, sondern eine wiederholbare, auditierbare Methodik, die die regulatorischen Anforderungen der Maschinenverordnung praktisch anwendbar macht – das ist der eigentliche wissenschaftliche Mehrwert.
 
-Soll ich dir helfen, diese vierte Tabelle (RQ × Asset × Testfall) für alle 14 Requirements und alle 9 Assets vollständig auszuarbeiten, oder möchtest du erstmal an der Kapitelstruktur (Testmethodik-Kapitel) weiterarbeiten?
+-------------------------------------------------------------------------------------------------------------------------------------------
+Testkatalog
+
+Das Grundprinzip: zwei Ebenen statt einer Tabelle
+
+Ebene 1 – Abstrakter Testfall ("Was wird geprüft, unabhängig vom konkreten Gateway"): bleibt über Produktgenerationen hinweg stabil, solange sich RQ/CR nicht ändern. Ebene 2 – Konkrete Testinstanz ("Wie wird es an genau diesem Gateway/dieser Firmware-Version durchgeführt"): wird bei jedem neuen Release neu ausgefüllt, referenziert aber immer denselben abstrakten Testfall.
+
+So testest du bei einem neuen Gateway-Release nicht neu, was geprüft werden muss (das steht seit der Ableitung aus RQ-XXX fest), sondern nur wie es an der neuen Hardware/Firmware konkret ausgeführt wird. Das ist der eigentliche Beweis für "systematisch statt einmalig".
+
+Ebene 1: Abstrakter Testfall – Beispiel-Template
+Feld	Inhalt (Beispiel TC-005)Test-Case-ID	TC-005
+Titel	Verifikation der Boot-Integritätsprüfung gegen manipulierte Firmware
+Traceability	RQ-002, RQ-005 → prEN 50742 §7.4.3.4.1/.2 → CR 3.4, EDR 3.14
+Asset-Klasse	D – Authentizität/Integrität der Safety-Software (nicht gebunden an konkretes Bauteil)
+SVV-Typ	SVV-1 (Requirements-based) + SVV-2 (Threat Mitigation)
+SRSL-Skalierung	SRSL1: Prüfsummen-Verifikation beim Start; SRSL3: kryptografische Hash-/HMAC-Verifikation
+Testhypothese	Das Gerät verweigert den Start bzw. fällt in einen sicheren Zustand, wenn die geladene Firmware nicht mit dem erwarteten Integritätsnachweis übereinstimmt.
+Vorbedingung (abstrakt)	DUT verfügt über einen definierten Firmware-Update-Pfad ({UPDATE_MECHANISM}) und einen Bootloader mit Integritätsprüfung
+Parametrisierungsvariablen	{UPDATE_MECHANISM}, {INTEGRITY_METHOD}, {ACCESS_INTERFACE}, {FLASH_LOCATION}
+Prüfschritte (abstrakt)	1. Erzeuge manipuliertes Firmware-Image (Bit-Flip/invalide Signatur) 2. Spiele es über {UPDATE_MECHANISM} bzw. direkten Zugriff auf {FLASH_LOCATION} ein 3. Löse Neustart/Boot-Vorgang aus 4. Beobachte Systemverhalten und Log-Eintrag
+Pass-Kriterium	Start wird verweigert ODER sicherer Zustand wird eingenommen UND Ereignis wird in Audit-Log (Asset I) erfasst
+Fail-Kriterium	Manipulierte Firmware wird ausgeführt ODER kein Log-Eintrag erfolgt
+Benötigtes Equipment (generisch)	Firmware-Manipulationswerkzeug, Flash-Programmer/Debug-Interface, Log-Auswertungsskript
+
+Diese Zeile ist produktneutral formuliert – sie sagt nichts über PROFINET, IoT-Core-API oder das spezifische Shared-Flash-Layout deines aktuellen Gateways. Genau das macht sie über Produktgenerationen hinweg wiederverwendbar.
+
+Ebene 2: Konkrete Testinstanz – Bindung an dein reales Gateway
+Feld	InhaltReferenzierter abstrakter Testfall	TC-005
+Produkt / Release	SRIO-Gateway, FW-Version X.Y.Z
+Parameterbindung	{UPDATE_MECHANISM} = IoT-Core REST-Endpunkt /firmware/update; {INTEGRITY_METHOD} = CMAC-Verifikation (SRSL3); {ACCESS_INTERFACE} = Ethernet-Port + JTAG; {FLASH_LOCATION} = Shared Flash (COM CPU)
+Konkrete Durchführung	Firmware-Image mit invalidem CMAC über /firmware/update hochgeladen; parallel direkter Schreibversuch via JTAG auf Shared Flash
+Tool-Einsatz	Python-Skript (REST-Client) + Debug-Probe + Logic Analyzer
+Ergebnis	Pass / Partial / Fail*(hier: reale Testdurchführung eintragen)*
+Evidenz	Log-Auszug /devicestatus/errorlog, Paketmitschnitt, Foto Debug-Setup
+Tester / Datum	–
+Abweichung/Defect-Ticket	Falls Fail: Verweis auf Ticket-ID
+Warum das die Wiederverwendbarkeit tatsächlich sicherstellt
+Neue Gateway-Generation mit anderem Update-Mechanismus? → Nur Ebene 2 (Parameterbindung) ändert sich, TC-005 selbst bleibt unverändert gültig, weil RQ-002/005 unverändert gilt.
+Neue Firmware-Version, gleiche Hardware? → Ebene 2 wird einfach erneut ausgeführt (Regressionstest), Ebene 1 bleibt exakt gleich – das ist der Nachweis der Systematik gegenüber einer einmaligen Ad-hoc-Prüfung.
+Normänderung (z. B. finale prEN 50742-Fassung statt Entwurf)? → Nur die Traceability-Spalte in Ebene 1 wird angepasst; der Testfallkatalog muss nicht neu erfunden werden.
+Strukturelle Organisation des Gesamtkatalogs
+
+Am praktikabelsten ist eine relationale Struktur (z. B. als Excel-Arbeitsmappe mit verknüpften Tabellenblättern oder als einfache Datenbank):
+
+Blatt „Requirements" (deine bestehende RQ-001–014-Tabelle)
+Blatt „Assets" (deine bestehende A–I-Tabelle)
+Blatt „Abstract_TestCases" (TC-001 … TC-n, verknüpft über RQ-ID und Asset-ID)
+Blatt „Concrete_TestRuns" (eine Zeile pro tatsächlicher Testdurchführung, verknüpft über Test-Case-ID + Release-Version)
+
+Damit hast du am Ende nicht nur einen Katalog, sondern ein lebendiges, releaseübergreifendes Prüfregister, das sich bei jedem neuen Produktrelease einfach um neue Zeilen in „Concrete_TestRuns" erweitern lässt, ohne die methodische Basis neu zu entwickeln – exakt das Argument, das deine Bachelorarbeit als wissenschaftlichen Beitrag braucht (Systematik statt Einzelfallprüfung).
+
+Soll ich dir das als tatsächliche, ausgefüllte Excel-Arbeitsmappe (mit allen 14 RQs, deinen 9 Assets und einer ersten vollständigen Testfall-Bibliothek in dieser zweistufigen Struktur) erstellen, damit du eine direkt einsetzbare Vorlage in der Hand hast?
+
+
