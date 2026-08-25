@@ -143,60 +143,7 @@ Let's work through RQ‑006, column by column, with drop‑in text ("→ Put in 
 RQ‑004 = "identify the software and data critical for the EHSRs" → the finding is data/config (B) is not identified.
 RQ‑006 = "identify the installed software necessary for safe operation" → this is purely the software inventory (asset D), no data‑completeness angle. So RQ‑006's primary test is: is the software inventory complete and correct? The cleartext issue is secondary (and largely a cross‑reference to RQ‑004/RQ‑014).
 RQ‑006 — "Identify the software installed on it that is necessary for safe operation"
-Step 1 — Column-by-column review
 
-MVO‑ID / Source — RQ‑006, Annex III 1.1.9 → ✅ correct, no change.
-
-IEC 62443 CR — Current: CR 7.8
-
-✅ Correct — CR 7.8 (Control system component/software inventory) is exactly right as the primary anchor. Optionally add CR 4.1 as the secondary confidentiality hook (consistent with RQ‑004).
-→ Put in cell: CR 7.8 (primary — software inventory); CR 4.1 (secondary — confidentiality of inventory data in transit)
-
-Target Asset — Current: D (Safety Firmware)
-
-✅ Correct. Optionally make explicit it covers all installed safety-relevant software components (host FW, SCPU FW, bootloaders).
-→ Put in cell: D (Safety Firmware/Software — all installed components: host FW, SCPU FW, bootloaders)
-
-Threat (STRIDE) — Current: Information Disclosure
-
-🔴 Fix (same as RQ‑004). For the primary identification/inventory objective this is a Tampering/integrity concern (is the inventory complete/correct?), not disclosure. Information Disclosure applies only to the secondary cleartext finding.
-→ Put in cell: Tampering (primary — completeness/correctness of software inventory); Information Disclosure (secondary — cleartext transmission)
-
-Security Function — Current lists 3 endpoints. Accurate; optionally add the host FW version source (swrevision) so the inventory is complete.
-
-→ Put in cell: Software inventory read-out via IoT-Core: /deviceinfo/swrevision (host FW), /deviceinfo/swinfo/cpubootloaderversion, /deviceinfo/swinfo/scpuversion, /deviceinfo/swinfo/scpubootloaderversion. Additional inventory via PROFINET I&M0 (SOFTWARE_REVISION) and I&M5 (annotation string).
-
-Gap — Current only states the cleartext point. Add the primary angle (is the inventory complete?) so RQ‑006 isn't reduced to a confidentiality test.
-
-→ Put in cell: Primary (inventory completeness): the device exposes host/SCPU firmware and bootloader versions, but there is no consolidated, integrity-protected software inventory (SBOM-equivalent); completeness for CR 7.8 must be verified against the actual installed components. Secondary (confidentiality): identification data is transmitted only via unencrypted HTTP (HTTPS/Websocket/MQTT explicitly unsupported), enabling version reconnaissance.
-
-Target Interface Type — Current: Web/API (IoT-Core HTTP)
-
-⚠️ Add the I&M/PROFINET inventory path + the sniffing layer.
-→ Put in cell: Web/API — IoT-Core HTTP (/deviceinfo/swinfo/*); Network — PROFINET acyclic I&M0/I&M5 (software revision/annotation); Network — cleartext HTTP (passive sniffing, secondary)
-
-Tool Category — Current: Web Application Analysis (Information Disclosure)
-
-⚠️ Broaden slightly to reflect the inventory (primary) objective.
-→ Put in cell: Software Inventory Read-out / Component Enumeration (primary); Web Application Analysis + Network Sniffing (secondary — cleartext)
-
-Concrete Tool — Current: curl / Nikto (evtl. curl ausreichend)
-
-⚠️ Two points. (1) Translate. (2) Make the Nikto‑N/A call explicit and consistent with RQ‑004: for a single known endpoint set, curl is sufficient; Nikto adds no insight (no unknown attack surface). Add Wireshark for the secondary cleartext proof + optional I&M0 read.
-→ Put in cell: curl (targeted GET against /deviceinfo/swinfo/* — primary inventory read-out) + Wireshark (passive cleartext confirmation + optional I&M0/I&M5 via PROFINET). Nikto/ZAP N/A — single known endpoint set, no unknown attack surface (documented deviation, consistent with RQ-004).
-
-Concrete Tool (Reason) — Translate; expand beyond just cleartext to include the inventory purpose.
-
-→ Put in cell: A simple HTTP GET against the /deviceinfo/swinfo/* endpoints enumerates the installed safety-relevant software (host FW, SCPU FW, bootloaders) and confirms cleartext transmission. curl is sufficient for this known endpoint set; an automated scanner (Nikto/ZAP) provides no additional insight. Wireshark confirms at protocol level that responses are transmitted without TLS. The enumerated versions are cross-checked against the actual installed components to assess inventory completeness for CR 7.8.
-
-Prioritisation — Current: Web/API-Block (keine Abhängigkeiten)
-
-⚠️ Translate; note it bundles with RQ‑004.
-→ Put in cell: Web/API block (no dependencies; bundle with RQ-004)
-
-Environment feasibility check: Fully runs in Zone B — curl over management/OT path, Wireshark passive on mirror port; optional I&M0 read via PROFINET acyclic on the mirror/inject path. No physical bench. ✅
-
-Company‑doc mapping: Primary (inventory) → CM‑008 (SBOM cross-check is the natural home for "software inventory completeness") + norm CR 7.8. Secondary (cleartext) → CM‑005 (TLS) conceptually, but device has no TLS so curl+Wireshark is the direct evidence, same as RQ‑004. This is also where OWASP FSTM SBOM / ISVS V1.1.1 (device maintains accurate SBOM) is a nice academic anchor for your inventory‑completeness argument.
 
 Step 2 — Test cases
 
@@ -239,55 +186,6 @@ That's RQ‑006 fully worked, kept clearly distinct from RQ‑004 (pure software
 Let's work through RQ‑007, column by column, with drop‑in text ("→ Put in cell:"). This is your first Availability requirement, and the row is largely correct — the main work is tightening the CR mapping, translating, and separating the two distinct gaps (the "at all times" conflict vs. the 2‑connection‑limit‑as‑DoS‑vector) so each has its own test.
 
 RQ‑007 — "Provide identification information of safety‑relevant installed software at all times in an easily accessible form"
-Step 1 — Column-by-column review
-
-MVO‑ID / Source — RQ‑007, Annex III 1.1.9 → ✅ correct, no change.
-
-IEC 62443 CR — Current: CR 7.8 CR 7.1, CR 7.2
-
-⚠️ Refine. The requirement is about availability of the identification data, so the primary anchors are CR 7.1 (Denial‑of‑service protection) and CR 7.2 (Resource management). CR 7.8 (inventory) is only relevant insofar as it's the data whose availability is at stake — keep it as secondary, not primary.
-→ Put in cell: CR 7.1 (primary — DoS protection); CR 7.2 (primary — resource management); CR 7.8 (secondary — it is the inventory data whose availability is required)
-
-Target Asset — Current: H (Availability); D (identification data)
-
-⚠️ Small precision fix. H = the IoT‑Core service availability; the asset whose availability the regulation demands is the identification data (D). Label roles.
-→ Put in cell: H (IoT-Core service availability); D (identification data — must be available "at all times")
-
-Threat (STRIDE) — Current: Denial of Service → ✅ correct, no change.
-
-Security Function — Current: accurate. Optionally note it's an intentional resource‑exhaustion limit (a protective measure that is simultaneously a constraint).
-
-→ Put in cell: Max. 2 concurrent HTTP connections limit resource exhaustion of the IoT-Core service (SRIO-7909). Device supports only incoming connections; no outgoing/subscription connections.
-
-Gap — Current is correct and identifies two separate gaps. Keep both but label them clearly, and add the FW‑update source ref.
-
-→ Put in cell: Gap 1 (availability conflict with "at all times"): the IoT-Core is deactivated during SCPU firmware update, so identification data is NOT available at all times. Gap 2 (limit as DoS vector): the 2-connection limit is itself a DoS vector — two idle/held connections can block all further legitimate access to the identification API.
-
-Target Interface Type — Current: Web/API (IoT-Core HTTP) → ✅ correct, no change (optionally add the FW‑update trigger path).
-
-→ Put in cell: Web/API — IoT-Core HTTP (identification endpoints); FW-Update state as the availability-interrupting condition
-
-Tool Category — Current: Stress / Load Test (Denial of Service) → ✅ correct.
-
-→ Put in cell: Stress / Load Test (Denial of Service); Availability Monitoring
-
-Concrete Tool — Current: Siege (-c 50 -t 10M); curl
-
-⚠️ Refine. Siege with 50 concurrent users is the wrong instrument for a 2‑connection limit — you don't need volumetric load, you need to hold exactly 2 connections and try a 3rd. So the primary tool is curl/netcat (hold 2, attempt 3rd); Siege is optional only to show graceful behavior under load, not to prove the gap. This also aligns with the company doc: CM‑009 uses Siege for load/logging, but here the finding is structural (2‑conn limit), so a targeted curl test is more appropriate.
-→ Put in cell: Primary: curl / netcat (hold 2 connections open, attempt a 3rd) + a curl polling script (~1 s interval) to measure API downtime during a triggered FW update. Optional: Siege (-c, -t) to observe behaviour under load — not required to prove the 2-connection gap.
-
-Concrete Tool (Reason) — Translate the German; keep both test logics.
-
-→ Put in cell: Gap 2: open two parallel, deliberately held-open sessions (curl --no-keepalive or netcat), then attempt a third access → verifies whether 2 connections already fully exclude further clients. Gap 1: run a simple monitoring script (curl in a loop, e.g. every 1 s) in parallel with a triggered FW-update process → documents the actual downtime duration of the identification API.
-
-Prioritisation — Current: Web/API-Block (keine Abhängigkeiten)
-
-⚠️ Translate.
-→ Put in cell: Web/API block (no dependencies)
-
-Environment feasibility check: Both tests run in Zone B over the IoT‑Core HTTP path (Pi active on OT/management, curl/netcat). TC‑B (FW‑update downtime) requires actually triggering a firmware update — do this only in a controlled test window on a test unit, never a production rollout (company safety rule), and note the SCPU‑update state deactivates IoT‑Core by design. ✅
-
-Company‑doc mapping: CM‑009 (Load Behavior & Logging, Siege) is the nominal home, but flag to the TM that for a documented 2‑connection limit the targeted curl/netcat test is more diagnostic than volumetric Siege load — Siege is better suited where a large concurrent‑user profile is meaningful. Norm anchor: CR 7.1/7.2.
 
 Step 2 — Test cases
 
@@ -340,58 +238,7 @@ RQ‑009 = evidence of modification of software or its configuration → change 
 So RQ‑008's center of gravity is**"was a software intervention recorded?"** The REVISION_COUNTER (which tracks parameter changes) is actually a weak/partial fit here — it's really more relevant to RQ‑009 (config modification). I'll flag that so your three rows stay distinct and defensible.
 
 RQ‑008 — "Collect evidence of any legitimate or illegitimate intervention in the software installed on it"
-Step 1 — Column-by-column review
 
-MVO‑ID / Source — RQ‑008, Annex III 1.1.9 → ✅ correct, no change.
-
-IEC 62443 CR — Current: CR 2.8, CR 2.12
-
-✅ Correct. CR 2.8 (Auditable events) + CR 2.12 (Non‑repudiation) are the right anchors for "collect evidence of intervention". Optionally add CR 2.11 (Timestamps) because the core weakness is the missing timestamp/actor — it strengthens the gap's normative hook.
-→ Put in cell: CR 2.8 (auditable events); CR 2.12 (non-repudiation); CR 2.11 (timestamps — supports the missing-timestamp gap)
-
-Target Asset — Current: D (Safety Firmware); G (Operating Mode); I (Audit Data)
-
-⚠️ Scope precision. RQ‑008 is about intervention in installed software (D), evidenced in audit data (I). Operating‑mode (G) is more an RQ‑003/RQ‑011 concern (physical mode change). Keep D and I as primary; keep G only if you mean the FW‑update‑mode entry as a software intervention trigger — label it that way.
-→ Put in cell: D (Safety Firmware/Software — subject of intervention); I (Audit Data — evidence); G (Operating-mode/FW-update entry — only as a software-intervention trigger)
-
-Threat (STRIDE) — Current: Repudiation → ✅ correct, no change.
-
-Security Function — Current attributes REVISION_COUNTER to this RQ.
-
-⚠️ Refine. REVISION_COUNTER increments on parameter change (I&M0) — that's config modification (RQ‑009), not really "software intervention." For RQ‑008 the honest statement is: the device logs software‑related events in the error log (COM ErrorEvent written to the error log, incl. FW‑update‑related events), while the REVISION_COUNTER is only a weak marker. State it precisely:
-→ Put in cell: Software-related events (incl. FW-update actions and self-detected errors) are written to the COM error log (circular buffer, IoT-Core readable). REVISION_COUNTER (I&M0) increments on parameter change — a weak, indirect marker only (primarily relevant to configuration modification, RQ-009).
-
-Gap — Current focuses on the fused debug port. Good, but add the primary software‑logging weakness (no timestamp/actor, log cleared on coldstart) so RQ‑008 isn't reduced to the debug‑port point.
-
-→ Put in cell: The device records that a software/FW event occurred (error log) but without actor identity and — for REVISION_COUNTER — without timestamp, limiting genuine non-repudiation. The error log is a circular buffer cleared on coldstart (no long-term evidence). The physical test/debug interface is prevented by fusing after development rather than logged; intervention via this hardware path is excluded by design, not evidenced by a log entry as RQ-008 would strictly require.
-
-Target Interface Type — Current: Network (PROFINET acyclic/I&M0 records); Physical (Debug interface)
-
-⚠️ Add the IoT‑Core error‑log path (that's where software events actually land) and flag the physical part as separate bench.
-→ Put in cell: Network — PROFINET acyclic I&M0 (0xAFF0, REVISION_COUNTER); Web/API — IoT-Core HTTP (/devicestatus/errorlog); Physical — debug/test interface (separate physical bench)
-
-Tool Category — Current: Log/Audit Review (Protocoll-Layer); Physical Interface Testing/ Hardware Debug Access
-
-✅ Correct; translate.
-→ Put in cell: Log/Audit Review (protocol layer + API); Physical Interface Testing / Hardware Debug Access (separate bench)
-
-Concrete Tool — Current: Wireshark (I&M0) + JTAGulator/Logic-Analyzer
-
-⚠️ Add curl for the error‑log read (that's the primary software‑event evidence path), and mark the hardware tools as optional/separate bench. Translate.
-→ Put in cell: Primary (Zone B): curl (IoT-Core /devicestatus/errorlog) + Wireshark PROFINET dissector (I&M0/REVISION_COUNTER via acyclic 0xAFF0). Optional (separate physical bench): JTAGulator + logic-analyzer (sigrok/PulseView) for debug-port probing.
-
-Concrete Tool (Reason) — Translate; expand to cover the software‑event logging (not just the debug step).
-
-→ Put in cell: First trigger a FW-update/software intervention normally → read the error log (curl) and I&M0/REVISION_COUNTER (Wireshark) and check whether the software intervention is logged WITH sufficient detail (actor, timestamp). Then — if a debug access is found despite fusing — re-check the error log to see whether that access was logged (currently a missing step). Expected: software events appear without actor/timestamp; hardware-path access produces no entry → confirms the non-repudiation gap.
-
-Prioritisation — Current: Netzwerk-Teil: I&M0 auslesen
-
-⚠️ Translate; note the physical part is separate.
-→ Put in cell: Network/API part: read error log + I&M0 (Web/API + I&M0 block). Physical debug part: separate physical bench (optional)
-
-Environment feasibility check: The software‑event logging tests (TC‑A) run fully in Zone B — trigger FW update, read error log via curl, read I&M0 via Wireshark on mirror port. The debug‑port part (TC‑B) is separate physical bench, optional. FW‑update trigger only on a test unit in a controlled window (company rule).
-
-Company‑doc mapping: Software‑event logging → CM‑009 (load behavior*& logging* — the logging‑completeness angle) plus norm CR 2.8/2.11/2.12. Debug part → CM‑007 JTAG/UART extension (same as RQ‑003). Reuse the SM‑5 justification for the fused‑port "design exclusion vs. logging" argument.
 
 Step 2 — Test cases
 
@@ -895,63 +742,8 @@ That's RQ‑013 fully worked — kept distinct from RQ‑012 (version records vs
 Let's work through RQ‑014, the final requirement, column by column with drop‑in text ("→ Put in cell:"). This is a clean confirmed non‑conformity and your row is already strong. The work: refine the CR mapping (it's a bit over‑stuffed), fix the STRIDE nuance, and translate the two German cells.
 
 RQ‑014 — "Restrict access to the tracing log data exclusively to demonstrating conformity further to a reasoned request from a competent national authority"
-Step 1 — Column-by-column review
 
-MVO‑ID / Source — RQ‑014, Annex III 1.2.1 → ✅ correct, no change.
 
-IEC 62443 CR — Current: CR 2.1, CR 3.9, CR 4.1, CR 6.1
-
-⚠️ Refine — four CRs is too broad; pick the ones that truly fit and label roles. The requirement is a purpose‑limited access‑control + confidentiality obligation:
-CR 2.1 (Authorization enforcement) — primary (access must be restricted). ✅
-CR 6.1 (Audit log accessibility) — very relevant (who may read the audit data). ✅
-CR 4.1 (Information confidentiality) — relevant (log data confidentiality). ✅
-CR 3.9 (Protection of audit information) — actually a good fit for the "no delete/erase" angle (audit integrity/protection). Keep it but reassign its role. Note CR 3.9 is more about protecting audit info from deletion, which matches your "no delete command documented" point.
-→ Put in cell: CR 2.1 (authorization enforcement — primary); CR 6.1 (audit log access restriction); CR 4.1 (confidentiality of log data); CR 3.9 (protection of audit information — supports the "no delete/erase, no purpose-limitation" angle)
-
-Target Asset — Current: I (Audit Data); F (transport path)
-
-✅ Correct. Optionally clarify F's role (the cleartext transport over which the log is exposed).
-→ Put in cell: I (Audit Data — the tracing log to be access-restricted); F (transport path — unauthenticated/cleartext exposure channel)
-
-Threat (STRIDE) — Current: Information Disclosure
-
-⚠️ Refine. The core violation is unrestricted access — that's primarily an Elevation of Privilege / authorization failure, with Information Disclosure as the consequence. Both apply.
-→ Put in cell: Information Disclosure (primary — unrestricted read of log data); Elevation of Privilege (missing authorization gate)
-
-Security Function — Current: N.I
-
-⚠️ Refine (same principle as RQ‑003). It's accurate that no access control exists, but state it as a factual "none implemented" rather than the ambiguous "N.I." — and note IoT‑Core has no authentication at all by design.
-→ Put in cell: None implemented: the error log is readable via IoT-Core with no authentication/authorization gate, no purpose-limitation control, and no documented delete/erase command. IoT-Core provides no access control by design.
-
-Gap — Current is strong and correct. Tighten and make the three sub‑failures explicit against the requirement's "exclusively for authority request" wording.
-
-→ Put in cell: Confirmed non-conformity. The error log is documented as readable via IoT-Core (SRIO-10662) with (1) no authentication/authorization gate, (2) no purpose-limitation control (readable by anyone with network access, not "exclusively" for a competent-authority request), and (3) no documented delete/erase command — directly conflicting with the "exclusively to demonstrating conformity further to a reasoned request from a competent national authority" restriction of RQ-014.
-
-Target Interface Type — Current: Web/API (IoT-Core HTTP) → ✅ correct, no change.
-
-→ Put in cell: Web/API — IoT-Core HTTP (/devicestatus/errorlog)
-
-Tool Category — Current: Web Application Analysis (Authorization); Information Disclosure Testing → ✅ correct, no change.
-
-→ Put in cell: Web Application Analysis (Authorization); Information Disclosure Testing
-
-Concrete Tool — Current: curl (unauthentifizierter GET…)
-
-⚠️ Translate; keep it minimal (correctly).
-→ Put in cell: curl (unauthenticated GET against /devicestatus/errorlog). Nikto/ZAP N/A for the gap itself — single known endpoint, binary question; optional only for exploratory discovery of other undocumented endpoints (separate objective).
-
-Concrete Tool (Reason) — Current is good English. Keep, minor polish.
-
-→ Put in cell: A single targeted GET is sufficient to confirm whether the error-log endpoint is accessible without authentication/authorization — the question is binary (access: yes/no) on a single known endpoint. A generic scanner (Nikto) or active scan (ZAP) adds no insight here, as there is no unknown attack surface — consistent with the tool rationale in RQ-004/006/013. Optionally, ZAP/Nikto could supplement to check for other undocumented log/debug endpoints, but that is a separate exploratory objective, not part of this gap verification.
-
-Prioritisation — Current: Web/API-Block (keine Abhängigkeiten)
-
-⚠️ Translate.
-→ Put in cell: Web/API block (no dependencies)
-
-Environment feasibility check: Fully runs in Zone B — a single unauthenticated curl GET over the IoT‑Core HTTP path. Simplest row in the set; no bench, no destructive action. ✅
-
-Company‑doc mapping: CM‑004 (RBAC/Authorization, ZAP) is the nominal home for an authorization gap — but note Striegel's comment: IoT‑Core is admin‑only/no‑auth, so this is really about the absence of any access gate, which a single curl proves more directly than ZAP. Also touches CM‑005/CM‑007 (cleartext/exposure). Norm anchor: CR 2.1/6.1/4.1/3.9.
 
 Step 2 — Test cases
 
