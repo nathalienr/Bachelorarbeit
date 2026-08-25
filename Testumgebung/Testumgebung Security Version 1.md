@@ -213,3 +213,5 @@ Eine kostengünstige, handelsübliche "Ethernet A/B Switch Box" (mit manuellem K
 - ✅ SRIO-Stromversorgung bleibt während des *gesamten* Wechsels durchgehend angeschlossen → **kein Cold-Start**, allenfalls kurzer Link-Down (→ EC3/Fallback auf Parametrization — Standardverhalten, erholt sich automatisch)
 - ⚠️ Zusatzkosten für die Switchbox (aber gering, off-the-shelf erhältlich)
 
+####  Option 4 - **2 Geräte verwenden**
+
