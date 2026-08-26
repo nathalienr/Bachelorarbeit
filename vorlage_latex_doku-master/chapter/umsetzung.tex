@@ -375,6 +375,20 @@ Der Abgleich zeigt, dass die verfügbaren Testframeworks (internes Kali-Framewor
 
 PROFINET-Echtzeitkommunikation (RT/IRT) verwendet gemäß Spezifikation rohe Ethernet-Frames auf OSI-Layer 2 (EtherType 0x8892) unter Umgehung des IP-Stacks, um deterministische Zykluszeiten im Millisekunden- bis Mikrosekundenbereich zu gewährleisten [Siemens/PI-Referenz]. Generische IP-basierte Scan-Tools wie Nmap sind für diese Kommunikationsebene nicht konzipiert; in der OT-Security-Praxis gelten aktive Scans in Echtzeitsegmenten als riskant, da sie durch Netzwerklast bereits getestete Geräte in einen Fehlerzustand versetzen können [Undercode Testing, 2025]. Das PROFINET-eigene Discovery-Protokoll DCP arbeitet ebenfalls auf Layer 2 und ist grundsätzlich unauthentifiziert [OT/ICS Monitor, 2026].
 
+MVO 2023/1230, Anh. III 1.1.9/1.2.1 = die Warum-Ebene (deine 14 RQ).
+
+IEC 62443‑4‑2 (Component / EDR Requirements) = die Was genau-Ebene. Deine CR/EDR‑Zuordnungen (CR 3.1 Kommunikationsintegrität, CR 3.4 SW‑/Info‑Integrität, CR 2.8/2.9/2.12 Audit \& Non‑Repudiation, CR 7.1 DoS‑Schutz, CR 7.8 Komponenten‑Inventar, EDR 3.11 Tamper, EDR 3.14 Boot‑Integrität) sind größtenteils stimmig – das ist genau die Norm‑Brücke, die du wolltest.
+
+IEC 62443‑4‑1, Practice SVV = die Wie prüfe ich-Ebene (deine drei Testkategorien oben).
+
+Pentest‑Methodik‑Standards für die eigentliche Durchführung: NIST SP 800‑115, PTES, OSSTMM – die geben dir den Prozessrahmen (Scoping, Evidence, Reporting), den ein Funktionstest im Qualitätsmanagement braucht.
+
+PROFINET Security Guideline (PI) und prEN 50742 (die du schon zitierst) für die fieldbus‑spezifische Ebene.
+
+Aktiver Security‑Test – ein Verhalten/Exploit wird provoziert und beobachtet (z. B. RQ‑001 Spoofing‑Frame → nimmt SCPU ihn an?; RQ‑010 Flood → bleibt PROFINET stabil?).
+Bestätigender Einzeltest – eine einzelne, gezielte Anfrage beweist An-/Abwesenheit einer Eigenschaft binär (z. B. RQ‑014 ein GET auf /devicestatus/errorlog ohne Auth; RQ‑012 ein Cold‑Start).
+Struktureller Nachweis / Design‑Review – ein Feature fehlt konstruktiv, kein aktives Tool nötig (z. B. RQ‑006/013 fehlende geräteseitige Historie; RQ‑005 D fehlendes Secure Boot).
+
 
 
 \cite{256946}
@@ -382,6 +396,12 @@ PROFINET-Echtzeitkommunikation (RT/IRT) verwendet gemäß Spezifikation rohe Eth
 
 \subsection{Test Setup} 
 \label{subsec:test_setup} 
+Usecase assumed to be located in a safe zone behind a firewall"	SRIO‑9402
+FW‑Update hinter Firewall durch vertrauenswürdige Person	SRIO‑1196
+Security‑Risk‑Assessment gefordert	SRIO‑16243
+
+
+warum mirror port --> Aufgabe mirror port
 
 \subsection{Toolchain Integration} 
 \label{subsec:toolchain} 
