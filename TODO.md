@@ -4,7 +4,6 @@
 \~\~ Verbinden Assets mit MVO-Requirements \~\~
 
 * MI: Methoden aus Standards ableiten
-* MI: Till überarbeitung
 * FR: Anfangen Testfälle schreiben
 * FR: Vorgehen Text + Belegen
 * Testplan in Polarion für Security erstellen
