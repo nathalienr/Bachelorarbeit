@@ -51,6 +51,9 @@ This appendix provides the complete, requirement-by-requirement documentation un
 \label{app:sec:mvo_requirements}
 
 Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+%TODO Rationale löschen
+%TODO überpürfen ob Requirement Type passt
+%TODO schreiben, dass zusätzliche CRs dazu kommen können, wenn man die Requirements auf die Assets gemappt hat, z.B. bei Update EDR 3.10 bei RQ-005
 
 \renewcommand{\arraystretch}{1.25}
 \begin{longtable}{|>{\bfseries}l|p{11cm}|}
@@ -274,6 +277,12 @@ Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex II
 
 Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  (\emph{Safety of machinery - Protection against corruption}). 
 
+FR 4 – Vertraulichkeit der Daten Keine. Keine.
+
+Information Disclosure (Offenlegung von Informationen) – „Weitergabe von Informationen an Personen, die
+keinen Zugang haben sollten“ REF1 – Verstoß gegen die Vertraulichkeit
+– Wahrscheinlich nicht im Anwendungsbereich, solange die Gesundheits- und Sicherheitseigenschaften der
+Maschine oder des zugehörigen Produkts unverändert bleiben.
 
 \begin{longtable}{|>{\bfseries}p{1cm}|p{2.5cm}|p{9cm}|>{\centering\arraybackslash}p{2cm}|}
 	\caption{Mapping of MVO Security Requirements to prEN 50742} 

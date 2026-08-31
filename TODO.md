@@ -285,3 +285,5 @@ Rolle: Der Goldstandard für das Testen von Applikationen.
 
 Warum nutzen: Moderne Gateways (IoT-Interfaces) werden meist über Web-APIs oder Weboberflächen konfiguriert. Wenn du in deinem Testfall TC-01 prüfst, ob jemand ohne Login Parameter ändern kann, referenzierst du direkt auf OWASP-Kategorien (z. B. WSTG-ATHN-02: Testing for Default Credentials oder WSTG-ATHZ-02: Testing for Bypassing Authorization).
 
+
+Scenario 4: boofuzz (ifm CM-010) is a network robustness fuzzer and is the wrong tool for a CRC keyspace argument. This is an analytical/computational feasibility assessment (16-bit → 65 536 candidates is trivially forgeable; 32-bit is recomputable deterministically from public layout), so classify it SVV-3 and justify by keyspace analysis, not by fuzzing.

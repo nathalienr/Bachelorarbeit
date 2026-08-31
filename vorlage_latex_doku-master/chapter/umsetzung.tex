@@ -392,7 +392,8 @@ Struktureller Nachweis / Design‑Review – ein Feature fehlt konstruktiv, kein
 
 
 \cite{256946}
-
+%TODO
+STRIDE belongs at requirement level; functional tests carry no STRIDE: STRIDE is an adversarial taxonomy. For functional baselines (SVV-1) and design/availability demonstrations, the per-test ‘Target Threat’ field should read ‘N/A — functional/availability verification.’ This is the correct handling of every ‘Kein STRIDE’ comment (RQ-004-04, RQ-007-01/02, RQ-010-05); RQ-007-03 self-DoS is the one borderline case (label ‘DoS, self-inflicted’).
 
 \subsection{Test Setup} 
 \label{subsec:test_setup} 
@@ -405,12 +406,14 @@ warum mirror port --> Aufgabe mirror port
 
 \subsection{Toolchain Integration} 
 \label{subsec:toolchain} 
-
+Bei STRIDE unterscheiden zwischen welche Bedrohung diese Anforderung verhindert (Mitigation) und welchen Bedrohungen sie selbst ausgesetzt ist (Angriffsvektor).
 
 \section{Application of the Testing Methodology} 
 \label{sec:application_methodology} 
 Tools
 \Cite{10275637}
+
+Debug-Interface hier primär physisch
 
 \cite{BSI2024ICSCompendium}
 
