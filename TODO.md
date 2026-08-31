@@ -12,6 +12,7 @@
 * Anhang unterschied Supporting/Partial usws.
 * Testumgebung informieren
 * Testfall DCP factory reset
+* Referenzen auf Testfälle überpüfen
 
 \---
 
