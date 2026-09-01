@@ -171,6 +171,8 @@ Once the test environment is established and the test cases are specified, the a
 \label{subsec:execution_tooling}
 According to NIST SP 800-115, security testing is the process of exercising one or more assessment objects under specified conditions to compare actual and expected behaviors \cite[p. ES-1]{nist_sp800_115}. In this methodology, the execution phase focuses entirely on functional security testing to verify whether the planned security mechanisms operate correctly \cite[p. 6777]{aydos_security_2022}. 
 
+%TODO Mitt&Atck: Aufbau mit Test Cases, Mitigations etc.
+
 Because the industrial gateway is evaluated as a compiled, operational product without access to its internal source code, the framework employs Black-Box testing. This approach is commonly referred to as Dynamic Application Security Testing (DAST). DAST evaluates the running application from an external attacker's perspective. Conversely, Static Application Security Testing (SAST), which analyzes static source code for flaws, remains out of scope for this functional verification \cite[p. 6777]{aydos_security_2022}.
 
 To systematically execute these dynamic tests, a centralized and standardized operating environment is required. The methodology utilizes Kali Linux, an open-source, Debian-based distribution specifically tailored for advanced penetration testing. It provides a robust ecosystem of pre-configured auditing scripts \cite{kali_whatis}. This eliminates the need to develop custom exploit code and ensures that tests remain highly reproducible.
