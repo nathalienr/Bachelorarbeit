@@ -1,0 +1,1154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ISO15745Profile xmlns="http://www.profibus.com/GSDML/2003/11/DeviceProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.profibus.com/GSDML/2003/11/DeviceProfile ..\xsd\GSDML-DeviceProfile-V2.43.xsd">
+	<ProfileHeader>
+		<ProfileIdentification>PROFINET Device Profile</ProfileIdentification>
+		<ProfileRevision>1.00</ProfileRevision>
+		<ProfileName>Device Profile for PROFINET Devices</ProfileName>
+		<ProfileSource>PROFIBUS Nutzerorganisation e. V. (PNO)</ProfileSource>
+		<ProfileClassID>Device</ProfileClassID>
+		<ISO15745Reference>
+			<ISO15745Part>4</ISO15745Part>
+			<ISO15745Edition>1</ISO15745Edition>
+			<ProfileTechnology>GSDML</ProfileTechnology>
+		</ISO15745Reference>
+	</ProfileHeader>
+	<ProfileBody>
+		<DeviceIdentity VendorID="0x136" DeviceID="0xAC25">
+			<InfoText TextId="IDT_INFO_DEVICE_IDENTITY"/>
+			<VendorName Value="ifm electronic"/>
+		</DeviceIdentity>
+		<DeviceFunction>
+			<Family MainFamily="I/O" ProductFamily="Digital I/O modules"/>
+		</DeviceFunction>
+		<ApplicationProcess>
+			<DeviceAccessPointList>
+				<DeviceAccessPointItem ID="DAPID_AL400S" ModuleIdentNumber="0x00004000" PNIO_Version="V2.43" PhysicalSlots="0..2" MinDeviceInterval="8" DNS_CompatibleName="AL400S" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" RequiredSchemaVersion="V2.1" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" CheckDeviceID_Allowed="true" NameOfStationNotTransferable="false" PrmBeginPrmEndSequenceSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2">
+					<ModuleInfo>
+						<Name TextId="IDT_DAP_NAME_AL400S"/>
+						<InfoText TextId="IDT_DAP_INFO_AL400S"/>
+						<VendorName Value="ifm electronic"/>
+						<OrderNumber Value="AL400S"/>
+					</ModuleInfo>
+					<CertificationInfo ConformanceClass="C" ApplicationClass="" NetloadClass="III"/>
+					<SubslotList>
+						<SubslotItem SubslotNumber="32768" TextId="IDT_S_INTERFACE"/>
+						<SubslotItem SubslotNumber="32769" TextId="IDT_S_INTERFACE_PORT1"/>
+						<SubslotItem SubslotNumber="32770" TextId="IDT_S_INTERFACE_PORT2"/>
+					</SubslotList>
+					<IOConfigData MaxInputLength="17" MaxOutputLength="15" MaxDataLength="32"/>
+					<UseableModules>
+						<ModuleItemRef ModuleItemTarget="MI_SENSOR_REACTIVATION_ID" FixedInSlots="1" AllowedInSlots="1"/>
+						<ModuleItemRef ModuleItemTarget="MI_6FDI2FDO_CHANNEL_PASSIVATION_ID" AllowedInSlots="2"/>
+						<ModuleItemRef ModuleItemTarget="MI_6FDI2FDO_MODULE_PASSIVATION_ID" AllowedInSlots="2"/>
+					</UseableModules>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="ID_VS_AL400S" SubmoduleIdentNumber="0x00010000" Writeable_IM_Records="1 2 3" MayIssueProcessAlarm="false">
+							<IOData/>
+							<ModuleInfo>
+								<Name TextId="IDT_VS_DAP_NAME"/>
+								<InfoText TextId="IDT_VS_DAP_INFO"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<SystemDefinedSubmoduleList>
+						<InterfaceSubmoduleItem ID="ISI_AL400S" SubmoduleIdentNumber="0x00010010" SubslotNumber="32768" TextId="IDT_NAME_INTERFACE_SUBMODULE" SupportedRT_Classes="RT_CLASS_1;RT_CLASS_3" DelayMeasurementSupported="true" SupportedDelayMeasurements="PTCP" SupportedProtocols="SNMP;LLDP" PTP_BoundarySupported="true" DCP_BoundarySupported="true">
+							<RT_Class3Properties ForwardingMode="Relative" MaxBridgeDelay="5500" MaxNumberIR_FrameData="256" MaxRetentionTime="20000" StartupMode="Advanced;Legacy"/>
+							<SynchronisationMode MaxLocalJitter="50" SupportedRole="SyncSlave" SupportedSyncProtocols="PTCP" T_PLL_MAX="1000"/>
+							<ApplicationRelations StartupMode="Advanced">
+								<TimingProperties ReductionRatio="1 2 4 8 16 32 64 128 256 512" SendClock="32 64 128"/>
+								<RT_Class3TimingProperties ReductionRatio="1 2 4 8 16" SendClock="8 16 32 64 128"/>
+							</ApplicationRelations>
+						</InterfaceSubmoduleItem>
+						<PortSubmoduleItem ID="PSI_AL400S_P1" SubmoduleIdentNumber="0x00010011" SubslotNumber="32769" TextId="IDT_PORT_SUBMODULE_P1" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+						<PortSubmoduleItem ID="PSI_AL400S_P2" SubmoduleIdentNumber="0x00010012" SubslotNumber="32770" TextId="IDT_PORT_SUBMODULE_P2" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+					</SystemDefinedSubmoduleList>
+					<Graphics>
+						<GraphicItemRef Type="DeviceSymbol" GraphicItemTarget="GI_AL400S"/>
+					</Graphics>
+				</DeviceAccessPointItem>
+				<DeviceAccessPointItem ID="DAPID_AL401S" ModuleIdentNumber="0x00004010" PNIO_Version="V2.43" PhysicalSlots="0..2" MinDeviceInterval="8" DNS_CompatibleName="AL401S" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" RequiredSchemaVersion="V2.1" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" CheckDeviceID_Allowed="true" NameOfStationNotTransferable="false" PrmBeginPrmEndSequenceSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2">
+					<ModuleInfo>
+						<Name TextId="IDT_DAP_NAME_AL401S"/>
+						<InfoText TextId="IDT_DAP_INFO_AL401S"/>
+						<VendorName Value="ifm electronic"/>
+						<OrderNumber Value="AL401S"/>
+					</ModuleInfo>
+					<CertificationInfo ConformanceClass="C" ApplicationClass="" NetloadClass="III"/>
+					<SubslotList>
+						<SubslotItem SubslotNumber="32768" TextId="IDT_S_INTERFACE"/>
+						<SubslotItem SubslotNumber="32769" TextId="IDT_S_INTERFACE_PORT1"/>
+						<SubslotItem SubslotNumber="32770" TextId="IDT_S_INTERFACE_PORT2"/>
+					</SubslotList>
+					<IOConfigData MaxInputLength="17" MaxOutputLength="15" MaxDataLength="32"/>
+					<UseableModules>
+						<ModuleItemRef ModuleItemTarget="MI_SENSOR_REACTIVATION_ID" FixedInSlots="1" AllowedInSlots="1"/>
+						<ModuleItemRef ModuleItemTarget="MI_6FDI2FDO_CHANNEL_PASSIVATION_ID" AllowedInSlots="2"/>
+						<ModuleItemRef ModuleItemTarget="MI_6FDI2FDO_MODULE_PASSIVATION_ID" AllowedInSlots="2"/>
+					</UseableModules>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="ID_VS_AL401S" SubmoduleIdentNumber="0x00010000" Writeable_IM_Records="1 2 3" MayIssueProcessAlarm="false">
+							<IOData/>
+							<ModuleInfo>
+								<Name TextId="IDT_VS_DAP_NAME"/>
+								<InfoText TextId="IDT_VS_DAP_INFO"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<SystemDefinedSubmoduleList>
+						<InterfaceSubmoduleItem ID="ISI_AL401S" SubmoduleIdentNumber="0x00010010" SubslotNumber="32768" TextId="IDT_NAME_INTERFACE_SUBMODULE" SupportedRT_Classes="RT_CLASS_1;RT_CLASS_3" DelayMeasurementSupported="true" SupportedDelayMeasurements="PTCP" SupportedProtocols="SNMP;LLDP" PTP_BoundarySupported="true" DCP_BoundarySupported="true">
+							<RT_Class3Properties ForwardingMode="Relative" MaxBridgeDelay="5500" MaxNumberIR_FrameData="256" MaxRetentionTime="20000" StartupMode="Advanced;Legacy"/>
+							<SynchronisationMode MaxLocalJitter="50" SupportedRole="SyncSlave" SupportedSyncProtocols="PTCP" T_PLL_MAX="1000"/>
+							<ApplicationRelations StartupMode="Advanced">
+								<TimingProperties ReductionRatio="1 2 4 8 16 32 64 128 256 512" SendClock="32 64 128"/>
+								<RT_Class3TimingProperties ReductionRatio="1 2 4 8 16" SendClock="8 16 32 64 128"/>
+							</ApplicationRelations>
+						</InterfaceSubmoduleItem>
+						<PortSubmoduleItem ID="PSI_AL401S_P1" SubmoduleIdentNumber="0x00010011" SubslotNumber="32769" TextId="IDT_PORT_SUBMODULE_P1" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+						<PortSubmoduleItem ID="PSI_AL401S_P2" SubmoduleIdentNumber="0x00010012" SubslotNumber="32770" TextId="IDT_PORT_SUBMODULE_P2" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+					</SystemDefinedSubmoduleList>
+					<Graphics>
+						<GraphicItemRef Type="DeviceSymbol" GraphicItemTarget="GI_AL401S"/>
+					</Graphics>
+				</DeviceAccessPointItem>
+			</DeviceAccessPointList>
+			<ModuleList>
+				<!-- Sensor Reactivation Module -->
+				<ModuleItem ID="MI_SENSOR_REACTIVATION_ID" ModuleIdentNumber="0x10000000" PhysicalSubslots="1" RequiredSchemaVersion="V2.31">
+					<ModuleInfo>
+						<Name TextId="MI_SENSOR_REACTIVATION_NAME"/>
+						<InfoText TextId="MI_SENSOR_REACTIVATION_INFO"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_SENSOR_REACTIVATION" AllowedInSubslots="1" FixedInSubslots="1"/>
+					</UseableSubmodules>
+				</ModuleItem>
+				<!-- 6FDI2FDO Module - Channel Granular Passivation-->
+				<ModuleItem ID="MI_6FDI2FDO_CHANNEL_PASSIVATION_ID" ModuleIdentNumber="0x20000000" PhysicalSubslots="1" RequiredSchemaVersion="V2.31">
+					<ModuleInfo>
+						<Name TextId="MI_6FDI2FDO_CHANNEL_PASSIVATION_NAME"/>
+						<InfoText TextId="MI_6FDI2FDO_CHANNEL_PASSIVATION_INFO"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_6FDI2FDO_CHANNEL_PASSIVATION" AllowedInSubslots="1" FixedInSubslots="1"/>
+					</UseableSubmodules>
+				</ModuleItem>
+				<!-- 6FDI2FDO Module - DEVICE/MODULE Passivation-->
+				<ModuleItem ID="MI_6FDI2FDO_MODULE_PASSIVATION_ID" ModuleIdentNumber="0x30000000" PhysicalSubslots="1" RequiredSchemaVersion="V2.31">
+					<ModuleInfo>
+						<Name TextId="MI_6FDI2FDO_MODULE_PASSIVATION_NAME"/>
+						<InfoText TextId="MI_6FDI2FDO_MODULE_PASSIVATION_INFO"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_6FDI2FDO_MODULE_PASSIVATION" AllowedInSubslots="1" FixedInSubslots="1"/>
+					</UseableSubmodules>
+				</ModuleItem>
+			</ModuleList>
+			<SubmoduleList>
+				<!--Sensor Reactivation Submodule -->
+				<SubmoduleItem ID="IDS_SENSOR_REACTIVATION" SubmoduleIdentNumber="0x10000100" RequiredSchemaVersion="V2.31" MayIssueProcessAlarm="true">
+					<IOData>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="DI_SENSOR_REACTIVATION_TID_0">
+								<BitDataItem BitOffset="0" TextId="IDT_SR_CHANNEL_0"/>
+								<BitDataItem BitOffset="1" TextId="IDT_SR_CHANNEL_1"/>
+								<BitDataItem BitOffset="2" TextId="IDT_SR_CHANNEL_2"/>
+								<BitDataItem BitOffset="3" TextId="IDT_SR_CHANNEL_3"/>
+								<BitDataItem BitOffset="4" TextId="IDT_SR_CHANNEL_4"/>
+								<BitDataItem BitOffset="5" TextId="IDT_SR_CHANNEL_5"/>
+								<BitDataItem BitOffset="6" TextId="IDT_SR_CHANNEL_6"/>
+								<BitDataItem BitOffset="7" TextId="IDT_SR_CHANNEL_7"/>
+							</DataItem>
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="DI_SENSOR_REACTIVATION_TID_1">
+								<BitDataItem BitOffset="0" TextId="IDT_SR_CHANNEL_8"/>
+								<BitDataItem BitOffset="1" TextId="IDT_SR_CHANNEL_9"/>
+								<BitDataItem BitOffset="2" TextId="IDT_SR_CHANNEL_10"/>
+								<BitDataItem BitOffset="3" TextId="IDT_SR_CHANNEL_11"/>
+							</DataItem>
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="SI_SENSOR_REACTIVATION_NAME"/>
+						<InfoText TextId="SI_SENSOR_REACTIVATION_INFO"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+				</SubmoduleItem>
+				<!-- 6FDI2FDO Submodule - Channel Granular Passivation -->
+				<SubmoduleItem ID="IDS_6FDI2FDO_CHANNEL_PASSIVATION" SubmoduleIdentNumber="0x2000060A" API="19456" PROFIsafeSupported="true" MayIssueProcessAlarm="false" IM5_Supported="true">
+					<!-- 6 FDI, 2 FDO -->
+					<IOData F_IO_StructureDescCRC="52993">
+						<Input Consistency="All items consistency">
+							<!-- Input data channels -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_0">
+								<BitDataItem BitOffset="0" TextId="IDT_DI_CHANNEL_0"/>
+								<BitDataItem BitOffset="1" TextId="IDT_DI_CHANNEL_1"/>
+								<BitDataItem BitOffset="2" TextId="IDT_DI_CHANNEL_2"/>
+								<BitDataItem BitOffset="3" TextId="IDT_DI_CHANNEL_3"/>
+								<BitDataItem BitOffset="4" TextId="IDT_DI_CHANNEL_4"/>
+								<BitDataItem BitOffset="5" TextId="IDT_DI_CHANNEL_5"/>
+								<BitDataItem BitOffset="6" TextId="IDT_DI_CHANNEL_6"/>
+								<BitDataItem BitOffset="7" TextId="IDT_DI_CHANNEL_7"/>
+							</DataItem>
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_1">
+								<BitDataItem BitOffset="0" TextId="IDT_DI_CHANNEL_8"/>
+								<BitDataItem BitOffset="1" TextId="IDT_DI_CHANNEL_9"/>
+								<BitDataItem BitOffset="2" TextId="IDT_DI_CHANNEL_10"/>
+								<BitDataItem BitOffset="3" TextId="IDT_DI_CHANNEL_11"/>
+							</DataItem>
+							<!-- Qualifier for input data channels -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet0" Subordinate="true">
+								<BitDataItem BitOffset="0" TextId="IDT_QDI_CHANNEL_0"/>
+								<BitDataItem BitOffset="1" TextId="IDT_QDI_CHANNEL_1"/>
+								<BitDataItem BitOffset="2" TextId="IDT_QDI_CHANNEL_2"/>
+								<BitDataItem BitOffset="3" TextId="IDT_QDI_CHANNEL_3"/>
+								<BitDataItem BitOffset="4" TextId="IDT_QDI_CHANNEL_4"/>
+								<BitDataItem BitOffset="5" TextId="IDT_QDI_CHANNEL_5"/>
+								<BitDataItem BitOffset="6" TextId="IDT_QDI_CHANNEL_6"/>
+								<BitDataItem BitOffset="7" TextId="IDT_QDI_CHANNEL_7"/>
+							</DataItem>
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet1" Subordinate="true">
+								<BitDataItem BitOffset="0" TextId="IDT_QDI_CHANNEL_8"/>
+								<BitDataItem BitOffset="1" TextId="IDT_QDI_CHANNEL_9"/>
+								<BitDataItem BitOffset="2" TextId="IDT_QDI_CHANNEL_10"/>
+								<BitDataItem BitOffset="3" TextId="IDT_QDI_CHANNEL_11"/>
+							</DataItem>
+							<!-- Qualifier for output data channels -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDO_Octet0" Subordinate="true">
+								<BitDataItem BitOffset="0" TextId="IDT_QDO_CHANNEL_12"/>
+								<BitDataItem BitOffset="1" TextId="IDT_QDO_CHANNEL_13"/>
+								<BitDataItem BitOffset="2" TextId="IDT_QDO_CHANNEL_14"/>
+								<BitDataItem BitOffset="3" TextId="IDT_QDO_CHANNEL_15"/>
+							</DataItem>
+							<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+							<!-- Digital input channels quality bits -->
+							<Channel Number="0">
+								<Data BitOffset="0" BitLength="1"/>
+								<Quality BitOffset="16" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="1">
+								<Data BitOffset="1" BitLength="1"/>
+								<Quality BitOffset="17" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="2">
+								<Data BitOffset="2" BitLength="1"/>
+								<Quality BitOffset="18" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="3">
+								<Data BitOffset="3" BitLength="1"/>
+								<Quality BitOffset="19" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="4">
+								<Data BitOffset="4" BitLength="1"/>
+								<Quality BitOffset="20" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="5">
+								<Data BitOffset="5" BitLength="1"/>
+								<Quality BitOffset="21" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="6">
+								<Data BitOffset="6" BitLength="1"/>
+								<Quality BitOffset="22" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="7">
+								<Data BitOffset="7" BitLength="1"/>
+								<Quality BitOffset="23" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="8">
+								<Data BitOffset="8" BitLength="1"/>
+								<Quality BitOffset="24" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="9">
+								<Data BitOffset="9" BitLength="1"/>
+								<Quality BitOffset="25" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="10">
+								<Data BitOffset="10" BitLength="1"/>
+								<Quality BitOffset="26" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="11">
+								<Data BitOffset="11" BitLength="1"/>
+								<Quality BitOffset="27" Format="Qualifier"/>
+							</Channel>
+						</Input>
+						<Output Consistency="All items consistency">
+							<!-- Output data channels -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DO_OCTET_0">
+								<BitDataItem BitOffset="0" TextId="IDT_DO_CHANNEL_12"/>
+								<BitDataItem BitOffset="1" TextId="IDT_DO_CHANNEL_13"/>
+								<BitDataItem BitOffset="2" TextId="IDT_DO_CHANNEL_14"/>
+								<BitDataItem BitOffset="3" TextId="IDT_DO_CHANNEL_15"/>
+							</DataItem>
+							<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+							<!-- Digital output channels quality bits -->
+							<Channel Number="12">
+								<Data BitOffset="0" BitLength="1"/>
+								<Quality BitOffset="32" OppositeDirection="true" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="13">
+								<Data BitOffset="1" BitLength="1"/>
+								<Quality BitOffset="33" OppositeDirection="true" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="14">
+								<Data BitOffset="2" BitLength="1"/>
+								<Quality BitOffset="34" OppositeDirection="true" Format="Qualifier"/>
+							</Channel>
+							<Channel Number="15">
+								<Data BitOffset="3" BitLength="1"/>
+								<Quality BitOffset="35" OppositeDirection="true" Format="Qualifier"/>
+							</Channel>
+						</Output>
+					</IOData>
+					<RecordDataList>
+						<!-- Safety Input Parameters Port 1  - Index 0x301 -->
+						<ParameterRecordDataItem Index="769" Length="9" TransferSequence="2">
+							<Name TextId="IDT_FDI_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 2  - Index 0x302 -->
+						<ParameterRecordDataItem Index="770" Length="9" TransferSequence="3">
+							<Name TextId="IDT_FDI_2"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 3  - Index 0x303 -->
+						<ParameterRecordDataItem Index="771" Length="9" TransferSequence="4">
+							<Name TextId="IDT_FDI_3"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_3"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 4 - Index 0x304 -->
+						<ParameterRecordDataItem Index="772" Length="9" TransferSequence="5">
+							<Name TextId="IDT_FDI_4"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_4"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 5 - Index 0x305 -->
+						<ParameterRecordDataItem Index="773" Length="9" TransferSequence="6">
+							<Name TextId="IDT_FDI_5"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_5"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 6 - Index 0x306 -->
+						<ParameterRecordDataItem Index="774" Length="9" TransferSequence="7">
+							<Name TextId="IDT_FDI_6"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_6"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Output Parameters Port 1 - Index 0x311 -->
+						<ParameterRecordDataItem Index="785" Length="7" TransferSequence="8">
+							<Name TextId="IDT_FDO_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_1" ID="ID_FDO_OUTPUT_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_2" ID="ID_FDO_OUTPUT_2"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDO_TEST_PULSE" ID="ID_FDO_TEST_PULSE"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE_DURATION" ByteOffset="3" DataType="Unsigned8" DefaultValue="0" TextId="IDT_FDO_TEST_PULSE_DURATION" ID="ID_FDO_TEST_PULSE_DURATION"/>
+							<Ref ValueItemTarget="VT_FDO_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDO_SYMMETRY" ID="ID_FDO_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY1" ID="ID_FDO_SWITCH_OFF_DELAY1"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY2" ID="ID_FDO_SWITCH_OFF_DELAY2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDO_parameters">
+									<Name TextId="IDT_FDO_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE_DURATION"/>
+									<ParameterRef ParameterTarget="ID_FDO_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY1"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Output Parameters Port 2 - Index 0x312 -->
+						<ParameterRecordDataItem Index="786" Length="7" TransferSequence="9">
+							<Name TextId="IDT_FDO_2"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_1" ID="ID_FDO_OUTPUT_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_2" ID="ID_FDO_OUTPUT_2"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDO_TEST_PULSE" ID="ID_FDO_TEST_PULSE"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE_DURATION" ByteOffset="3" DataType="Unsigned8" DefaultValue="0" TextId="IDT_FDO_TEST_PULSE_DURATION" ID="ID_FDO_TEST_PULSE_DURATION"/>
+							<Ref ValueItemTarget="VT_FDO_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDO_SYMMETRY" ID="ID_FDO_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY1" ID="ID_FDO_SWITCH_OFF_DELAY1"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY2" ID="ID_FDO_SWITCH_OFF_DELAY2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDO_parameters">
+									<Name TextId="IDT_FDO_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE_DURATION"/>
+									<ParameterRef ParameterTarget="ID_FDO_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY1"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- F Parameters - Index 0x200 -->
+						<F_ParameterRecordDataItem F_ParamDescCRC="65365" Index="512" TransferSequence="1">
+							<F_Check_iPar/>
+							<F_SIL AllowedValues="SIL3" Changeable="false"/>
+							<F_CRC_Length DefaultValue="4-Byte-CRC" AllowedValues="4-Byte-CRC" Visible="true"/>
+							<F_CRC_Seed DefaultValue="CRC-Seed24/32" AllowedValues="CRC-Seed24/32"/>
+							<F_Passivation DefaultValue="Channel" AllowedValues="Channel"/>
+							<F_Block_ID DefaultValue="1" Changeable="false"/>
+							<F_Par_Version DefaultValue="1" AllowedValues="1"/>
+							<F_Source_Add/>
+							<F_Dest_Add AllowedValues="1..899"/>
+							<F_WD_Time DefaultValue="250" AllowedValues="10..10000"/>
+							<F_Par_CRC DefaultValue="57019" AllowedValues="0..65535"/>
+							<F_iPar_CRC AllowedValues="0..4294967295"/>
+						</F_ParameterRecordDataItem>
+					</RecordDataList>
+					<ModuleInfo>
+						<Name TextId="SI_6FDI2FDO_CHANNEL_PASSIVATION_NAME"/>
+						<InfoText TextId="SI_6FDI2FDO_CHANNEL_PASSIVATION_INFO"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+				<!-- 6FDI2FDO Submodule -  Device/Module Passivation -->
+				<SubmoduleItem ID="IDS_6FDI2FDO_MODULE_PASSIVATION" SubmoduleIdentNumber="0x3000060A" PROFIsafeSupported="true" MayIssueProcessAlarm="false" IM5_Supported="true">
+					<!-- 6 FDI, 2 FDO -->
+					<IOData F_IO_StructureDescCRC="670">
+						<Input Consistency="All items consistency">
+							<!-- Input data -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_0"/>
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_1"/>
+							<!-- Qualifier for input data -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet0"/>
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet1"/>
+							<!-- Qualifier for output data -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDO_Octet0"/>
+							<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+						</Input>
+						<Output Consistency="All items consistency">
+							<!-- Output data channels -->
+							<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DO_OCTET_0"/>
+							<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+						</Output>
+					</IOData>
+					<RecordDataList>
+						<!-- Safety Input Parameters Port 1  - Index 0x301 -->
+						<ParameterRecordDataItem Index="769" Length="9" TransferSequence="2">
+							<Name TextId="IDT_FDI_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 2  - Index 0x302 -->
+						<ParameterRecordDataItem Index="770" Length="9" TransferSequence="3">
+							<Name TextId="IDT_FDI_2"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 3  - Index 0x303 -->
+						<ParameterRecordDataItem Index="771" Length="9" TransferSequence="4">
+							<Name TextId="IDT_FDI_3"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_3"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 4 - Index 0x304 -->
+						<ParameterRecordDataItem Index="772" Length="9" TransferSequence="5">
+							<Name TextId="IDT_FDI_4"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_4"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 5 - Index 0x305 -->
+						<ParameterRecordDataItem Index="773" Length="9" TransferSequence="6">
+							<Name TextId="IDT_FDI_5"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_5"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Input Parameters Port 6 - Index 0x306 -->
+						<ParameterRecordDataItem Index="774" Length="9" TransferSequence="7">
+							<Name TextId="IDT_FDI_6"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_1" ID="ID_FDI_INPUT_1"/>
+							<Ref ValueItemTarget="VT_FDI_INPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_INPUT_2" ID="ID_FDI_INPUT_2"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY1" ID="ID_FDI_TESTPULSE_SUPPLY1"/>
+							<Ref ValueItemTarget="VT_FDI_TESTPULSE_SUPPLY" ByteOffset="3" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDI_TESTPULSE_SUPPLY2" ID="ID_FDI_TESTPULSE_SUPPLY2"/>
+							<Ref ValueItemTarget="VT_FDI_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDI_DISCREPANCY_TIME" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..7" TextId="IDT_FDI_DISCREPANCY_TIME" ID="ID_FDI_DISCREPANCY_TIME"/>
+							<Ref ValueItemTarget="VT_FDI_RESOLVE_SYMMETRY_VIOLATION" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" ID="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="7" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME1" ID="ID_FDI_FILTER_TIME1"/>
+							<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="8" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..2" TextId="IDT_FDI_FILTER_TIME2" ID="ID_FDI_FILTER_TIME2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDI_parameters">
+									<Name TextId="IDT_FDI_6"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDI_INPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY1"/>
+									<ParameterRef ParameterTarget="ID_FDI_TESTPULSE_SUPPLY2"/>
+									<ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDI_DISCREPANCY_TIME"/>
+									<ParameterRef ParameterTarget="ID_FDI_RESOLVE_SYMMETRY_VIOLATION"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME1"/>
+									<ParameterRef ParameterTarget="ID_FDI_FILTER_TIME2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Output Parameters Port 1 - Index 0x311 -->
+						<ParameterRecordDataItem Index="785" Length="7" TransferSequence="8">
+							<Name TextId="IDT_FDO_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_1" ID="ID_FDO_OUTPUT_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_2" ID="ID_FDO_OUTPUT_2"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDO_TEST_PULSE" ID="ID_FDO_TEST_PULSE"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE_DURATION" ByteOffset="3" DataType="Unsigned8" DefaultValue="0" TextId="IDT_FDO_TEST_PULSE_DURATION" ID="ID_FDO_TEST_PULSE_DURATION"/>
+							<Ref ValueItemTarget="VT_FDO_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDO_SYMMETRY" ID="ID_FDO_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY1" ID="ID_FDO_SWITCH_OFF_DELAY1"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY2" ID="ID_FDO_SWITCH_OFF_DELAY2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDO_parameters">
+									<Name TextId="IDT_FDO_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE_DURATION"/>
+									<ParameterRef ParameterTarget="ID_FDO_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY1"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- Safety Output Parameters Port 2 - Index 0x312 -->
+						<ParameterRecordDataItem Index="786" Length="7" TransferSequence="9">
+							<Name TextId="IDT_FDO_2"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="0" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_1" ID="ID_FDO_OUTPUT_1"/>
+							<Ref ValueItemTarget="VT_FDO_OUTPUT" ByteOffset="1" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..1" TextId="IDT_FDO_OUTPUT_2" ID="ID_FDO_OUTPUT_2"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE" ByteOffset="2" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..1" TextId="IDT_FDO_TEST_PULSE" ID="ID_FDO_TEST_PULSE"/>
+							<Ref ValueItemTarget="VT_FDO_TEST_PULSE_DURATION" ByteOffset="3" DataType="Unsigned8" DefaultValue="0" TextId="IDT_FDO_TEST_PULSE_DURATION" ID="ID_FDO_TEST_PULSE_DURATION"/>
+							<Ref ValueItemTarget="VT_FDO_SYMMETRY" ByteOffset="4" DataType="Unsigned8" DefaultValue="1" AllowedValues="0..2" TextId="IDT_FDO_SYMMETRY" ID="ID_FDO_SYMMETRY"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="5" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY1" ID="ID_FDO_SWITCH_OFF_DELAY1"/>
+							<Ref ValueItemTarget="VT_FDO_SWITCH_OFF_DELAY" ByteOffset="6" DataType="Unsigned8" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDO_SWITCH_OFF_DELAY2" ID="ID_FDO_SWITCH_OFF_DELAY2"/>
+							<MenuList>
+								<MenuItem ID="MenuItemFDO_parameters">
+									<Name TextId="IDT_FDO_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_1"/>
+									<ParameterRef ParameterTarget="ID_FDO_OUTPUT_2"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE"/>
+									<ParameterRef ParameterTarget="ID_FDO_TEST_PULSE_DURATION"/>
+									<ParameterRef ParameterTarget="ID_FDO_SYMMETRY"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY1"/>
+									<ParameterRef ParameterTarget="ID_FDO_SWITCH_OFF_DELAY2"/>
+								</MenuItem>
+							</MenuList>
+						</ParameterRecordDataItem>
+						<!-- F Parameters - Index 0x200 -->
+						<F_ParameterRecordDataItem F_ParamDescCRC="65359" Index="512" TransferSequence="1">
+							<F_Check_iPar/>
+							<F_SIL AllowedValues="SIL3" Changeable="false"/>
+							<F_CRC_Length DefaultValue="4-Byte-CRC" AllowedValues="4-Byte-CRC" Visible="true"/>
+							<F_CRC_Seed DefaultValue="CRC-Seed24/32" AllowedValues="CRC-Seed24/32"/>
+							<F_Passivation DefaultValue="Device/Module" AllowedValues="Device/Module"/>
+							<F_Block_ID DefaultValue="1" Changeable="false"/>
+							<F_Par_Version DefaultValue="1" AllowedValues="1"/>
+							<F_Source_Add/>
+							<F_Dest_Add AllowedValues="1..899"/>
+							<F_WD_Time DefaultValue="250" AllowedValues="10..10000"/>
+							<F_Par_CRC DefaultValue="57019" AllowedValues="0..65535"/>
+							<F_iPar_CRC AllowedValues="0..4294967295"/>
+						</F_ParameterRecordDataItem>
+					</RecordDataList>
+					<ModuleInfo>
+						<Name TextId="SI_6FDI2FDO_MODULE_PASSIVATION_NAME"/>
+						<InfoText TextId="SI_6FDI2FDO_MODULE_PASSIVATION_INFO"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+			</SubmoduleList>
+			<ValueList>
+				<ValueItem ID="VT_FDI_INPUT">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_DISABLED"/>
+						<Assign Content="1" TextId="IDT_FDI_ENABLED"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_TESTPULSE_SUPPLY">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_TESTPULSE_DISABLED"/>
+						<Assign Content="1" TextId="IDT_FDI_TESTPULSE_ENABLED"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_SYMMETRY">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_SYMMETRY_1001"/>
+						<Assign Content="1" TextId="IDT_FDI_SYMMETRY_1002_EQUIVALENT"/>
+						<Assign Content="2" TextId="IDT_FDI_SYMMETRY_1002_ANTIVALENT"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_DISCREPANCY_TIME">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_DISCREPANCY_TIME_NA"/>
+						<Assign Content="1" TextId="IDT_FDI_DISCREPANCY_TIME_10MS"/>
+						<Assign Content="2" TextId="IDT_FDI_DISCREPANCY_TIME_20MS"/>
+						<Assign Content="3" TextId="IDT_FDI_DISCREPANCY_TIME_50MS"/>
+						<Assign Content="4" TextId="IDT_FDI_DISCREPANCY_TIME_100MS"/>
+						<Assign Content="5" TextId="IDT_FDI_DISCREPANCY_TIME_500MS"/>
+						<Assign Content="6" TextId="IDT_FDI_DISCREPANCY_TIME_1000MS"/>
+						<Assign Content="7" TextId="IDT_FDI_DISCREPANCY_TIME_5000MS"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_RESOLVE_SYMMETRY_VIOLATION">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_ACNOWLEDGMENT_SUFFICIENT"/>
+						<Assign Content="1" TextId="IDT_FDI_SWITCH_ON_INHIBIT"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_FILTER_TIME">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_FILTER_TIME_3MS"/>
+						<Assign Content="1" TextId="IDT_FDI_FILTER_TIME_5MS"/>
+						<Assign Content="2" TextId="IDT_FDI_FILTER_TIME_10MS"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDO_OUTPUT">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDO_DISABLED"/>
+						<Assign Content="1" TextId="IDT_FDO_ENABLED"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDO_TEST_PULSE">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDO_TEST_PULSE_DISABLED"/>
+						<Assign Content="1" TextId="IDT_FDO_TEST_PULSE_ENABLED"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDO_TEST_PULSE_DURATION">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDO_TEST_PULSE_DURATION_1ms"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDO_SYMMETRY">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDO_SYMMETRY_1001_P"/>
+						<Assign Content="1" TextId="IDT_FDO_SYMMETRY_1002_PP"/>
+						<Assign Content="2" TextId="IDT_FDO_SYMMETRY_1002_PM"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDO_SWITCH_OFF_DELAY">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDO_SWITCH_OFF_DELAY_DISABLED"/>
+						<Assign Content="1" TextId="IDT_FDO_SWITCH_OFF_DELAY_250MS"/>
+						<Assign Content="2" TextId="IDT_FDO_SWITCH_OFF_DELAY_500MS"/>
+						<Assign Content="3" TextId="IDT_FDO_SWITCH_OFF_DELAY_1000MS"/>
+						<Assign Content="4" TextId="IDT_FDO_SWITCH_OFF_DELAY_2000MS"/>
+						<Assign Content="5" TextId="IDT_FDO_SWITCH_OFF_DELAY_4000MS"/>
+						<Assign Content="6" TextId="IDT_FDO_SWITCH_OFF_DELAY_8000MS"/>
+					</Assignments>
+				</ValueItem>
+			</ValueList>
+			<!-- Diagnosis texts -->
+			<ChannelDiagList>
+				<!-- 0x0040 to 0x005F Standard Profisafe Errorcodes -->
+				<ChannelDiagItem ErrorType="64">
+					<Name TextId="0h0040"/>
+					<Help TextId="Help_0h0040"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="65">
+					<Name TextId="0h0041"/>
+					<Help TextId="Help_0h0041"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="66">
+					<Name TextId="0h0042"/>
+					<Help TextId="Help_0h0042"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="67">
+					<Name TextId="0h0043"/>
+					<Help TextId="Help_0h0043"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="68">
+					<Name TextId="0h0044"/>
+					<Help TextId="Help_0h0044"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="69">
+					<Name TextId="0h0045"/>
+					<Help TextId="Help_0h0045"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="70">
+					<Name TextId="0h0046"/>
+					<Help TextId="Help_0h0046"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="71">
+					<Name TextId="0h0047"/>
+					<Help TextId="Help_0h0047"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="72">
+					<Name TextId="0h0048"/>
+					<Help TextId="Help_0h0048"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="73">
+					<Name TextId="0h0049"/>
+					<Help TextId="Help_0h0049"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="74">
+					<Name TextId="0h004A"/>
+					<Help TextId="Help_0h004A"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="75">
+					<Name TextId="0h004B"/>
+					<Help TextId="Help_0h004B"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="76">
+					<Name TextId="0h004C"/>
+					<Help TextId="Help_0h004C"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="77">
+					<Name TextId="0h004D"/>
+					<Help TextId="Help_0h004D"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="78">
+					<Name TextId="0h004E"/>
+					<Help TextId="Help_0h004E"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="79">
+					<Name TextId="0h004F"/>
+					<Help TextId="Help_0h004F"/>
+				</ChannelDiagItem>
+			</ChannelDiagList>
+			<GraphicsList>
+				<GraphicItem ID="GI_AL400S" GraphicFile="GSDML-0136-AC25-AL400S"/>
+				<GraphicItem ID="GI_AL401S" GraphicFile="GSDML-0136-AC25-AL401S"/>
+			</GraphicsList>
+			<ExternalTextList>
+				<PrimaryLanguage>
+					<Text TextId="IDT_INFO_DEVICE_IDENTITY" Value="ETH Module PROFIsafe 6x2 F-DI 2x2 F-DO"/>
+					<!-- DAP AL402S -->
+					<Text TextId="IDT_DAP_NAME_AL400S" Value="AL400S"/>
+					<Text TextId="IDT_DAP_INFO_AL400S" Value="ETH Module PROFIsafe 6x2 F-DI 2x2 F-DO IP67"/>
+					<!-- DAP AL403S -->
+					<Text TextId="IDT_DAP_NAME_AL401S" Value="AL401S"/>
+					<Text TextId="IDT_DAP_INFO_AL401S" Value="ETH Module PROFIsafe 6x2 F-DI 2x2 F-DO IP69K"/>
+					<!--PDEV-->
+					<Text TextId="IDT_NAME_INTERFACE_SUBMODULE" Value="PN-IO"/>
+					<Text TextId="IDT_S_INTERFACE" Value="X1"/>
+					<Text TextId="IDT_S_INTERFACE_PORT1" Value="X1 P1"/>
+					<Text TextId="IDT_S_INTERFACE_PORT2" Value="X1 P2"/>
+					<Text TextId="IDT_PORT_SUBMODULE_P1" Value="Port_1"/>
+					<Text TextId="IDT_PORT_SUBMODULE_P2" Value="Port_2"/>
+					<!-- VSMI of DAP -->
+					<Text TextId="IDT_VS_DAP_NAME" Value="PROFINET Interface"/>
+					<Text TextId="IDT_VS_DAP_INFO" Value="PROFINET Interface"/>
+					<!--Modules -->
+					<Text TextId="MI_SENSOR_REACTIVATION_NAME" Value="Sensor Reactivation Module"/>
+					<Text TextId="MI_SENSOR_REACTIVATION_INFO" Value="16 Bits to trigger a reset of connected sensordevices"/>
+					<Text TextId="MI_6FDI2FDO_CHANNEL_PASSIVATION_NAME" Value="PROFIsafe Module - Channel Granular Passivation"/>
+					<Text TextId="MI_6FDI2FDO_CHANNEL_PASSIVATION_INFO" Value="5Bytes Input [2Byte F-DI + 2Bytes F-DI Qualifier + 1Byte F-DO Qualifier] and 1Byte Output [1Byte F-DO] + PROFIsafe Trailer"/>
+					<Text TextId="MI_6FDI2FDO_MODULE_PASSIVATION_NAME" Value="PROFIsafe Module - Module Passivation"/>
+					<Text TextId="MI_6FDI2FDO_MODULE_PASSIVATION_INFO" Value="5Bytes Input [2Byte F-DI + 2Bytes F-DI Qualifier + 1Byte F-DO Qualifier] and 1Byte Output [1Byte F-DO] + PROFIsafe Trailer"/>
+					<!-- Submodules -->
+					<Text TextId="SI_SENSOR_REACTIVATION_NAME" Value="Sensor Reactivation Submodule"/>
+					<Text TextId="SI_SENSOR_REACTIVATION_INFO" Value="16 Bits to trigger a reset of connected sensordevices"/>
+					<Text TextId="SI_6FDI2FDO_CHANNEL_PASSIVATION_NAME" Value="Safety Submodule - Channel - 6x2 F-DI 2x2 F-DO"/>
+					<Text TextId="SI_6FDI2FDO_CHANNEL_PASSIVATION_INFO" Value="Safety Submodule - Channel - 6x2 F-DI 2x2 F-DO"/>
+					<Text TextId="SI_6FDI2FDO_MODULE_PASSIVATION_NAME" Value="Safety Submodule - Device - 6x2 F-DI 2x2 F-DO"/>
+					<Text TextId="SI_6FDI2FDO_MODULE_PASSIVATION_INFO" Value="Safety Submodule - Device - 6x2 F-DI 2x2 F-DO"/>
+					<!-- Process Data - Sensor Reactivation Submodule -->
+					<Text TextId="DI_SENSOR_REACTIVATION_TID_0" Value="Sensor Reactivation 0"/>
+					<Text TextId="DI_SENSOR_REACTIVATION_TID_1" Value="Sensor Reactivation 1"/>
+					<Text TextId="IDT_SR_CHANNEL_0" Value="Sensor Reactivation Channel 0"/>
+					<Text TextId="IDT_SR_CHANNEL_1" Value="Sensor Reactivation Channel 1"/>
+					<Text TextId="IDT_SR_CHANNEL_2" Value="Sensor Reactivation Channel 2"/>
+					<Text TextId="IDT_SR_CHANNEL_3" Value="Sensor Reactivation Channel 3"/>
+					<Text TextId="IDT_SR_CHANNEL_4" Value="Sensor Reactivation Channel 4"/>
+					<Text TextId="IDT_SR_CHANNEL_5" Value="Sensor Reactivation Channel 5"/>
+					<Text TextId="IDT_SR_CHANNEL_6" Value="Sensor Reactivation Channel 6"/>
+					<Text TextId="IDT_SR_CHANNEL_7" Value="Sensor Reactivation Channel 7"/>
+					<Text TextId="IDT_SR_CHANNEL_8" Value="Sensor Reactivation Channel 8"/>
+					<Text TextId="IDT_SR_CHANNEL_9" Value="Sensor Reactivation Channel 9"/>
+					<Text TextId="IDT_SR_CHANNEL_10" Value="Sensor Reactivation Channel 10"/>
+					<Text TextId="IDT_SR_CHANNEL_11" Value="Sensor Reactivation Channel 11"/>
+					<!-- Process data - Input -->
+					<Text TextId="IDT_DI_OCTET_0" Value="F-DI Octet 0"/>
+					<Text TextId="IDT_DI_CHANNEL_0" Value="Channel 0 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_1" Value="Channel 1 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_2" Value="Channel 2 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_3" Value="Channel 3 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_4" Value="Channel 4 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_5" Value="Channel 5 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_6" Value="Channel 6 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_7" Value="Channel 7 - F-DI"/>
+					<Text TextId="IDT_DI_OCTET_1" Value="F-DI Octet 1"/>
+					<Text TextId="IDT_DI_CHANNEL_8" Value="Channel 8 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_9" Value="Channel 9 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_10" Value="Channel 10 - F-DI"/>
+					<Text TextId="IDT_DI_CHANNEL_11" Value="Channel 11 - F-DI"/>
+					<!-- Output Process data -->
+					<Text TextId="IDT_DO_OCTET_0" Value="F-DO Octet 0"/>
+					<Text TextId="IDT_DO_CHANNEL_12" Value="Channel 12 - F-DO"/>
+					<Text TextId="IDT_DO_CHANNEL_13" Value="Channel 13 - F-DO"/>
+					<Text TextId="IDT_DO_CHANNEL_14" Value="Channel 14 - F-DO"/>
+					<Text TextId="IDT_DO_CHANNEL_15" Value="Channel 15 - F-DO"/>
+					<!-- Process data - Input Qualifier -->
+					<Text TextId="IDT_QDI_Octet0" Value="Qualifier for F-DI Octet 0"/>
+					<Text TextId="IDT_QDI_CHANNEL_0" Value="Qualifier for Channel 0 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_1" Value="Qualifier for Channel 1 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_2" Value="Qualifier for Channel 2 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_3" Value="Qualifier for Channel 3 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_4" Value="Qualifier for Channel 4 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_5" Value="Qualifier for Channel 5 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_6" Value="Qualifier for Channel 6 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_7" Value="Qualifier for Channel 7 - F-DI"/>
+					<Text TextId="IDT_QDI_Octet1" Value="Qualifier for F-DI Octet 1"/>
+					<Text TextId="IDT_QDI_CHANNEL_8" Value="Qualifier for Channel 8 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_9" Value="Qualifier for Channel 9 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_10" Value="Qualifier for Channel 10 - F-DI"/>
+					<Text TextId="IDT_QDI_CHANNEL_11" Value="Qualifier for Channel 11 - F-DI"/>
+					<!-- Process data - Output Qualifier -->
+					<Text TextId="IDT_QDO_Octet0" Value="Qualifier for F-DO Octet 0"/>
+					<Text TextId="IDT_QDO_CHANNEL_12" Value="Qualifier for Channel 12 - F-DO"/>
+					<Text TextId="IDT_QDO_CHANNEL_13" Value="Qualifier for Channel 13 - F-DO"/>
+					<Text TextId="IDT_QDO_CHANNEL_14" Value="Qualifier for Channel 14 - F-DO"/>
+					<Text TextId="IDT_QDO_CHANNEL_15" Value="Qualifier for Channel 15 - F-DO"/>
+					<!-- Process data - Safety Message Trailer  -->
+					<Text TextId="IDT_Safety" Value="Safety message trailer"/>
+					<!-- Parameters List names -->
+					<Text TextId="IDT_FDI_1" Value="Safety Input Port X1"/>
+					<Text TextId="IDT_FDI_2" Value="Safety Input Port X2"/>
+					<Text TextId="IDT_FDI_3" Value="Safety Input Port X3"/>
+					<Text TextId="IDT_FDI_4" Value="Safety Input Port X4"/>
+					<Text TextId="IDT_FDI_5" Value="Safety Input Port X5"/>
+					<Text TextId="IDT_FDI_6" Value="Safety Input Port X6"/>
+					<Text TextId="IDT_FDO_1" Value="Safety Output Port X7"/>
+					<Text TextId="IDT_FDO_2" Value="Safety Output Port X8"/>
+					<!-- Input Parameters -->
+					<Text TextId="IDT_FDI_INPUT_1" Value="F-DI 1"/>
+					<Text TextId="IDT_FDI_INPUT_2" Value="F-DI 2"/>
+					<Text TextId="IDT_FDI_DISABLED" Value="Disabled"/>
+					<Text TextId="IDT_FDI_ENABLED" Value="Enabled"/>
+					<!-- Testpulse Supply -->
+					<Text TextId="IDT_FDI_TESTPULSE_SUPPLY1" Value="Testpulse Supply 1"/>
+					<Text TextId="IDT_FDI_TESTPULSE_SUPPLY2" Value="Testpulse Supply 2"/>
+					<Text TextId="IDT_FDI_TESTPULSE_ENABLED" Value="Enabled"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DISABLED" Value="Disabled"/>
+					<!-- Symmetry -->
+					<Text TextId="IDT_FDI_SYMMETRY" Value="Symmetry"/>
+					<Text TextId="IDT_FDI_SYMMETRY_1001" Value="1oo1"/>
+					<Text TextId="IDT_FDI_SYMMETRY_1002_EQUIVALENT" Value="1oo2 equivalent"/>
+					<Text TextId="IDT_FDI_SYMMETRY_1002_ANTIVALENT" Value="1oo2 antivalent"/>
+					<!-- Symmetry Discrepancy Time -->
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME" Value="Symmetry Discrepancy Time"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_NA" Value="Not Analysed"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_10MS" Value="10 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_20MS" Value="20 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_50MS" Value="50 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_100MS" Value="100 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_500MS" Value="500 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_1000MS" Value="1000 ms"/>
+					<Text TextId="IDT_FDI_DISCREPANCY_TIME_5000MS" Value="5000 ms"/>
+					<!-- Resolve Symmetry Violation -->
+					<Text TextId="IDT_FDI_RESOLVE_SYMMETRY_VIOLATION" Value="Resolve Symmetry Violation"/>
+					<Text TextId="IDT_FDI_ACNOWLEDGMENT_SUFFICIENT" Value="Acknowledgment sufficient"/>
+					<Text TextId="IDT_FDI_SWITCH_ON_INHIBIT" Value="Switch-on inhibit"/>
+					<!-- Filter Time -->
+					<Text TextId="IDT_FDI_FILTER_TIME1" Value="Filter F-DI 1"/>
+					<Text TextId="IDT_FDI_FILTER_TIME2" Value="Filter F-DI 2"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_3MS" Value="3 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_5MS" Value="5 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_10MS" Value="10 ms"/>
+					<!-- Output Parameters -->
+					<Text TextId="IDT_FDO_OUTPUT_1" Value="F-DO 1"/>
+					<Text TextId="IDT_FDO_OUTPUT_2" Value="F-DO 2"/>
+					<Text TextId="IDT_FDO_DISABLED" Value="Disabled"/>
+					<Text TextId="IDT_FDO_ENABLED" Value="Enabled"/>
+					<!-- Testpulse-->
+					<Text TextId="IDT_FDO_TEST_PULSE" Value="Testpulse"/>
+					<Text TextId="IDT_FDO_TEST_PULSE_DISABLED" Value="Disabled"/>
+					<Text TextId="IDT_FDO_TEST_PULSE_ENABLED" Value="Enabled"/>
+					<!-- Testpulse duration-->
+					<Text TextId="IDT_FDO_TEST_PULSE_DURATION" Value="Testpulse Duration"/>
+					<Text TextId="IDT_FDO_TEST_PULSE_DURATION_1ms" Value="1 ms"/>
+					<!-- Symmetry -->
+					<Text TextId="IDT_FDO_SYMMETRY" Value="Symmetry"/>
+					<Text TextId="IDT_FDO_SYMMETRY_1001_P" Value="1oo1 P"/>
+					<Text TextId="IDT_FDO_SYMMETRY_1002_PP" Value="1oo2 PP"/>
+					<Text TextId="IDT_FDO_SYMMETRY_1002_PM" Value="1oo2 PM"/>
+					<!-- Switch Off Delay -->
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY1" Value="Switch-off Delay F-DO 1"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY2" Value="Switch-off Delay F-DO 2"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_DISABLED" Value="Disabled"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_250MS" Value="250 ms"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_500MS" Value="500 ms"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_1000MS" Value="1000 ms"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_2000MS" Value="2000 ms"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_4000MS" Value="4000 ms"/>
+					<Text TextId="IDT_FDO_SWITCH_OFF_DELAY_8000MS" Value="8000 ms"/>
+					<!-- Diagnosis -->
+					<Text TextId="0h0040" Value="The parameterized F_Destination_Address does not correspond to the PROFIsafe address set on the safety module (F module)."/>
+					<Text TextId="Help_0h0040" Value="Check value F_Dest_Add "/>
+					<Text TextId="0h0041" Value="Invalid parameterization of F_Destination_Address. The addresses 0000hex and FFFFhex are not allowed."/>
+					<Text TextId="Help_0h0041" Value="Check value F_Dest_Add"/>
+					<Text TextId="0h0042" Value="Invalid parameterization of F_Source_Address. The addresses 0000hex and FFFFhex are not allowed."/>
+					<Text TextId="Help_0h0042" Value="Check value F_Source_Add"/>
+					<Text TextId="0h0043" Value="Invalid parameterization of F_WD_Time. A monitoring time of 0 ms is not allowed."/>
+					<Text TextId="Help_0h0043" Value="Check value (F_WD_Time, F_WD_Time_2)"/>
+					<Text TextId="0h0044" Value="Invalid parameterization of F_SIL. SIL is not supported by the safety module (F module)."/>
+					<Text TextId="Help_0h0044" Value="Check value F_SIL"/>
+					<Text TextId="0h0045" Value="Invalid parameterization of F_CRC_Length. The CRC length generated by the safety module (F module) does not correspond to the required length."/>
+					<Text TextId="Help_0h0045" Value="Check value F_CRC_Length"/>
+					<Text TextId="0h0046" Value="Invalid F parameter set version. The version of the safety module (F module) does not match the required version."/>
+					<Text TextId="Help_0h0046" Value="Check value Version"/>
+					<Text TextId="0h0047" Value="The checksum of the PROFIsafe parameters (CRC1) calculated by the safety module (F module) does not match the checksum transferred with the parameter telegram."/>
+					<Text TextId="Help_0h0047" Value="Check value CRC"/>
+					<Text TextId="0h0048" Value="Device-specific diagnostic."/>
+					<Text TextId="Help_0h0048" Value="Device specific or unspecified diagnosis information, see manual"/>
+					<Text TextId="0h0049" Value="Save i parameter watchdog time exceeded."/>
+					<Text TextId="Help_0h0049" Value="Save i parameter watchdog time exceeded"/>
+					<Text TextId="0h004A" Value="Restore of i parameter watchdog time exceeded."/>
+					<Text TextId="Help_0h004A" Value="Restore iParameter watchdog time exceeded"/>
+					<Text TextId="0h004B" Value="F_iParCRC invalid."/>
+					<Text TextId="Help_0h004B" Value="Check value iParCRC"/>
+					<Text TextId="0h004C" Value="F_Block_ID not supported."/>
+					<Text TextId="Help_0h004C" Value="Check value F_Block_ID"/>
+					<Text TextId="0h004D" Value="Reserved"/>
+					<Text TextId="Help_0h004D" Value="Reserved"/>
+					<Text TextId="0h004E" Value="Reserved"/>
+					<Text TextId="Help_0h004E" Value="Reserved"/>
+					<Text TextId="0h004F" Value="Unspecified (unknown) error"/>
+					<Text TextId="Help_0h004F" Value="Unspecified (unknown) error"/>
+				</PrimaryLanguage>
+			</ExternalTextList>
+		</ApplicationProcess>
+	</ProfileBody>
+</ISO15745Profile>

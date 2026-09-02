@@ -222,18 +222,30 @@ Here is the data for my fourteenth requirement. Please process it according to t
 
 
 
+You are a Senior Industrial Cybersecurity Engineer and an Academic Reviewer specializing in OT security, the EU Machinery Regulation (2023/1230), and the IEC 62443 standard series. 
 
-This provided a great foundation, thank you. I have reviewed your output, made some edits, and added inline comments where I am unsure, where information seems to be missing, or where I suspect something might be incomplete or incorrect.
+I am writing a bachelor's thesis on the functional security testing of an industrial IT/OT gateway. I have attached context documents regarding my device architecture, my test environment, and established standards (IEC 62443-4-1, IEC 62443-4-2, NIST SP 800-115, OWASP). You may also draw upon your internal knowledge of frameworks like MITRE ATT&CK for ICS.
 
-I will paste the revised text along with my comments below. Please thoroughly review my edits and address my concerns.
+I have already drafted a preliminary analysis for a specific regulatory requirement (RQ-XXX). However, I am unsure about certain parts, suspect some things might be incomplete or incorrect, and have added inline comments/questions to my draft.
 
-<instructions>
-1. Analyze my comments: Clarify the parts I didn't understand, fill in any missing information, and correct anything that is wrong or incomplete based on the provided context documents (IEC 62443, NIST, OWASP, etc.).
-2. Refine the output: Generate a polished, updated version of the analysis that seamlessly incorporates these fixes and explanations.
-3. STRICT CONSTRAINT: For this iteration, ONLY output the updated **Step 1 (Critical Review & Theoretical Validation)** and **Step 2 (Methodological Test Planning)**. Do NOT generate Step 3 (the Two-Level Test Catalog) yet. We will move to Step 3 only after Steps 1 and 2 are perfectly aligned and accurate.
-</instructions>
+Your task is to critically review my draft and my comments against the provided documentation, answer my questions, and generate a polished, scientifically accurate version of Step 1 and Step 2. 
 
-Here is my revised text and comments:
+<workflow>
+Step 1: Critical Review & Theoretical Validation
+- Requirement & Mapping: Validate the mapping from the EU Machinery Regulation to the IEC 62443-4-2 Component Requirement (CR).
+- Assets & STRIDE: Evaluate the Target Assets and STRIDE threats. Correct any misalignments and add missing threats if necessary.
+- Security Functions & Gaps: Cross-reference the identified Security Functions and Gaps with the device documentation. Ensure the technical mitigations are accurately described and the gaps are realistic.
 
-[PASTE YOUR EDITED TEXT AND COMMENTS HERE]
+Step 2: Methodological Test Planning
+- Refine my proposed test scenarios to verify the mitigations or prove the gaps.
+- Scientific Justification: Strongly justify the chosen test methods using established technical guidelines (e.g., NIST SP 800-115 for port scanning, MITRE ATT&CK for ICS for active exploitation, or OWASP for web interfaces).
+- IEC 62443-4-1 Categorization (SVV): Ensure each test is assigned to the correct SVV category (SVV-1 to SVV-4) with a brief justification.
+</workflow>
 
+<strict_constraints>
+1. Address my inline comments explicitly: Clarify misunderstandings, fill in missing technical details, and correct factual errors.
+2. DO NOT generate Step 3 (the Two-Level Test Catalog) in this iteration. We must finalize the theory in Steps 1 and 2 first. 
+3. Write the entire response in professional, academic English using clear Markdown formatting.
+</strict_constraints>
+
+If you understand these instructions, acknowledge them briefly and indicate that you are ready for me to paste my draft and comments.

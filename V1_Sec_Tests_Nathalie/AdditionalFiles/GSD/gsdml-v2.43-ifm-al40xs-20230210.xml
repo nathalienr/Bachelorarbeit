@@ -1,0 +1,793 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Small example for RIO for FA in combination with PROFIsafe V2.6.1 -->
+<ISO15745Profile xmlns="http://www.profibus.com/GSDML/2003/11/DeviceProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.profibus.com/GSDML/2003/11/DeviceProfile ..\xsd\GSDML-DeviceProfile-V2.43.xsd">
+	<!-- ProfileHeader definition as defined in ISO 15745-1. Please do not change the content. -->
+	<ProfileHeader>
+		<ProfileIdentification>PROFINET Device Profile</ProfileIdentification>
+		<ProfileRevision>1.00</ProfileRevision>
+		<ProfileName>Device Profile for PROFINET Devices</ProfileName>
+		<ProfileSource>PROFIBUS Nutzerorganisation e. V. (PNO)</ProfileSource>
+		<ProfileClassID>Device</ProfileClassID>
+		<ISO15745Reference>
+			<ISO15745Part>4</ISO15745Part>
+			<ISO15745Edition>1</ISO15745Edition>
+			<ProfileTechnology>GSDML</ProfileTechnology>
+		</ISO15745Reference>
+	</ProfileHeader>
+	<ProfileBody>
+		<DeviceIdentity VendorID="0x136" DeviceID="0x00A5">
+			<InfoText TextId="IDT_INFO_DEVICE_IDENTITY"/>
+			<VendorName Value="ifm electronic"/>
+		</DeviceIdentity>
+		<DeviceFunction>
+			<Family MainFamily="I/O" ProductFamily="SRIO Family"/>
+		</DeviceFunction>
+		<ApplicationProcess>
+			<DeviceAccessPointList>
+				<DeviceAccessPointItem ID="DAPID_AL402S" ModuleIdentNumber="0x00004020" PNIO_Version="V2.43" PhysicalSlots="0..1" MinDeviceInterval="8" DNS_CompatibleName="AL402S" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" RequiredSchemaVersion="V2.1" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" CheckDeviceID_Allowed="true" NameOfStationNotTransferable="false" PrmBeginPrmEndSequenceSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2">
+					<ModuleInfo>
+						<Name TextId="IDT_DAP_NAME_AL402S"/>
+						<InfoText TextId="IDT_DAP_INFO_AL402S"/>
+						<VendorName Value="ifm electronic"/>
+						<OrderNumber Value="AL402S"/>
+					</ModuleInfo>
+					<CertificationInfo ConformanceClass="C" ApplicationClass="" NetloadClass="III"/>
+					<SubslotList>
+						<SubslotItem SubslotNumber="32768" TextId="IDT_S_INTERFACE"/>
+						<SubslotItem SubslotNumber="32769" TextId="IDT_S_INTERFACE_PORT1"/>
+						<SubslotItem SubslotNumber="32770" TextId="IDT_S_INTERFACE_PORT2"/>
+					</SubslotList>
+					<IOConfigData MaxInputLength="24" MaxOutputLength="24" MaxDataLength="40"/>
+					<UseableModules>
+						<ModuleItemRef ModuleItemTarget="IDM_8DI4DO_PLC" AllowedInSlots="1"/>
+						<ModuleItemRef ModuleItemTarget="IDM_8DI4DO_TOOL" AllowedInSlots="1"/>
+					</UseableModules>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="ID_VS_AL402S" SubmoduleIdentNumber="0x00010000" Writeable_IM_Records="1 2 3" MayIssueProcessAlarm="false">
+							<IOData/>
+							<ModuleInfo>
+								<Name TextId="IDT_VS_DAP_NAME"/>
+								<InfoText TextId="IDT_VS_DAP_INFO"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<SystemDefinedSubmoduleList>
+						<InterfaceSubmoduleItem ID="IDS_I" SubmoduleIdentNumber="0x00010010" SubslotNumber="32768" TextId="IDT_NAME_INTERFACE_SUBMODULE" SupportedRT_Classes="RT_CLASS_1;RT_CLASS_3" DelayMeasurementSupported="true" SupportedDelayMeasurements="PTCP" SupportedProtocols="SNMP;LLDP" PTP_BoundarySupported="true" DCP_BoundarySupported="true">
+							<RT_Class3Properties ForwardingMode="Relative" MaxBridgeDelay="5500" MaxNumberIR_FrameData="256" MaxRetentionTime="20000" StartupMode="Advanced;Legacy"/>
+							<SynchronisationMode MaxLocalJitter="50" SupportedRole="SyncSlave" SupportedSyncProtocols="PTCP" T_PLL_MAX="1000"/>
+							<ApplicationRelations StartupMode="Advanced">
+								<TimingProperties ReductionRatio="1 2 4 8 16 32 64 128 256 512" SendClock="32 64 128"/>
+								<RT_Class3TimingProperties ReductionRatio="1 2 4 8 16" SendClock="8 16 32 64 128"/>
+							</ApplicationRelations>
+						</InterfaceSubmoduleItem>
+						<PortSubmoduleItem ID="IDS_P1" SubmoduleIdentNumber="0x00010011" SubslotNumber="32769" TextId="IDT_PORT_SUBMODULE_P1" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+						<PortSubmoduleItem ID="IDS_P2" SubmoduleIdentNumber="0x00010012" SubslotNumber="32770" TextId="IDT_PORT_SUBMODULE_P2" CheckMAUTypeDifferenceSupported="true" CheckMAUTypeSupported="true" LinkStateDiagnosisCapability="Up+Down" MAUTypes="16" MaxPortRxDelay="350" MaxPortTxDelay="160" PortDeactivationSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem AdjustSupported="true" Value="16"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+					</SystemDefinedSubmoduleList>
+				</DeviceAccessPointItem>
+			</DeviceAccessPointList>
+			<ModuleList>
+				<ModuleItem ID="IDM_8DI4DO_PLC" ModuleIdentNumber="0x10000000" RequiredSchemaVersion="V2.31">
+					<ModuleInfo>
+						<Name TextId="IDT_M_NAME_8DI4DO_PLC"/>
+						<InfoText TextId="IDT_M_INFO_8DI4DO_PLC"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDS_8DI4DO_PLC" SubmoduleIdentNumber="0x10000001" PROFIsafeSupported="true" MayIssueProcessAlarm="false">
+							<!-- 4 DI, 4 DO -->
+							<IOData F_IO_StructureDescCRC="16384">
+								<Input Consistency="All items consistency">
+									<!-- Input data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_0">
+										<BitDataItem BitOffset="0" TextId="IDT_DI_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_DI_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_DI_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_DI_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_DI_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_DI_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_DI_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_DI_CHANNEL_7"/>
+									</DataItem>
+									<!-- Qualifier for input data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet0" Subordinate="true">
+										<BitDataItem BitOffset="0" TextId="IDT_QDI_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_QDI_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_QDI_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_QDI_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_QDI_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_QDI_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_QDI_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_QDI_CHANNEL_7"/>
+									</DataItem>
+									<!-- Qualifier for output data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDO_Octet0" Subordinate="true">
+										<BitDataItem BitOffset="0" TextId="IDT_QDO_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_QDO_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_QDO_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_QDO_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_QDO_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_QDO_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_QDO_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_QDO_CHANNEL_7"/>
+									</DataItem>
+									<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+									<!-- Digital input channels quality bits -->
+									<Channel Number="0">
+										<Data BitOffset="0" BitLength="1"/>
+										<Quality BitOffset="8" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="1">
+										<Data BitOffset="1" BitLength="1"/>
+										<Quality BitOffset="9" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="2">
+										<Data BitOffset="2" BitLength="1"/>
+										<Quality BitOffset="10" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="3">
+										<Data BitOffset="3" BitLength="1"/>
+										<Quality BitOffset="11" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="4">
+										<Data BitOffset="4" BitLength="1"/>
+										<Quality BitOffset="12" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="5">
+										<Data BitOffset="5" BitLength="1"/>
+										<Quality BitOffset="13" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="6">
+										<Data BitOffset="6" BitLength="1"/>
+										<Quality BitOffset="14" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="7">
+										<Data BitOffset="7" BitLength="1"/>
+										<Quality BitOffset="15" Format="Qualifier"/>
+									</Channel>
+								</Input>
+								<Output Consistency="All items consistency">
+									<!-- Output data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DO_OCTET_0">
+										<BitDataItem BitOffset="0" TextId="IDT_DO_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_DO_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_DO_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_DO_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_DO_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_DO_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_DO_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_DO_CHANNEL_7"/>
+									</DataItem>
+									<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+									<!-- Digital output channels quality bits -->
+									<Channel Number="0">
+										<Data BitOffset="0" BitLength="1"/>
+										<Quality BitOffset="16" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="1">
+										<Data BitOffset="1" BitLength="1"/>
+										<Quality BitOffset="17" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="2">
+										<Data BitOffset="2" BitLength="1"/>
+										<Quality BitOffset="18" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="3">
+										<Data BitOffset="3" BitLength="1"/>
+										<Quality BitOffset="19" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="4">
+										<Data BitOffset="4" BitLength="1"/>
+										<Quality BitOffset="20" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="5">
+										<Data BitOffset="5" BitLength="1"/>
+										<Quality BitOffset="21" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="6">
+										<Data BitOffset="6" BitLength="1"/>
+										<Quality BitOffset="22" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="7">
+										<Data BitOffset="7" BitLength="1"/>
+										<Quality BitOffset="23" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+								</Output>
+							</IOData>
+							<RecordDataList>
+								<ParameterRecordDataItem Index="769" Length="6">
+									<Name TextId="IDT_FDI_1"/>
+									<Ref ValueItemTarget="VT_InputTypes" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_InputType" ID="ID_InputType"/>
+									<Ref ValueItemTarget="VT_FDI_ASSIGNMENT" ByteOffset="0" DataType="BitArea" BitOffset="2" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_FDI_ASSIGNMENT" ID="ID_FDI_ASSIGNMENT"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_FREQUENCIES" ByteOffset="0" DataType="BitArea" BitOffset="4" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_FREQUENCIES" ID="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									<Ref ByteOffset="1" DataType="Unsigned16" BitOffset="0" DefaultValue="0" AllowedValues="0 3..10000" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_DUTY_CYCLES" ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE" ID="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									<Ref ByteOffset="4" DataType="Unsigned8" BitOffset="0" DefaultValue="0" AllowedValues="0 1..20" TextId="IDT_InputMaxTestpulseDelay" ID="ID_InputMaxTestpulseDelay"/>
+									<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="5" DataType="BitArea" BitOffset="0" BitLength="3" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDI_FILTER_TIME" ID="ID_FDI_FILTER_TIME"/>
+									<Ref ValueItemTarget="VT_InputSwitchOnInhibit" ByteOffset="5" DataType="Bit" BitOffset="4" DefaultValue="0" AllowedValues="0..1" TextId="IDT_InputSwitchOnInhibit" ID="ID_InputSwitchOnInhibit"/>
+									  <MenuList>
+								                <MenuItem ID="MenuItemFDI_parameters">
+									                  <Name TextId="IDT_FDI_1"/>
+									                  <ParameterRef ParameterTarget="ID_InputType"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_ASSIGNMENT"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									                  <ParameterRef ParameterTarget="ID_InputMaxTestpulseDelay"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_FILTER_TIME"/>
+									                  <ParameterRef ParameterTarget="ID_InputSwitchOnInhibit"/>								                  
+								                </MenuItem>
+							              </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="770" Length="6">
+									<Name TextId="IDT_FDI_2"/>
+									<Ref ValueItemTarget="VT_InputTypes" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_InputType" ID="ID_InputType"/>
+									<Ref ValueItemTarget="VT_FDI_ASSIGNMENT" ByteOffset="0" DataType="BitArea" BitOffset="2" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_FDI_ASSIGNMENT" ID="ID_FDI_ASSIGNMENT"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_FREQUENCIES" ByteOffset="0" DataType="BitArea" BitOffset="4" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_FREQUENCIES" ID="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									<Ref ByteOffset="1" DataType="Unsigned16" BitOffset="0" DefaultValue="0" AllowedValues="0 3..10000" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_DUTY_CYCLES" ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE" ID="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									<Ref ByteOffset="4" DataType="Unsigned8" BitOffset="0" DefaultValue="0" AllowedValues="0 1..20" TextId="IDT_InputMaxTestpulseDelay" ID="ID_InputMaxTestpulseDelay"/>
+									<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="5" DataType="BitArea" BitOffset="0" BitLength="3" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDI_FILTER_TIME" ID="ID_FDI_FILTER_TIME"/>
+									<Ref ValueItemTarget="VT_InputSwitchOnInhibit" ByteOffset="5" DataType="Bit" BitOffset="4" DefaultValue="0" AllowedValues="0..1" TextId="IDT_InputSwitchOnInhibit" ID="ID_InputSwitchOnInhibit"/>
+									  <MenuList>
+								                <MenuItem ID="MenuItemFDI_parameters">
+									                  <Name TextId="IDT_FDI_2"/>
+									                  <ParameterRef ParameterTarget="ID_InputType"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_ASSIGNMENT"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									                  <ParameterRef ParameterTarget="ID_InputMaxTestpulseDelay"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_FILTER_TIME"/>
+									                  <ParameterRef ParameterTarget="ID_InputSwitchOnInhibit"/>								                  
+								                </MenuItem>
+							              </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="771" Length="6">
+									<Name TextId="IDT_FDI_3"/>
+									<Ref ValueItemTarget="VT_InputTypes" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_InputType" ID="ID_InputType"/>
+									<Ref ValueItemTarget="VT_FDI_ASSIGNMENT" ByteOffset="0" DataType="BitArea" BitOffset="2" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_FDI_ASSIGNMENT" ID="ID_FDI_ASSIGNMENT"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_FREQUENCIES" ByteOffset="0" DataType="BitArea" BitOffset="4" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_FREQUENCIES" ID="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									<Ref ByteOffset="1" DataType="Unsigned16" BitOffset="0" DefaultValue="0" AllowedValues="0 3..10000" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_DUTY_CYCLES" ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE" ID="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									<Ref ByteOffset="4" DataType="Unsigned8" BitOffset="0" DefaultValue="0" AllowedValues="0 1..20" TextId="IDT_InputMaxTestpulseDelay" ID="ID_InputMaxTestpulseDelay"/>
+									<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="5" DataType="BitArea" BitOffset="0" BitLength="3" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDI_FILTER_TIME" ID="ID_FDI_FILTER_TIME"/>
+									<Ref ValueItemTarget="VT_InputSwitchOnInhibit" ByteOffset="5" DataType="Bit" BitOffset="4" DefaultValue="0" AllowedValues="0..1" TextId="IDT_InputSwitchOnInhibit" ID="ID_InputSwitchOnInhibit"/>
+									  <MenuList>
+								                <MenuItem ID="MenuItemFDI_parameters">
+									                  <Name TextId="IDT_FDI_3"/>
+									                  <ParameterRef ParameterTarget="ID_InputType"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_ASSIGNMENT"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									                  <ParameterRef ParameterTarget="ID_InputMaxTestpulseDelay"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_FILTER_TIME"/>
+									                  <ParameterRef ParameterTarget="ID_InputSwitchOnInhibit"/>								                  
+								                </MenuItem>
+							              </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="772" Length="6">
+									<Name TextId="IDT_FDI_4"/>
+									<Ref ValueItemTarget="VT_InputTypes" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_InputType" ID="ID_InputType"/>
+									<Ref ValueItemTarget="VT_FDI_ASSIGNMENT" ByteOffset="0" DataType="BitArea" BitOffset="2" BitLength="2" DefaultValue="0" AllowedValues="0..3" TextId="IDT_FDI_ASSIGNMENT" ID="ID_FDI_ASSIGNMENT"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_FREQUENCIES" ByteOffset="0" DataType="BitArea" BitOffset="4" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_FREQUENCIES" ID="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									<Ref ByteOffset="1" DataType="Unsigned16" BitOffset="0" DefaultValue="0" AllowedValues="0 3..10000" TextId="IDT_FDI_SYMMETRY" ID="ID_FDI_SYMMETRY"/>
+									<Ref ValueItemTarget="VT_FDI_TESTPULSE_DUTY_CYCLES" ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="4" DefaultValue="0" AllowedValues="0..8" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE" ID="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									<Ref ByteOffset="4" DataType="Unsigned8" BitOffset="0" DefaultValue="0" AllowedValues="0 1..20" TextId="IDT_InputMaxTestpulseDelay" ID="ID_InputMaxTestpulseDelay"/>
+									<Ref ValueItemTarget="VT_FDI_FILTER_TIME" ByteOffset="5" DataType="BitArea" BitOffset="0" BitLength="3" DefaultValue="0" AllowedValues="0..6" TextId="IDT_FDI_FILTER_TIME" ID="ID_FDI_FILTER_TIME"/>
+									<Ref ValueItemTarget="VT_InputSwitchOnInhibit" ByteOffset="5" DataType="Bit" BitOffset="4" DefaultValue="0" AllowedValues="0..1" TextId="IDT_InputSwitchOnInhibit" ID="ID_InputSwitchOnInhibit"/>
+									  <MenuList>
+								                <MenuItem ID="MenuItemFDI_parameters">
+									                  <Name TextId="IDT_FDI_4"/>
+									                  <ParameterRef ParameterTarget="ID_InputType"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_ASSIGNMENT"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_FREQUENCIES"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_SYMMETRY"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_TESTPULSE_DUTY_CYCLE"/>
+									                  <ParameterRef ParameterTarget="ID_InputMaxTestpulseDelay"/>
+									                  <ParameterRef ParameterTarget="ID_FDI_FILTER_TIME"/>
+									                  <ParameterRef ParameterTarget="ID_InputSwitchOnInhibit"/>								                  
+								                </MenuItem>
+							              </MenuList>
+								</ParameterRecordDataItem>								
+								<ParameterRecordDataItem Index="785" Length="1">
+									<Name TextId="IDT_FDO_1"/>
+									<Ref ValueItemTarget="VT_OutputSwitchingMode" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchingMode" ID="ID_OutputSwitchingMode"/>
+									<Ref ValueItemTarget="VT_OutputChannelType" ByteOffset="0" DataType="BitArea" BitOffset="1" BitLength="2" DefaultValue="0" AllowedValues="0..2" TextId="IDT_OutputChannelType" ID="ID_OutputChannelType"/>
+									<Ref ValueItemTarget="VT_OutputMaxTestpulseDurations" ByteOffset="0" DataType="BitArea" BitOffset="3" BitLength="3" DefaultValue="0" AllowedValues="0..4" TextId="IDT_OutputMaxTestpulseDuration"  ID="ID_OutputMaxTestpulseDuration"/>									
+									<Ref ValueItemTarget="VT_OutputSwitchOffDelay" ByteOffset="0" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchOffDelay" ID="ID_OutputSwitchOffDelay"/>
+									<Ref ValueItemTarget="VT_OutputShortCircuitDiagnostic" ByteOffset="0" DataType="BitArea" BitOffset="7" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputShortCircuitDiagnostic" ID="ID_OutputShortCircuitDiagnostic"/>
+									<MenuList>
+								                <MenuItem ID="MenuItemFDO_parameters">
+									                  <Name TextId="IDT_FDO_1"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchingMode"/>
+									                  <ParameterRef ParameterTarget="ID_OutputChannelType"/>
+									                  <ParameterRef ParameterTarget="ID_OutputMaxTestpulseDuration"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchOffDelay"/>
+									                  <ParameterRef ParameterTarget="ID_OutputShortCircuitDiagnostic"/>								                  
+								                </MenuItem>
+								     </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="786" Length="1">
+									<Name TextId="IDT_FDO_2"/>
+									<Ref ValueItemTarget="VT_OutputSwitchingMode" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchingMode" ID="ID_OutputSwitchingMode"/>
+									<Ref ValueItemTarget="VT_OutputChannelType" ByteOffset="0" DataType="BitArea" BitOffset="1" BitLength="2" DefaultValue="0" AllowedValues="0..2" TextId="IDT_OutputChannelType" ID="ID_OutputChannelType"/>
+									<Ref ValueItemTarget="VT_OutputMaxTestpulseDurations" ByteOffset="0" DataType="BitArea" BitOffset="3" BitLength="3" DefaultValue="0" AllowedValues="0..4" TextId="IDT_OutputMaxTestpulseDuration"  ID="ID_OutputMaxTestpulseDuration"/>									
+									<Ref ValueItemTarget="VT_OutputSwitchOffDelay" ByteOffset="0" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchOffDelay" ID="ID_OutputSwitchOffDelay"/>
+									<Ref ValueItemTarget="VT_OutputShortCircuitDiagnostic" ByteOffset="0" DataType="BitArea" BitOffset="7" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputShortCircuitDiagnostic" ID="ID_OutputShortCircuitDiagnostic"/>
+									<MenuList>
+								                <MenuItem ID="MenuItemFDO_parameters">
+									                  <Name TextId="IDT_FDO_2"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchingMode"/>
+									                  <ParameterRef ParameterTarget="ID_OutputChannelType"/>
+									                  <ParameterRef ParameterTarget="ID_OutputMaxTestpulseDuration"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchOffDelay"/>
+									                  <ParameterRef ParameterTarget="ID_OutputShortCircuitDiagnostic"/>								                  
+								                </MenuItem>
+								     </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="787" Length="1">
+									<Name TextId="IDT_FDO_3"/>
+									<Ref ValueItemTarget="VT_OutputSwitchingMode" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchingMode" ID="ID_OutputSwitchingMode"/>
+									<Ref ValueItemTarget="VT_OutputChannelType" ByteOffset="0" DataType="BitArea" BitOffset="1" BitLength="2" DefaultValue="0" AllowedValues="0..2" TextId="IDT_OutputChannelType" ID="ID_OutputChannelType"/>
+									<Ref ValueItemTarget="VT_OutputMaxTestpulseDurations" ByteOffset="0" DataType="BitArea" BitOffset="3" BitLength="3" DefaultValue="0" AllowedValues="0..4" TextId="IDT_OutputMaxTestpulseDuration"  ID="ID_OutputMaxTestpulseDuration"/>									
+									<Ref ValueItemTarget="VT_OutputSwitchOffDelay" ByteOffset="0" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchOffDelay" ID="ID_OutputSwitchOffDelay"/>
+									<Ref ValueItemTarget="VT_OutputShortCircuitDiagnostic" ByteOffset="0" DataType="BitArea" BitOffset="7" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputShortCircuitDiagnostic" ID="ID_OutputShortCircuitDiagnostic"/>
+									<MenuList>
+								                <MenuItem ID="MenuItemFDO_parameters">
+									                  <Name TextId="IDT_FDO_3"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchingMode"/>
+									                  <ParameterRef ParameterTarget="ID_OutputChannelType"/>
+									                  <ParameterRef ParameterTarget="ID_OutputMaxTestpulseDuration"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchOffDelay"/>
+									                  <ParameterRef ParameterTarget="ID_OutputShortCircuitDiagnostic"/>								                  
+								                </MenuItem>
+								     </MenuList>
+								</ParameterRecordDataItem>
+								<ParameterRecordDataItem Index="788" Length="1">
+									<Name TextId="IDT_FDO_4"/>
+									<Ref ValueItemTarget="VT_OutputSwitchingMode" ByteOffset="0" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchingMode" ID="ID_OutputSwitchingMode"/>
+									<Ref ValueItemTarget="VT_OutputChannelType" ByteOffset="0" DataType="BitArea" BitOffset="1" BitLength="2" DefaultValue="0" AllowedValues="0..2" TextId="IDT_OutputChannelType" ID="ID_OutputChannelType"/>
+									<Ref ValueItemTarget="VT_OutputMaxTestpulseDurations" ByteOffset="0" DataType="BitArea" BitOffset="3" BitLength="3" DefaultValue="0" AllowedValues="0..4" TextId="IDT_OutputMaxTestpulseDuration"  ID="ID_OutputMaxTestpulseDuration"/>									
+									<Ref ValueItemTarget="VT_OutputSwitchOffDelay" ByteOffset="0" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputSwitchOffDelay" ID="ID_OutputSwitchOffDelay"/>
+									<Ref ValueItemTarget="VT_OutputShortCircuitDiagnostic" ByteOffset="0" DataType="BitArea" BitOffset="7" BitLength="1" DefaultValue="0" AllowedValues="0..1" TextId="IDT_OutputShortCircuitDiagnostic" ID="ID_OutputShortCircuitDiagnostic"/>
+									<MenuList>
+								                <MenuItem ID="MenuItemFDO_parameters">
+									                  <Name TextId="IDT_FDO_4"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchingMode"/>
+									                  <ParameterRef ParameterTarget="ID_OutputChannelType"/>
+									                  <ParameterRef ParameterTarget="ID_OutputMaxTestpulseDuration"/>
+									                  <ParameterRef ParameterTarget="ID_OutputSwitchOffDelay"/>
+									                  <ParameterRef ParameterTarget="ID_OutputShortCircuitDiagnostic"/>								                  
+								                </MenuItem>
+								     </MenuList>
+								</ParameterRecordDataItem>
+								<F_ParameterRecordDataItem F_ParamDescCRC="38654" Index="512">
+									<F_Check_iPar/>
+									<F_SIL AllowedValues="SIL3" Changeable="false"/>
+									<F_CRC_Length DefaultValue="4-Byte-CRC" AllowedValues="4-Byte-CRC" Visible="true"/>
+									<F_CRC_Seed DefaultValue="CRC-Seed24/32" AllowedValues="CRC-Seed24/32"/>
+									<F_Passivation DefaultValue="Channel" AllowedValues="Channel"/>
+									<F_Block_ID DefaultValue="1" Changeable="false"/>
+									<F_Par_Version DefaultValue="1" AllowedValues="1"/>
+									<F_Source_Add/>
+									<F_Dest_Add AllowedValues="1..1023"/>
+									<F_WD_Time DefaultValue="250" AllowedValues="10..10000"/>
+									<F_Par_CRC DefaultValue="57019" AllowedValues="0..65535"/>
+									<F_iPar_CRC AllowedValues="0..4294967295"/>
+								</F_ParameterRecordDataItem>
+							</RecordDataList>
+							<ModuleInfo>
+								<Name TextId="IDT_S_NAME_8DI4DO_PLC"/>
+								<InfoText TextId="IDT_S_INFO_8DI4DO_PLC"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+				</ModuleItem>
+				<ModuleItem ID="IDM_8DI4DO_TOOL" ModuleIdentNumber="0x20000000" RequiredSchemaVersion="V2.31">
+					<ModuleInfo>
+						<Name TextId="IDT_M_NAME_8DI4DO_TOOL"/>
+						<InfoText TextId="IDT_M_INFO_8DI4DO_TOOL"/>
+						<OrderNumber Value=""/>
+					</ModuleInfo>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDS_8DI4DO_TOOL" SubmoduleIdentNumber="0x20000001" PROFIsafeSupported="true" MayIssueProcessAlarm="false">
+							<!-- 4 DI, 4 DO -->
+							<IOData F_IO_StructureDescCRC="16384">
+								<Input Consistency="All items consistency">
+									<!-- Input data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DI_OCTET_0">
+										<BitDataItem BitOffset="0" TextId="IDT_DI_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_DI_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_DI_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_DI_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_DI_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_DI_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_DI_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_DI_CHANNEL_7"/>
+									</DataItem>
+									<!-- Qualifier for input data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDI_Octet0" Subordinate="true">
+										<BitDataItem BitOffset="0" TextId="IDT_QDI_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_QDI_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_QDI_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_QDI_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_QDI_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_QDI_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_QDI_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_QDI_CHANNEL_7"/>
+									</DataItem>
+									<!-- Qualifier for output data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_QDO_Octet0" Subordinate="true">
+										<BitDataItem BitOffset="0" TextId="IDT_QDO_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_QDO_CHANNEL_1"/>
+										<BitDataItem BitOffset="2" TextId="IDT_QDO_CHANNEL_2"/>
+										<BitDataItem BitOffset="3" TextId="IDT_QDO_CHANNEL_3"/>
+										<BitDataItem BitOffset="4" TextId="IDT_QDO_CHANNEL_4"/>
+										<BitDataItem BitOffset="5" TextId="IDT_QDO_CHANNEL_5"/>
+										<BitDataItem BitOffset="6" TextId="IDT_QDO_CHANNEL_6"/>
+										<BitDataItem BitOffset="7" TextId="IDT_QDO_CHANNEL_7"/>
+									</DataItem>
+									<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+									<!-- Digital input channels quality bits -->
+									<Channel Number="0">
+										<Data BitOffset="0" BitLength="1"/>
+										<Quality BitOffset="8" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="2">
+										<Data BitOffset="1" BitLength="1"/>
+										<Quality BitOffset="9" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="4">
+										<Data BitOffset="2" BitLength="1"/>
+										<Quality BitOffset="10" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="6">
+										<Data BitOffset="3" BitLength="1"/>
+										<Quality BitOffset="11" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="1">
+										<Data BitOffset="4" BitLength="1"/>
+										<Quality BitOffset="12" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="3">
+										<Data BitOffset="5" BitLength="1"/>
+										<Quality BitOffset="13" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="5">
+										<Data BitOffset="6" BitLength="1"/>
+										<Quality BitOffset="14" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="7">
+										<Data BitOffset="7" BitLength="1"/>
+										<Quality BitOffset="15" Format="Qualifier"/>
+									</Channel>
+								</Input>
+								<Output Consistency="All items consistency">
+									<!-- Output data channels -->
+									<DataItem DataType="Unsigned8" UseAsBits="true" TextId="IDT_DO_OCTET_0">
+										<BitDataItem BitOffset="0" TextId="IDT_DO_CHANNEL_0"/>
+										<BitDataItem BitOffset="1" TextId="IDT_DO_CHANNEL_2"/>
+										<BitDataItem BitOffset="2" TextId="IDT_DO_CHANNEL_4"/>
+										<BitDataItem BitOffset="3" TextId="IDT_DO_CHANNEL_6"/>
+										<BitDataItem BitOffset="4" TextId="IDT_DO_CHANNEL_1"/>
+										<BitDataItem BitOffset="5" TextId="IDT_DO_CHANNEL_3"/>
+										<BitDataItem BitOffset="6" TextId="IDT_DO_CHANNEL_5"/>
+										<BitDataItem BitOffset="7" TextId="IDT_DO_CHANNEL_7"/>
+									</DataItem>
+									<DataItem DataType="F_MessageTrailer5Byte" TextId="IDT_Safety"/>
+									<!-- Digital output channels quality bits -->
+									<Channel Number="0">
+										<Data BitOffset="0" BitLength="1"/>
+										<Quality BitOffset="16" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="2">
+										<Data BitOffset="1" BitLength="1"/>
+										<Quality BitOffset="17" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="4">
+										<Data BitOffset="2" BitLength="1"/>
+										<Quality BitOffset="18" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="6">
+										<Data BitOffset="3" BitLength="1"/>
+										<Quality BitOffset="19" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="1">
+										<Data BitOffset="4" BitLength="1"/>
+										<Quality BitOffset="20" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="3">
+										<Data BitOffset="5" BitLength="1"/>
+										<Quality BitOffset="21" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="5">
+										<Data BitOffset="6" BitLength="1"/>
+										<Quality BitOffset="22" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+									<Channel Number="7">
+										<Data BitOffset="7" BitLength="1"/>
+										<Quality BitOffset="23" OppositeDirection="true" Format="Qualifier"/>
+									</Channel>
+								</Output>
+							</IOData>
+							<RecordDataList>
+								<F_ParameterRecordDataItem Index="512" F_ParamDescCRC="23186">
+									<F_Check_iPar/>
+									<F_SIL DefaultValue="SIL3" AllowedValues="SIL1 SIL2 SIL3"/>
+									<F_CRC_Length DefaultValue="4-Byte-CRC" AllowedValues="4-Byte-CRC" Visible="true"/>
+									<F_CRC_Seed/>
+									<F_Passivation DefaultValue="Channel" AllowedValues="Channel"/>
+									<F_Block_ID DefaultValue="0" AllowedValues="0" Changeable="false"/>
+									<F_Par_Version/>
+									<F_Source_Add/>
+									<F_Dest_Add/>
+									<F_WD_Time DefaultValue="500" AllowedValues="10..2000"/>
+									<F_Par_CRC DefaultValue="21211"/>
+								</F_ParameterRecordDataItem>
+							</RecordDataList>
+							<ModuleInfo>
+								<Name TextId="IDT_S_NAME_8DI4DO_TOOL"/>
+								<InfoText TextId="IDT_S_INFO_8DI4DO_TOOL"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+				</ModuleItem>				
+			</ModuleList>
+			<ValueList>
+				<ValueItem ID="VT_aParamater">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_disabled"/>
+						<Assign Content="1" TextId="IDT_enabled"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_InputTypes">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_InputType_Disabled"/>
+						<Assign Content="1" TextId="IDT_InputType_A"/>
+						<Assign Content="2" TextId="IDT_InputType_B"/>
+						<Assign Content="3" TextId="IDT_InputType_C"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_ASSIGNMENT">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_BOTH_NOT_USED"/>
+						<Assign Content="1" TextId="IDT_FDI_BOTH_1_CHANNEL"/>
+						<Assign Content="2" TextId="IDT_FDI_2_CHANNEL_EQUIVALENT"/>
+						<Assign Content="3" TextId="IDT_FDI_2_CHANNEL_COMPLEMENTARY"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_TESTPULSE_FREQUENCIES">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_TESTPULSE_FREQUENCY_2Hz"/>
+						<Assign Content="1" TextId="IDT_FDI_TESTPULSE_FREQUENCY_3Hz"/>
+						<Assign Content="2" TextId="IDT_FDI_TESTPULSE_FREQUENCY_4Hz"/>
+						<Assign Content="3" TextId="IDT_FDI_TESTPULSE_FREQUENCY_5Hz"/>
+						<Assign Content="4" TextId="IDT_FDI_TESTPULSE_FREQUENCY_6Hz"/>
+						<Assign Content="5" TextId="IDT_FDI_TESTPULSE_FREQUENCY_7Hz"/>
+						<Assign Content="6" TextId="IDT_FDI_TESTPULSE_FREQUENCY_8Hz"/>
+						<Assign Content="7" TextId="IDT_FDI_TESTPULSE_FREQUENCY_9Hz"/>
+						<Assign Content="8" TextId="IDT_FDI_TESTPULSE_FREQUENCY_10Hz"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_TESTPULSE_DUTY_CYCLES">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_10"/>
+						<Assign Content="1" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_20"/>
+						<Assign Content="2" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_30"/>
+						<Assign Content="3" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_40"/>
+						<Assign Content="4" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_50"/>
+						<Assign Content="5" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_60"/>
+						<Assign Content="6" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_70"/>
+						<Assign Content="7" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_80"/>
+						<Assign Content="8" TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_90"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_FDI_FILTER_TIME">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_FDI_FILTER_TIME_15"/>
+						<Assign Content="1" TextId="IDT_FDI_FILTER_TIME_10"/>
+						<Assign Content="2" TextId="IDT_FDI_FILTER_TIME_5"/>
+						<Assign Content="3" TextId="IDT_FDI_FILTER_TIME_3"/>
+						<Assign Content="4" TextId="IDT_FDI_FILTER_TIME_1"/>
+						<Assign Content="5" TextId="IDT_FDI_FILTER_TIME_0.5"/>
+						<Assign Content="6" TextId="IDT_FDI_FILTER_TIME_0.1"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VT_InputSwitchOnInhibit">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_InputSwitchOnInhibit_Disabled"/>
+						<Assign Content="1" TextId="IDT_InputSwitchOnInhibit_Enabled"/>
+					</Assignments>
+				</ValueItem>				
+				<ValueItem ID="VT_OutputSwitchingMode">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_OutputSwitchingMode_PP"/>
+						<Assign Content="1" TextId="IDT_OutputSwitchingMode_PM"/>
+					</Assignments>
+				</ValueItem>								
+				<ValueItem ID="VT_OutputChannelType">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_OutputSingleChannel_PP"/>
+						<Assign Content="1" TextId="IDT_OutputDoubleChannel_PP"/>
+						<Assign Content="2" TextId="IDT_OutputDoubleChannel_PM"/>
+					</Assignments>
+				</ValueItem>				
+				<ValueItem ID="VT_OutputMaxTestpulseDurations">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_OutputMaxTestpulseDuration_Disabled"/>
+						<Assign Content="1" TextId="IDT_OutputMaxTestpulseDuration_Class_0_3ms"/>
+						<Assign Content="2" TextId="IDT_OutputMaxTestpulseDuration_Class_1_1ms"/>
+						<Assign Content="3" TextId="IDT_OutputMaxTestpulseDuration_Class_2_0.5ms"/>
+						<Assign Content="4" TextId="IDT_OutputMaxTestpulseDuration_Class_3_0.1ms"/>
+					</Assignments>
+				</ValueItem>				
+				<ValueItem ID="VT_OutputSwitchOffDelay">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_OutputSwitchOffDelay_Disabled"/>
+						<Assign Content="1" TextId="IDT_OutputSwitchOffDelay_Enabled"/>
+					</Assignments>
+				</ValueItem>				
+				<ValueItem ID="VT_OutputShortCircuitDiagnostic">
+					<Assignments>
+						<Assign Content="0" TextId="IDT_OutputShortCircuitDiagnostic_Disabled"/>
+						<Assign Content="1" TextId="IDT_OutputShortCircuitDiagnostic_Enabled"/>
+					</Assignments>
+				</ValueItem>
+			</ValueList>
+			<ExternalTextList>
+				<PrimaryLanguage>
+					<Text TextId="IDT_INFO_DEVICE_IDENTITY" Value="Ethernet Module PROFIsafe IP67 / IP69K"/>										
+					<!-- DAP AL402S -->
+          				<Text TextId="IDT_DAP_NAME_AL402S" Value="AL402S"/>
+          				<Text TextId="IDT_DAP_INFO_AL402S" Value="Ethernet Module PROFIsafe 8DI/4DO IP67"/>
+          				<!--PDEV-->
+					<Text TextId="IDT_NAME_INTERFACE_SUBMODULE" Value="PN-IO"/>
+					<Text TextId="IDT_S_INTERFACE" Value="X1"/>
+					<Text TextId="IDT_S_INTERFACE_PORT1" Value="X1 P1"/>
+					<Text TextId="IDT_S_INTERFACE_PORT2" Value="X1 P2"/>
+					<Text TextId="IDT_PORT_SUBMODULE_P1" Value="Port_1"/>
+					<Text TextId="IDT_PORT_SUBMODULE_P2" Value="Port_2"/>
+					<!-- VSMI of DAP -->
+					<Text TextId="IDT_VS_DAP_NAME" Value="PROFINET Interface"/>
+					<Text TextId="IDT_VS_DAP_INFO" Value="PROFINET Interface"/>
+					<!--Modules -->
+					<Text TextId="IDT_M_NAME_8DI4DO_PLC" Value="PLC Parametrization"/>
+					<Text TextId="IDT_M_INFO_8DI4DO_PLC" Value="Parameterization via PLC"/>
+					<Text TextId="IDT_M_NAME_8DI4DO_TOOL" Value="Tool Parametrization"/>
+					<Text TextId="IDT_M_INFO_8DI4DO_TOOL" Value="Parametrization via Tool"/>
+					<!-- Submodules -->
+					<Text TextId="IDT_S_NAME_8DI4DO_PLC" Value="Safety Submodule 8DI/4DO"/>
+					<Text TextId="IDT_S_INFO_8DI4DO_PLC" Value="Safety Submodule 8DI/4DO parametrized via PLC"/>
+					<Text TextId="IDT_S_NAME_8DI4DO_TOOL" Value="Safety Submodule 8DI/4DO"/>
+					<Text TextId="IDT_S_INFO_8DI4DO_TOOL" Value="Safety Submodule 8DI/4DO parametrized via Tool"/>
+					<!-- Process data - Input -->					
+					<Text TextId="IDT_DI_OCTET_0" Value="Digital Input Octet 0"/>
+					<Text TextId="IDT_DI_CHANNEL_0" Value="Digital Input Channel 0"/>
+					<Text TextId="IDT_DI_CHANNEL_1" Value="Digital Input Channel 1"/>
+					<Text TextId="IDT_DI_CHANNEL_2" Value="Digital Input Channel 2"/>
+					<Text TextId="IDT_DI_CHANNEL_3" Value="Digital Input Channel 3"/>
+					<Text TextId="IDT_DI_CHANNEL_4" Value="Digital Input Channel 4"/>
+					<Text TextId="IDT_DI_CHANNEL_5" Value="Digital Input Channel 5"/>
+					<Text TextId="IDT_DI_CHANNEL_6" Value="Digital Input Channel 6"/>
+					<Text TextId="IDT_DI_CHANNEL_7" Value="Digital Input Channel 7"/>
+					<!-- Output Process data -->
+					<Text TextId="IDT_DO_OCTET_0" Value="Digital Output Octet 0"/>
+					<Text TextId="IDT_DO_CHANNEL_0" Value="Digital Output Channel 0"/>
+					<Text TextId="IDT_DO_CHANNEL_1" Value="Digital Output Channel 1"/>
+					<Text TextId="IDT_DO_CHANNEL_2" Value="Digital Output Channel 2"/>
+					<Text TextId="IDT_DO_CHANNEL_3" Value="Digital Output Channel 3"/>
+					<Text TextId="IDT_DO_CHANNEL_4" Value="Digital Output Channel 4"/>
+					<Text TextId="IDT_DO_CHANNEL_5" Value="Digital Output Channel 5"/>
+					<Text TextId="IDT_DO_CHANNEL_6" Value="Digital Output Channel 6"/>
+					<Text TextId="IDT_DO_CHANNEL_7" Value="Digital Output Channel 7"/>
+					<!-- Process data - Input Qualifier -->
+					<Text TextId="IDT_QDI_Octet0" Value="Qualifier for Digital Input Octet 0"/>
+					<Text TextId="IDT_QDI_CHANNEL_0" Value="Qualifier for Digital Input Channel 0"/>
+					<Text TextId="IDT_QDI_CHANNEL_1" Value="Qualifier for Digital Input Channel 1"/>
+					<Text TextId="IDT_QDI_CHANNEL_2" Value="Qualifier for Digital Input Channel 2"/>
+					<Text TextId="IDT_QDI_CHANNEL_3" Value="Qualifier for Digital Input Channel 3"/>
+					<Text TextId="IDT_QDI_CHANNEL_4" Value="Qualifier for Digital Input Channel 4"/>
+					<Text TextId="IDT_QDI_CHANNEL_5" Value="Qualifier for Digital Input Channel 5"/>
+					<Text TextId="IDT_QDI_CHANNEL_6" Value="Qualifier for Digital Input Channel 6"/>
+					<Text TextId="IDT_QDI_CHANNEL_7" Value="Qualifier for Digital Input Channel 7"/>
+					<!-- Process data - Output Qualifier -->
+					<Text TextId="IDT_QDO_Octet0" Value="Qualifier for Digital Output Octet 0"/>
+					<Text TextId="IDT_QDO_CHANNEL_0" Value="Qualifier for Digital Output Channel 0"/>
+					<Text TextId="IDT_QDO_CHANNEL_1" Value="Qualifier for Digital Output Channel 1"/>
+					<Text TextId="IDT_QDO_CHANNEL_2" Value="Qualifier for Digital Output Channel 2"/>
+					<Text TextId="IDT_QDO_CHANNEL_3" Value="Qualifier for Digital Output Channel 3"/>
+					<Text TextId="IDT_QDO_CHANNEL_4" Value="Qualifier for Digital Output Channel 4"/>
+					<Text TextId="IDT_QDO_CHANNEL_5" Value="Qualifier for Digital Output Channel 5"/>
+					<Text TextId="IDT_QDO_CHANNEL_6" Value="Qualifier for Digital Output Channel 6"/>
+					<Text TextId="IDT_QDO_CHANNEL_7" Value="Qualifier for Digital Output Channel 7"/>
+					<!-- Process data - Safety Message Trailer  -->
+					<Text TextId="IDT_Safety" Value="Safety message trailer"/>
+					<!-- Parameters List names -->					
+					<Text TextId="IDT_FDI_1" Value="Input 00 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDI_2" Value="Input 01 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDI_3" Value="Input 02 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDI_4" Value="Input 03 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDO_1" Value="Output 00 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDO_2" Value="Output 01 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDO_3" Value="Output 02 Channel 1 / Channel 2"/>
+					<Text TextId="IDT_FDO_4" Value="Output 03 Channel 1 / Channel 2"/>
+					<!-- Input Parameters -->
+					<Text TextId="IDT_disabled" Value="disabled"/>
+					<Text TextId="IDT_enabled" Value="enabled"/>
+					<Text TextId="IDT_InputType" Value="Input Type"/>
+					<Text TextId="IDT_InputType_Disabled" Value="Disabled"/>
+					<Text TextId="IDT_InputType_A" Value="Type A"/>
+					<Text TextId="IDT_InputType_B" Value="Type B"/>
+					<Text TextId="IDT_InputType_C" Value="Type C"/>
+					<Text TextId="IDT_FDI_ASSIGNMENT" Value="Assignment"/>
+					<Text TextId="IDT_FDI_BOTH_NOT_USED" Value="both not used"/>
+					<Text TextId="IDT_FDI_BOTH_1_CHANNEL" Value="both 1-Channel"/>
+					<Text TextId="IDT_FDI_2_CHANNEL_EQUIVALENT" Value="2-Channel equivalent"/>
+					<Text TextId="IDT_FDI_2_CHANNEL_COMPLEMENTARY" Value="2-Channel antivalent"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCIES" Value="Testpulse frequencies"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_2Hz" Value="Testpulse frequency 2 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_3Hz" Value="Testpulse frequency 3 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_4Hz" Value="Testpulse frequency 4 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_5Hz" Value="Testpulse frequency 5 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_6Hz" Value="Testpulse frequency 6 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_7Hz" Value="Testpulse frequency 7 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_8Hz" Value="Testpulse frequency 8 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_9Hz" Value="Testpulse frequency 9 Hz"/>
+					<Text TextId="IDT_FDI_TESTPULSE_FREQUENCY_10Hz" Value="Testpulse frequency 10 Hz"/>
+					<Text TextId="IDT_FDI_SYMMETRY" Value="Symmetry"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE" Value="Testpulse Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_10" Value="Testpulse with 10% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_20" Value="Testpulse with 20% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_30" Value="Testpulse with 30% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_40" Value="Testpulse with 40% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_50" Value="Testpulse with 50% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_60" Value="Testpulse with 60% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_70" Value="Testpulse with 70% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_80" Value="Testpulse with 80% Duty-Cycle"/>
+					<Text TextId="IDT_FDI_TESTPULSE_DUTY_CYCLE_90" Value="Testpulse with 90% Duty-Cycle"/>
+					<Text TextId="IDT_InputMaxTestpulseDelay" Value="Maximal testpulse delay"/>
+					<Text TextId="IDT_FDI_FILTER_TIME" Value="Filter time"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_15" Value="15 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_10" Value="10 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_5" Value="5 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_3" Value="3 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_1" Value="1 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_0.5" Value="0.5 ms"/>
+					<Text TextId="IDT_FDI_FILTER_TIME_0.1" Value="0.1 ms"/>
+					<Text TextId="IDT_InputSwitchOnInhibit" Value="Switch-on inhibit"/>
+					<Text TextId="IDT_InputSwitchOnInhibit_Disabled" Value="Disabled"/>
+					<Text TextId="IDT_InputSwitchOnInhibit_Enabled" Value="Enabled"/>					
+					<!-- Output Parameters -->
+					<Text TextId="IDT_OutputSwitchingMode" Value="Output Switching Mode"/>
+					<Text TextId="IDT_OutputSwitchingMode_PP" Value="Output PP-switching"/>
+					<Text TextId="IDT_OutputSwitchingMode_PM" Value="Output PM-switching"/>
+					<Text TextId="IDT_OutputChannelType" Value="Output Channel Type"/>
+					<Text TextId="IDT_OutputSingleChannel_PP" Value="Output Single Channel PP-switching"/>
+					<Text TextId="IDT_OutputDoubleChannel_PP" Value="Output Double Channel PP-switching"/>
+					<Text TextId="IDT_OutputDoubleChannel_PM" Value="Output Double Channel PM-switching"/>					
+					<Text TextId="IDT_OutputMaxTestpulseDuration" Value="Output Max Testpulse Duration"/>
+					<Text TextId="IDT_OutputMaxTestpulseDuration_Disabled" Value="Test Pulse disabled"/>
+					<Text TextId="IDT_OutputMaxTestpulseDuration_Class_0_3ms" Value="Class 0 - 3 ms"/>
+					<Text TextId="IDT_OutputMaxTestpulseDuration_Class_1_1ms" Value="Class 1 - 1 ms"/>
+					<Text TextId="IDT_OutputMaxTestpulseDuration_Class_2_0.5ms" Value="Class 2 - 0.5 ms"/>
+					<Text TextId="IDT_OutputMaxTestpulseDuration_Class_3_0.1ms" Value="Class 3 - 0.1 ms"/>					
+					<Text TextId="IDT_OutputSwitchOffDelay" Value="Output Switch Off Delay"/>
+					<Text TextId="IDT_OutputSwitchOffDelay_Disabled" Value="Disabled"/>
+					<Text TextId="IDT_OutputSwitchOffDelay_Enabled" Value="Enabled"/>
+					<Text TextId="IDT_OutputShortCircuitDiagnostic" Value="Output Short Circuit Diagnostic"/>
+					<Text TextId="IDT_OutputShortCircuitDiagnostic_Disabled" Value="Disabled"/>
+					<Text TextId="IDT_OutputShortCircuitDiagnostic_Enabled" Value="Enabled"/>					
+				</PrimaryLanguage>
+			</ExternalTextList>
+		</ApplicationProcess>
+	</ProfileBody>
+</ISO15745Profile>
