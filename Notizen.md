@@ -1,6 +1,73 @@
 USB3-zu-Gigabit-Ethernet-Dongle von kali zu switch
 switch 192.168.0.91, eine sps 192.168.0.1, das safe remote i/o 192.168.0.2, den kali linux rechner mit 192.168.0.80 und meinen firmenlaptop mit 192.168.0.7. sps ist mit port1 , safe remote i/o ist mit port2, kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 
+Ja – genau so was in der Art! 🎯 Und ehrlich gesagt: Was du da hast, ist deutlich mehr als nur „in der Art". Dieser Zwei-Ebenen-Testkatalog (Level 1 abstraktes, produktneutrales Szenario + Level 2 konkrete Ausführung) ist praktisch schon die „validated testing methodology", die deine Thesis als Endergebnis fordert. Du bist also nicht am Anfang, sondern mittendrin.
+
+Lass mich dir jetzt bei genau deiner Frage helfen: Was davon ist verwendbar / relevant – und was nicht? Dafür ist eine wichtige Unterscheidung nötig, die den ganzen Unterschied macht.
+
+Zwei verschiedene Arten von „relevant"
+
+Erinnere dich an die Aufgabe: Du brauchst**(a) empirische Nachweise** und**(b) eine validierte Methodik**. Deshalb hat „relevant" bei dir zwei Achsen – und ein Test kann auf der einen Achse wichtig sein, auf der anderen nicht:
+
+Achse	Was zählt	Welche TestsMethodik-Gerüst (Deliverable)	Vollständigkeit über alle 14 Requirements. Hier zählt jedes Level-1-Szenario, auch die nicht durchführbaren.	Alle TCs
+Empirischer Kern (der wissenschaftliche Beitrag)	Nur was du am echten Gerät ausführst und mit PCAP/Log/Screenshot belegst.	Nur die ausführbaren TCs
+
+👉 Kernbotschaft: Du wirfst nichts weg. Die nicht durchführbaren Tests bleiben als Methodik drin – nur ihre Ausführung fällt raus (und wird als „residual-risk boundary / out of scope" dokumentiert). Das ist sogar eine Stärke, weil es zeigt, dass deine Methodik vollständig ist und du die Grenzen verstehst.
+
+Bucket A — Dein empirischer Kern (das führst du WIRKLICH aus)
+
+Das sind die Tests mit echter Geräteinteraktion, die auswertbare Evidenz produzieren. Hier liegt der Hauptwert deiner Arbeit – das sind deine „machen"-markierten und die impliziten Baseline-Tests:
+
+Aktive Geräte-Tests (Nmap, curl, Scapy, Flooding, Fuzzing)
+RQ-001: TC-01 (Baseline PROFIsafe), TC-02 (Nmap Attack-Surface), TC-03 (CRC-Mismatch-Injection), TC-05 (Watchdog-Passivierung)
+RQ-002: TC-01 (iParCRC-Rejection), TC-02 (Stale-CRC-Fault)
+RQ-003: TC-01, TC-02, TC-04, TC-05 (Evidence-Baseline, autorisierte Änderung, Zeit-Attribution, Excluded Interface)
+RQ-004/006: TC-01 (Identification Inventory), Plaintext-Capture, TC-04 (Signature-Uniqueness)
+RQ-007: TC-01 (Availability Baseline), TC-03 (Connection-Hold Self-DoS)
+RQ-009: TC-01–04 (Evidence-Surface, Counter-Delta, Actor-Delegation, Write-Gate)
+RQ-010: TC-01–04 (Load-Baseline, L2-Flood, Fuzzing, App-Layer-Flood)
+RQ-011: TC-01 (Read-Only), TC-02 (DCP Factory-Reset)
+RQ-012: TC-01 (Buffer-Overflow), TC-02 (Cold-Start-Deletion), TC-04 (Zeit-Attribution)
+RQ-013: TC-01 (Current-Version-Only)
+RQ-014: TC-01–04 (Unauth-Read, Cleartext, Access-Control-Probe, Deletion-Probe)
+
+➡️ Das ist der Beweisteil. Diese ~35 Tests liefern die PCAPs, XML-Logs, TIA-Screenshots und DO-Videos, die dein „empirical evidence" ausmachen.
+
+Bucket B — Desk-/Analyse-Tests (verwendbar, aber Theorieebene)
+
+Diese hast du zwar „machen" markiert, aber sie laufen ohne Live-Gerät (Schreibtischanalyse, Rechenargument, Dokumenten-Review). Sie gehören in die Arbeit, sind aber Unterstützung, nicht der empirische Kern – investiere hier maßvoll:
+
+TC-RQ002-04 — Forgeability-Analyse (16-Bit-Keyspace-Argument)
+TC-RQ005-04 — Firmware-Static-Analysis (binwalk, offline)
+TC-RQ005-05 — Analytisch: Self-Tests ≠ Authenticity
+TC-RQ004-02 / RQ006-02 — SBOM-Vollständigkeit (⚠️ hier steht dein eigener Kommentar, ob das nach IEC 62443-3-3 SR 7.8 überhaupt nötig ist – das solltest du klären)
+TC-RQ009-05 — Counter-Wrap-Around-Berechnung
+TC-RQ012-03 — Mandated-Reboot-Retention (Dokumenten-Argument)
+TC-RQ013-04 — Release-Notes-Bewertung
+
+➡️ Verwendbar ja – aber als analytische Findings, nicht als Laborbeweis.
+
+Bucket C — Nicht (direkt) durchführbar (beschreiben statt ausführen)
+
+Das sind deine Nicht durchführbar / Nicht direkt durchführbar markierten Tests. Hier greift genau die Antwort aus unserem letzten Gespräch: Diese beschreibst du methodisch (Level 1 bleibt!), führst sie aber nicht aus – mit klarer Begründung warum:
+
+Grund der Nicht-Durchführbarkeit	Betroffene TestsIn-Path-MITM / Bridge-Takeover (komplex, Grenzfall)	RQ-001-04, RQ-002-03, RQ-005-02
+Physischer Seal-Defeat (destruktiv)	RQ-002-05, RQ-003-03, RQ-011-05
+Firmware-Install / braucht Ersatzgerät (Setup C) + Recovery	RQ-005-03, RQ-008-02/03/04, RQ-013-02/03
+Zustandsübergänge / Redundanz-Ausfall (schwer reproduzierbar)	RQ-007-02/04, RQ-010-05, RQ-011-03/04
+
+➡️ Für diese gilt: Level-1-Szenario dokumentieren, als „residual-risk boundary" oder „execution out of scope (requires spare unit / destructive / in-path takeover)" kennzeichnen. Das ist legitim und methodisch sauber – du beschreibst, wie getestet würde, und warum der reale Test hier nicht sinnvoll/möglich ist.
+
+Mein konkreter Rat zur Priorisierung
+Zuerst Bucket A durchziehen – das ist dein Nachweis-Fundament und der Teil, der die Note trägt. Fang mit den passiven/read-only Tests an (Nmap, curl, Baseline), die sind risikoarm.
+Bucket B parallel schreiben – die kannst du „nebenbei" am Schreibtisch erledigen, sie brauchen kein Laborzeitfenster.
+Bucket C sauber dokumentieren, nicht ausführen – und im Methodik-Kapitel begründen. Achtung bei den vielen Setup-C-Tests (Ersatzgerät): Kläre früh mit Bastian Ruess, ob ein Ersatz-SRIO verfügbar ist – falls ja, rutschen einige „Nicht direkt durchführbar" plötzlich in Bucket A.
+
+Zwei offene Punkte aus deinen eigenen Kommentaren solltest du übrigens mit deinem Betreuer abklären: die Notwendigkeit der SBOM-Analyse (RQ-004-02) und mehrere**„Gibt es einen Beleg?"-Fragen** (z. B. „runtime change" bei RQ-002-05, FIT-Fuse bei RQ-003-05) – dort fehlt dir noch die Quelle.
+
+Möchtest du, dass ich dir daraus eine saubere Priorisierungs-Tabelle als Excel/Word-Datei baue (mit Spalten TC-ID, Bucket, SVV, Setup, Status, offene Frage), damit du eine abhakbare Arbeitsliste für die Umsetzung hast? Das würde dir das Durchziehen von Bucket A deutlich erleichtern. 📋
+
+
 
 **Basis-Setup** (SPS + SRIO + Engineering-Laptop, kein Kali nötig)
 Testfall									Warum kein Kali nötig

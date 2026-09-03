@@ -266,7 +266,7 @@ pip install boofuzz
 ```
 Vor Testbeginn Funktionsfähigkeit jedes Tools einmal isoliert prüfen (z. B. `nmap -V`, `scapy` interaktiv starten).
 
-### 10.5 Standalone-Zubehör (laut Anweisung Vorgesetzter)
+### 10.5 Standalone-Zubehör 
 1. Micro-HDMI-Kabel in einen der beiden Micro-HDMI-Ports des Pi stecken, anderes Ende an Monitor.
 2. USB-Tastatur/-Maus an USB-Ports.
 3. USB-C-Netzteil (5V/3A) anschließen.
