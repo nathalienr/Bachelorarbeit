@@ -1,0 +1,118 @@
+
+# ===== 0: Baseline =====
+curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_00_baseline.txt
+curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_00_baseline.json
+
+# ===== 1: Event 1 =====
+# --> Patch-Cable (Switch-Port 2) kurz ziehen und wieder einstecken
+
+# ===== 2: Readout after Event 1 =====
+curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_01_event1.txt
+curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_01_event1.json
+
+# ===== 3: Cold-Restart =====
+# --> Power-In-Kabel am SRIO ziehen
+# --> 5-10 Sek. warten
+# --> Power-Kabel wieder einstecken, warten bis RDY-LED gruen und P-LED gruen
+
+# ===== 4: Readout after Cold-Restart =====
+curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_02_after_coldstart.txt
+curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_02_after_coldstart.json
+
+# ===== 5: Event 2 =====
+# --> Patch-Kabel (Switch-Port 2) erneut kurz ziehen und wieder einstecken
+
+# ===== 6: Readout after Event 2 =====
+curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_03_event2.txt
+curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_03_event2.json
+
+# ===== 7: Evaluation =====
+echo "--- Log-comparison Baseline vs Event 1 ---"
+diff cm_rq003-04_log_00_baseline.json cm_rq003-04_log_01_event1.json
+
+echo "--- Log-comparison after Coldstart vs Event 2 ---"
+diff cm_rq003-04_log_02_after_coldstart.json cm_rq003-04_log_03_event2.json
+
+echo "--- Systick-comparison ---"
+echo "Baseline:        $(cat cm_rq003-04_systick_00_baseline.txt)"
+echo "Nach Event 1:    $(cat cm_rq003-04_systick_01_event1.txt)"
+echo "Nach Coldstart:  $(cat cm_rq003-04_systick_02_after_coldstart.txt)"
+echo "Nach Event 2:    $(cat cm_rq003-04_systick_03_event2.txt)"
+----
+RQ-004-01
+
+for p in deviceinfo/hwversion deviceinfo/hwrevision deviceinfo/swrevision \
+  deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
+  deviceinfo/swinfo/scpubootloaderversion firmware/version fieldbussetup/fieldbusfirmware; do
+  echo "== $p =="
+  curl -s http://$SRIO/$p/getdata
+  echo
+done | tee cm_rq004-01_inventory.txt
+--
+sudo tshark -i "$IFACE" -f "host $SRIO and tcp port 80" -w cm_rq004-03_http.pcap &
+TSHARK_PID=$!
+sleep 1
+curl -s http://$SRIO/deviceinfo/swrevision/getdata >/dev/null
+sleep 1
+sudo kill $TSHARK_PID
+
+sslscan --show-certificate $SRIO:80 > cm_rq004-03_sslscan.txt 2>&1
+---
+RQ-006-01
+for p in deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
+  deviceinfo/swinfo/scpubootloaderversion deviceinfo/swrevision firmware/version \
+  fieldbussetup/fieldbusfirmware; do
+  echo "== $p =="
+  curl -s http://$SRIO/$p/getdata
+  echo
+done | tee cm_rq006-01_installed.txt
+---
+RQ-006-03
+
+sudo tshark -i "$IFACE" -Y "http && ip.addr==$SRIO" -w cm_rq006-03_http.pcap &
+TSHARK_PID=$!
+sleep 1
+curl -s http://$SRIO/deviceinfo/swinfo/scpuversion/getdata >/dev/null
+sleep 1
+sudo kill $TSHARK_PID
+
+sslscan --show-certificate $SRIO:80 > cm_rq006-03_sslscan.txt 2>&1
+---
+RQ-007-03
+
+export SRIO=192.168.0.2
+LOGDIR=~/rq007-03_evidence
+mkdir -p $LOGDIR
+cd $LOGDIR
+
+echo "=== Baseline: Verbindung funktioniert normal ===" | tee cm_rq007-03_00_baseline.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_00_baseline.txt 2>&1
+cat cm_rq007-03_00_baseline.txt
+
+echo "=== Beide Slots blockieren ==="
+for i in 1 2; do
+  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost: x\r\n\r\n' >&3; sleep 600) &
+done
+jobs | tee cm_rq007-03_01_jobs.txt
+
+echo "=== 3. Versuch waehrend beide Slots belegt sind (erwartet: Timeout) ===" | tee cm_rq007-03_02_blocked.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_02_blocked.txt 2>&1
+cat cm_rq007-03_02_blocked.txt
+
+echo "=== Einen Slot freigeben ==="
+kill %1
+
+echo "=== Erneuter Versuch nach Freigabe (erwartet: wieder erfolgreich) ===" | tee cm_rq007-03_03_after_release.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_03_after_release.txt 2>&1
+cat cm_rq007-03_03_after_release.txt
+
+echo "=== Aufraeumen: zweiten Slot auch freigeben ==="
+kill %2
+
+echo ""
+echo "=== ZUSAMMENFASSUNG ==="
+echo "--- Baseline ---"; cat cm_rq007-03_00_baseline.txt
+echo "--- Waehrend blockiert ---"; cat cm_rq007-03_02_blocked.txt
+echo "--- Nach Freigabe ---"; cat cm_rq007-03_03_after_release.txt
+
+

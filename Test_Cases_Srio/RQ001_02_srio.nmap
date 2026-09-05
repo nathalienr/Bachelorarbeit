@@ -1,0 +1,21 @@
+# Nmap 7.99 scan initiated Fri Sep  4 08:18:31 2026 as: /usr/lib/nmap/nmap -sS -sV -p- -T3 -oA RQ001_02_srio 192.168.0.2
+Nmap scan report for 192.168.0.2
+Host is up (0.00033s latency).
+Not shown: 65534 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+80/tcp open  http
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port80-TCP:V=7.99%I=7%D=9/4%Time=6A9A655F%P=x86_64-pc-linux-gnu%r(GetRe
+SF:quest,74,"HTTP/1\.0\x20406\x20Not\x20Acceptable\r\nContent-Type:\x20tex
+SF:t/plain\r\nContent-Length:\x2020\r\nConnection:\x20close\r\n\r\n406\x20
+SF:Not\x20Acceptable\r\n")%r(GenericLines,39,"HTTP/1\.1\x20501\x20Method\x
+SF:20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(SSLSessionRe
+SF:q,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20
+SF:close\r\n\r\n\x20")%r(LPDString,39,"HTTP/1\.1\x20501\x20Method\x20Not\x
+SF:20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(TerminalServer,39,"
+SF:HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\
+SF:r\n\r\n\x20");
+MAC Address: 00:02:01:C5:95:E8 (IFM Electronic gmbh)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Sep  4 08:31:59 2026 -- 1 IP address (1 host up) scanned in 808.11 seconds

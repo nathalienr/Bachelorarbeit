@@ -1,0 +1,1 @@
+{"code":200,"cid":-1,"adr":"/devicestatus/errorlog/loglist","data":[{"systick":37253,"level":"ERROR","msg":"< SCPU: EC:0x106, CH:10, LV:0"},{"systick":31508,"level":"ERROR","msg":"> SCPU: EC:0x106, CH:10, LV:0"}]}

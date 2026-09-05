@@ -1,0 +1,1 @@
+{"code":200,"cid":-1,"adr":"/systemtime/systick/getdata","data":{"value":18329}}

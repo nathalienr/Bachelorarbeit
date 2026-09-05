@@ -1,0 +1,4 @@
+# Nmap 7.99 scan initiated Fri Sep  4 08:18:31 2026 as: /usr/lib/nmap/nmap -sS -sV -p- -T3 -oA RQ001_02_srio 192.168.0.2
+Host: 192.168.0.2 ()	Status: Up
+Host: 192.168.0.2 ()	Ports: 80/open/tcp//http///	Ignored State: closed (65534)
+# Nmap done at Fri Sep  4 08:31:59 2026 -- 1 IP address (1 host up) scanned in 808.11 seconds
