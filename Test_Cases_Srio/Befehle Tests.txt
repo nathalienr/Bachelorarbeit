@@ -115,4 +115,9 @@ echo "--- Baseline ---"; cat cm_rq007-03_00_baseline.txt
 echo "--- Waehrend blockiert ---"; cat cm_rq007-03_02_blocked.txt
 echo "--- Nach Freigabe ---"; cat cm_rq007-03_03_after_release.txt
 
+--- 
+RQ007-02
+
+
+
 
