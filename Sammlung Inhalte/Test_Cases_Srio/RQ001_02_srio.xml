@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.99 scan initiated Fri Sep  4 08:18:31 2026 as: /usr/lib/nmap/nmap -sS -sV -p- -T3 -oA RQ001_02_srio 192.168.0.2 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -sS -sV -p- -T3 -oA RQ001_02_srio 192.168.0.2" start="1788502711" startstr="Fri Sep  4 08:18:31 2026" version="7.99" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1788502716" endtime="1788503519"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65534">
+<extrareasons reason="reset" count="65534" proto="tcp" ports="1-79,81-65535"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="255"/><service name="http" servicefp="SF-Port80-TCP:V=7.99%I=7%D=9/4%Time=6A9A655F%P=x86_64-pc-linux-gnu%r(GetRequest,74,&quot;HTTP/1\.0\x20406\x20Not\x20Acceptable\r\nContent-Type:\x20text/plain\r\nContent-Length:\x2020\r\nConnection:\x20close\r\n\r\n406\x20Not\x20Acceptable\r\n&quot;)%r(GenericLines,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(SSLSessionReq,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(LPDString,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(TerminalServer,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;);" method="probed" conf="10"/></port>
+</ports>
+<times srtt="330" rttvar="32" to="100000"/>
+</host>
+<runstats><finished time="1788503519" timestr="Fri Sep  4 08:31:59 2026" summary="Nmap done at Fri Sep  4 08:31:59 2026; 1 IP address (1 host up) scanned in 808.11 seconds" elapsed="808.11" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

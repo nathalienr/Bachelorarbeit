@@ -1,5 +1,10 @@
-- Defense-in-Depth Strategie
+- Workflow-Dokument Test-cases überarbeitet
+- Zusätzliches Tests überarbeitet
+- Vorgehen und Umsetzung: Ideen Inhalt
+- prüfen was morgen testen
 
+- Defense-in-Depth Strategie
+- Man-in-the-Middle
 
 - Test RQ001-02: html: wie lesen? json Response Risiko?
 - Test RQ003-05: fit/setfit nichtmehr in Iot gettree?

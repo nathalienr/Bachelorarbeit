@@ -1,0 +1,4 @@
+# Nmap 7.99 scan initiated Fri Sep  4 08:37:08 2026 as: /usr/lib/nmap/nmap -sU --top-ports 200 -oA RQ002_02_udp 192.168.0.2
+Host: 192.168.0.2 ()	Status: Up
+Host: 192.168.0.2 ()	Ports: 161/open/udp//snmp///, 49152/open|filtered/udp/////	Ignored State: closed (198)
+# Nmap done at Fri Sep  4 08:37:36 2026 -- 1 IP address (1 host up) scanned in 28.83 seconds

@@ -3,9 +3,6 @@
 \~\~ Assets
 \~\~ Verbinden Assets mit MVO-Requirements \~\~
 
-* MI: Methoden aus Standards ableiten
-* FR: Anfangen Testfälle schreiben
-* FR: Vorgehen Text + Belegen
 * Testplan in Polarion für Security erstellen
 * Raussuchen welches die IT/OT Schnittstellen sind
 * GSD, MRP fehlt
@@ -13,8 +10,77 @@
 * Testumgebung informieren
 * Testfall DCP factory reset
 * Referenzen auf Testfälle überpüfen
+* Quellen Kapitel Vorgehen
+* Grundlagen überarbeiten
 
 \---
+
+
+Meine Empfehlung für eine Bachelorarbeit
+
+Wenn du die Arbeit auf etwa 8 bis 12 praktische Tests reduzieren möchtest, würde ich folgende auswählen:
+
+Security Function Validation
+TC-RQ001-02 Attack Surface Enumeration
+TC-RQ001-03 Integrity Mismatch Injection
+TC-RQ001-05 Watchdog / Passivation
+TC-RQ002-01 Parameter CRC Rejection
+TC-RQ002-02 CRC Error Detection
+TC-RQ002-03 Valid CRC over Modified Data
+Resilience / Adversarial Testing
+TC-RQ010-02 Flooding
+TC-RQ010-03 Protocol Fuzzing
+TC-RQ010-04 HTTP Flood
+Compliance Gap Demonstration
+TC-RQ004-02 SBOM Gap
+TC-RQ008-02 Log Persistence
+TC-RQ014-01 Unauthenticated Log Access
+
+Damit deckst du praktisch alle wichtigen Themen ab:
+
+Security Function Verification
+Threat Mitigation
+Vulnerability Assessment
+Penetration Testing
+Machinery Regulation Compliance
+IEC 62443 SVV-1 bis SVV-4
+
+
+
+%TODO überprüfen, ob Spalte "Protection objective" passt
+%TODO schreiben, dass Asset Tabelle nicht vollständig ist, aber die Hauptelemente abdeckt
+\begin{table}[htbp]
+	\centering
+	\renewcommand{\arraystretch}{1.3} % Etwas mehr Platz zwischen den Zeilen
+	\small % Schriftgröße leicht reduziert für bessere Passform
+	\begin{tabularx}{\textwidth}{@{} c >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l @{}}
+		\toprule
+		\textbf{ID} & \textbf{Asset} & \textbf{Description} & \textbf{Protection objectives} & \textbf{Typical affected resources} \\ 
+		\midrule
+		
+		A & Trusted Safety Function & SRIO correctly executes its specified safety function. & Integrity, Availability & Safe CPU, SysCom, DI/DO, PROFIsafe channel & \\ 
+		
+		B & Integrity of Safety Configuration & Safe behavior is determined by the intended configuration. & Accountability, Authorization, Integrity, Authenticity & Safe CPU, SysCom, CPU3/COM, PROFINET parameterization & \\ 
+		
+		C & Integrity and Authenticity of Safety-Relevant Process Data & Input, output and PROFIsafe data correspond to the actual safety state. & Integrity, Authenticity, Availability & Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO & \\ 
+		
+		D & Authenticity and Integrity of Safety Software & Bootloader and firmware remain authentic and unmodified. & Accountability, Authenticity, Integrity & Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow & \\ 
+		
+		E & Integrity of Safety Monitoring & Self-tests, plausibility checks, diagnostics and fault responses remain trustworthy. & Integrity, Availability & Safe CPU, SysCom, diagnostics, watchdog & \\ 
+		
+		F & Separation of Safety and Non-Safety Domain & A compromised COM system must not affect the integrity of the safety function. & Confidentiality, Integrity, Availability & Safe CPU, SysCom, COM, IoT, Shared Flash & \\ 
+		
+		G & Integrity of Operating Mode & Test and update functions must not be activated or used without authorization. & Accountability, Authorization, Integrity, Authenticity, Availability & Rotary switches, IoT service functions, update mode, COM/SCPU control path & \\ 
+		
+		H & SRIO Functionality & Availability of SRIO functionality shall be ensured. & Availability & Power supply, COM, SCPU, network channels, field I/O & \\ 
+		
+		I & Integrity, Availability and Confidentiality of Audit/Tracing Data & Evidence of interventions, configuration changes and installed software versions must be generated, retained for the mandated period and access-restricted. & Accountability, Availability, Confidentiality & COM Error Log (circular buffer), IoT-Core /devicestatus/errorlog, /firmware/version, /deviceinfo/*, I\&M data  \\
+		\bottomrule
+	\end{tabularx}
+	\caption{Overview of Assets and Protection Objectives}
+	\label{tab:assets}
+\end{table}
+
 
 ## Phase 1: Vorbereitung \& Test-Design
 

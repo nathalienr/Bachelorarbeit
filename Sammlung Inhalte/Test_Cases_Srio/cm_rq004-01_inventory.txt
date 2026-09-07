@@ -1,0 +1,16 @@
+== deviceinfo/hwversion ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/hwversion/getdata","data":{"value":"1.4.0.2"}}
+== deviceinfo/hwrevision ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/hwrevision/getdata","data":{"value":"AA"}}
+== deviceinfo/swrevision ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/swrevision/getdata","data":{"value":"1.1.4.888"}}
+== deviceinfo/swinfo/cpubootloaderversion ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/swinfo/cpubootloaderversion/getdata","data":{"value":"VH1xxx_bl_4.1.1.357"}}
+== deviceinfo/swinfo/scpuversion ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/swinfo/scpuversion/getdata","data":{"value":"1.1.4.5473"}}
+== deviceinfo/swinfo/scpubootloaderversion ==
+{"code":200,"cid":-1,"adr":"/deviceinfo/swinfo/scpubootloaderversion/getdata","data":{"value":"1.1.0.33"}}
+== firmware/version ==
+{"code":200,"cid":-1,"adr":"/firmware/version/getdata","data":{"value":"host_fw_pn_1.1.4.888"}}
+== fieldbussetup/fieldbusfirmware ==
+{"code":200,"cid":-1,"adr":"/fieldbussetup/fieldbusfirmware/getdata","data":{"value":"1.0.0"}}

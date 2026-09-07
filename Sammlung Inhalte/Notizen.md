@@ -23,8 +23,6 @@ switch 192.168.0.91, eine sps 192.168.0.1, das safe remote i/o 192.168.0.2, den 
 - TC-RQ014-03 - Access-Control Mechanism Probe
 
 
-
-
  
 ich habe die Sicherheitstests nach dem Security Testing Framework (CM-001 bis CM-010) in durchgeführt
  
@@ -47,36 +45,3 @@ CM-008 - Patch Level/CVEs (OpenVAS/GVM): Hab ich nicht hinbekommen, brauche ich 
 CM-009 - Load Behavior & Logging (Siege): Mit 50 Verbindungen (Doku) und mit 3 Verbindungen durchgeführt (Anforderungen)
  
 CM-010 - Fuzzing/Robustness (boofuzz): Durchgeführt gegen den HTTP-Port des SRIO. Dabei ist am Gerät ein Fehler mit Code 0x1000 aufgetreten
-
-
-\begin{table}[htbp]
-	\centering
-	\renewcommand{\arraystretch}{1.3} % Etwas mehr Platz zwischen den Zeilen
-	\small % Schriftgröße leicht reduziert für bessere Passform
-	\begin{tabularx}{\textwidth}{@{} c >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X l @{}}
-		\toprule
-		\textbf{ID} & \textbf{Asset} & \textbf{Description} & \textbf{Protection objectives} & \textbf{Typical affected resources} \\ 
-		\midrule
-		
-		A & Trusted Safety Function & SRIO correctly executes its specified safety function. & Integrity, Availability & Safe CPU, SysCom, DI/DO, PROFIsafe channel & \\ 
-		
-		B & Integrity of Safety Configuration & Safe behavior is determined by the intended configuration. & Accountability, Authorization, Integrity, Authenticity & Safe CPU, SysCom, CPU3/COM, PROFINET parameterization & \\ 
-		
-		C & Integrity and Authenticity of Safety-Relevant Process Data & Input, output and PROFIsafe data correspond to the actual safety state. & Integrity, Authenticity, Availability & Safe CPU, SysCom, CPU3/COM, PROFIsafe channel, DI/DO & \\ 
-		
-		D & Authenticity and Integrity of Safety Software & Bootloader and firmware remain authentic and unmodified. & Accountability, Authenticity, Integrity & Safe CPU, COM CPU, Shared Flash, IoT interface, update workflow & \\ 
-		
-		E & Integrity of Safety Monitoring & Self-tests, plausibility checks, diagnostics and fault responses remain trustworthy. & Integrity, Availability & Safe CPU, SysCom, diagnostics, watchdog & \\ 
-		
-		F & Separation of Safety and Non-Safety Domain & A compromised COM system must not affect the integrity of the safety function. & Confidentiality, Integrity, Availability & Safe CPU, SysCom, COM, IoT, Shared Flash & \\ 
-		
-		G & Integrity of Operating Mode & Test and update functions must not be activated or used without authorization. & Accountability, Authorization, Integrity, Authenticity, Availability & Rotary switches, IoT service functions, update mode, COM/SCPU control path & \\ 
-		
-		H & SRIO Functionality & Availability of SRIO functionality shall be ensured. & Availability & Power supply, COM, SCPU, network channels, field I/O & \\ 
-		
-		I & Integrity, Availability and Confidentiality of Audit/Tracing Data & Evidence of interventions, configuration changes and installed software versions must be generated, retained for the mandated period and access-restricted. & Accountability, Availability, Confidentiality & COM Error Log (circular buffer), IoT-Core /devicestatus/errorlog, /firmware/version, /deviceinfo/*, I\&M data  \\
-		\bottomrule
-	\end{tabularx}
-	\caption{Overview of Assets and Protection Objectives}
-	\label{tab:assets}
-\end{table}
