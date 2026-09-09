@@ -1,0 +1,11 @@
+# Nmap 7.99 scan initiated Wed Sep  9 08:50:04 2026 as: /usr/lib/nmap/nmap -sU --top-ports 200 -oA cm_rq001-02 _udp_srio 192.168.0.2
+Failed to resolve "_udp_srio".
+Nmap scan report for 192.168.0.2
+Host is up (0.00042s latency).
+Not shown: 198 closed udp ports (port-unreach)
+PORT      STATE         SERVICE
+161/udp   open          snmp
+49152/udp open|filtered unknown
+MAC Address: 00:02:01:C5:95:E8 (IFM Electronic gmbh)
+
+# Nmap done at Wed Sep  9 08:50:37 2026 -- 1 IP address (1 host up) scanned in 33.29 seconds

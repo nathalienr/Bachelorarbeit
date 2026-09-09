@@ -1,0 +1,9 @@
+# Nmap 7.99 scan initiated Wed Sep  2 14:43:06 2026 as: /usr/lib/nmap/nmap -sS -Pn -p 1-65535 -e eth1 -oA cm002_kali_to_srio 192.168.0.2
+Nmap scan report for 192.168.0.2
+Host is up (0.00036s latency).
+Not shown: 65534 closed tcp ports (reset)
+PORT   STATE SERVICE
+80/tcp open  http
+MAC Address: 00:02:01:C5:95:E8 (IFM Electronic gmbh)
+
+# Nmap done at Wed Sep  2 14:54:20 2026 -- 1 IP address (1 host up) scanned in 673.85 seconds

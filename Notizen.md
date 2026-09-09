@@ -23,9 +23,6 @@ switch 192.168.0.91, eine sps 192.168.0.1, das safe remote i/o 192.168.0.2, den 
 - TC-RQ014-03 - Access-Control Mechanism Probe
 
 
-
-
- 
 ich habe die Sicherheitstests nach dem Security Testing Framework (CM-001 bis CM-010) in durchgeführt
  
 CM-001 - Network Exposure (Nmap): Vollständig durchgeführt (TCP Full-Scan + UDP Top-Ports) und logisches, auswertbares Ergebnis erhalten

@@ -1,0 +1,5 @@
+[1]  + suspended (tty input)  sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq006-03_http.pcap
+(pwd now: ~/rq007-03_evidence)
+[2]  - suspended (tty input)  sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq006-03_http.pcap
+[4]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[5]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )

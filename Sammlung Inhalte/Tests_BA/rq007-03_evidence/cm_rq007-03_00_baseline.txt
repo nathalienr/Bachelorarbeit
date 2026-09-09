@@ -1,0 +1,6 @@
+ Baseline: Connection working normally
+{"code":200,"cid":-1,"adr":"/deviceinfo/swrevision/getdata","data":{"value":"1.1.4.888"}}
+real	0,21s
+user	0,01s
+sys	0,00s
+cpu	3%

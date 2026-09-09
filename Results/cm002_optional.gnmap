@@ -1,0 +1,4 @@
+# Nmap 7.99 scan initiated Wed Sep  2 14:55:27 2026 as: /usr/lib/nmap/nmap -sS -Pn -p- -oA cm002_optional 192.168.0.2
+Host: 192.168.0.2 ()	Status: Up
+Host: 192.168.0.2 ()	Ports: 80/open/tcp//http///	Ignored State: closed (65534)
+# Nmap done at Wed Sep  2 15:06:41 2026 -- 1 IP address (1 host up) scanned in 673.76 seconds

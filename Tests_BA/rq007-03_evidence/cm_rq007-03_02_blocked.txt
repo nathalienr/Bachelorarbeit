@@ -1,0 +1,6 @@
+3rd attempt while both slots are occupied (expected: timeout)
+{"code":200,"cid":-1,"adr":"/deviceinfo/swrevision/getdata","data":{"value":"1.1.4.888"}}
+real	0,25s
+user	0,01s
+sys	0,00s
+cpu	2%

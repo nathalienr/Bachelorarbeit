@@ -1,0 +1,10 @@
+# Nmap 7.99 scan initiated Wed Sep  2 14:23:46 2026 as: /usr/lib/nmap/nmap -sU --top-ports 200 -oA cm001_srio_udp 192.168.0.2
+Nmap scan report for 192.168.0.2
+Host is up (0.00044s latency).
+Not shown: 198 closed udp ports (port-unreach)
+PORT      STATE         SERVICE
+161/udp   open          snmp
+49152/udp open|filtered unknown
+MAC Address: 00:02:01:C5:95:E8 (IFM Electronic gmbh)
+
+# Nmap done at Wed Sep  2 14:24:15 2026 -- 1 IP address (1 host up) scanned in 28.39 seconds

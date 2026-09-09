@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.99 scan initiated Wed Sep  2 14:09:31 2026 as: /usr/lib/nmap/nmap -sS -sV -p- -T3 -oA cm001_srio_tcp 192.168.0.2 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -sS -sV -p- -T3 -oA cm001_srio_tcp 192.168.0.2" start="1788350971" startstr="Wed Sep  2 14:09:31 2026" version="7.99" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1788350975" endtime="1788351737"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65534">
+<extrareasons reason="reset" count="65534" proto="tcp" ports="1-79,81-65535"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="255"/><service name="http" servicefp="SF-Port80-TCP:V=7.99%I=7%D=9/2%Time=6A9814A2%P=x86_64-pc-linux-gnu%r(GetRequest,74,&quot;HTTP/1\.0\x20406\x20Not\x20Acceptable\r\nContent-Type:\x20text/plain\r\nContent-Length:\x2020\r\nConnection:\x20close\r\n\r\n406\x20Not\x20Acceptable\r\n&quot;)%r(HTTPOptions,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(RTSPRequest,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(X11Probe,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(GenericLines,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(RPCCheck,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(SSLSessionReq,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(TLSSessionReq,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(LDAPSearchReq,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(SIPOptions,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(TerminalServer,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(NotesRPC,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(WMSRequest,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(ms-sql-s,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;)%r(giop,39,&quot;HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20&quot;);" method="probed" conf="10"/></port>
+</ports>
+<times srtt="383" rttvar="16" to="100000"/>
+</host>
+<runstats><finished time="1788351737" timestr="Wed Sep  2 14:22:17 2026" summary="Nmap done at Wed Sep  2 14:22:17 2026; 1 IP address (1 host up) scanned in 766.61 seconds" elapsed="766.61" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

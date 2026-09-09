@@ -1,0 +1,35 @@
+# Nmap 7.99 scan initiated Wed Sep  2 14:09:31 2026 as: /usr/lib/nmap/nmap -sS -sV -p- -T3 -oA cm001_srio_tcp 192.168.0.2
+Nmap scan report for 192.168.0.2
+Host is up (0.00038s latency).
+Not shown: 65534 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+80/tcp open  http
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port80-TCP:V=7.99%I=7%D=9/2%Time=6A9814A2%P=x86_64-pc-linux-gnu%r(GetRe
+SF:quest,74,"HTTP/1\.0\x20406\x20Not\x20Acceptable\r\nContent-Type:\x20tex
+SF:t/plain\r\nContent-Length:\x2020\r\nConnection:\x20close\r\n\r\n406\x20
+SF:Not\x20Acceptable\r\n")%r(HTTPOptions,39,"HTTP/1\.1\x20501\x20Method\x2
+SF:0Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(RTSPRequest,3
+SF:9,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20clo
+SF:se\r\n\r\n\x20")%r(X11Probe,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Su
+SF:pported\r\nConnection:\x20close\r\n\r\n\x20")%r(GenericLines,39,"HTTP/1
+SF:\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\
+SF:n\x20")%r(RPCCheck,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r
+SF:\nConnection:\x20close\r\n\r\n\x20")%r(SSLSessionReq,39,"HTTP/1\.1\x205
+SF:01\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%
+SF:r(TLSSessionReq,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nC
+SF:onnection:\x20close\r\n\r\n\x20")%r(LDAPSearchReq,39,"HTTP/1\.1\x20501\
+SF:x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(S
+SF:IPOptions,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnect
+SF:ion:\x20close\r\n\r\n\x20")%r(TerminalServer,39,"HTTP/1\.1\x20501\x20Me
+SF:thod\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(NotesR
+SF:PC,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x2
+SF:0close\r\n\r\n\x20")%r(WMSRequest,39,"HTTP/1\.1\x20501\x20Method\x20Not
+SF:\x20Supported\r\nConnection:\x20close\r\n\r\n\x20")%r(ms-sql-s,39,"HTTP
+SF:/1\.1\x20501\x20Method\x20Not\x20Supported\r\nConnection:\x20close\r\n\
+SF:r\n\x20")%r(giop,39,"HTTP/1\.1\x20501\x20Method\x20Not\x20Supported\r\n
+SF:Connection:\x20close\r\n\r\n\x20");
+MAC Address: 00:02:01:C5:95:E8 (IFM Electronic gmbh)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Sep  2 14:22:17 2026 -- 1 IP address (1 host up) scanned in 766.61 seconds

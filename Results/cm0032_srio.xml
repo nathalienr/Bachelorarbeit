@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.99 scan initiated Wed Sep  2 13:50:46 2026 as: /usr/lib/nmap/nmap -sS -p1-100 -T3 -oA cm0032_srio 192.168.0.2 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -sS -p1-100 -T3 -oA cm0032_srio 192.168.0.2" start="1788349846" startstr="Wed Sep  2 13:50:46 2026" version="7.99" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="100" services="1-100"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1788349851" endtime="1788349856"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<address addr="00:02:01:C5:95:E8" addrtype="mac" vendor="IFM Electronic gmbh"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="99">
+<extrareasons reason="reset" count="99" proto="tcp" ports="1-79,81-100"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="255"/><service name="http" method="table" conf="3"/></port>
+</ports>
+<times srtt="382" rttvar="27" to="100000"/>
+</host>
+<runstats><finished time="1788349856" timestr="Wed Sep  2 13:50:56 2026" summary="Nmap done at Wed Sep  2 13:50:56 2026; 1 IP address (1 host up) scanned in 9.78 seconds" elapsed="9.78" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

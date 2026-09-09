@@ -1,0 +1,10 @@
+[1]  - suspended (tty input)  sudo tshark -i "$IFACE" -f "host $SRIO and tcp port 80" -w 
+(pwd now: ~/rq007-03_evidence)
+[2]  + suspended (tty input)  sudo tshark -i "$IFACE" -f "host $SRIO and tcp port 80" -w 
+[3]    suspended (tty input)  sudo tshark -i "$IFACE" -Y "http && ip.addr==$SRIO" -w cm_rq006-03_http.pcap
+[5]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[6]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[7]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[8]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[9]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )
+[10]    running    ( exec 3<> /dev/tcp/$SRIO/80; printf  >&3; sleep 600; )

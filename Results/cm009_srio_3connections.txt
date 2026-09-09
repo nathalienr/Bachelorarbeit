@@ -1,0 +1,204 @@
+┌──(ifm㉿kali)-[~]
+└─$ siege -c 3 -t 5M -v http://192.168.0.2/ -l cm009_srio.log
+** SIEGE 4.1.7
+** Preparing 3 concurrent users for battle.
+The server is now under siege...
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+[error] Address resolution failed at sock.c:158 with the following error:: Resource temporarily unavailable
+[error] Temporary failure in name resolution: cm009_srio.log: Resource temporarily unavailable
+
+Lifting the server siege...
+Transactions:                   0    hits
+Availability:                   0.00 %
+Elapsed time:                 300.60 secs
+Data transferred:               0.00 MB
+Response time:                  0.00 ms
+Transaction rate:               0.00 trans/sec
+Throughput:                     0.00 MB/sec
+Concurrency:                    0.00
+Successful transactions:        0
+Failed transactions:           90
+Longest transaction:            0.00 ms
+Shortest transaction:           0.00 ms
+ 
+LOG FILE: /var/log/log/siege.log
+You can disable this log file notification by editing
+/home/ifm/.siege/siege.conf and changing 'show-logfile' to false.
+[error] unable to create log file: /var/log/log/siege.log: No such file or directory

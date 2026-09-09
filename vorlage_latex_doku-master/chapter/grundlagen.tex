@@ -1,33 +1,18 @@
-% =====================================================================
-% COPILOT ANALYSIS (grundlagen.tex):
-% Purpose of this chapter: Provide the targeted theory that every later
-%   chapter (Methodology, Implementation) actually consumes.
-% Assessment: This chapter is the most mature file and should stay largely
-%   as-is. Structure and citations are sound. Do NOT restructure.
-% Missing foundations that ARE used later but are not yet grounded here
-%   (add short subsections OR at least a defining paragraph; see TODOs below):
-%   - Verification vs. Validation (used heavily in vorgehen.tex/umsetzung.tex
-%     and tied to IEC 62443-4-1 SVV; currently only IEC 62443-4-1 is named).
-%   - Repeatability / Reproducibility of security tests (claimed as a design
-%     goal in the methodology; no definition exists yet).
-%   - Evidence and evidence status / auditability of test outcomes (the whole
-%     thesis rests on an evidence-status classification; introduce the concept).
-%   - Limitations of security testing (testing shows presence, not absence of
-%     flaws; black-box boundary) - needed to justify the "prototype" framing.
-%   - PROFINET / PROFIsafe black-channel principle at a fundamentals level
-%     (the SUT and most RQ-001/RQ-002 tests depend on it; currently only
-%     introduced ad hoc in WORKFLOW.md, not grounded in theory).
-%   - IEC 62443-4-1 Practice SVV test types (SVV-1..SVV-4) as a named taxonomy,
-%     because the methodology categorizes every test by SVV number.
-% Source documents to check: WORKFLOW.md (SVV usage, black-channel), 
-%   Security_Testing_Framework_Kali_EN.md (STM/STG/SVV vocabulary).
-% Relationship to other chapters: Each fundamentals block should end with an
-%   explicit "used in Chapter X" pointer, per university requirement.
-% =====================================================================
+% COPILOT-ANALYSIS-BEGIN
+% Remaining foundations to add later (keep concise); status updated:
+%     1. Verification vs. Validation - PARTLY DONE: introduced with the SVV definition in subsec:iec_62443.
+%     2. IEC 62443-4-1 SVV test-type taxonomy (SVV-1..SVV-4) - DONE: defined in subsec:iec_62443.
+%     3. Repeatability vs. reproducibility of a security test - justifies the data-sheet design and TER/ETS metrics.
+%     4. Evidence / evidence-status and auditability - the whole results chapter rests on this.
+%     5. Epistemic limit of testing (shows presence, not absence of flaws; black-box boundary).
+%     6. PROFINET/PROFIsafe black-channel principle (grounds RQ-001/RQ-002 test rationale).
+%   End each foundation block with an explicit "applied in Chapter X" forward pointer.
+% COPILOT-ANALYSIS-END
 \chapter{Fundamentals} 
 \label{chap:fundamentals} 
 
 This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
+
 
 
 \section{Cybersecurity} 
@@ -239,9 +224,8 @@ Even after implementing technical controls, a residual risk, may remain high. Re
 %       vorgehen.tex and umsetzung.tex both "verify against requirements" and
 %       "validate against the thesis goal" without a grounded definition.
 %   (2) The named IEC 62443-4-1 SVV test-type taxonomy (SVV-1 requirements-based,
-%       SVV-2 threat-mitigation, SVV-3 vulnerability, SVV-4 penetration). Every
-%       test in WORKFLOW.md carries an SVV label, so the taxonomy must be defined
-%       here, not first introduced in the methodology.
+%       SVV-2 threat-mitigation, SVV-3 vulnerability, SVV-4 penetration).
+%       RESOLVED: the SVV taxonomy is now defined in subsec:iec_62443.
 %   (3) Repeatability and reproducibility of a security test (needed to justify
 %       the standardized data-sheet design and the ETS/TER metrics).
 % TODO[LIMITATION]: Add one paragraph on the epistemic limit of testing (a test
@@ -468,7 +452,16 @@ Within the landscape of industrial cybersecurity, the international standard ser
 \end{itemize}
 The fulfillment of these FRs is evaluated through Security Levels (SL 1 to SL 4), which quantify the system's resilience against various adversary profiles \cite[p. 16, 26]{IEC62443-3-3}. 
 
-Achieving system-level security also requires a structured development process. \textbf{IEC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. It structures lifecycle capabilities across eight core practice areas, ranging from Security Management (SM) and Secure by Design (SD) to Security Verification and Validation Testing (SV) and Security Update Management (SUM). To measure organizational rigor, it introduces Maturity Levels (ML 1 to ML 4) \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+Achieving system-level security also requires a structured development process. \textbf{IEC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. It structures lifecycle capabilities across eight core practice areas, ranging from Security Management (SM) and Secure by Design (SD) to Security Verification and Validation Testing (SVV) and Security Update Management (SUM). To measure organizational rigor, it introduces Maturity Levels (ML 1 to ML 4) \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+
+Within IEC 62443-4-1, the practice Security Verification and Validation Testing (SVV) is the process most relevant to this thesis. An SVV test evaluates whether a component, product, or system meets its specified security requirements and its intended security purpose within the defined security context \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. In this sense, verification testing demonstrates that the security requirements are met, whereas validation testing additionally targets the product security context and the defense-in-depth strategy \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. The practice defines four test types together with a requirement on the independence of the testers \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}:
+\begin{itemize}
+	\item \textbf{SVV-1 (Security Requirements Testing):} Verifies that the security functions meet the security requirements and that the product handles error scenarios and invalid input correctly. It also includes functional, performance, scaling, and boundary tests \cite[p. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-2 (Threat Mitigation Testing):} Tests the effectiveness of the mitigations identified in the threat model, including deliberate attempts to defeat each mitigation. The standard names the STRIDE categories as example threats \cite[pp. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-3 (Vulnerability Testing):} Identifies and describes potential vulnerabilities through abuse-case and fuzz testing, attack-surface analysis, and scans for known vulnerabilities \cite[p. 39]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-4 (Penetration Testing):} Attempts to discover and exploit security vulnerabilities from the perspective of an attacker, often by chaining several weaknesses \cite[pp. 39]{DIN_EN_IEC_62443_4_1_2018}.
+\end{itemize}
+The accompanying requirement SVV-5 grades the required independence of the testers from the developers by test type \cite[pp. 40]{DIN_EN_IEC_62443_4_1_2018}. 
 
 Building upon these lifecycle practices, \textbf{IEC 62443-4-2} shifts the focus to individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. It maps the seven FRs directly onto four distinct component types: software applications, embedded devices, host devices, and network components \cite[p. 17]{IEC62443-4-2}. The concrete technical specifications are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs) to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as a network component's ability to enforce logical isolation or securely route traffic at physical interfaces \cite[p. 61]{IEC62443-4-2}.
 

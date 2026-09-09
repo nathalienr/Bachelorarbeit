@@ -77,6 +77,26 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\acrsho
 
 This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
 
+% COPILOT-ANALYSIS-BEGIN
+% Status: KEEP (in appendix) + VERIFY (dangling reference) + fix inline TODOs
+% Evidence status: NOT_APPLICABLE
+% Recommendation:
+%   1. \ref{sec:security_requirements} above is DANGLING - no \label{sec:security_requirements} exists.
+%      The derivation is actually in vorgehen.tex \ref{subsec:derivation_mapping}. Repoint this ref.
+%   2. Keep the three long matrices (tab:mvo-requirements, tab:pren50742-mapping,
+%      tab:mvo-pren-iec62443-mapping) HERE in the appendix - too long for the main body.
+%   3. Lift ONLY the condensed outcome (the 14 RQ list + the CR-mapping logic) into the main
+%      Methodology as one figure/table + narrative, cross-referenced to this appendix.
+%   4. Resolve the untranslated German %TODO in the prEN 50742 section (FR 4 / Information Disclosure).
+%   5. Resolve the %TODO about additional CRs when requirements are mapped onto assets
+%      (e.g. EDR 3.10 for updates at RQ-005); keep consistent with umsetzung.tex.
+%   6. State the caveat where referenced: these matrices are the author's derivation, not a
+%      certified conformity assessment (prEN 50742 is a draft).
+% Reason: Broken cross-reference and untranslated fragments would surface in the compiled PDF.
+% Suggested destination: matrices stay in appendix; condensed summary -> vorgehen.tex sec:traceability.
+% Required evidence or open question: confirm the intended target label for sec:security_requirements.
+% COPILOT-ANALYSIS-END
+
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 

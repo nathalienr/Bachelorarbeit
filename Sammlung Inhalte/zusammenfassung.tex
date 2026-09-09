@@ -1,0 +1,59 @@
+\chapter{Summary and Outlook} 
+\label{chap:summary_outlook}
+
+\section{Summary of Findings} 
+\label{sec:summary_findings} 
+
+% COPILOT-ANALYSIS-BEGIN
+% Status: RESTRUCTURE (currently a German scratchpad - do not write final prose yet)
+% Evidence status: NOT_APPLICABLE
+% Recommendation:
+%   Keep as notes for now. The final summary must connect back to the research question and
+%   objective (Moodle Anmeldung.txt) and report ONLY achieved results. Required inputs to gather
+%   before writing:
+%     - Objective restated (validated testing methodology for security functions at the IT/OT interface).
+%     - Selected approach (SVV taxonomy + requirement-driven test cases + filtered company tools).
+%     - Achieved results: the strongest empirical outcomes are the time-attribution and cold-start
+%       deletion findings on the intervention log (RQ-003/RQ-012), plus the NV1 attack-surface and
+%       identification-surface evidence. State them as PARTIAL verification, not conformity.
+%     - Quantitative results ONLY where measured: e.g. 1 open TCP port (80), 2 open UDP ports
+%       (161, 49152 o/f), 8 firmware/version identifiers exposed anonymously, 2 log entries lost on
+%       cold start, systick reset 44979->27509. Do NOT invent RCR/TMC/TER/ETS percentages until the
+%       missing Siege/boofuzz/ZAP evidence is stored.
+%     - Critical evaluation: methodology validated for NV1 only; NV2/NV3 remain future work.
+%     - Outlook: HTTPS on the device, mirror-port NV2 campaign, in-path NV3 PROFIsafe MITM.
+% Reason: This file is not yet thesis prose and must not be presented as finished conclusions.
+% Suggested destination: keep here; convert to English once umsetzung results are final.
+% Required evidence or open question: which KPIs (RCR/TMC/TER/ETS) are computable from stored evidence only.
+% COPILOT-ANALYSIS-END
+
+Da prEN 50742 zusätzlich das SRSL-Konzept (Safety-Related Security Level, 0–3) vorgibt, kannst die Testtiefe/-strenge pro Asset und Requirement anhand des jeweiligen SRSL skaliert werden (z. B. SRSL1 → einfache Checksummenprüfung testen, SRSL3 → kryptographische HMAC/CMAC-Verifikation unter aktiver Manipulation testen).
+
+Probleme Definition Assets
+
+probleme verständnis anforderungen, linux-befehle
+
+Die Anforderung 1.2.1 gilt für das Gesamtsystem SRIO. Für das COM-Gateway selbst gilt sie nur insoweit, wie nachgewiesen wird, dass es durch das Black-Channel-Prinzip nicht Teil der Sicherheitsfunktion ist.
+----------------------------------------------------------------------------
+
+
+Vollständige Traceability-Matrix Regulation → prEN 50742 → IEC 62443-4-2 → Asset → Testfall (die "vierte Tabelle", die deine bisherige Arbeit vervollständigt).
+
+Validierte Testmethodik, die SVV-1 bis SVV-4 (IEC 62443-4-1) auf physische IT/OT-Gateway-Schnittstellen anwendet und in den bestehenden funktionalen V-Modell-Testprozess des Unternehmens integrierbar ist.
+
+Ausführbarer Testfallkatalog (wiederverwendbar für zukünftige Produktreleases, nicht nur für das aktuelle Gateway) – das macht die Methodik "systematisch" statt einmalig.
+
+Durchgeführte Pilot-Testkampagne am realen Gateway (srio) mit dokumentierten Ergebnissen – das liefert die geforderte empirische Evidenz zur Wirksamkeit der technischen Mitigationsmaßnahmen.
+
+Gap-/Konformitätsanalyse gegenüber Annex III 1.1.9/1.2.1 – wo funktioniert die Mitigation nachweislich, wo bestehen Lücken (z. B. bei RQ-013, wo prEN 50742 explizit keine Zuordnung vorsieht)?
+Der Hersteller argumentiert „Security‑Fehler führen zu Safety (sicherer Zustand), nicht zu Gefahr". Die MVO 2023/1230 (Anh. III, 1.1.9 / 1.2.1) verlangt aber Security‑Eigenschaften als Selbstzweck – Integrität, Nachweisbarkeit, Vertraulichkeit, Verfügbarkeit – unabhängig davon, ob am Ende ein sicherer Zustand erreicht wird. Deine Methodik prüft also empirisch die Lücke zwischen**„fällt sicher aus"** und**„ist sicher"**.
+
+Genau diese Trennung macht fast jede deiner Gap‑Begründungen präzise – und deckt zugleich auf, wo deine Tabelle noch unscharf ist (siehe §3)
+
+Organisatorische Handlungsempfehlung: Wie wird diese Methodik dauerhaft in den Entwicklungsprozess/QM-System integriert (Verantwortlichkeiten, Zeitpunkt im Lebenszyklus, Pflege der Matrix bei Normenänderungen wie der finalen prEN 50742-Fassung), sodass sie für die Konformitätsbewertung nach der Maschinenverordnung als Nachweisdokumentation dient.
+
+ 
+\section{Future Work} 
+\label{sec:future_work}
+
+Vorteil wenn Gerät dann Https hat

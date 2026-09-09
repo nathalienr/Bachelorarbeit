@@ -1,0 +1,384 @@
+└─$ siege -c 2 -t 1M -v http://192.168.0.2/ --log=cm009_srio.log
+** SIEGE 4.1.7
+** Preparing 2 concurrent users for battle.
+The server is now under siege...
+HTTP/1.0 200     1.17 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.31 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.27 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.27 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.27 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.27 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.27 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.23 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.25 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.26 secs:   51285 bytes ==> GET  /
+
+Lifting the server siege...
+Transactions:                  53    hits
+Availability:                 100.00 %
+Elapsed time:                  60.51 secs
+Data transferred:               2.59 MB
+Response time:               2236.04 ms
+Transaction rate:               0.88 trans/sec
+Throughput:                     0.04 MB/sec
+Concurrency:                    1.96
+Successful transactions:       53
+Failed transactions:            0
+Longest transaction:         2310.00 ms
+Shortest transaction:        1170.00 ms
+ 
+LOG FILE: cm009_srio.log
+You can disable this log file notification by editing
+/home/ifm/.siege/siege.conf and changing 'show-logfile' to false.──(ifm㉿kali)-[~/Test_Cases_Srio]
+└─$ siege -c 50 -t 1M -v http://192.168.0.2/ --log=cm009_srio_50connections.log 
+** SIEGE 4.1.7
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+HTTP/1.0 200     1.66 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.74 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.86 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     5.00 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     6.12 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     7.24 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     8.37 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     9.50 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.63 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.10 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.15 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.12 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.14 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.14 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.12 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.14 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.12 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.14 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.12 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.14 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.18 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+HTTP/1.0 200    10.18 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.16 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    10.17 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     5.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     6.54 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.41 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    16.70 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.41 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.41 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    12.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200    24.82 secs:   51285 bytes ==> GET  /
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: select and discovered it's not ready sock.c:384: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+[alert] socket: read check timed out(30) sock.c:273: Connection timed out
+
+Lifting the server siege...
+Transactions:                  52    hits
+Availability:                  39.69 %
+Elapsed time:                  60.24 secs
+Data transferred:               2.54 MB
+Response time:              10483.27 ms
+Transaction rate:               0.86 trans/sec
+Throughput:                     0.04 MB/sec
+Concurrency:                    9.05
+Successful transactions:       52
+Failed transactions:           79
+Longest transaction:        24820.00 ms
+Shortest transaction:           0.00 ms
+ 
+LOG FILE: cm009_srio_50connections.log
+You can disable this log file notification by editing
+/home/ifm/.siege/siege.conf and changing 'show-logfile' to false.
+                                                                                                                                
+┌──(ifm㉿kali)-[~/Test_Cases_Srio]
+└─$ siege -c 3 -t 1M -v http://192.168.0.2/ --log=cm009_srio_3connections.log
+** SIEGE 4.1.7
+** Preparing 3 concurrent users for battle.
+The server is now under siege...
+HTTP/1.0 200     1.21 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     2.29 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.42 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.34 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.37 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.37 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.37 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.40 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.37 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.39 secs:   51285 bytes ==> GET  /
+HTTP/1.0 200     3.38 secs:   51285 bytes ==> GET  /
+
+Lifting the server siege...
+Transactions:                  53    hits
+Availability:                 100.00 %
+Elapsed time:                  60.86 secs
+Data transferred:               2.59 MB
+Response time:               3323.02 ms
+Transaction rate:               0.87 trans/sec
+Throughput:                     0.04 MB/sec
+Concurrency:                    2.89
+Successful transactions:       53
+Failed transactions:            0
+Longest transaction:         3420.00 ms
+Shortest transaction:        1210.00 ms
+ 
+LOG FILE: cm009_srio_3connections.log
+You can disable this log file notification by editing
+/home/ifm/.siege/siege.conf and changing 'show-logfile' to false.
