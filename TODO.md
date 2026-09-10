@@ -1,4 +1,26 @@
 # Fahrplan Bachelorarbeit
+- Gibt es Testfälle zu 
+RQ-001-01 
+RQ-001-05
+RQ-002-01/RQ-005-01
+RQ-003-01
+RQ-010-01
+RQ-011-01
+RQ-012-02
+
+
+
+--------
+
+6-3 --> wireshark
+10-2 nicht mit tia überpüft
+11-1 --> eigentlich nicht fehler 400 (bad request) erwartet, sondern eher 403 (Forbidden)
+11-02 nicht durchgeührt, weil dcp rücksetzten blöd
+
+14-02 --> wireshark
+14-03 --> warum eigentlich spider vor ascan? anleitung ist da irgendwie anders
+--> check ZAP's discovered URL / responses for any 401/403 status codes
+
 
 \~\~ Assets
 \~\~ Verbinden Assets mit MVO-Requirements \~\~

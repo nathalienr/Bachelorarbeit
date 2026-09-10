@@ -1,6 +1,7 @@
-Kannst du mir einen englischen Prompt für github copilot für claude opus 4.8 geben.er soll mir helfen meine bachelorarbeit zu schreiben. Jetzt soll er aber erstmal den aktuellen stand analysiert und mir ideen gibt, wie ich die arbeit aufbaue und was ich ganz grob, wo schreibe und diese notizen in die jeweilige .tex schreiben. das ist mein thema: Functional Testing of Security in Industrial Gateways under the New Machinery Regulation
+Kannst du mir einen englischen Prompt für github copilot für claude opus 4.8 geben.; ich schreibe die Bachelorarbeit auf englisch
+er soll mir helfen meine bachelorarbeit zu schreiben. Jetzt soll er aber erstmal den aktuellen stand analysiert und mir ideen gibt, wie ich die arbeit aufbaue und was ich ganz grob, wo schreibe und diese notizen in die jeweilige .tex schreiben. 
 
-
+das ist mein thema: Functional Testing of Security in Industrial Gateways under the New Machinery Regulation
 With the implementation of the EU Machinery Regulation (2023/1230), cybersecurity has become a mandatory constituent of the conformity assessment process for industrial gateways at the IT/OT interface. Historically, these components were operated within isolated, perimeter-protected environments, resulting in a lack of systematic security testing within traditional functional validation frameworks. Consequently this creates a gap between regulatory expectations and the company’s current established methodologies for the functional testing. 
 
 The central scientific problem addressed in this thesis is the absence of a systematic approach to verify security functions. The goal of the thesis is to research security testing approaches, frameworks, and organizational practices to ensure compliance and systematically verify security in future product releases. The investigation focuses specifically on the physical IT/OT interfaces to provide empirical evidence of the efficency of technical mitigation measures. The final output should be a validated testing methodology that facilitates the practical application of theoretical regulatory requirements within an industrial manufacturing context.; 
@@ -9,13 +10,16 @@ ich habe ihm das thema aber auch in Moodle Anmeldung.txt geben;
 
 Text technisch habe ich bereits schon was, das soll github copilot alles erstmal durchlesen: ich habe die grundlagen bereits geschrieben die sind schon relativ final es sei denn er ist der meinung dort felt noch was an grundlagen: grundlagen.tex; dann habe ich das vorgehen angefangen zum schreiben;
 
- vorgehen.tex; das workflow.md ist zwar schon die Umsetzung, aber das vorgehen sollte ja theoretisch davor geplant sein, weshalb ich das workflow dokument so aufgebaut habe; beim vorgehen kapitel habe ich auch schon text, aber ich weiß nicht, ob das so vollständig ist, ich glaub da fehlen noch ein paar sachen. außerdem weiß ich nicht, ob die Auftrennung zwischen vorgehen und Umsetzung so korrekt ist. also ob ein paar inhlate von Umsetzung nicht in vorgehen gehören und ein paar Inhalte von vorgehen nicht Umsetzung. ich habe auch ein paar Ideen, wie man vielleicht das kapitel aufteilen könnte, das ist aber noch final, sondern eher Ideen.
+ vorgehen.tex; das workflow.md ist zwar schon die Umsetzung, aber das vorgehen sollte ja theoretisch davor geplant sein, weshalb ich das workflow dokument so aufgebaut habe; beim vorgehen kapitel habe ich auch schon text, aber auch noch viele todos. meine Ideen habe ich mit todo markiert, aber ich weiß nicht, ob es nochmehr Optimierungen braucht
 
 
-im kapitel umsetzung ist bisher komplettes chaos umsetzung.tex. da sind nur notizen drin und mehrere ideen, wie ich das kapitel strukturiere, aber das ist komplett veraltet und passt glaub überhaupt nicht zu meiner arbeit. das einzige was prinzipiell passt, sind die assets, mit dieser Tabelle (tab:assets) habe ich gearbeitet und die beschreibung zum gerät; 
+im kapitel umsetzung ist bisher noch keine klare struktur (umsetzung.tex);
+ich habe zwar bereits schon text, aber ich bin mit der Struktur und dem Inhalt überhaupt nicht zufrieden, teilweise stimmt es auch gar nicht zu meinen Ergebnissen (die aktuellen ergebennisse sind im Ordner Tests_BA);
+erste Ideen, was in das kapitel rein muss bzw. verändert werden muss habe ich bin %TODO markiert. aber wie beim kapitel vorgehen, das sind bestimmt nicht alle Optimierungen die notwendig sidn
+das einzige was prinzipiell passt, sind die assets, mit dieser Tabelle (tab:assets) habe ich gearbeitet und die beschreibung zum gerät; 
 
 in anhang.tex hab ich ein ki verzeichnis. das ist nicht relevant für github copilot (das mache ich händisch) und dann \chapter{Detailed Requirement Derivation Matrices}
-\label{app:requirement_derivation}. dort habe ich ebenfalls ein paar todos, sowie das kapitel \chapter{Secure Development Lifecycle}
+\label{app:requirement_derivation}, sowie das kapitel \chapter{Secure Development Lifecycle}
 \label{app:SecureDevelopmentLifecycle}; 
 
 laut meiner hochschule müssen grundlagen, vorgehen und umsetzung folgendermaßen aufgebaut werden: ​‌
@@ -74,12 +78,75 @@ Die Ergebnisse in der Zusammenfassung sollten selbstverständlich einen Bezug zu
 
 
 
-zur Umsetzung in der praxis: ich habe von der Firma dieses dokument bekommen: Security_Testing_Framework_Kali_EN.docx; dort sind 10 Test Instructions for Each Countermeasure beschrieben. diese habe ich teilweise verwendet; meine eigentlich Umsetzung habe ich in WORKFLOW.docx beschrieben. beachte dabei, dass ich zwar überall etwas hingeschrieben habe, aber nicht über die tests in der praxis durchgeführt habe. das bedeutet alles bis level 1 habe ich gemacht und alles zu level 2 hab ich nicht gemacht sondern sind mehr Ideen von KI usw.; dementsprechend ist das nur als grobentwurf zu sehen und nicht als fertige methode; kann man die tests von mir sinnvoll kategoriesieren?
+zur Umsetzung in der praxis: ich habe von der Firma dieses dokument bekommen: Security_Testing_Framework_Kali_EN.md; dort sind 10 Test Instructions for Each Countermeasure beschrieben. diese habe ich teilweise verwendet; meine eigentlich Umsetzung habe ich in workflow.md beschrieben. beachte dabei, dass ich zwar überall etwas hingeschrieben habe, aber nicht über die tests in der praxis durchgeführt habe. das bedeutet alles bis Step 3 level 1 habe ich gemacht und alles zu level 2 hab ich nicht gemacht sondern sind mehr Ideen von mir und KI usw.; dementsprechend ist das nur als grober Entwurf zu sehen und nicht als fertige Testmethode, die 1zu1 direkt so angewendet werden kann; kann man die tests von mir sinnvoll kategoriesieren?
 
 ich habe meine testumgebung so aufgebaut: USB3-zu-Gigabit-Ethernet-Dongle von kali zu switch
 switch 192.168.0.91, eine sps 192.168.0.1, das safe remote i/o 192.168.0.2, den kali linux rechner mit 192.168.0.80 und meinen firmenlaptop mit 192.168.0.7. sps ist mit port1 , safe remote i/o ist mit port2, kali-rechner mit port3 und laptop mit port4 vom switch verbunden
- dementsprechend konnte ich die tests in der praxis nicht durchführen die port mirroring oder Inline bridge (active MITM) verwendet haben. ich hab aber die Theorie dahinter beschrieben (level 1) nur wie man es eben wirklich umsetzt und was raus kommt hab ich nicht überpürft und getestet; Notizen.md
+ dementsprechend konnte ich die tests in der praxis nicht durchführen die port mirroring oder Inline bridge (active MITM) verwendet haben. ich hab aber die Theorie dahinter beschrieben (level 1) nur wie man es eben wirklich umsetzt und was raus kommt hab ich nur stichprobenhaft überprüft und getestet; 
+In Notizen.md stehen noch ein paar Notizen, die relevant sein könnten
 
-Github copilot soll also, erstmal alle meine Dokumente analysieren die ich breitgestellt habe. dann überlegen, wie er meine aufgabe umsetzen würde, wie ich sie bisher umgesetzt habe, was noch fehlt und wie ich meine Dokumentation richtig aufbaun. also wie ich vorgehen.tex und Umsetzung.tex strukturiere
+Github copilot soll also, erstmal alle meine Dokumente analysieren die ich breitgestellt habe. dann überlegen, wie er meine aufgabe umsetzen würde, wie ich sie bisher umgesetzt habe, was noch fehlt und wie ich meine Dokumentation richtig aufbauen. also wie ich vorgehen.tex und Umsetzung.tex strukturiere, was ich grob, wo inhaltlich schreibe;
 
--
+-------------------------
+
+der text soll in british english geschrieben werden, sätze kurz und prägnant
+-------------
+
+
+
+
+Revise `vorgehen.tex` based on the existing text, my revised improvement notes, the `%TODO` comments, and the previous repository analysis.
+
+The chapter must be written in clear academic British English.
+
+Requirements:
+
+- Implement the existing improvement suggestions where they are supported by the repository.
+- Preserve correct and useful existing content.
+- Improve the structure, logical flow, transitions, clarity, and academic wording.
+- Use short, precise sentences.
+- Avoid unnecessarily complex sentence structures, repetition, vague wording, and inflated academic language.
+- Use British English spelling consistently, for example `analyse`, `categorise`, `organisation`, and `behaviour`.
+- Present the methodological reasoning in a logical sequence.
+- Clearly separate methodology planning from practical implementation and results.
+- Explain what was planned, why the approach was selected, and how the test methodology was derived.
+- Do not present information from `workflow.md` as an empirical result.
+- Do not describe drafted Level 2 procedures as completed tests.
+- Do not invent facts, requirements, references, standards clauses, decisions, evidence, test results, or methodological justifications.
+- If required information is missing, uncertain, contradictory, or not supported by the repository, insert a specific LaTeX comment beginning with `%TODO:` at the relevant position.
+- Each `%TODO:` must explain exactly what information is missing or what decision I need to make.
+- Do not hide uncertainty through vague wording.
+- Preserve all valid labels, references, citations, tables, figures, glossary commands, and LaTeX formatting.
+- Do not modify other files.
+- Do not modify the AI usage register.
+- Do not remove my existing TODOs unless the issue has been resolved in the revised text.
+- Do not add new sources or citations unless they already exist in the repository and clearly support the statement.
+- Do not use em dashes.
+
+Before finishing, review the complete revised chapter and check:
+
+1. Does each section have a clear purpose?
+2. Does the chapter derive the methodology instead of merely describing activities?
+3. Are requirements, assets, threats, security functions, and test cases connected logically?
+4. Are alternative approaches and the selection of the chosen approach explained where supported?
+5. Are Level 1 and Level 2 clearly distinguished?
+6. Are implementation details and results excluded or moved to appropriate references?
+7. Are all unsupported statements marked with a precise `%TODO:`?
+8. Is British English used consistently?
+9. Are the sentences short and precise?
+10. Has any factual information been invented?
+
+After editing, provide a concise summary of:
+
+- the structural changes made,
+- the main content changes,
+- any content moved or removed,
+- and all remaining `%TODO:` items.
+
+Edit only `vorgehen.tex`.
+
+
+
+
+
+

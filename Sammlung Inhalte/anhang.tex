@@ -42,60 +42,10 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\acrsho
 
 \clearpage
 
-% =====================================================================
-% COPILOT ANALYSIS (Appendix: Requirement Derivation Matrices):
-% Necessity: YES - this appendix is the evidentiary backbone of the whole
-%   traceability argument (MVO Annex III 1.1.9/1.2.1 -> 14 RQ -> prEN 50742 ->
-%   IEC 62443-4-2). It is correctly referenced from vorgehen.tex
-%   \ref{subsec:derivation_mapping}. Keep in the appendix (too long for the main
-%   body) but LIFT the summarized outcome (the 14 RQ + the CR mapping logic)
-%   into the main Methodology as a condensed figure/table + narrative.
-% TODO[CONSISTENCY]: \ref{sec:security_requirements} below is a DANGLING
-%   reference - no \label{sec:security_requirements} exists. The derivation is
-%   actually described in vorgehen.tex \ref{subsec:derivation_mapping}. Repoint
-%   this reference there (or add the intended label). Do not leave it broken.
-% TODO[CONTENT]: The prEN 50742 mapping table still contains an untranslated
-%   German %TODO fragment (FR 4 / Information Disclosure) - resolve or remove.
-% TODO[CONTENT]: The IEC 62443-4-2 mapping has a %TODO noting that additional
-%   CRs may appear once requirements are mapped onto assets (e.g., EDR 3.10 for
-%   updates at RQ-005). Decide and finalize; keep consistent with umsetzung.tex.
-% Important limitation: These matrices are the author's derivation, not a
-%   certified conformity assessment - state this caveat where referenced.
-% COPILOT UPDATE (what belongs in the appendix vs. main text):
-%   Move the following DETAIL to the appendix and keep only reasoning + key
-%   findings in the main chapters:
-%     - full TC-RQ test specifications (Level 1 abstract + Level 2 concrete),
-%     - exact tool commands and complete tool outputs (once stored as evidence),
-%     - the CM-001..CM-010 <-> TC-RQ mapping table (see
-%       thesis_structure_analysis.md §15),
-%     - the existing functional/safety-test overlap matrix (§16),
-%     - evidence references (file names/paths) per test.
-%   Do NOT invent outputs; add evidence only where a stored artifact exists.
-% =====================================================================
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
 
 This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
-
-% COPILOT-ANALYSIS-BEGIN
-% Status: KEEP (in appendix) + VERIFY (dangling reference) + fix inline TODOs
-% Evidence status: NOT_APPLICABLE
-% Recommendation:
-%   1. \ref{sec:security_requirements} above is DANGLING - no \label{sec:security_requirements} exists.
-%      The derivation is actually in vorgehen.tex \ref{subsec:derivation_mapping}. Repoint this ref.
-%   2. Keep the three long matrices (tab:mvo-requirements, tab:pren50742-mapping,
-%      tab:mvo-pren-iec62443-mapping) HERE in the appendix - too long for the main body.
-%   3. Lift ONLY the condensed outcome (the 14 RQ list + the CR-mapping logic) into the main
-%      Methodology as one figure/table + narrative, cross-referenced to this appendix.
-%   4. Resolve the untranslated German %TODO in the prEN 50742 section (FR 4 / Information Disclosure).
-%   5. Resolve the %TODO about additional CRs when requirements are mapped onto assets
-%      (e.g. EDR 3.10 for updates at RQ-005); keep consistent with umsetzung.tex.
-%   6. State the caveat where referenced: these matrices are the author's derivation, not a
-%      certified conformity assessment (prEN 50742 is a draft).
-% Reason: Broken cross-reference and untranslated fragments would surface in the compiled PDF.
-% Suggested destination: matrices stay in appendix; condensed summary -> vorgehen.tex sec:traceability.
-% Required evidence or open question: confirm the intended target label for sec:security_requirements.
-% COPILOT-ANALYSIS-END
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
@@ -384,7 +334,7 @@ Maschine oder des zugehörigen Produkts unverändert bleiben.
 
 \section{Mapping to IEC 62443-4-2}
 \label{app:sec:mapping_iec62443}
-%TODO schreiben, dass zusätzliche CRs dazu kommen können, wenn man die Requirements auf die Assets gemappt hat, z.B. bei Update EDR 3.10 bei RQ-005
+
 Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  to IEC 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. IEC 62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
 
 \footnotesize
@@ -520,24 +470,6 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 \end{longtable}
 \normalsize
 
-% =====================================================================
-% COPILOT ANALYSIS (Appendix: Secure Development Lifecycle):
-% Necessity: OPTIONAL/SUPPORTING. The SDLC overview is currently referenced
-%   from vorgehen.tex Lifecycle/Governance (Figure ref + Appendix ref). It is
-%   relevant context for WHERE verification sits in the lifecycle, but it is not
-%   central to the thesis contribution (functional security testing of the
-%   IT/OT interface). Recommendation: keep as a short appendix and ensure the
-%   main text only borrows the ONE point it needs (security is a lifecycle-wide
-%   activity, verification is one stage), rather than expanding it.
-% TODO[REVIEW]: Confirm the figure file path
-%   "images/Secure System Development Lifecycle-Main Overview.drawio" resolves
-%   in the build; the ref \ref{fig:secure-system-development-lifecycle-main-overview}
-%   is used in both vorgehen.tex and this appendix.
-% TODO[CONTENT]: Do not invent SDLC detail. Keep to the cited sources
-%   (IEC 62443-4-1, NiemannPuls2023, Wurm2022, Muller2026).
-% Relationship to other chapters: Supports vorgehen.tex
-%   \ref{subsec:lifecycle_governance} only.
-% =====================================================================
 \chapter{Secure Development Lifecycle}
 \label{app:SecureDevelopmentLifecycle}
 

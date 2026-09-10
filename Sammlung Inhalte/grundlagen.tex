@@ -13,6 +13,27 @@
 
 This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
 
+% COPILOT-ANALYSIS: This chapter is largely mature and should NOT be rewritten.
+%   Only two foundations are genuinely required by later chapters and still
+%   missing or thin:
+%   (1) COPILOT-MISSING: The PROFIsafe black-channel principle (consecutive
+%       number, F_WD_Time watchdog, non-cryptographic CRC/F_Dest_Add). The
+%       RQ-001/RQ-002 test rationale in WORKFLOW.md and umsetzung.tex depends
+%       on it entirely. Add a short, citation-backed subsection (see the TODO in
+%       subsec:architectural_role_gateways) BEFORE it is used in vorgehen.tex.
+%   (2) COPILOT-KEEP: Verification vs. validation and the SVV-1..SVV-4 taxonomy
+%       are already defined in subsec:iec_62443 - keep as the anchor for the
+%       methodology's test-technique dimension.
+%   COPILOT-STRUCTURE: Add explicit forward pointers ("applied in Chapter
+%   methodology / implementation") at the end of the STRIDE, SVV, functional-vs-
+%   vulnerability-testing, and black-channel blocks, so each foundation has a
+%   visible purpose downstream (matches the existing COPILOT-ANALYSIS TODO list).
+%   COPILOT-ANALYSIS: The functional/safety/security boundary needed by
+%   umsetzung (reuse of TIA/PROFIsafe safety evidence for security) is partly
+%   covered in sec:security_testing_approaches; make the "safety validation !=
+%   security verification (adversarial vs random-fault)" statement explicit here
+%   since umsetzung.tex and vorgehen.tex both rely on it.
+
 
 
 \section{Cybersecurity} 

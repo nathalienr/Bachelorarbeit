@@ -6,7 +6,7 @@
 
 - Security Functions & Gaps: Cross-reference my Security Functions and Gaps with the device documentation. Are the mitigations accurately described? Are the identified gaps realistic?
 
-Step 2: Methodological Test Planning
+**Step 2: Methodological Test Planning**
 
 - Based on the validated Security Functions and Gaps, derive concrete test scenarios to verify the mitigations or prove the gaps.
 
@@ -22,7 +22,7 @@ Step 2: Methodological Test Planning
 
   - SVV-4 (Penetration Testing): Active exploitation or protocol manipulation (e.g., Scapy, Fuzzing).
 
-Step 3: Two-Level Test Catalog Generation
+**Step 3: Two-Level Test Catalog Generation**
 
 Generate the final test catalog entries for the planned tests. Each test must be structured in two levels:
 
@@ -39,16 +39,6 @@ Generate the final test catalog entries for the planned tests. Each test must be
 <span class="mark">NV2</span> - Passive tap (mirror/SPAN): For traffic that is NOT addressed to Kali (e.g. the PROFINET/PROFIsafe cyclic traffic between PLC and SRIO), this traffic must be made visible to Kali. Prerequisite: switch 192.168.0.91 supports a mirror/SPAN function (mirror ports 1+2 🡪 3) - verify this in the switch management interface before testing. IMPORTANT: ARP spoofing does NOT work here, since PROFINET/PROFIsafe is not an IP protocol (EtherType 0x8892) and devices identify each other via DCP/MAC addresses rather than ARP.
 
 <span class="mark">NV3</span> - Inline bridge (active MITM): For tests that require genuinely suppressing/replacing frames in real time (e.g. taking over the consecutive number, TC-RQ001-04), Kali must be physically inserted between SRIO and the switch: disconnect the SRIO cable from switch port 2 and connect it instead to Kali's internal/onboard network card; plug the USB3 Gigabit dongle (previously Kali↔switch) into switch port 2. Kali then acts transparently as a Linux bridge („ip link … type bridge“) with an optional NFQUEUE/ebtables hook to selectively manipulate individual frames before forwarding. This variant is the only notable hardware extension - it needs no additional device, since it reuses the laptop's existing second network interface (onboard NIC) together with the already-available USB dongle.
-
-USB3-zu-Gigabit-Ethernet-Dongle von kali zu switch
-
-switch 192.168.0.91, eine sps 192.168.0.1, das safe remote i/o 192.168.0.2, den kali linux rechner mit 192.168.0.80 und meinen firmenlaptop mit 192.168.0.7.
-
-sps ist mit port1 ,
-
-safe remote i/o ist mit port2,
-
-kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 
 **REQUIREMENT 1**
 
@@ -134,7 +124,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <td>4</td>
 <td>In-path MITM boundary: suppress genuine producer, take over consecutive number, inject valid-CRC frame</td>
 <td>Demonstrates the true residual boundary of G-2 (documented, not scored as device FAIL)</td>
-<td>MITRE ATT&amp;CK for ICS T0830; PROFIsafe theory</td>
+<td>MITRE ATT&amp;CK for ICS T0830; PROFIsafe</td>
 <td>SVV-4</td>
 </tr>
 <tr>
@@ -142,7 +132,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <td><p>Disrupt the black channel &gt; F_WD_Time;</p>
 <p>observe passivation + acknowledged re-integration</p></td>
 <td>Connection-induced disruption resolves to the safe state (fail-safe outcome of RQ-001)</td>
-<td>MITRE ATT&amp;CK for ICS: T0814; PROFIsafe watchdog theory</td>
+<td>MITRE ATT&amp;CK for ICS: T0814; PROFIsafe watchdog</td>
 <td>SVV-2</td>
 </tr>
 </tbody>
@@ -231,7 +221,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Result</td>
-<td>TIA watch table monitoring F-DI/F-DO value + PROFIsafe qualifier;</td>
+<td>Expected: qualifier remains good throughout, outputs mirror the commanded control data, and no passivation occurs under nominal conditions.</td>
 </tr>
 </tbody>
 </table>
@@ -280,7 +270,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <tr>
 <td>Pass/Fail</td>
 <td><p>PASS if only design-approved services are reachable.</p>
-<p>FAIL if any service outside the approved matrix is reachable. (Confidentiality of an exposed service is recorded as a defense-in-depth observation; EN 50742 FR4 target = none.)</p></td>
+<p>FAIL if any service outside the approved matrix is reachable. (Confidentiality of an exposed service is recorded as a defense-in-depth observation; prEN 50742 FR4 target = none.)</p></td>
 </tr>
 </tbody>
 </table>
@@ -314,8 +304,8 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <tr>
 <td>Procedure</td>
 <td><p>sudo nmap -sS -sV -p- -T3 -oA cm_rq001-02_tcp_srio $SRIO</p>
-<p>sudo nmap -sU --top-ports 200 -oA cm_rq001-02 _udp_srio $SRIO</p>
-<p>nikto -h http://$SRIO -output cm_rq001-02 _srio.html -Format html</p></td>
+<p>sudo nmap -sU --top-ports 200 -oA cm_rq001-02_udp_srio $SRIO</p>
+<p>nikto -h http://$SRIO -output cm_rq001-02_srio.html -Format html</p></td>
 </tr>
 <tr>
 <td>Result</td>
@@ -717,7 +707,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 
 - **Identified Gap:**
 
-  - G-1: The CRC is a checksum, not a MAC. With a public, non-secret seed an attacker who modifies the payload and recomputes a valid CRC is not detected, protection against accidental but not intentional corruption. (prEN 50742 §7.4.3.4 would require SRSL3 cryptographic integrity for this
+  - G-1: The CRC is a checksum, not a MAC. With a public, non-secret seed an attacker who modifies the payload and recomputes a valid CRC is not detected, protection against accidental but not intentional corruption. (prprEN 50742 §7.4.3.4 would require SRSL3 cryptographic integrity for this
 
   - G-2: Same limitation for iParCRC/F_ParCRC. F_ParCRC is only 16-bit (a 2¹⁶ space, no forgery resistance); iParCRC is 32-bit but still non-cryptographic and recomputable from the public layout.
 
@@ -875,12 +865,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># They are set correctly.' &gt; the tool computes F_iPar_CRC (hex) &gt;</p>
 <p># click 'Copy to clipboard'.</p>
 <p># Paste the value into: Properties &gt; PROFIsafe &gt; F-Parameters &gt; F_iPar_CRC</p>
-<p># 3. Compile and download: Project &gt; Compile (Ctrl+Shift+B) &gt; Online &gt; Download</p>
-<p># to device (Ctrl+D). Confirm the connection establishes successfully.</p>
+<p># 3. Compile and download: Project &gt; Compile &gt; Online &gt; Download</p>
+<p># to device . Confirm the connection establishes successfully.</p>
 <p># 4. NOW deliberately break it: in TIA, manually change ONE hex digit of</p>
 <p># F_iPar_CRC (Properties &gt; PROFIsafe &gt; F-Parameters &gt; F_iPar_CRC) WITHOUT</p>
 <p># recalculating it via the ifm-CRC-Tool.</p>
-<p># 5. Compile (Ctrl+Shift+B) and download again (Ctrl+D); observe the</p>
+<p># 5. Compile and download again; observe the</p>
 <p># connection-establishment behaviour in Online &amp; Diagnostics.</p></td>
 </tr>
 <tr>
@@ -994,7 +984,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tbody>
 </table>
 
-**TC-RQ002-03 - Valid-Integrity-Value Injection over Modified Data**
+**<span class="mark">TC-RQ002-03 - Valid-Integrity-Value Injection over Modified Data</span>**
 
 **Level 1 - Abstract Test Scenario**
 
@@ -1476,14 +1466,17 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-01_errorlog.json</p>
+<td><p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-01_errorlog_before.json</p>
+<p>#short-circuit Pin1/Pin3</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-01_errorlog_after.json</p>
 <p># In TIA: read I&amp;M4 signature (before/after one param change).</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td><p><em>Expected: log + records readable (accessibility PASS);</em></p>
-<p><em>I&amp;M4 signature changes.</em></p>
-<p><em>Documented shortfall: no record carries actor identity or absolute timestamp. Evidence: cm_rq003-01_errorlog.json, TIA I&amp;M0/I&amp;M4 screenshots (before/after).</em></p></td>
+<td><p><em>log + records readable (accessibility PASS);</em></p>
+<p><em>Expected: I&amp;M4 signature changes.</em></p>
+<p><em>Documented shortfall: no record carries actor identity or absolute timestamp.</em></p>
+<p><em>Evidence: cm_rq003-01_errorlog_before/after.json, TIA I&amp;M0/I&amp;M4 screenshots (before/after).</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1567,7 +1560,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <td>Procedure</td>
 <td><p>export SRIO=192.168.0.2</p>
 <p># 1. Baseline (Kali):</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-02_before.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-02_before.json</p>
 <p># 2. Authorized change in TIA Portal</p>
 <p># a) Open the TIA project &gt; Hardware/network view &gt; select AL400S</p>
 <p># b) Properties &gt; Module parameters (e.g. Filter F-DI 1: 10 ms -&gt; 5 ms)</p>
@@ -1578,12 +1571,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># 'Download to device')</p>
 <p># e) Power-cycle the SRIO (cold start)</p>
 <p># 3. After the cold start (Kali):</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist/getdata | tee cm_rq003-02_after.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-02_after.json</p>
 <p>diff cm_rq003-02_before.json cm_rq003-02_after.json</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td><p>Post-reboot detail cleared (cold start), no absolute timestamp;</p>
+<td><p>Expected result: Post-reboot detail cleared (cold start), no absolute timestamp;</p>
 <p>only counter delta persists.</p>
 <p>Evidence: before/after json + TIA I&amp;M.</p></td>
 </tr>
@@ -1771,7 +1764,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <td>Procedure</td>
 <td><p># 0: Baseline</p>
 <p>curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_00_baseline.txt</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_00_baseline.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist| tee cm_rq003-04_log_00_baseline.json</p>
 <p># 1: Event 1</p>
 <p># Short-circuit pin 1 and pin 3.</p>
 <p># 2: Readout after Event 1</p>
@@ -1783,12 +1776,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># --&gt; Reconnect the power cable; wait until the RDY LED and P LED turn green</p>
 <p># 4: Readout after Cold-Restart</p>
 <p>curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_02_after_coldstart.txt</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_02_after_coldstart.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist| tee cm_rq003-04_log_02_after_coldstart.json</p>
 <p># 5: Event 2</p>
 <p># Short-circuit pin 1 and pin 3.</p>
 <p># 6: Readout after Event 2</p>
 <p>curl -s http://$SRIO/systemtime/systick/getdata | tee cm_rq003-04_systick_03_event2.txt</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq003-04_log_03_event2.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist| tee cm_rq003-04_log_03_event2.json</p>
 <p># 7: Evaluation</p>
 <p>echo " Log-comparison Baseline vs Event 1 "</p>
 <p>diff cm_rq003-04_log_00_baseline.json cm_rq003-04_log_01_event1.json</p>
@@ -1802,8 +1795,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Result</td>
-<td><p>Expected FAIL:</p>
-<p>uptime (systick) resets to ~0 on cold start; no absolute timestamp on any entry 🡪 not time-referenceable (CR 2.11 unmet).</p></td>
+<td>uptime (systick) resets to ~0 on cold start; no absolute timestamp on any entry 🡪 not time-referenceable (CR 2.11 unmet).</td>
 </tr>
 </tbody>
 </table>
@@ -1928,7 +1920,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 
   - G-2: CR 7.8 expects identification of the third-party software genuinely critical for EHSR compliance: µC/OS-II (SRIO-1260), the SIL3 PROFIsafe stack (SRIO-1929), the STM32F7 self-test library (SRIO-10766), the netX90 PROFINET stack (SRIO-1768). Only top-level version strings are exposed and there is no SBOM 🡪 these cannot be inventoried or CVE-correlated.
 
-  - G-3: Identification is served over plaintext HTTP (SRIO-7903/7907). Keep as a defense-in-depth observation only; under EN 50742 Approach B this is not a safety-security conformance FAIL (FR4 = none).
+  - G-3: Identification is served over plaintext HTTP (SRIO-7903/7907). Keep as a defense-in-depth observation only; under prEN 50742 Approach B this is not a safety-security conformance FAIL (FR4 = none).
 
 **Step 2: Methodological Test Planning**
 
@@ -1969,7 +1961,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>3</td>
-<td>Passive plaintext capture of the identification traffic (defence-in-depth observation, not a FAIL under EN 50742 FR4=none)</td>
+<td>Passive plaintext capture of the identification traffic (defence-in-depth observation, not a FAIL under prEN 50742 FR4=none)</td>
 <td>Documents G-3 (DiD only)</td>
 <td><p>NIST SP 800-115 §3.5;</p>
 <p>OWASP ISTG-DES-INFO;</p>
@@ -2063,7 +2055,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>HW/Network</td>
-<td>curl, TIA, OWASP FSTM Stage 1.</td>
+<td>Kali, Laptop</td>
 </tr>
 <tr>
 <td>Tools</td>
@@ -2078,11 +2070,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p>curl -s http://$SRIO/$p/getdata</p>
 <p>echo</p>
 <p>done | tee cm_rq004-01_inventory.txt</p>
-<p>TIA: I&amp;M0, I&amp;M5, I&amp;M4 for data</p></td>
+<p>#TIA: I&amp;M0, I&amp;M5, I&amp;M4 for data</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td><p>Expected (partial-conformance baseline): top-level SW identification + I&amp;M4 data signature present;</p>
+<td><p>top-level SW identification +</p>
+<p>Expected: I&amp;M4, IM0, I&amp;M5 data signature present;</p>
 <p>Evidence: cm_rq004-01_inventory.txt, TIA I&amp;M screenshots, inventory diff table.</p></td>
 </tr>
 </tbody>
@@ -2272,12 +2265,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <tr>
 <td>Result</td>
 <td><p>Expected: sslscan returns NO TLS handshake at all (immediate connection error, since port 80 only offers plaintext HTTP without TLS, SRIO-7903/7907 „no HTTPS“).</p>
-<p>Additionally, a parallel capture shows the plaintext content in Wireshark („Follow &gt; HTTP Stream“). Confirms G-3 (plaintext, no transport encryption) - recorded as a defense-in-depth observation, not a safety-security FAIL per EN 50742 FR4.</p></td>
+<p>Additionally, a parallel capture shows the plaintext content in Wireshark („Follow &gt; HTTP Stream“). Confirms G-3 (plaintext, no transport encryption) - recorded as a defense-in-depth observation, not a safety-security FAIL per prEN 50742 FR4.</p></td>
 </tr>
 </tbody>
 </table>
 
-**TC-RQ004-04 - Data-Identification Signature Uniqueness**
+**<span class="mark">TC-RQ004-04 - Data-Identification Signature Uniqueness</span>**
 
 **Level 1 - Abstract Test Scenario**
 
@@ -2359,7 +2352,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># Recalculate iParCRC: right-click module &gt; 'Start device tool' &gt;</p>
 <p># 'ifm-CRC-Tool' &gt; confirm parameters correct &gt; copy F_iPar_CRC &gt;</p>
 <p># paste into Properties &gt; PROFIsafe &gt; F-Parameters &gt; F_iPar_CRC</p>
-<p># Project &gt; Compile (Ctrl+Shift+B) &gt; Online &gt; Download to device (Ctrl+D)</p>
+<p># Project &gt; Compile &gt; Online &gt; Download to device</p>
 <p># 2. Read I&amp;M4 in TIA:</p>
 <p># TIA Portal &gt; Online &amp; Diagnostics &gt; Identification &amp; Maintenance &gt; I&amp;M4</p>
 <p># (record the SIGNATURE value = F_iParCRC + F_Par_CRC as hex)</p>
@@ -2951,7 +2944,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 
   - G-1: Identical root cause to RQ-004 G-2: no SBOM of µC/OS-II, PROFIsafe stack, STM32F7 STL, netX90 🡪 CR 7.8 met at product granularity, not component granularity. Reuse TC-RQ004-02; do not re-derive.
 
-  - G-2: Plaintext HTTP inventory read; defence-in-depth observation only (EN 50742 FR4 = none), not a conformance FAIL.
+  - G-2: Plaintext HTTP inventory read; defence-in-depth observation only (prEN 50742 FR4 = none), not a conformance FAIL.
 
 **Step 2: Methodological Test Planning**
 
@@ -3087,12 +3080,11 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p>curl -s http://$SRIO/$p/getdata</p>
 <p>echo</p>
 <p>done | tee cm_rq006-01_installed.txt</p>
-<p>I&amp;M</p></td>
+<p>#I&amp;M</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td><p>Host FW, both bootloaders, SCPU FW, stack version retrievable + consistent. Evidence: cm_rq006-01_installed.txt, TIA I&amp;M0/I&amp;M4 screenshots 🡪</p>
-<p>reference RQ-004-01</p></td>
+<td>Host FW, both bootloaders, SCPU FW, stack version retrievable + consistent. Evidence: cm_rq006-01_installed.txt, TIA I&amp;M screenshots 🡪 reference RQ-004-01</td>
 </tr>
 </tbody>
 </table>
@@ -3118,7 +3110,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 | HW/Network | reuse TC-RQ004-02. |
 | Tools | As TC-RQ004-02. |
 | Procedure | Execute per TC-RQ004-02; record under RQ-006. Do not re-derive. |
-| Result | As TC-RQ004-02, no component-level SBOM (SDL/CRA shortfall). Evidence: reuse TC-RQ004-02 artefacts. \[PLACEHOLDER: Result\] |
+| Result | As TC-RQ004-02, no component-level SBOM (SDL/CRA shortfall). Evidence: reuse TC-RQ004-02 artefacts. |
 
 **<span class="mark">TC-RQ006-03 - Plaintext Inventory Exposure (Defense-in-Depth Observation)</span>**
 
@@ -3150,7 +3142,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Objective</td>
-<td>Confirm the inventory read is served without transport encryption. Recorded as a defense-in-depth observation (EN 50742 FR4 target = none), not a conformance FAIL.</td>
+<td>Confirm the inventory read is served without transport encryption. Recorded as a defense-in-depth observation (prEN 50742 FR4 target = none), not a conformance FAIL.</td>
 </tr>
 <tr>
 <td>Steps</td>
@@ -3193,8 +3185,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p>sslscan --show-certificate $SRIO:80 | tee cm_rq006-03_sslscan.txt</p>
+<td><p>sslscan --show-certificate $SRIO:80 | tee cm_rq006-03_sslscan.txt</p>
 <p># In parallel:</p>
 <p>sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq006-03_http.pcap &amp;</p>
 <p>curl -s http://$SRIO/deviceinfo/swrevision/getdata</p>
@@ -3204,7 +3195,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected: plaintext transmission confirmed (defense-in-depth observation, no safety-security FAIL per EN 50742 FR4).</td>
+<td>plaintext transmission confirmed (defense-in-depth observation, no safety-security FAIL per prEN 50742 FR4), .pcap</td>
 </tr>
 </tbody>
 </table>
@@ -3392,7 +3383,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Result</td>
-<td><em>Expected PASS: Visualizer loads without special tooling; all safety-relevant identifiers human-readable. Evidence: Visualizer screenshot, cm_rq007-01_swrev.txt.</em></td>
+<td>Visualizer loads without special tooling; all safety-relevant identifiers human-readable. Evidence: Visualizer screenshot, cm_rq007-01_swrev.txt.</td>
 </tr>
 </tbody>
 </table>
@@ -3605,9 +3596,8 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p>echo "- After release -"; cat cm_rq007-03_03_after_release.txt</p></td>
 </tr>
 <tr>
-<td>Expected</td>
-<td><p>Expected FAIL vs requirement: 3rd legitimate read blocked/timeout while 2 held; access restored only after release.</p>
-<p>Evidence: cm_rq007-03_hold.log, curl timing before/after.</p></td>
+<td>Result</td>
+<td>cm_rq007-03_00_baseline.txt / _02_blocked.txt / _03_after_release.txt / _01_jobs.txt</td>
 </tr>
 </tbody>
 </table>
@@ -3886,18 +3876,18 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <tr>
 <td>Procedure</td>
 <td><p>export SRIO=192.168.0.2</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq008-01_baseline.json</p>
+<p>curl -s http://$SRIO/devicestatus/errorlog/loglist| tee cm_rq008-01_baseline.json</p>
 <p>curl -s http://$SRIO/firmware/version/getdata</p>
 <p>curl -s http://$SRIO/deviceinfo/swrevision/getdata</p>
 <p># Trigger a benign, self-detected software event, e.g. a brief SysCom</p>
 <p># interruption; short-circuit method from TC-RQ003-04.</p>
 <p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq008-01_after_event.json</p>
 <p>diff cm_rq008-01_baseline.json cm_rq008-01_after_event.json</p>
-<p>I&amp;M0</p></td>
+<p>#I&amp;M0</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected: an entry is created, but without actor identity and without an absolute timestamp (only an uptime reference).</td>
+<td>An entry is created, but without actor identity and without an absolute timestamp (only an uptime reference).; I&amp;M0</td>
 </tr>
 </tbody>
 </table>
@@ -4368,15 +4358,14 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p>curl -s http://$SRIO/devicestatus/errorlog/loglist | tee cm_rq009-01_errorlog.json</p>
+<td><p>curl -s http://$SRIO/devicestatus/errorlog/loglist| tee cm_rq009-01_errorlog.json</p>
 <p># In TIA: Online &amp; Diagnostics &gt; Identification &amp; Maintenance &gt; I&amp;M4</p>
 <p># (record the signature value: F_iParCRC + F_Par_CRC as hex)</p>
 <p># Check both sources for any actor-identity field or absolute timestamp.</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected: parameter-change indicators (iParCRC value) are readable, but without actor identity/timestamp.</td>
+<td>Expected: parameter-change indicators (iParCRC value) are readable, but without actor identity/timestamp., I&amp;M4</td>
 </tr>
 </tbody>
 </table>
@@ -4479,7 +4468,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tbody>
 </table>
 
-<span class="mark">TC-RQ009-03 - Actor Attribution Is Delegated, Not Device-Resident</span>
+**<span class="mark">TC-RQ009-03 - Actor Attribution Is Delegated, Not Device-Resident</span>**
 
 **Level 1 - Abstract Test Scenario**
 
@@ -4864,7 +4853,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># stability / qualifier.</p></td>
 </tr>
 <tr>
-<td>Expected</td>
+<td>Result</td>
 <td>Expected PASS - safety communication remains stable within the Kali-generated load limits (qualifier stays good, no passivation).</td>
 </tr>
 </tbody>
@@ -4951,19 +4940,18 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p># 1. Establish baseline.</p>
+<td><p># 1. Establish baseline.</p>
 <p># 2. Escalating flood:</p>
 <p>sudo hping3 --flood --rand-source $SRIO</p>
 <p># then, in a separate run:</p>
 <p>sudo macof -i eth1</p>
 <p># 3. Continuously observe the TIA watch table + diagnostics buffer; measure</p>
 <p># the time until passivation / restart.</p>
-<p># 4. Stop the load (Ctrl+C); confirm restart requires acknowledgement.</p></td>
+<p># 4. Stop the load; confirm restart requires acknowledgement.</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected PASS - the SRIO passivates in a controlled manner (safe state) instead of entering an undefined state; after the load ends, restart occurs after acknowledgement.</td>
+<td>The SRIO passivates in a controlled manner (safe state) instead of entering an undefined state; after the load ends, restart occurs after acknowledgement. (Switch-Flooding vs. SRIO-Reaction), Qualifier/Output-Evidence</td>
 </tr>
 </tbody>
 </table>
@@ -5163,18 +5151,17 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Tools</td>
-<td>Siege (CM-009), curl.</td>
+<td>Siege (CM-009), curl, TIA</td>
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p>siege -c 100 -t 10M -v http://$SRIO/deviceinfo/getdata -l cm_rq010-04_siege.log &amp;</p>
+<td><p>siege -c 50 -t 1M -v http://192.168.0.2/deviceinfo/getdata --log=cmrq010_siege.log &amp;</p>
 <p># In parallel, observe the PROFIsafe connection / safety function in TIA</p>
 <p># (watch table: qualifier, outputs).</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected PASS - the safety path remains unaffected by the web-interface flood (confirms domain separation / black-channel architecture).</td>
+<td>The safety path remains unaffected by the web-interface flood (confirms domain separation / black-channel architecture), Qualifier/Output</td>
 </tr>
 </tbody>
 </table>
@@ -5447,9 +5434,8 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p># Attempt write access to all safety-relevant nodes listed in</p>
-<p># 209_SRIO_CompSpec_Module_Com §5.3.1 (only /devicetag/applicationtag is</p>
+<td><p># Attempt write access to all safety-relevant nodes listed in</p>
+<p># (only /devicetag/applicationtag is</p>
 <p># documented as writable; all others should be read-only):</p>
 <p>curl -s -X POST http://$SRIO/safecom/f_address/setdata -d '{"value":123}' -w "%{http_code}\n"</p>
 <p>curl -s -X POST http://$SRIO/io/do/port7/pin4/digital_output/setdata -d '{"value":true}' -w "%{http_code}\n"</p>
@@ -6322,16 +6308,15 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p>curl -s http://$SRIO/deviceinfo/swrevision/getdata</p>
-<p>curl -s http://$SRIO/firmware/version/getdata</p>
+<td><p>curl -s http://$SRIO/deviceinfo/swrevision/getdata | tee cm_rq013-01_swrevision.txt</p>
+<p>curl -s http://$SRIO/firmware/version/getdata | tee cm_rq013-01_version.txt</p>
 <p># In TIA: Online &amp; Diagnostics &gt; Identification &amp; Maintenance &gt; I&amp;M0, I&amp;M5</p>
 <p># Explicitly search all responses for any ‘version history’ / ‘previous</p>
-<p># version’ field (none documented).</p></td>
+<p># version’ field (none documented)</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected FAIL (against the requirement) - only the current version is retrievable, no history field exists.</td>
+<td>Only the current version is retrievable, no history field exists., I&amp;M0/I&amp;M5</td>
 </tr>
 </tbody>
 </table>
@@ -6868,8 +6853,7 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
-<p>sslscan --show-certificate $SRIO:80 | tee cm_rq014-02_sslscan.txt</p>
+<td><p>sslscan --show-certificate $SRIO:80 | tee cm_rq014-02_sslscan.txt</p>
 <p>sudo tcpdump -i eth1 host $SRIO and port 80 -w cm_rq014-02_log.pcap &amp;</p>
 <p>curl -s http://$SRIO/devicestatus/errorlog/loglist</p>
 <p>kill %1</p>
@@ -6878,12 +6862,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected: log content is readable in plaintext, no transport encryption (defense-in-depth observation).</td>
+<td>log content is readable in plaintext, no transport encryption (defense-in-depth observation)., .pcap</td>
 </tr>
 </tbody>
 </table>
 
-**<span class="mark">TCm-RQ014-03 - Access-Control Mechanism Probe</span>**
+**<span class="mark">TC-RQ014-03 - Access-Control Mechanism Probe</span>**
 
 **Level 1 - Abstract Test Scenario**
 
@@ -6963,11 +6947,12 @@ kali-rechner mit port3 und laptop mit port4 vom switch verbunden
 <p># Search the output for any login/auth endpoints.</p>
 <p>zaproxy -daemon -host 127.0.0.1 -port 8090 -config api.disablekey=true &amp;</p>
 <p>curl "http://127.0.0.1:8090/JSON/spider/action/scan/?url=http://$SRIO/"</p>
-<p># check ZAP's discovered URLs / responses for any 401/403 status codes</p></td>
+<p># check ZAP's discovered URLs / responses for any 401/403 status codes</p>
+<p>curl "http://127.0.0.1:8090/JSON/core/view/messages/?baseurl=http://$SRIO/" | tee cmrq014-03-messages-terminal.txt # check ZAP's discovered URLs / responses for any 401/403 status codes</p></td>
 </tr>
 <tr>
 <td>Result</td>
-<td>Expected: no authentication/role mechanism found on any endpoint - confirms G-1 (no identity model exists).</td>
+<td>No authentication/role mechanism found on any endpoint - confirms G-1 (no identity model exists).</td>
 </tr>
 </tbody>
 </table>

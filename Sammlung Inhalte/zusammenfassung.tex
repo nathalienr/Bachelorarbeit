@@ -3,57 +3,46 @@
 
 \section{Summary of Findings} 
 \label{sec:summary_findings} 
+This thesis addressed the absence of a systematic approach for verifying the security functions of industrial gateways at the physical IT/OT interface. With Regulation (EU) 2023/1230, cybersecurity became a mandatory part of the conformity assessment of machinery, yet the established functional and safety validation process did not verify security functions in a requirement-driven manner. The goal was to develop, and as far as the available laboratory allowed to validate, a systematic and standards-based testing methodology that supports this verification and that can be reused for future product releases. Three research questions guided the work. RQ1 asked how the regulatory obligations can be translated into verifiable, component-level tests. RQ2 asked which tests of the existing company framework are applicable to an embedded gateway and how non-applicable tests can be identified before execution. RQ3 asked what direct-access testing at the IT/OT interface can verify about the effectiveness of the implemented security functions, and where its boundaries lie.
 
-% COPILOT-ANALYSIS-BEGIN
-% Status: RESTRUCTURE (currently a German scratchpad - do not write final prose yet)
-% Evidence status: NOT_APPLICABLE
-% Recommendation:
-%   Keep as notes for now. The final summary must connect back to the research question and
-%   objective (Moodle Anmeldung.txt) and report ONLY achieved results. Required inputs to gather
-%   before writing:
-%     - Objective restated (validated testing methodology for security functions at the IT/OT interface).
-%     - Selected approach (SVV taxonomy + requirement-driven test cases + filtered company tools).
-%     - Achieved results: the strongest empirical outcomes are the time-attribution and cold-start
-%       deletion findings on the intervention log (RQ-003/RQ-012), plus the NV1 attack-surface and
-%       identification-surface evidence. State them as PARTIAL verification, not conformity.
-%     - Quantitative results ONLY where measured: e.g. 1 open TCP port (80), 2 open UDP ports
-%       (161, 49152 o/f), 8 firmware/version identifiers exposed anonymously, 2 log entries lost on
-%       cold start, systick reset 44979->27509. Do NOT invent RCR/TMC/TER/ETS percentages until the
-%       missing Siege/boofuzz/ZAP evidence is stored.
-%     - Critical evaluation: methodology validated for NV1 only; NV2/NV3 remain future work.
-%     - Outlook: HTTPS on the device, mirror-port NV2 campaign, in-path NV3 PROFIsafe MITM.
-% Reason: This file is not yet thesis prose and must not be presented as finished conclusions.
-% Suggested destination: keep here; convert to English once umsetzung results are final.
-% Required evidence or open question: which KPIs (RCR/TMC/TER/ETS) are computable from stored evidence only.
-% COPILOT-ANALYSIS-END
+The methodology was developed with the Design Science Research Methodology. It combines three elements. The first is a requirement derivation that maps the obligations of Regulation (EU) 2023/1230 through the draft standard prEN 50742 to the component requirements of IEC 62443-4-2. The second is a controlled reuse of the company test framework, filtered by a tool-to-target applicability assessment. The third is the verification taxonomy of IEC 62443-4-1 Practice SVV. Each requirement was linked to the assets it applies to, to a STRIDE threat, and to the corresponding security function. Each test case was specified on two levels, a product-neutral abstract scenario and a concrete, environment-specific execution. The methodology was demonstrated on a real Safe Remote I/O device in an isolated laboratory, under the direct-access network position NV1.
 
-Da prEN 50742 zusätzlich das SRSL-Konzept (Safety-Related Security Level, 0–3) vorgibt, kannst die Testtiefe/-strenge pro Asset und Requirement anhand des jeweiligen SRSL skaliert werden (z. B. SRSL1 → einfache Checksummenprüfung testen, SRSL3 → kryptographische HMAC/CMAC-Verifikation unter aktiver Manipulation testen).
+The derivation produced fourteen security requirements from Annex III of Regulation (EU) 2023/1230 and mapped each of them to prEN 50742 and to IEC 62443-4-2. The device was decomposed into nine assets with their protection objectives. The applicability assessment classified the ten company tests as five applicable, four not applicable, and one blocked. The tests for network segmentation, default credentials, TLS configuration, and hardening validation were not applicable, because the embedded device exposes no second network zone, no authentication endpoint, no TLS endpoint, and no operating-system shell. The known-CVE scan was blocked, because the scanner could not be brought into operation within the laboratory. Of the three network access variants, only NV1 was realised. Fifteen test activities were executed under NV1, and their evidence was stored. Two of them produced a definitive requirement outcome, and both are documented device deviations: the intervention log carries only a relative system tick and no absolute timestamp, which fails the time-attribution obligation of RQ-003, and its content is cleared by a cold restart, which fails the retention obligation of RQ-012. A structured fuzzing run additionally surfaced a temporary, self-recovering disruption of the HTTP service that requires follow-up by development. Because no requirement reached a full pass verdict in the bounded practical phase, the Requirement Compliance Rate is $RCR = 0$, and the Test Effectiveness Ratio over the executed subset is $TER = 2/15 \approx 0.13$. Almost every executed activity is backed by stored raw evidence.
 
-Probleme Definition Assets
+With respect to the research questions, RQ1 is answered by the traceable derivation chain and the two-level catalogue, which turn regulatory obligations into concrete, requirement-linked tests. RQ2 is answered by the applicability assessment, which identified the non-applicable and blocked tests before execution and thereby prevented four tools from being run against interfaces that the device does not expose. RQ3 is answered in part. NV1 produced usable evidence for the HTTP interface, the identification surface, the intervention log, the application-layer availability, and the robustness of the HTTP service, but it cannot verify any property that depends on the cyclic safety communication, which requires the passive-observation or the in-path variant.
 
-probleme verständnis anforderungen, linux-befehle
+The results contribute to the goal, but the contribution is methodological rather than a completed conformity assessment. The methodology closed the process gap for the examined device by producing traceable evidence that links each executed test to a requirement, which is the property that the technical documentation under the regulation requires. The applicability assessment proved to be a necessary step, because a general-purpose IT test framework cannot be applied unchanged to an embedded safety gateway. The work also made a conceptual gap visible. The manufacturer argues that a security fault resolves into a safe state, whereas the regulation demands security properties such as integrity, accountability, confidentiality, and availability as ends in themselves. The methodology therefore examines empirically the difference between a device that fails safely and a device that is secure, and the two intervention-log deviations are a concrete example of that difference. The derivation also exposed a gap in the normative basis itself, for example RQ-013, for which prEN 50742 provides no corresponding clause.
 
-Die Anforderung 1.2.1 gilt für das Gesamtsystem SRIO. Für das COM-Gateway selbst gilt sie nur insoweit, wie nachgewiesen wird, dass es durch das Black-Channel-Prinzip nicht Teil der Sicherheitsfunktion ist.
-----------------------------------------------------------------------------
+The methodology addresses reliability at three levels. Repeatability is supported by the two-level test specification, which records the exact procedure and evidence for each test. Reproducibility is supported by the use of a standardised tool environment and by the applicability assessment, which documents why a tool applies to the target. Traceability is supported by the requirement chain of Section \ref{subsec:traceability_model}.
 
+Several factors limit the validity of the results. The evaluation covers a single System Under Test, so the results do not generalise to other devices or fieldbuses. The practical demonstration is limited to the NV1 network position, so claims that depend on passive observation or active manipulation remain unverified. The cyclic safety communication is not independently monitored, so the methodology does not claim that the safety function is unaffected by a test. prEN 50742 is a draft standard, so the derivation supports the demonstration of conformity without asserting certification.
 
-Vollständige Traceability-Matrix Regulation → prEN 50742 → IEC 62443-4-2 → Asset → Testfall (die "vierte Tabelle", die deine bisherige Arbeit vervollständigt).
-
-Validierte Testmethodik, die SVV-1 bis SVV-4 (IEC 62443-4-1) auf physische IT/OT-Gateway-Schnittstellen anwendet und in den bestehenden funktionalen V-Modell-Testprozess des Unternehmens integrierbar ist.
-
-Ausführbarer Testfallkatalog (wiederverwendbar für zukünftige Produktreleases, nicht nur für das aktuelle Gateway) – das macht die Methodik "systematisch" statt einmalig.
-
-Durchgeführte Pilot-Testkampagne am realen Gateway (srio) mit dokumentierten Ergebnissen – das liefert die geforderte empirische Evidenz zur Wirksamkeit der technischen Mitigationsmaßnahmen.
-
-Gap-/Konformitätsanalyse gegenüber Annex III 1.1.9/1.2.1 – wo funktioniert die Mitigation nachweislich, wo bestehen Lücken (z. B. bei RQ-013, wo prEN 50742 explizit keine Zuordnung vorsieht)?
-Der Hersteller argumentiert „Security‑Fehler führen zu Safety (sicherer Zustand), nicht zu Gefahr". Die MVO 2023/1230 (Anh. III, 1.1.9 / 1.2.1) verlangt aber Security‑Eigenschaften als Selbstzweck – Integrität, Nachweisbarkeit, Vertraulichkeit, Verfügbarkeit – unabhängig davon, ob am Ende ein sicherer Zustand erreicht wird. Deine Methodik prüft also empirisch die Lücke zwischen**„fällt sicher aus"** und**„ist sicher"**.
-
-Genau diese Trennung macht fast jede deiner Gap‑Begründungen präzise – und deckt zugleich auf, wo deine Tabelle noch unscharf ist (siehe §3)
-
-Organisatorische Handlungsempfehlung: Wie wird diese Methodik dauerhaft in den Entwicklungsprozess/QM-System integriert (Verantwortlichkeiten, Zeitpunkt im Lebenszyklus, Pflege der Matrix bei Normenänderungen wie der finalen prEN 50742-Fassung), sodass sie für die Konformitätsbewertung nach der Maschinenverordnung als Nachweisdokumentation dient.
-
+For these reasons, the artifact is best described as a prototype methodology with partial practical validation. The methodology is fully specified across all three network access variants, and it is demonstrated for the tests that the NV1 position supports. The validation of the NV2 and NV3 tests remains future work. 
  
 \section{Future Work} 
 \label{sec:future_work}
+Several directions extend this work. The most immediate is to realise the two remaining network access variants. The passive-observation variant NV2, using a mirroring switch or a network tap, and the in-path variant NV3, using a transparent bridge, would allow the safety-telegram integrity, the in-path manipulation, the watchdog-passivation, and the domain-separation scenarios to be executed. This would in turn allow the requirements that depend on the cyclic safety communication, in particular RQ-002 and RQ-005, to be assessed. The outstanding configuration-change and firmware tests should also be added to complete the requirement coverage.
 
-Vorteil wenn Gerät dann Https hat
+Because prEN 50742 grades the required test depth through the Safety-Related Security Level, the catalogue can be extended so that the strictness of a test scales with the level of the affected asset and requirement, for example from a simple checksum check at a low level to cryptographic verification under active manipulation at a high level.
+
+A device that exposes an authenticated and encrypted interface, for example over HTTPS, would enable the credential, transport-security, and access-control tests that were not applicable to the current device, and would raise the achievable requirement coverage.
+
+The methodology should be embedded permanently in the development and quality-management process. This includes assigning the responsibilities of the governance model, fixing the point in the lifecycle at which tests are generated and evaluated, and maintaining the traceability matrix when the normative basis changes, for example when prEN 50742 is published in its final form, so that the methodology can serve as conformity documentation under the Machinery Regulation. A related open point is the precise regulatory scope for a component that is not itself a machine, because the Safe Remote I/O is a component whose obligations arise through its integration into a machine.
+
+Finally, the use of machine learning is a promising direction for security testing. A profiling module that learns the normal network behaviour of a device in the testbed could support the detection of anomalous behaviour during a test \cite[pp. 12]{siboni2016securitytestbedinternetthings}.
+
+%(Security Testbed: The profiler module for IoT devices is based on a machine learning algorithm which analyzes the network traffic observed in the testbed environment during the testing process. As mentioned in subsection 5.2, the module operates in two phases, a training phase and a testing phase, as illustrated in Figure 11. First, in the training phase, a statistical model is defined based on the network activity recorded during this phase (for that matter, several IoT devices are deployed in the testbed environment). Next, in the testing phase, different IoT devices (that were not used during the
+%Figure 11. The IoT profiler module structure, including features extraction, statistical model and decision making submodules.
+%training phase) are profiled based on their network behavior, given the statistical model constructed in previous phase \cite[pp. 12]{siboni2016securitytestbedinternetthings})
+
+
+
+
+%TODO für gesamte Arbeit/ Bewertungsschema mit dem diese Bachelorarbeit bewertet wird: Für eine 1.0 müssen folgende Aspekte erfüllt sein
+%Fachliche Bearbeitung (Berücksichtigung des Schwierigkeitgrads) --> Sehr gute Abhandlung des Themas bezüglich Lösungswege und Ergebnisse, zusätzliche Alternativen und Aspekte aufgezeigt
+%Nutzung von Fachwissen --> Umfassende Kenntnisse, sehr gutes Fachwissen
+%Einsatz von Methoden und Werkzeugen --> Bewusste Auswahl, konsequenter und fundierter Einsatz von Ingenieurmethoden und Ingenierwerkzeugen
+%Umsetzbarkeit des Ergebnisses --> Sehr gutes Ergebnis ohne Modifikationen umsetzbar oder bereits umgesezt
+%Kreativität --> Viele eigene/originelle Ideen eingebracht und in neuen, erfolgreichen Lösungsansätzen umgesetzt
+%Wirtschaftliche Bewertung --> Sehr gutes wirtschaftliches Denken in der gesamten Lösung; Zusammenhänge bedacht, nichtfinanzielle Vorteile erkannt
+%Berücksichtigung Nachhaltigkeitsaspekte (ökologisch, ökonomisch, sozial) --> Nachhaltigkeit und  Umweltverträglichkeit als zentrales Bewertungskriterium der Arbeit mit fundierter Analyse 
