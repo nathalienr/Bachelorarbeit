@@ -1,6 +1,6 @@
 \chapter{Methodology}
 \label{chap:methodology}
-%TODO ist es möglich weniger subsctions zu machen, damit das Inhaltsverzeichnis nicht über 2 1/2 Seiten geht (wie jetzt), sondern maximal über 2 
+
 Building upon the theoretical foundations established in Chapter \ref{chap:fundamentals}, this chapter develops the security testing methodology used in this thesis. The methodology translates the cybersecurity obligations of Regulation (EU) 2023/1230 into a traceable and repeatable engineering procedure. It targets the physical IT/OT interface of a safety-related industrial gateway.
 
 The chapter follows a methodology development logic. Section \ref{sec:research_design} defines the research design, the initial situation, the constraints, and the scope. Section \ref{sec:traceability} derives the security requirements and establishes the traceability model. Section \ref{sec:approach_selection} evaluates established testing approaches and justifies the selected combination. Section \ref{sec:test_derivation} specifies how individual test cases are derived and documented. Section \ref{sec:test_environment} defines the test environment and the network access variants. Section \ref{sec:execution_governance} describes the execution procedure and the organisational governance. Section \ref{sec:evaluation_metrics} defines how test results are aggregated into requirement verdicts.
@@ -28,7 +28,7 @@ The design and the evaluation of the artifact are guided by three research quest
 \end{itemize}
 
 
-\subsection{Initial Situation, Constraints, and Scope}
+\section{Initial Situation, Constraints, and Scope}
 \label{subsec:initial_situation}
 
 The System Under Test (SUT) is a safety remote input and output device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over HTTP. The device therefore combines an OT fieldbus path and an IT diagnostic path in a single component.
@@ -127,12 +127,11 @@ The applicability assessment produces one of three outcomes. A tool is applicabl
 
 \subsection{Selected Approach}
 \label{subsec:selected_approach}
-%TODO eventuell überarbeiten
 The selected methodology combines three elements. The first element is the verification taxonomy of IEC 62443-4-1 Practice SVV, introduced in Section \ref{subsec:iec_62443}, which distinguishes requirements-based testing, threat-mitigation testing, vulnerability testing, and penetration testing \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}. The taxonomy anchors every test to a defined verification purpose. The second element is a set of requirement-driven test cases, derived from the fourteen requirements and their asset mapping. The third element is a controlled reuse of the company tools, filtered by the applicability assessment.
 
-These three elements correspond to three complementary layers of the derivation. Regulation (EU) 2023/1230 defines why a security property is required and yields the fourteen requirements. IEC 62443-4-2 defines what must hold at the component level through its Component Requirements. IEC 62443-4-1 Practice SVV defines how each property is verified. 
+These three elements correspond to three complementary layers of the derivation. Regulation (EU) 2023/1230 defines why a security property is required and yields the fourteen requirements. IEC 62443-4-2 defines what must hold at the component level through its Component Requirements. IEC 62443-4-1 Practice SVV defines how each property is verified.
 
-It preserves requirement traceability, it yields concrete and reproducible test cases, and it retains an attack perspective through threat-mitigation and vulnerability tests. It respects the safety priority by bounding the robustness tests to requirement-driven cases. The approach also remains compatible with the existing industrial validation process, because it reuses the company tools where they apply and documents where they do not.
+The combined approach meets the six criteria of Section \ref{subsec:approach_evaluation}. It preserves requirement traceability, and it yields concrete and reproducible test cases. It retains an attack perspective through the threat-mitigation and the vulnerability tests. It respects the safety priority by bounding the robustness tests to requirement-driven cases. It also remains compatible with the existing industrial validation process, because it reuses the company tools where they apply and documents where they do not.
 
 \section{Test Case Derivation and Specification}
 \label{sec:test_derivation}
@@ -182,14 +181,14 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 		\bottomrule
 	\end{tabularx}
 \end{table}
-%TODO: The security categories and their requirement assignment reproduce the structure used in Chapter \ref{chap:implementation_results}. Confirm that this assignment matches the final results chapter, and re-check each SVV category label against Section \ref{subsec:iec_62443} rather than adopting it unchanged from the working notes.
+
 
 
 \section{Design of the Security Test Environment}
 \label{sec:test_environment}
 Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In Operational Technology, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is a mandatory requirement, in line with NIST SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}.
 
- 
+
 \label{subsec:hybrid_approach} 
 The feasibility of a test depends on the position of the test system on the communication path. The methodology defines three network access variants. Each variant provides a different level of access. Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants.
 
@@ -346,8 +345,7 @@ The SUT is a safety device. Some security-relevant properties are therefore alre
 \label{subsec:lifecycle_governance}
 This section presents a reference model for how the verification activities could be embedded in the product lifecycle and how organisational responsibility could be assigned. It describes how the security process is intended to function. It does not describe the organisational setting in which the practical work of this thesis was carried out.
 
-The verification activities defined in this framework are not executed in isolation. They must anchor to defined stages of the product lifecycle. This ensures that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process, rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}. 
-%TODO
+The verification activities defined in this framework are not executed in isolation. They must anchor to defined stages of the product lifecycle. This ensures that test cases are generated, executed, and evaluated at determinable points in the development process. Secure Software Development Life Cycle (SSDLC) models embed security-related activities into every phase of a conventional development process, rather than confining them to a single stage prior to release \cite{ibm_ssdlc_2025, geeksforgeeks_ssdlc_2026}. %TODO
 
 To illustrate this integration, Figure \ref{fig:secure-system-development-lifecycle-main-overview} in Appendix \ref{app:SecureDevelopmentLifecycle} consolidates SSDLC and DevSecOps phase models into a single overview. Consistent with the methodological scope defined in Section \ref{subsec:methodological_scope}, this methodology addresses only the verification-relevant subset of such a lifecycle. Upstream design stages and downstream deployment stages are treated as boundary conditions that supply inputs to, or consume outputs from, the verification stages.
 
@@ -410,8 +408,12 @@ The verdicts are aggregated per requirement. A requirement is verdicted FAIL if 
 
 \subsection{Core Framework Metrics}
 \label{subsec:framework_metrics}
-%TODO überarbeiten welche Formeln sinnvollsind
-Four Key Performance Indicators evaluate the security posture of the gateway and the quality of the test execution. These four indicators are defined for this methodology. They follow the ratio-based style of test-process metrics \cite[p. 145]{Witte2019}, but their number and their exact definition are specific to this work and are not prescribed by a standard. They are computed over the \textit{applicable} requirements, so that documented exclusions do not skew the result. Where a large part of the catalogue is specified but not executed, the indicators are reported over the performed subset, and the number of executed cases is stated alongside the ratio.
+%TODO brauche ich das Kapitel in diesem Stil? Will ich nicht eher sagen, dass ich eine Testmethode habe, mit der ich testen kann, ob das Requirement erfüllt ist, oder ist das der falsche weg?
+Four Key Performance Indicators are defined for this methodology. They follow the ratio-based style of test-process metrics \cite[p. 145]{Witte2019}, but their number and their exact definition are specific to this work and are not prescribed by a standard. The four indicators address three distinct subjects and must not be read as a single quality score. The Requirement Compliance Rate reports the conformance of the device, the Threat Mitigation Coverage reports the technical security posture of the device, and the Test Effectiveness Ratio and the Evidence Traceability Score report the quality of the test execution and of the collected evidence. Keeping these subjects separate prevents a low device-conformance value from being misread as a weakness of the methodology.
+
+The indicators are computed over the applicable requirements, so that documented exclusions do not skew the result. Where a large part of the catalogue is specified but not executed, they are reported over the performed subset, and the number of executed cases is stated alongside the ratio. In a deliberately bounded and exploratory practical phase, the conformance-oriented indicators are expected to be low, because few requirements can reach a full pass verdict. 
+
+
 
 \textbf{Requirement Compliance Rate ($RCR$)} is the primary legal indicator. It measures the strict fulfilment of the derived normative obligations from Regulation (EU) 2023/1230 and IEC 62443-4-2 (based on \cite[p. 223]{Witte2019}).
 \begin{equation}

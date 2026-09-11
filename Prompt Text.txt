@@ -93,60 +93,50 @@ der text soll in british english geschrieben werden, sätze kurz und prägnant
 -------------
 
 
+%TODO für eine "validated testing methodology" klar unterscheiden zwischen konzeptionell und praktisch validiert
+%TODO Sowas wie "Final Validation Methodology" irgendwie sowas in die Richtung: 1. Requirement Mapping 2. Threat Modeling 3. Security Function Analysis 4. Gap Analysis 5. SVV Classification 6. Test Design 7. Test Execution 8. Evidence Collection 9. Compliance Assessment 10. Release Decision
+%TODO Hauptsächlich wurden die Tests aus dem ifm Framework verwendet, und durchgeführt, wobei teilweise die Tests nicht auf das Gerät bzw. Testumgebung gepasst haben
+% TODO Von meinen eigenen Test habe ich nur diese durchgeführt, wobei ich den TIA-Anteil bzw. Wireshark Anteil nicht gemacht habe.  
+%CM-001 - Network Exposure (Nmap): Vollständig durchgeführt (TCP Full-Scan + UDP Top-Ports) und logisches, auswertbares Ergebnis erhalten (cm001)
+%
+%CM-002 - Netzwerksegmentierung (Nmap): Ich ja kein Conduit-/Zonenmodell, gegen das ein Segmentierungs-Scan sinnvoll verglichen werden könnte....(CM002xxxx)
+%
+%CM-003 - Default/Weak Credentials (Hydra):  Der IoT-Core hat keinen Login (Read-Only-Zugriff ohne Passwortschutz), es gibt also keine Anmeldeoberfläche, gegen die Hydra Zugangsdaten testen könnte
+%
+%CM-004 - RBAC/Privilege Escalation (OWASP ZAP): Technisch durchgeführt (Active Scan + manuelles Durchklicken über ZAP-Proxy), Report gespeichert. Vergleich zweier Rollen auf unzulässige Rechteausweitung ist  nicht anwendbar, da SRIO nur eine einzige, anonyme Read-Only-Rolle hat
+%
+%CM-005 - TLS-Konfiguration (SSLscan):  SRIO kein HTTPS unterstützt --> Port 443 ist nicht offen, wodurch kein TLS-Endpunkt zum Testen existiert (cm005_srio.txt)
+%
+%CM-006 - Hardening Validation (Lynis): Nicht durchgeführt. Lynis kann ausschließlich Linux-Systeme überprüfen
+%
+%CM-007 - Debug/Service Interface Exposure (Nikto): Durchgeführt gegen den IoT-Core-Webserver, Ergebnis gespeichert. (RQ001_02_srio.html.htm)
+%
+%CM-008 - Patch Level/CVEs (OpenVAS/GVM): Hab ich nicht hinbekommen
+%
+%CM-009 - Load Behavior & Logging (Siege): Mit 50 Verbindungen (Doku) und mit 3 Verbindungen durchgeführt --> Ergebnisse gespeichert (cmrq010_3connections_siege_terminal.txt, cmrq010_3connections_siege.log, cmrq010_siege.log, cmrq010_siege_terminal.txt)
+%
+%CM-010 - Fuzzing/Robustness (boofuzz): Durchgeführt gegen den HTTP-Port des SRIO. Dabei ist am Gerät ein Fehler mit Code 0x1000 (Mikrocomputer 1 Assert) aufgetreten (siehe Ordner boofuzz-results)
 
-
-Revise `vorgehen.tex` based on the existing text, my revised improvement notes, the `%TODO` comments, and the previous repository analysis.
-
-The chapter must be written in clear academic British English.
-
-Requirements:
-
-- Implement the existing improvement suggestions where they are supported by the repository.
-- Preserve correct and useful existing content.
-- Improve the structure, logical flow, transitions, clarity, and academic wording.
-- Use short, precise sentences.
-- Avoid unnecessarily complex sentence structures, repetition, vague wording, and inflated academic language.
-- Use British English spelling consistently, for example `analyse`, `categorise`, `organisation`, and `behaviour`.
-- Present the methodological reasoning in a logical sequence.
-- Clearly separate methodology planning from practical implementation and results.
-- Explain what was planned, why the approach was selected, and how the test methodology was derived.
-- Do not present information from `workflow.md` as an empirical result.
-- Do not describe drafted Level 2 procedures as completed tests.
-- Do not invent facts, requirements, references, standards clauses, decisions, evidence, test results, or methodological justifications.
-- If required information is missing, uncertain, contradictory, or not supported by the repository, insert a specific LaTeX comment beginning with `%TODO:` at the relevant position.
-- Each `%TODO:` must explain exactly what information is missing or what decision I need to make.
-- Do not hide uncertainty through vague wording.
-- Preserve all valid labels, references, citations, tables, figures, glossary commands, and LaTeX formatting.
-- Do not modify other files.
-- Do not modify the AI usage register.
-- Do not remove my existing TODOs unless the issue has been resolved in the revised text.
-- Do not add new sources or citations unless they already exist in the repository and clearly support the statement.
-- Do not use em dashes.
-
-Before finishing, review the complete revised chapter and check:
-
-1. Does each section have a clear purpose?
-2. Does the chapter derive the methodology instead of merely describing activities?
-3. Are requirements, assets, threats, security functions, and test cases connected logically?
-4. Are alternative approaches and the selection of the chosen approach explained where supported?
-5. Are Level 1 and Level 2 clearly distinguished?
-6. Are implementation details and results excluded or moved to appropriate references?
-7. Are all unsupported statements marked with a precise `%TODO:`?
-8. Is British English used consistently?
-9. Are the sentences short and precise?
-10. Has any factual information been invented?
-
-After editing, provide a concise summary of:
-
-- the structural changes made,
-- the main content changes,
-- any content moved or removed,
-- and all remaining `%TODO:` items.
-
-Edit only `vorgehen.tex`.
-
-
-
-
+%- TC-RQ001-02 - Attack-Surface Enumeration on the Non-Safety Path
+%- TC-RQ003-01 - Baseline: What Evidence the Device Actually Collects
+%- TC-RQ003-04 - Time-Attribution Failure of Collected Evidence/ TC-RQ012-02 
+%- TC-RQ004-01 -  Identification-Surface Inventory (SW + Data)
+%- TC-RQ006-01 -  Installed-Software Inventory Enumeration
+%- TC-RQ006-03 - Plaintext Inventory Exposure (Defense-in-Depth Observation)
+%- TC-RQ007-01 -  Identification Availability & Accessibility Baseline
+%- TC-RQ007-03 -  Connection-Hold Self-DoS on the Identification Interface
+%- TC-RQ008-01 - Software-Event Evidence Baseline
+%- TC-RQ009-01 - Config-Modification Evidence Surface Baseline
+%- TC-RQ010-02 - Network/Layer-2 Flood Resilience --> kein fehler beim gerät
+%- TC-RQ010-04 - Application-Layer Flood & Domain-Separation Confirmation
+%- TC-RQ011-01 - Read-Only Enforcement on the Non-Safety Interface 
+%- TC-RQ013-01 - Current-Version-Only Confirmation
+% Die ergebenisse von meinen eigenen Tests sind in dem Ordner Test_BA
+%TODO da ich die ganze Arbeit aus Tester-Perspektive betrachte, ist die Auswertung  der Ergebnisse für mich nicht unbedingt relevant, das ist Aufgabe der Entwicklung
+%TODO nicht spezifische Tests auslisten vor allem nicht Bezeichnungen wie "TC-RQ013-01" (nur bei CM ist das in Ordnung)
+%TODO nicht schreiben: Die datei wurden <dateiname>.<dateityp> gespeichert
+%TODO Tests kategoriesieren
+%TODO Bezug zum Vorgehen
+%TODO Inhalte für Umsetzung aus workflow dokument
 
 

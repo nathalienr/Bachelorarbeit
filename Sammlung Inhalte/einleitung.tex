@@ -7,7 +7,9 @@ For a long time, these gateways were operated inside perimeter-protected zones, 
 
 Although the regulatory expectations are now explicit, the established validation process does not yet meet them. Existing functional and safety validation verifies the intended behaviour of a device, but it does not systematically verify its security functions, and it does not provide traceable evidence that the implemented technical measures mitigate the relevant threats. This creates a gap between the regulatory expectations on the one hand and the currently established company methodology for functional testing on the other. The central problem addressed in this thesis is therefore the absence of a systematic, repeatable, and standards-based approach for the functional testing of security in industrial gateways at the physical IT/OT interface.
 
-The task of this thesis is to close this gap for a representative device. The objective is to research security testing approaches, frameworks, and organisational practices, and to develop a systematic testing methodology that verifies the security functions of an industrial gateway, that maintains traceability between the regulatory requirements and the concrete test activities, and that can be reused for future product releases. The investigation focuses on the physical IT/OT interface and aims to provide empirical evidence of the effectiveness of the technical mitigation measures. A constraint that shapes the whole work is that a security measure or a security test must never impair the functional safety of the device \autocite[17]{prEN50742_2025}.
+The task of this thesis is to close this gap for a representative device. The objective is to research security testing approaches, frameworks, and organisational practices, and to develop a systematic testing methodology that verifies the security functions of an industrial gateway, that maintains traceability between the regulatory requirements and the concrete test activities, and that can be reused for future product releases. The investigation focuses on the physical IT/OT interface and aims to provide empirical evidence of the effectiveness of the technical mitigation measures.
+%TODO ist das wirklich mein Ziel
+A constraint that shapes the whole work is that a security measure or a security test must never impair the functional safety of the device \autocite[17]{prEN50742_2025}.
 
 The work is guided by three research questions. First, how can the cybersecurity obligations of Regulation (EU) 2023/1230 be translated into verifiable, component-level security tests for a safety-related industrial gateway? Second, which tests of an existing company security framework are applicable to an embedded gateway that exposes only a diagnostic interface, and how can non-applicable tests be identified before execution? Third, what can direct-access testing at the physical IT/OT interface verify about the effectiveness of the implemented security functions, and where are its boundaries?
 
@@ -15,110 +17,4 @@ The starting point of the work is the established functional test process of the
 
 The remainder of this thesis is structured as follows. Chapter \ref{chap:fundamentals} establishes the technical, regulatory, and methodological foundations, including the relevant cybersecurity concepts, the IT/OT environment, the regulatory framework, and the established security testing approaches. Chapter \ref{chap:methodology} develops the testing methodology, from the requirement derivation and the traceability model to the selection of the testing approach, the design of the test environment, and the evaluation metrics. Chapter \ref{chap:implementation_results} applies the methodology to a physical Safe Remote I/O device, reports the collected evidence, verifies the derived requirements, and validates the methodology against the thesis objective. Chapter \ref{chap:summary_outlook} summarises the findings and gives an outlook on future work.
 
-% ===== Legacy draft (disabled below) =====
-%
-%
-%security als konformitätsanforderungen
-%
-%bedarfsecurity testing
-%
-%Definition Cybersecurity
-%
-%
-%
-%
-%
-%For the scope of this thesis, the first five activities are applied.  \cite[p.54]{Peffers}
-%
-%Problem Identification and Motivation
-%
-%The introduction of the EU Machinery Regulation (EU) 2023/1230 establishes cybersecurity as a mandatory element of product conformity and safety. Industrial gateways operating at IT/OT interfaces are increasingly exposed to cyber threats due to their role in connecting traditionally isolated operational environments with corporate and external networks.
-%
-%While existing validation approaches are focused on functional behavior, performance, and reliability, they provide only limited support for systematically verifying security-related functions. Consequently, manufacturers lack a structured methodology that demonstrates compliance with cybersecurity requirements specified by the Machinery Regulation, prEN 50742, and IEC 62443.
-%
-%The identified research problem is therefore the absence of a repeatable and standards-based methodology for functional security testing of industrial gateways.
-%
-%Definition of Objectives
-%
-%Based on the identified problem, the objective of this research is to develop a security testing framework that:
-%
-%supports verification of security functions within industrial gateways,
-%provides traceability between regulatory requirements and concrete test activities,
-%incorporates requirements derived from the Machinery Regulation, prEN 50742, and IEC 62443,
-%focuses on security-relevant IT/OT communication interfaces,
-%enables reproducible testing during product development and validation,
-%generates objective evidence for conformity assessment and technical documentation.
-%
-%The framework shall specifically evaluate whether implemented security controls effectively mitigate identified threats affecting confidentiality, integrity, and availability.
-%
-%Design and Development of the Artifact
-%
-%The artifact developed in this thesis is a Security Test Framework for Industrial Gateways.
-%
-%The framework is derived through a structured process:
-%
-%Analysis of regulatory requirements from the Machinery Regulation.
-%Mapping of these requirements to cybersecurity objectives defined in prEN 50742 and IEC 62443.
-%Identification of gateway assets, attack surfaces, and relevant threat scenarios using TARA and STRIDE principles.
-%Derivation of security requirements and corresponding security functions.
-%Selection of suitable testing techniques, including:
-%vulnerability assessment,
-%authentication and authorization testing,
-%interface security testing,
-%robustness and fuzz testing,
-%penetration-oriented functional testing.
-%Development of a traceability matrix linking:
-%regulatory requirement,
-%threat,
-%security control,
-%test objective,
-%test method.
-%
-%The resulting framework defines both the required test cases and the testing methodology necessary to verify implemented security controls.
-%
-%Demonstration
-%
-%The developed framework is demonstrated using a representative industrial gateway operating at an IT/OT interface.
-%
-%The selected gateway serves as a case study and is used to execute representative security test procedures against relevant communication interfaces and security mechanisms.
-%
-%Examples include:
-%
-%user authentication mechanisms,
-%role-based access control functions,
-%secure communication channels,
-%configuration integrity protection,
-%logging and audit functionality,
-%resistance against malformed network traffic.
-%
-%The demonstration shows how the framework can be applied within an industrial product development process and how compliance evidence can be generated.
-%
-%Evaluation and Validation Strategy
-%
-%The evaluation assesses whether the developed artifact achieves the defined research objectives.
-%
-%Validation is performed through a case study-based evaluation on the selected industrial gateway. The framework is evaluated against three criteria:
-%
-%Regulatory Coverage
-%
-%Assessment of whether all relevant requirements from:
-%
-%Regulation (EU) 2023/1230,
-%prEN 50742,
-%IEC 62443-4-2
-%
-%are addressed by at least one test activity.
-%
-%Functional Applicability
-%
-%Assessment of whether the proposed tests can be executed in a realistic industrial development environment without negatively impacting normal validation processes.
-%
-%Effectiveness of Security Verification
-%
-%Assessment of whether the framework can provide measurable evidence regarding the correct implementation of security functions and the effectiveness of technical mitigation measures.
-%
-%The evaluation results are used to identify strengths, limitations, and potential improvements of the framework.
-%
-%
-%
-%Sicherheitsmaßnahmen dürfen die funktionale Sicherheit nicht beeinträchtigen. \cite[p. 17]{prEN50742_2025}
+

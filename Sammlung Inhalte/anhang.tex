@@ -1,7 +1,7 @@
 \chapter{Note on the Use of Artificial Intelligence}
 
 
-Within the scope of this thesis, tools based on Artificial Intelligence (\acrshort{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
+Within the scope of this thesis, tools based on Artificial Intelligence (\gls{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
 
 \begin{table}[hbt]	
 	\centering
@@ -491,6 +491,114 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 	\label{fig:secure-system-development-lifecycle-main-overview}
 	\footnotetext{Author's own illustration based on \cite{DIN_EN_IEC_62443_4_1_2018} and \cite{NiemannPuls2023}}
 \end{figure}
+
+
+
+\chapter{Tool Commands}
+\label{app:tool_commands}
+
+This appendix lists the tool commands used for the activities executed under the NV1 network position, as reported in Section \ref{sec:executed_tests}. The placeholder \texttt{\$SRIO} denotes the IP address of the Safe Remote I/O, \texttt{192.168.0.2}.
+\begin{verbatim}
+	export SRIO=192.168.0.2
+\end{verbatim}
+The output file names correspond to the stored evidence.
+
+
+\section{Attack-Surface Enumeration}
+\label{app:cmd_attacksurface}
+\begin{verbatim}
+	
+	# Full TCP scan with service detection
+	sudo nmap -sS -sV -p- -T3 -oA cm001_srio_tcp $SRIO
+	# UDP top-ports scan
+	sudo nmap -sU --top-ports 200 -oA cm001_srio_udp $SRIO
+	# Web-server scan
+	nikto -h http://$SRIO -output cm_rq001-02_srio.html -Format html
+\end{verbatim}
+
+\section{Identification-Surface Inventory}
+\label{app:cmd_inventory}
+\begin{verbatim}
+	for p in deviceinfo/hwversion deviceinfo/hwrevision deviceinfo/swrevision \
+	deviceinfo/swinfo/cpubootloaderversion deviceinfo/swinfo/scpuversion \
+	deviceinfo/swinfo/scpubootloaderversion firmware/version \
+	fieldbussetup/fieldbusfirmware; do
+	echo "== $p =="
+	curl -s http://$SRIO/$p/getdata
+	echo
+	done | tee cm_rq004-01_inventory.txt
+\end{verbatim}
+
+\section{Cleartext Transmission of the Identification Data}
+\label{app:cmd_cleartext}
+\begin{verbatim}
+	sslscan --show-certificate $SRIO:80 | tee cm_rq006-03_sslscan.txt
+\end{verbatim}
+
+\section{Intervention Evidence and Time Attribution}
+\label{app:cmd_evidence}
+\begin{verbatim}
+	# Read the error log and the system tick counter before and after each event
+	curl -s http://$SRIO/devicestatus/errorlog/loglist | tee errorlog.json
+	curl -s http://$SRIO/systemtime/systick/getdata  | tee systick.txt
+	# Sequence: baseline, short-circuit pin 1 and pin 3 of a digital input,
+	# cold restart (remove power), second short-circuit; repeat the reads.
+\end{verbatim}
+
+\section{Availability under Connection Load}
+\label{app:cmd_availability}
+\begin{verbatim}
+	# Application-layer load test at 50 and at 3 concurrent connections
+	siege -c 50 -t 1M -v http://$SRIO/deviceinfo/getdata \
+	--log=cmrq010_siege.log
+	siege -c 3  -t 1M -v http://$SRIO/deviceinfo/getdata \
+	--log=cmrq010_3connections_siege.log
+	# Connection-hold procedure: occupy the available HTTP slots, then issue
+	# a further request that is expected to time out.
+\end{verbatim}
+
+\section{Layer-Two and Network Flooding}
+\label{app:cmd_flood}
+\begin{verbatim}
+	sudo hping3 --flood --rand-source $SRIO
+	sudo macof -i eth1
+\end{verbatim}
+
+\section{Robustness under Malformed Input}
+\label{app:cmd_robustness}
+\begin{verbatim}
+	# boofuzz fuzzing script (example skeleton, adapt to your protocol)
+	# File: cm010_fuzz.py
+	from boofuzz import *
+	
+	session = Session(target=Target(connection=TCPSocketConnection("<Target-IP>", <Port>)))
+	s_initialize("request")
+	s_string("USER")        # field to fuzz
+	s_delim(" ")
+	s_string("value")
+	session.connect(s_get("request"))
+	session.fuzz()
+	
+	# Run it:
+	python3 cm010_fuzz.py
+	
+\end{verbatim}
+
+\section{Access Control and Configuration Interfaces}
+\label{app:cmd_access}
+\begin{verbatim}
+	# Write probe against safety-relevant IoT-Core nodes
+	curl -s -X POST http://$SRIO/safecom/f_address/setdata \
+	-d '{"value":123}' -w "%{http_code}\n"
+	curl -s -X POST http://$SRIO/io/do/port7/pin4/digital_output/setdata \
+	-d '{"value":true}' -w "%{http_code}\n"
+	curl -s -X POST http://$SRIO/devicetag/applicationtag/setdata \
+	-d '"factoryXYZ"' -w "%{http_code}\n"
+	# Active web scan through a local proxy
+	zaproxy -daemon -host 127.0.0.1 -port 8090 -config api.disablekey=true
+	curl "http://127.0.0.1:8090/JSON/spider/action/scan/?url=http://$SRIO/"
+\end{verbatim}
+
 
 
 

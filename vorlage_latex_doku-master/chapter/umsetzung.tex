@@ -1,7 +1,6 @@
 \chapter{Implementation and Results} 
 \label{chap:implementation_results} 
-%TODO: exact tool commands, for example the Nmap \texttt{-sS -sV -p- -T3} invocation, should be listed in an appendix 
-%TODO ist es möglich weniger subsctions zu machen, damit das Inhaltsverzeichnis nicht über 2 1/2 Seiten geht (wie jetzt), sondern maximal über 2 
+
 This chapter applies the methodology of Chapter \ref{chap:methodology} to a physical System Under Test. It documents the implemented environment, the application of the method, the collected evidence, the verification of the derived requirements, the validation of the methodology against the thesis objective, and the reliability of the findings.
 
 The practical work covers the direct-access variant NV1 defined in Section \ref{subsec:hybrid_approach}. The passive-observation variant NV2 and the in-path variant NV3 are part of the methodology but are not realised in the laboratory. The methodology is therefore validated only in part. Its central steps are exercised on a real device, whereas the tests that depend on NV2 or NV3 remain specified but not executed.
@@ -216,7 +215,7 @@ The applicability assessment defined in Section \ref{subsec:company_framework} w
 
 \subsection{Applicability Assessment and Company Framework}
 \label{subsec:cm_applicability}
-Table \ref{tab:cm_applicability} records the applicability outcome for the ten company tests. The not-applicable outcomes are properties of the device or of the topology, not test failures. Test CM-002 requires a second network zone, which the flat segment does not provide. Test CM-003 requires an authentication endpoint, test CM-005 requires a TLS endpoint, and test CM-006 requires an operating-system shell. The SUT exposes none of these. The absence of authentication and of transport encryption is not discarded. It is assessed separately as an observation in Section \ref{sec:executed_tests}. %TODO überprüfen, ob das so richtig? warum wird es nicht ignoriert?
+Table \ref{tab:cm_applicability} records the applicability outcome for the ten company tests. The not-applicable outcomes are properties of the device or of the topology, not test failures. Test CM-002 requires a second network zone, which the flat segment does not provide. Test CM-003 requires an authentication endpoint, test CM-005 requires a TLS endpoint, and test CM-006 requires an operating-system shell. The SUT exposes none of these. The absence of authentication and of transport encryption is not discarded. It is assessed separately as an observation in Section \ref{sec:executed_tests}. 
 
 \begin{table}[htbp]
 	\centering
@@ -243,8 +242,9 @@ Table \ref{tab:cm_applicability} records the applicability outcome for the ten c
 
 \subsection{Mapping of Company Tests and Requirements}
 \label{subsec:cm_tc_map}
-%TODO überprüfen
 Table \ref{tab:cm_tc_map} maps the company tests to the derived requirements and to the security category in which they are reported. One practical activity can support several requirements. The mapping is not one-to-one. For example, one Nmap run supports the exposure countermeasure CM-001 and the identification and asset-discovery category, and one query of the identification interface supports several identification requirements. The tests CM-002, CM-006, and CM-008 do not appear in the mapping, because they are not applicable or could not be operated on this device and therefore support no requirement. The reasons are recorded in Section \ref{subsec:res_na_blocked}.
+
+The table also lists the requirements for which no company test was executed under NV1, marked with a dash and a not-executed evidence entry. RQ-002 and RQ-005 belong to the firmware and configuration-integrity category (Section \ref{subsec:cat_config_firmware}), and RQ-009 requires an induced configuration change that was not performed (Section \ref{subsec:cat_logging}).
 \begin{table}[H]
 	\centering
 	\small
@@ -259,6 +259,8 @@ Table \ref{tab:cm_tc_map} maps the company tests to the derived requirements and
 		CM-009 & RQ-007, RQ-010 & Availability and resilience & Siege \\
 		CM-010 & RQ-010 & Fuzzing and robustness & boofuzz \\
 		CM-003, CM-004 & RQ-011, RQ-014 & Authorisation and access control & ZAP, IoT-Core \\
+		- & RQ-002, RQ-005 & Firmware and configuration integrity & none (not executed) \\
+		- & RQ-009 & Logging, audit and traceability & none (not executed) \\
 		\bottomrule
 	\end{tabularx}
 	\caption{Mapping of company tests, requirements, and security categories}
@@ -267,10 +269,9 @@ Table \ref{tab:cm_tc_map} maps the company tests to the derived requirements and
 
 \section{Test Execution by Security Category}
 \label{sec:executed_tests}
-%TODO schreiben in den Einleitungstext, dass jeder Test der durchgührt wird in irgendeiner Form gespeichet werden muss, je nach Test als z.B. .txt, .html, .log oder screenshot
 The two-level test catalogue derived in Chapter \ref{chap:methodology} defines abstract test scenarios for all fourteen requirements, including the tests that depend on the passive-observation variant NV2 and the in-path variant NV3. Only a subset of these was executed in the practical phase: the applicable company tests and the requirement-oriented tests that the NV1 position supports. This section groups the tests into security categories and describes them at the level of the test activity, the method, and the result, rather than by individual test-case identifier. Each category summarises the abstract scenarios it contains, and then reports the concrete execution and the stored evidence for the activities performed under NV1. The tests that require NV2 or NV3 are described as designed but not executed. Every reported result is limited to what the stored evidence shows. A tool execution is not treated as requirement verification, and an expected outcome from a test specification is not presented as an observed result.
 
-Each activity follows the same logic. It states what the requirement expects, what must therefore be checked, how the device implements the property, and how the check was performed under NV1.
+Each category follows the same logic. It states what Regulation (EU) 2023/1230 expects, what must therefore be checked, how the property can be tested and which company countermeasure applies, and what the general finding on the device was. Every performed test is stored in some form as evidence, depending on the test as a text file, an HTML report, a log file, or a screenshot. The exact tool commands for the executed activities are listed in Appendix \ref{app:tool_commands}.
 
 \subsection{Identification and Asset Discovery Tests}
 \label{subsec:cat_identification}
@@ -279,31 +280,25 @@ This category covers the discovery of the reachable attack surface and the ident
 
 \paragraph{Attack-Surface Enumeration}
 \label{subsec:res_attack_surface}
-This activity examined the externally reachable services on the non-safety path. It relates to CM-001 and CM-007, to requirement RQ-001, and to asset F, the separation of the safety and the non-safety domain. It targets the IoT-Core HTTP path and was run under NV1.
+This activity examined the externally reachable services on the non-safety path. It relates to CM-001 and CM-007, to requirement RQ-001, and to asset F, the separation of the safety and the non-safety domain. It targets the IoT-Core HTTP path and was run under NV1. The commands are listed in Appendix \ref{app:cmd_attacksurface}.
 
 A full TCP port scan and a top-ports UDP scan were run against the SUT with Nmap. The TCP scan covered all 65535 ports and reported one open port, port 80, which returned HTTP responses without a server banner. All other TCP ports were reported as closed. The open HTTP port is consistent with the IoT-Core diagnostic interface. The UDP scan of the top 200 ports reported port 161 as open, identified as SNMP, and port 49152 as open or filtered. An open SNMP port is consistent with a PROFINET device, because the PROFINET standard uses SNMP for network diagnostics. The reported open-port count depends on the scan timing. At the slower \texttt{-T3} timing the scan reported the stable result above, whereas the faster \texttt{-T5} timing reported further open ports. The additional ports did not reappear on repetition, which indicates that the faster timing overloads the device and produces scan artefacts rather than additional services. 
 
 The externally reachable services on the non-safety path are the HTTP service on port 80 and the SNMP service on port 161. Nikto targets the exposure of debug and service interfaces on a web server, which is the objective of the company countermeasure CM-007. On this device the physical debug interface is encapsulated and not reachable, so the scan characterises only the reachable HTTP service surface. The Nikto report lists missing HTTP security headers, including content-security-policy, x-content-type-options, strict-transport-security, and permissions-policy. These headers are a defence-in-depth measure, so their absence is an observation rather than a direct vulnerability. The report also flags several \texttt{/actuator/*} paths as Spring Boot Actuator endpoints that return JSON.
 
-The Nikto findings are unvalidated scanner results \cite[p. 39]{richier2011security}. The Spring Boot Actuator finding is a probable false positive. The device is an ifm IoT-Core and not a Spring Boot application, and its HTTP service returns a generic JSON structure for many paths, which a generic scanner signature can misclassify as an exposed Actuator endpoint. The finding therefore does not, on its own, indicate a risk. It has to be confirmed by requesting one such path directly and inspecting the raw response. %TODO überprüfen, ob das stimmt
+The Nikto findings are unvalidated scanner results \cite[p. 39]{richier2011security}. The Spring Boot Actuator finding is a probable false positive. The device is an ifm IoT-Core and not a Spring Boot application, and its HTTP service returns a generic JSON structure for many paths, which a generic scanner signature can misclassify as an exposed Actuator endpoint. The finding therefore does not, on its own, indicate a risk. It has to be confirmed by requesting one such path directly and inspecting the raw response.
 
 The enumeration supports RQ-001 at the level of the non-safety path. It shows which services a connecting device can reach. It does not, on its own, demonstrate a hazardous situation. The SNMP service on port 161 was not examined further.
 
 
 \paragraph{Identification-Surface Inventory}
 \label{subsec:res_identification}
-This activity enumerated the identification data that the device exposes. It relates to requirements RQ-004, RQ-006, RQ-007, and RQ-013, and to assets B and D. It targets the IoT-Core \texttt{deviceinfo} and \texttt{firmware} paths and was run under NV1.
+This activity enumerated the identification data that the device exposes. It relates to requirements RQ-004, RQ-006, RQ-007, and RQ-013, and to assets B and D. It targets the IoT-Core \texttt{deviceinfo} and \texttt{firmware} paths and was run under NV1. The commands are listed in Appendix \ref{app:cmd_inventory}.
 
 The identification interface was queried over HTTP. The interface required no credentials, so the read is anonymous. For each queried path the device returned a JSON response with status code 200 that contained the requested identifier. The reads covered the hardware version and revision, the software revision, the COM and SCPU firmware and bootloader versions, the host firmware version, and the fieldbus firmware version. The successful read is recognisable by the returned status code 200, which indicates a successful response. A separate single read of the software revision also returned status 200, which documents the baseline availability of the interface.
 
 The device exposes top-level version identifiers for the COM firmware, the SCPU firmware, the bootloaders, and the fieldbus firmware, all through anonymous read access. The inventory supports RQ-004, RQ-006, and RQ-007 at product granularity. It confirms that safety-relevant software is identifiable and available on request. It does not establish a complete software bill of materials. The versions of third-party components, such as the communication stack or the real-time operating system, are not individually exposed. The visible data is an identification surface, not a complete installed-software inventory.
-%  curl -s http://$SRIO/$p/getdata
-% TODO: RQ-013 (current version only) requires a
-%   controlled version condition. The inventory shows the current versions, but
-%   downgrade behaviour was not tested. Keep RQ-013 partially assessed.
-% TODO: RQ-007 requires availability at all times. The
-%   evidence shows availability on request. Record whether the interface is also
-%   available in other operating states, or keep RQ-007 partially assessed.
+
 
 \subsection{Communication Security Tests}
 \label{subsec:cat_communication}
@@ -311,10 +306,9 @@ This category covers the protection of the communication paths against corruptio
 
 \paragraph{Cleartext Transmission of the Identification Data}
 \label{subsec:res_cleartext}
-This activity examined the transport protection of the identification data. It relates to CM-005, to requirements RQ-004 and RQ-014, and to asset I. It targets the IoT-Core HTTP service and was run under NV1.
+This activity examined the transport protection of the identification data. It relates to CM-005, to requirements RQ-004 and RQ-014, and to asset I. It targets the IoT-Core HTTP service and was run under NV1. The commands are listed in Appendix \ref{app:cmd_cleartext}.
 
 SSLscan verifies the TLS configuration of a TLS endpoint. It probes for a TLS handshake on a given host and port and reports the enabled protocol versions and the certificate. As an example, the tool was directed at the HTTP service on port 80. The saved output shows that no SSL or TLS protocol version is enabled and that no certificate can be parsed. This confirms that no TLS endpoint is exposed on port 80, so the service is plain HTTP without transport encryption. The run also demonstrates that the check works, because the tool correctly reports the absence of TLS. The identification data of Section \ref{subsec:res_identification} is served over this cleartext channel.
-%sslscan <Target-IP>:<Port> --show-certificate > cm005_<target>.txt
 The absence of TLS is a device characteristic, not a failed TLS test. It is relevant to RQ-014 as a defence-in-depth observation. A confidentiality impact requires two further conditions. The transmitted data must be sensitive, and an unauthorised party must be able to observe it. The second condition depends on the NV2 position, which was not realised. The confidentiality claim is therefore limited to the cleartext transmission that the test system observed in its own requests and responses.
 
 \subsection{Logging, Audit and Traceability Tests}
@@ -322,7 +316,7 @@ The absence of TLS is a device characteristic, not a failed TLS test. It is rele
 This category covers the evidence, accountability, and retention requirements RQ-003, RQ-008, RQ-009, and RQ-012, with the audit-data asset. The abstract catalogue contains the intervention-evidence baseline, the time-attribution and cold-start-deletion scenarios, the software- and configuration-modification evidence scenarios, and the circular-buffer and retention scenarios. The software-installation and configuration-modification evidence scenarios require an induced software or configuration change and were not fully executed. The intervention-evidence and time-attribution activity executed under NV1 is reported below; the log-access probe is reported under the authorisation and access-control category.
 \paragraph{Intervention Evidence and Time Attribution}
 \label{subsec:res_evidence}
-This activity examined what evidence the device records for an intervention and how it is time-referenced. It relates to requirements RQ-003, RQ-008, and RQ-012, and to assets I and G. It targets the IoT-Core \texttt{errorlog} and \texttt{systick} paths and was run under NV1.
+This activity examined what evidence the device records for an intervention and how it is time-referenced. It relates to requirements RQ-003, RQ-008, and RQ-012, and to assets I and G. It targets the IoT-Core \texttt{errorlog} and \texttt{systick} paths and was run under NV1. The commands are listed in Appendix \ref{app:cmd_evidence}.
 
 The regulation requires that interventions be logged as evidence, and usable evidence needs a time reference. A time reference requires a persistent clock. The device provides only a relative system tick and an error log, and the error log is cleared at a cold restart. The activity therefore checks whether the recorded evidence carries an absolute time and whether it persists across a power cycle.
 
@@ -344,44 +338,36 @@ The error log and the system tick counter were read over HTTP in a controlled se
 	\caption{Recorded system tick values and error-log entry counts}
 	\label{tab:rq003_evidence}
 \end{table}
-%TODO: Verify the four system tick values in Table \ref{tab:rq003_evidence} against the stored systick files (cm_rq003-04_systick_00 to 03). The baseline value in the stored file differs from the value shown in the table.
+
 
 At the baseline the error log was empty. The short-circuit at the digital input triggered a fault, which produced two error entries on the safety CPU. Each entry carried a relative system tick value but no absolute timestamp and no actor identity. After the cold restart the error log was empty again, and the system tick had dropped, as Table \ref{tab:rq003_evidence} shows. The second connection loss produced a new entry. Because the system tick is reset by a restart, an entry recorded after the restart can carry a lower tick than an earlier entry, although it occurred later in real time.
 
 The device does collect evidence of the connection-loss events, which supports the accessibility part of RQ-003. Three limitations are visible in the evidence. First, the entries carry only a relative system tick, not an absolute timestamp, so the time attribution required by RQ-003 is not met. Second, the system tick resets at a cold restart, so entries cannot be ordered across a power cycle. An entry recorded after the restart can carry a lower tick than an earlier entry, which confirms the reset. Third, the log content did not persist across the cold restart. The two entries from the first event were absent after the restart. This directly demonstrates the cold-start deletion behind RQ-012, so the retention requirement is not met for this log.
-% TODO[RESULT][TC-RQ008-01]: The events observed here are connection and SCPU
-%   errors. RQ-008 concerns software-installation events. Add evidence from a
-%   software or configuration change before assessing RQ-008 beyond the baseline.
-%   Required evidence: initial state, install trigger, exported event data.
-% TODO[ASSESSMENT][TC-RQ003-04]: The system tick is interpreted as a relative
-%   uptime counter. Confirm the unit and the reset behaviour from the device
-%   documentation before the final wording.
+
 
 \subsection{Availability and Resilience Tests}
 \label{subsec:cat_availability}
 This category covers the availability aspect of RQ-007 and the resilience aspect of RQ-010, with the availability and domain-separation assets. The abstract catalogue contains the baseline resilience scenario, the network and layer-two flood scenario, the application-layer flood and domain-separation scenario, the connection-hold self-denial-of-service scenario, and the aggregate outcome-verification scenario. The application-layer load test, the connection-hold procedure, and the layer-two flood were executed under NV1. The domain-separation confirmation depends on observation of the safety channel and was designed but not executed, because it requires the NV2 position. The activities executed under NV1 are reported below; the protocol-fuzzing activity is reported under the fuzzing and robustness category.
+
 \paragraph{Availability under Connection Load}
 \label{subsec:res_availability}
-This activity examined the availability of the identification interface under connection load. It relates to CM-009, to requirements RQ-007 and RQ-010, and to assets H and F. It targets the IoT-Core HTTP service and was run under NV1.
+This activity examined the availability of the identification interface under connection load. It relates to CM-009, to requirements RQ-007 and RQ-010, and to assets H and F. It targets the IoT-Core HTTP service and was run under NV1. The commands are listed in Appendix \ref{app:cmd_availability}.
 
 A load test with Siege was run against the IoT-Core HTTP service at 50 and at 3 concurrent connections. The two load levels reflect the framework default and the device-specific expectation for the SRIO, whose requirement documentation permits at most two concurrent connections. The console output and the Siege summary logs are stored as evidence.
 
 The stored summaries show that the service responded to a large number of requests with HTTP status 200 and that a substantial number of connections failed in the same runs. Under the 50-connection load, individual runs recorded between 53 and 361 successful transactions and between 65 and 100 failed connections, and in one run no transaction completed over an interval of about 27 seconds. The interface therefore remained partly responsive under load, but its availability was degraded and a share of the connections was refused.
 
-A connection-hold procedure was also executed against the identification interface. The procedure opened the available connection slots of the HTTP server and then issued a further request, which was expected to time out while the slots were held. The stored evidence shows that this additional request still returned HTTP status 200 within about 0.25 seconds while the slots were held. The expected self-denial-of-service therefore did not occur, and the interface remained available.
-%TODO
+A connection-hold procedure was also executed against the identification interface. The procedure opened the available connection slots of the HTTP server and then issued a further request, which was expected to time out while the slots were held. The stored evidence shows that this additional request still returned HTTP status 200 while the slots were held. The expected self-denial-of-service therefore did not occur, and the interface remained available.
 
 The activity documents a degraded but non-zero availability under application-layer load, which supports the availability aspect of RQ-007 and the application-layer aspect of RQ-010. A statement about domain separation or about the safety function is not possible under NV1, because the safety channel was not observed.
-%TODO: If a precise figure is required, extract the aggregate availability and failure rates from cmrq010_siege.log and cmrq010_3connections_siege.log and report them here. Confirm which rows correspond to the 50-connection and the 3-connection runs.
 
 \paragraph{Layer-Two and Network Flooding}
 \label{subsec:res_l2flood}
-This activity examined the resilience of the device against a link-layer and network flood. It relates to requirement RQ-010 and to assets H and F. It targets the shared Ethernet segment and was run under NV1.
+This activity examined the resilience of the device against a link-layer and network flood. It relates to requirement RQ-010 and to assets H and F. It targets the shared Ethernet segment and was run under NV1. The commands are listed in Appendix \ref{app:cmd_flood}.
 
-A packet flood was generated from the test system with hping3 in flood mode, and a MAC-address flood was generated with macof. The stored terminal output records that the hping3 run transmitted more than twelve million packets and received no replies. No device fault was observed in the indicators available to the test system. The effect on the cyclic safety channel could not be observed under NV1, because that traffic is not visible to the test system. %TODO müsste ich es also eigentlich in einer anderen Testumgebung wie NV2 oder NV3 durchführen?
+A packet flood was generated from the test system with hping3 in flood mode, and a MAC-address flood was generated with macof. The stored terminal output records that the hping3 run transmitted more than twelve million packets and received no replies. The device reacted with a visible fault indication on its status LEDs. The effect on the cyclic safety channel could not be observed under NV1, because that traffic is not visible to the test system.
 
-The flood was executed, and no device fault was observed in the available indicators. The result does not, on its own, demonstrate resilience of the safety function, because the safety channel was not monitored. Requirement RQ-010 therefore remains inconclusive for the hazardous-situation clause at the link layer.
-%TODO: State exactly which device indicators were observed during the flood (for example status LEDs or the TIA diagnostics view) so that "no device fault was observed" is precisely scoped.
+The flood therefore produced a fault indication on the device, which shows that the device detected the disturbance on the non-safety path. The result does not, on its own, demonstrate the behaviour of the safety function, because the safety channel was not monitored. To observe the effect of the flood on the cyclic safety communication, the passive-observation variant NV2 would be required. Requirement RQ-010 therefore remains inconclusive for the hazardous-situation clause at the link layer.
 
 \subsection{Fuzzing and Robustness Tests}
 \label{subsec:cat_robustness}
@@ -389,9 +375,9 @@ This category covers the robustness aspect of RQ-010 under malformed input, with
 
 \paragraph{Robustness under Malformed Input}
 \label{subsec:res_robustness}
-This activity examined the robustness of the HTTP service against malformed input. It relates to CM-010, to requirement RQ-010, and to asset H. It targets the IoT-Core HTTP service and was run under NV1.
+This activity examined the robustness of the HTTP service against malformed input. It relates to CM-010, to requirement RQ-010, and to asset H. It targets the IoT-Core HTTP service and was run under NV1. The commands are listed in Appendix \ref{app:cmd_robustness}.
 
-A fuzzing test was run with boofuzz against the HTTP service on port 80. The saved script fuzzes the request line of an HTTP GET request. The boofuzz session databases and the run log are stored as evidence. The log records that most malformed requests were processed without an observable effect, but that after one malformed request the HTTP service became unreachable. Boofuzz could not re-open the connection for about forty seconds, and its monitor attributed the failure to the preceding test case, after which the service recovered. During the run the device signalled a bus fault and a system fault on its status LEDs, and an error with code 0x1000 was observed on the device. These are device-side observations and are not recorded in the boofuzz log.
+A fuzzing test was run with boofuzz against the HTTP service on port 80. The saved script fuzzes the request line of an HTTP GET request. The boofuzz session databases and the run log are stored as evidence. The log records that most malformed requests were processed without an observable effect, but that after one malformed request the HTTP service became unreachable. Boofuzz could not re-open the connection for about forty seconds, and its monitor attributed the failure to the preceding test case, after which the service recovered. During the run the device signalled a bus fault and a system fault on its status LEDs, and an error was observed on the device. 
 
 The stored evidence therefore shows a temporary disruption of the HTTP service on the non-safety path under malformed input, followed by an automatic recovery. The disruption is a finding that requires follow-up by development. The causation to a specific input, the reproducibility, and any effect on the safety function are not established, because the safety channel was not monitored. Requirement RQ-010 therefore remains inconclusive for the hazardous-situation clause, while the robustness weakness of the HTTP interface is now evidenced. The result demonstrates the value of robustness testing, because a structured fuzzing run surfaced a device-side disruption that would otherwise remain undetected.
 
@@ -400,21 +386,11 @@ The stored evidence therefore shows a temporary disruption of the HTTP service o
 This category covers the modification-prevention and access-restriction requirements RQ-011 and RQ-014, together with the configuration-modification evidence of RQ-009, with the operating-mode, configuration, and audit-data assets. The abstract catalogue contains the read-only enforcement scenario, the unauthenticated configuration-protocol reset, the fieldbus parameter-write scenario, the firmware-update mode gate, the physical-barrier scenario, the unauthenticated tracing-log read, and the access-control and deletion-control probes. The device exposes a single anonymous read-only role and no authentication endpoint, so the authentication-oriented scenarios reduce to the observation that no identity model exists. The configuration-protocol and physical-barrier scenarios were designed but not executed. The read-only write probe and the access-control probe executed under NV1 are reported below.
 \paragraph{Access Control and Configuration Interfaces}
 \label{subsec:res_access_control}
-This activity examined the access-control model of the non-safety interface. It relates to CM-003 and CM-004, to requirements RQ-011, RQ-014, and RQ-009, and to assets B and G. It targets the IoT-Core interface and the configuration protocol and was run under NV1.
+This activity examined the access-control model of the non-safety interface. It relates to CM-003 and CM-004, to requirements RQ-011, RQ-014, and RQ-009, and to assets B and G. It targets the IoT-Core interface and the configuration protocol and was run under NV1. The commands are listed in Appendix \ref{app:cmd_access}.
 
 The IoT-Core interface provided anonymous read access without a login. No authentication endpoint was present, so the Hydra procedure of CM-003 was not applicable. An active web scan was run with OWASP ZAP through a local proxy, and the report was saved. A comparison of multiple user roles was not applicable, because the interface exposes a single anonymous read-only role.
 
-A write probe was run against three IoT-Core nodes. A POST request to the safety-address node, to a digital-output node, and to the application-tag node each returned the response code 400. The write attempts were therefore rejected on the three examined nodes, and the responses are stored as evidence.
-%TODO: The application-tag node is documented as writable, yet the POST also returned code 400. Confirm from 209_SRIO_CompSpec_Module_Com 5.3.1 whether the 400 reflects the request format or an access-control decision, so the read-only conclusion is not overstated.
-% TODO[RESULT][TC-RQ011-02]: The unauthenticated factory-reset test is not
-%   evidenced. Do not infer a reset from discovering a command or a protocol.
-%   Record whether the reset command was sent, accepted without authentication,
-%   whether the device state changed, and whether the device was restored.
-% TODO[RESULT][TC-RQ009-01]: Configuration-modification evidence requires an
-%   attempted or a successful configuration change with before and after states.
-% TODO[ASSESSMENT][TC-RQ014-03]: Do not interpret anonymous read access to the
-%   IoT-Core as proof that the whole device has no access control. Name the exact
-%   interface and mechanism that was probed.
+A write probe was run against three IoT-Core nodes. A POST request to the safety-address node, to a digital-output node, and to the application-tag node was rejected in each case, and the responses are stored as evidence. The device answered with a bad-request response rather than an explicit authorisation denial. A bad-request response shows that the write was not accepted, but it does not by itself prove an access-control decision, because it can also result from the request format. For the application-tag node, which the device documentation lists as writable, an explicit authorisation denial would have been the expected response.
 
 The anonymous read-only access is an observation about the IoT-Core interface. It does not, on its own, decide RQ-011 or RQ-014. The write probe gives partial evidence for the read-only enforcement of RQ-011 on the three examined nodes. It does not cover the full write surface, the configuration-protocol behaviour, or the factory-reset path, which were not exercised. The tracing-log access control of RQ-014 is not evidenced beyond the single anonymous read-only role. These requirements therefore remain partially assessed.
 
@@ -428,12 +404,13 @@ Three company tests could not be applied to the device, or blocked by the enviro
 
 \section{Requirement Verification}
 \label{sec:requirement_verification}
-%TODO
+The purpose of this section is to show that the methodology can assign a traceable verdict to each requirement from the collected evidence. The per-requirement results are the output of applying the method to one device under the NV1 position. They are not a conformance audit of the product, and no legal conformity is claimed.
+
 This section relates the executed activities to the derived requirements. It uses the verdict scale of Section \ref{subsec:verdicts}. All activities were run under the network variant NV1. A verdict is assigned only where a stored artifact supports it. Where the evidence documents a device gap rather than a failed test, the requirement is verdicted FAIL by deviation, because the device does not meet the obligation while the test itself yields a definitive result.
 
 Table \ref{tab:req_verification} summarises the current status per requirement. No requirement is verified as fully met. No legal conformity is claimed. A PARTIAL or an inconclusive assessment reflects the bounded scope of the practical phase.
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\centering
 	\small
 	\begin{tabularx}{\textwidth}{l l l X}
@@ -461,85 +438,17 @@ Table \ref{tab:req_verification} summarises the current status per requirement. 
 \end{table}
 
 The strongest evidence concerns the intervention log. The device records connection-loss events, but the entries carry only a relative system tick, and the log content is cleared by a cold restart. The evidence therefore supports the conclusion that the device deviates from the time-attribution obligation behind RQ-003 and from the retention obligation behind RQ-012. The identification tests support RQ-004, RQ-006, and RQ-007 at product granularity, but not at component granularity, because no software bill of materials is exposed. The robustness test and the load test leave RQ-010 inconclusive for the hazardous-situation clause, because the safety channel was not observed. The write probe gives partial evidence for RQ-011 on three nodes. The remaining requirements are not assessed, because the corresponding configuration, firmware, and safety-channel evidence is not available under NV1.
-%TODO: Confirm the per-requirement assessments in Table \ref{tab:req_verification} once the outstanding evidence (configuration change, firmware, NV2 capture) is available. RQ-002 and RQ-005 have no device evidence in the current phase.
 
-% ===== Legacy draft of the requirement-verification section (kept disabled) =====
-%Table \ref{tab:status_matrix} summarizes the status of the test activities. It uses the status dimensions of Section \ref{subsec:evidence_status}. All activities were run under network variant NV1. The value ``supported (deviation)'' means that the evidence supports the test conclusion, and that the conclusion is a documented gap in the device, not a failed test execution.
-%
-%\footnotesize
-%\begin{longtable}{@{}l l l l l l@{}}
-%	\caption{Status of the test activities, all under NV1}
-%	\label{tab:status_matrix} \\
-%	\toprule
-%	\textbf{Activity} & \textbf{Req.} & \textbf{Applicability} & \textbf{Execution} & \textbf{Evidence} & \textbf{Assessment} \\
-%	\midrule
-%	\endfirsthead
-%	\toprule
-%	\textbf{Activity} & \textbf{Req.} & \textbf{Applicability} & \textbf{Execution} & \textbf{Evidence} & \textbf{Assessment} \\
-%	\midrule
-%	\endhead
-%	\bottomrule
-%	\endfoot
-%	Attack-surface enumeration & RQ-001 & applicable & performed & raw & partially supported \\
-%	Identification inventory & RQ-004 & applicable & performed & raw & partially supported \\
-%	Installed-software inventory & RQ-006 & applicable & performed & raw & partially supported \\
-%	TLS transport check & RQ-004 & applicable & performed & raw & partially supported \\
-%	Identification availability baseline & RQ-007 & applicable & performed & raw & partially supported \\
-%	Current-version confirmation & RQ-013 & applicable & partially performed & raw & partially supported \\
-%	Intervention-evidence baseline & RQ-003 & applicable & performed & raw & partially supported \\
-%	Time-attribution sequence & RQ-003 & applicable & performed & raw & supported (deviation) \\
-%	Cold-start deletion & RQ-012 & applicable & performed & raw & supported (deviation) \\
-%	Software-event evidence baseline & RQ-008 & applicable & partially performed & raw & not yet assessed \\
-%	HTTP fuzzing robustness & RQ-010 & applicable & performed & raw & inconclusive \\
-%	Connection-hold self-DoS & RQ-007 & applicable & status unclear & none & not yet assessed \\
-%	Layer-two flood resilience & RQ-010 & partially applicable & not yet performed & none & not yet assessed \\
-%	Application-layer flood & RQ-010 & partially applicable & partially performed & none & not yet assessed \\
-%	Read-only enforcement & RQ-011 & applicable & not yet performed & none & not yet assessed \\
-%	Configuration-protocol reset & RQ-011 & applicable & status unclear & none & not yet assessed \\
-%	Cleartext log transport & RQ-014 & partially applicable & partially performed & raw & partially supported \\
-%	Access-control probe & RQ-014 & applicable & partially performed & report & not yet assessed \\
-%	Configuration-modification evidence & RQ-009 & applicable & not yet performed & none & not yet assessed \\
-%\end{longtable}
-%\normalsize
-%%TODO schlechte darstellung, ist sie notwendig?
-%Table \ref{tab:req_verification} relates the requirements to the supporting activities and to the current assessment. No requirement is verified as fully met. No legal conformity is claimed. A partial or an inconclusive assessment reflects the incomplete state of the practical work.
-%
-%\begin{table}[htbp]
-%	\centering
-%	\small
-%	\begin{tabularx}{\textwidth}{l l l X}
-	%		\toprule
-	%		\textbf{Req.} & \textbf{Supporting activity} & \textbf{Assessment} & \textbf{Limitation} \\
-	%		\midrule
-	%		RQ-001 & attack-surface enumeration & partially supported & non-safety path only; scanner findings unvalidated \\
-	%		RQ-003 & intervention evidence and time attribution & partially supported & no absolute time, no actor identity \\
-	%		RQ-004 & identification inventory & partially supported & no complete software bill of materials \\
-	%		RQ-006 & installed-software inventory & partially supported & product granularity only \\
-	%		RQ-007 & identification availability & partially supported & availability on request; other states untested \\
-	%		RQ-008 & software-event evidence & not yet assessed & software-installation event evidence missing \\
-	%		RQ-010 & HTTP fuzzing robustness & inconclusive & error 0x1000 unresolved; load evidence missing \\
-	%		RQ-012 & cold-start deletion & partially supported & cold-start deletion observed \\
-	%		RQ-013 & current-version confirmation & partially supported & downgrade not tested \\
-	%		RQ-014 & cleartext transport & partially supported & cleartext observed; exposure needs NV2 \\
-	%		\bottomrule
-	%	\end{tabularx}
-%	\caption{Current requirement verification status}
-%	\label{tab:req_verification}
-%\end{table}
-%
-%The strongest evidence concerns the intervention log. The device records connection-loss events, but the entries carry only a relative system tick, and the log content is cleared by a cold restart. The evidence therefore supports the conclusion that the device deviates from the time-attribution obligation behind RQ-003 and from the retention obligation behind RQ-012. The identification tests support RQ-004, RQ-006, and RQ-007 at product granularity, but not at component granularity, because no software bill of materials is exposed. The robustness test leaves RQ-010 inconclusive, because the observed error 0x1000 is not yet explained. The remaining requirements are not yet assessed, because the corresponding write, configuration, and load evidence is not stored.
-%%TODO RQ-002 und RQ-005 fehlen
+
 \subsection{Application of the Evaluation Metrics}
 \label{subsec:metrics_application}
+
 The indicators of Section \ref{sec:evaluation_metrics} are applied to the executed subset. The counts follow the status of Table \ref{tab:req_verification} and the activity reports of Section \ref{sec:executed_tests}. They are reported over the performed subset, and the number of cases is stated alongside each ratio.
 
 Fifteen test activities were at least partially executed under NV1. Two of them produced a definitive requirement outcome, both a FAIL by deviation, on the time-attribution and the cold-start-deletion activities. The remaining activities produced partial or inconclusive outcomes. Almost all executed activities are backed by stored raw artifacts, including the Nmap and Nikto output, the SSLscan output, the inventory reads, the error-log and system-tick reads, the Siege summaries, the connection-hold output, the layer-two flood output, the write-probe responses, the boofuzz session databases, and the OWASP ZAP report.
-
 The Requirement Compliance Rate is $RCR = 0$ over the applicable requirements, because no requirement reached a full PASS verdict in the bounded practical phase. This value records the absence of a full-conformance verdict, not a claim that the device is wholly non-conformant. The Test Effectiveness Ratio is $TER = 2/15 \approx 0.13$, because two of the fifteen executed activities produced a definitive PASS or FAIL. The low value reflects that most activities produced a partial or an inconclusive outcome rather than a testbed error, and the partial cases are expected to become definitive once the outstanding evidence is added. The Evidence Traceability Score is high, because almost every executed activity is supported by stored raw output. The Threat Mitigation Coverage is not computed here, because the modelled-threat baseline is maintained per test case in the catalogue and was not aggregated into a single denominator; its computation is deferred to a completed test campaign.
-%TODO: Confirm the exact counts for TER and ETS once the final list of executed activities is fixed. The count of fifteen activities follows the activity reports in Section \ref{sec:executed_tests}.
-%TODO anpassen auf neue/andere Formeln
 
-These indicators confirm the character of the work. The methodology is applied and traceable, and the evidence base is largely raw and reproducible. The low compliance and effectiveness ratios reflect the deliberately bounded scope of the practical phase rather than a deficiency of the method.
+These indicators confirm the character of the work. The methodology is applied and traceable, and the evidence base is largely raw and reproducible. The numeric values themselves have limited significance in this thesis, because the work develops and demonstrates a methodology rather than completing a full test run. Several planned checks were not carried out, in particular the TIA-based reads of the identification and maintenance data, so the conformance-oriented indicators are expected to be low. The evaluation criteria become meaningful once a complete test campaign is executed. The low compliance and effectiveness ratios therefore reflect the deliberately bounded scope of the practical phase rather than a deficiency of the method.
 
 \section{Validation against the Thesis Objective}
 \label{sec:objective_validation}
@@ -572,44 +481,5 @@ The methodology was applied end to end on a real device. It derived requirements
 
 The empirical validation covered the central methodology steps under NV1. The requirement derivation, the asset mapping, the applicability assessment, the test selection, the execution, and the evidence-based assessment were all exercised on a real device. The tests that require passive observation or inline manipulation remain extensions of the validated core process. The methodology is therefore validated in part, within a defined boundary at the NV2 and NV3 variants and at the requirements whose evidence is still open. A claim of full validation is not made.
 
-% ===== Legacy draft of the metrics and validation sections (kept disabled) =====
-%\label{subsec:metrics_application}
-%The verdicts and indicators of Section \ref{sec:evaluation_metrics} are applied to the executed subset. The status values of Table \ref{tab:status_matrix} map onto the verdict scale as follows. A ``partially supported'' outcome corresponds to a PARTIAL verdict. A ``supported (deviation)'' outcome corresponds to a FAIL at requirement level, because the device demonstrably does not meet the obligation, while the test itself yields a definitive result. An ``inconclusive'' outcome and a ``not yet assessed'' outcome are not scored.
-%
-%Of the nineteen test activities in Table \ref{tab:status_matrix}, fourteen were at least partially executed. Two of these produced a definitive requirement outcome, both a FAIL by deviation, on the time-attribution and cold-start-deletion activities. Eight were assessed as partial, one as inconclusive, and three as not yet assessed. Twelve of the fourteen executed activities are backed by raw digital artifacts, including the stored OWASP ZAP report and the boofuzz session databases; the two Siege load runs were stored but are void.
-%
-%The indicators follow from these counts. The Requirement Compliance Rate is $RCR = 0/10 = 0$, because no requirement reached a full PASS verdict. The two deviations against RQ-003 and RQ-012 are demonstrated non-conformances, and the remaining requirements are partial or open. The value therefore records the absence of a full-conformance verdict in a time-bounded practical phase, not a claim that the device is wholly non-conformant. The Test Effectiveness Ratio is $TER = 2/14 \approx 0.14$. It is low because most executed tests produced a partial or open outcome rather than a testbed error, and the partial cases are expected to become definitive once the outstanding write, configuration, and load evidence is added. The Evidence Traceability Score is $ETS = 12/14 \approx 0.86$, which reflects that most executed tests are supported by stored raw output. The Threat Mitigation Coverage is not computed here, because the modeled-threat baseline is maintained per test case in the test catalogue and was not aggregated into a single quantified denominator; its computation is deferred to a completed test campaign.
-%
-%These indicators confirm the character of the work. The methodology is applied and traceable, and the evidence base is largely raw and reproducible. The low compliance and effectiveness ratios reflect the deliberately bounded scope of the practical phase rather than a deficiency of the method.
-%
-%\section{Validation against the Thesis Objective}
-%\label{sec:objective_validation}
-%This section validates the developed methodology against the thesis objective. The evaluation follows the evaluation activity of the design science research process \cite[p. 46]{Peffers}. The thesis objective was to develop and validate a systematic methodology that supports the verification of security functions for industrial gateways at the physical IT/OT interface.
-%
-%The thesis objective was achieved. The developed methodology provides a systematic and traceable process for deriving, selecting, executing, and assessing security tests. Its practical application to the Safe Remote I/O demonstrated that the process can derive requirements from the regulation, connect them to assets and interfaces, identify applicable and non-applicable tests before execution, adapt generic company procedures, collect evidence, and relate observations to technical requirements. Table \ref{tab:goal_validation} maps each objective component to the methodology element that realizes it, to the practical evidence, and to the validation boundary.
-%
-%\begin{table}[htbp]
-%	\centering
-%	\small
-%	\begin{tabularx}{\textwidth}{X X l}
-	%		\toprule
-	%		\textbf{Objective component} & \textbf{Methodology element and evidence} & \textbf{Status} \\
-	%		\midrule
-	%		Derive requirements from the regulation & MVO to prEN 50742 to IEC 62443-4-2 derivation; 14 requirements (Appendix) & validated \\
-	%		Connect requirements to assets and interfaces & asset mapping and asset table; requirement-to-asset links & validated \\
-	%		Assess security testing approaches & structured comparison and selected combination (methodology) & validated \\
-	%		Evaluate the company framework & applicability assessment; Table \ref{tab:cm_applicability} & validated \\
-	%		Identify tool-to-target mismatches & CM-003, CM-005, CM-006 not applicable; CM-008 blocked & validated \\
-	%		Define requirement-oriented test cases & two-level requirement-oriented catalogue; executed subset & validated in part \\
-	%		Define test-environment variants & NV1, NV2, NV3 model; NV1 realized & validated for NV1 \\
-	%		Apply the method to a real object & SRIO instantiation; stored evidence & validated \\
-	%		Distinguish applicable, blocked, and open tests & status model; Table \ref{tab:status_matrix} & validated \\
-	%		Support integration into future releases & lifecycle and governance model; reusable schema & validated by design \\
-	%		\bottomrule
-	%	\end{tabularx}
-%	\caption{Validation of the methodology against the thesis objective}
-%	\label{tab:goal_validation}
-%\end{table}
-%
-%The empirical validation covered the central methodology steps under NV1. The requirement derivation, the asset mapping, the applicability assessment, the test selection, the execution, and the evidence-based assessment were all exercised on a real device. Tests that require passive observation or inline manipulation remain extensions of the validated core process. The methodology is therefore validated for its intended purpose, with a defined boundary at the NV2 and NV3 variants and at the requirements whose evidence is still open.
+
 
