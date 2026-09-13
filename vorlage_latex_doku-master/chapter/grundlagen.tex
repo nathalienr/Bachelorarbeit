@@ -1,55 +1,84 @@
-%TODO ist es möglich weniger subsctions zu machen, damit das Inhaltsverzeichnis nicht über 2 1/2 Seiten geht (wie jetzt), sondern maximal über 2 
-
-
-% COPILOT-ANALYSIS-BEGIN
-% Remaining foundations to add later (keep concise); status updated:
-%     1. Verification vs. Validation - PARTLY DONE: introduced with the SVV definition in subsec:iec_62443.
-%     2. IEC 62443-4-1 SVV test-type taxonomy (SVV-1..SVV-4) - DONE: defined in subsec:iec_62443.
-%     3. Repeatability vs. reproducibility of a security test - justifies the data-sheet design and TER/ETS metrics.
-%     4. Evidence / evidence-status and auditability - the whole results chapter rests on this.
-%     5. Epistemic limit of testing (shows presence, not absence of flaws; black-box boundary).
-%     6. PROFINET/PROFIsafe black-channel principle (grounds RQ-001/RQ-002 test rationale).
-%   End each foundation block with an explicit "applied in Chapter X" forward pointer.
-% COPILOT-ANALYSIS-END
 \chapter{Fundamentals} 
 \label{chap:fundamentals} 
 
-This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It introduces the technical characteristics of IT/OT environments, the relevant regulatory and standardization framework, fundamental cybersecurity and risk-engineering concepts, and established approaches for functional security and vulnerability testing.
+This chapter establishes the theoretical foundation for the development of a systematic security testing methodology for industrial gateways. It first characterises the industrial gateway and its safety communication at the IT/OT interface. It then introduces the security fundamentals required to reason about such a device, namely the security objectives, the assets and attack surfaces, and the threat model. On this basis it presents the verification of industrial components, from the security functions under test to the applicable testing techniques and the IEC 62443 verification framework. It closes with the regulatory and standardisation framework and the resulting implications for the methodology.
 
-% COPILOT-ANALYSIS: This chapter is largely mature and should NOT be rewritten.
-%   Only two foundations are genuinely required by later chapters and still
-%   missing or thin:
-%   (1) COPILOT-MISSING: The PROFIsafe black-channel principle (consecutive
-%       number, F_WD_Time watchdog, non-cryptographic CRC/F_Dest_Add). The
-%       RQ-001/RQ-002 test rationale in WORKFLOW.md and umsetzung.tex depends
-%       on it entirely. Add a short, citation-backed subsection (see the TODO in
-%       subsec:architectural_role_gateways) BEFORE it is used in vorgehen.tex.
-%   (2) COPILOT-KEEP: Verification vs. validation and the SVV-1..SVV-4 taxonomy
-%       are already defined in subsec:iec_62443 - keep as the anchor for the
-%       methodology's test-technique dimension.
-%   COPILOT-STRUCTURE: Add explicit forward pointers ("applied in Chapter
-%   methodology / implementation") at the end of the STRIDE, SVV, functional-vs-
-%   vulnerability-testing, and black-channel blocks, so each foundation has a
-%   visible purpose downstream (matches the existing COPILOT-ANALYSIS TODO list).
-%   COPILOT-ANALYSIS: The functional/safety/security boundary needed by
-%   umsetzung (reuse of TIA/PROFIsafe safety evidence for security) is partly
-%   covered in sec:security_testing_approaches; make the "safety validation !=
-%   security verification (adversarial vs random-fault)" statement explicit here
-%   since umsetzung.tex and vorgehen.tex both rely on it.
+\section{Industrial Gateways at the IT/OT Interface} 
+\label{sec:industrial_gateways} 
+
+The test object of this thesis is an industrial gateway, the component at the boundary between the information-technology and the operational-technology domain. This section characterises this boundary, the role of the gateway, and the safety communication that constrains any security measure applied to the device.
+
+\subsection{IT/OT Convergence} 
+\label{subsec:it_ot_interfaces}
+
+Traditionally, Operational Technology (OT) environments, comprising the hardware and software used to monitor and control physical processes, operated as isolated, proprietary networks. These systems were managed entirely independently of Information Technology (IT) networks, which handle the electronic storage, calculation, and transport of business data \cite[p. 2]{EHIE2020103166} \cite[p. 199]{8586807}. 
+
+However, the rise of Industry 4.0 has transformed these isolated environments into interconnected architectures \cite[pp. 14]{Babel2024}. IT/OT convergence defines this strategic integration, where systems designed for monitoring and controlling physical machinery are connected with data-centric computing systems \cite[p. 2]{EHIE2020103166}. The primary driver for this convergence is the necessity to create a single, synergized view of enterprise operations, ensuring that the right information flows from a physical sensor to a digital application in real-time \cite[p. 4]{EHIE2020103166}.
+
+To systematically understand this demand, industrial architectures can be categorized into four functional levels \cite{hwi_ot_definition}:
+\begin{enumerate}
+	\item \textbf{Process Level:} Physical sensors and actuators interacting directly with the environment to perform mechanical work.
+	\item \textbf{Control Level:} Programmable Logic Controllers (PLCs) executing process logic and regulating physical operations in real-time.
+	\item \textbf{Supervisory/Operation Level:} Human-Machine Interfaces (HMIs) and SCADA systems allowing operators to monitor states and intervene manually.
+	\item \textbf{Operation IT / Data Layer:} The aggregation layer where raw OT data is structured and forwarded to higher-level IT applications, such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
+\end{enumerate}
+
+This Data Layer represents the critical intersection where operational systems become direct extensions of information systems \cite[p. 4]{EHIE2020103166}. Converging these two domains yields substantial economic advantages, primarily through enhanced process transparency, predictive maintenance strategies, and data-driven optimization \cite{hwi_ot_definition}. 
+
+Despite these benefits, the physical and software integration of legacy OT equipment with modern IT networks introduces significant engineering and organizational friction \cite{orise2025itotconvergence}. This friction arises because both domains operate under fundamentally conflicting paradigms. Table \ref{tab:it_ot_comparison} summarizes these core differences.
+
+\begin{table}[H]
+	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807}}
+	\label{tab:it_ot_comparison}
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
+		\toprule  
+		\textbf{Characteristic} & \textbf{Information Technology (IT)} & \textbf{Operational Technology (OT)} \\ 
+		\midrule
+		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
+		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability (PAIN/CIA) & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality (AIC) \\ \addlinespace
+		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
+		Protocol Examples & TCP/IP, \newline HTTP(S),\newline SQL & Modbus, \newline Profinet \\ \addlinespace
+		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
+		\bottomrule  
+	\end{tabularx}
+\end{table}
+
+The most critical divergence lies within the prioritization of security objectives. In IT paradigms, data confidentiality and privacy occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments operate under the AIC triad, prioritizing maximum availability and deterministic real-time execution above all else \cite[p. 199]{8586807}. Any latency or system interruption on the shop floor could lead to physical damage, severe safety hazards, or costly production downtime \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
+
+This reversed priority directly dictates the motivation behind differing lifecycle and maintenance strategies. IT infrastructures rely on frequent, rapid security patching to close vulnerabilities as quickly as possible. OT operators, however, view changes to a stable system as risky and costly \cite{orise2025itotconvergence}. Because industrial controllers require rigorous validation to guarantee absolute operational safety, operators fear that software updates might induce unexpected behavior or system crashes. Consequently, patches are applied rarely and strictly during planned maintenance windows. Furthermore, the underlying network communication in OT frequently utilizes legacy, low-overhead protocols that lack built-in security features such as encryption, significantly exacerbating the risk at the IT/OT interface once these networks are converged \cite{hwi_ot_definition}.
+
+\subsection{Industrial Gateways} 
+\label{subsec:architectural_role_gateways}
+
+Industrial gateways represent crucial architectural components that bridge this gap between distinct network environments. Their primary objective is to enable seamless communication between the heterogeneous systems of the IT and OT domains. 
+
+To achieve this, a gateway intercepts incoming data from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[p. 277]{Gsell2026}.
+Beyond complex protocol translation, gateways can integrate raw binary or analog signals from basic physical sensors into bus systems for further network processing \cite[p. 132]{Babel2024}\cite{kleinbongartz2008uebersetzer} .
+
+A gateway can operate across various layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between IT networks, which are typically dominant in layers 4 to 7, and OT networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
+
+To ensure efficient translation, the protocol mapping generally occurs at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
+
+\subsection{Safety Communication and the Black-Channel Principle}
+\label{subsec:black_channel}
+% das ist Neu
+The industrial gateway examined in this thesis transmits safety-related data over PROFINET using the PROFIsafe profile. PROFIsafe follows the black-channel principle. The safety layer does not trust the underlying transmission channel and instead protects each safety telegram from producer to consumer, so that the standard communication stack and the network components are not part of the safety function.
+% TODO: add a citation for the PROFIsafe black-channel principle (e.g. IEC 61784-3-3 / PROFIsafe profile) - not yet in the bibliography.
+
+Each safety telegram is protected by several measures. A consecutive number orders the telegrams and detects loss, repetition, or insertion. A cyclic redundancy check protects the payload against corruption. A safety destination address binds a telegram to its intended consumer. A watchdog time bounds the maximum age of a valid telegram; when it expires, the consumer passivates to the defined safe state.
+% TODO: add a citation for the consecutive number, CRC, F_Dest_Add, and F_WD_Time (PROFIsafe profile).
+
+These measures are designed against random transmission faults rather than against a deliberate adversary. The cyclic redundancy check and the destination address are error-detection values whose parameters are not secret. They establish integrity against accidental corruption, but not cryptographic authenticity against intentional forgery. Conversely, a cybersecurity measure must never degrade this safety communication, for example by introducing impermissible latency \cite[p. 14]{prEN50742_2025}.
 
 
 
-\section{Cybersecurity} 
+\section{Security Fundamentals for Industrial Gateways} 
 \label{sec:cybersecurity_fundamentals} 
 
-Cybersecurity comprises the processes, best practices, and technology solutions used to protect critical systems, networks, and data from digital threats. Its primary objective is to prevent unauthorized access, data breaches, and operational disruptions \cite{microsoft2026cybersecurity}. The impact of cyberattacks extends beyond data loss. They can severely disrupt business operations, damage physical infrastructure, and cause significant economic harm. Therefore, effective cybersecurity requires multiple layers of protection across an organization's entire infrastructure \cite{ibm_cybersecurity}.
+Cybersecurity comprises the processes and technical measures used to protect systems, networks, and data from digital threats, with the aim of preventing unauthorised access, data breaches, and operational disruption \cite{microsoft2026cybersecurity} \cite{ibm_cybersecurity}. For an industrial gateway, this protection must extend beyond the information-technology network to the cyber-physical function of the device \cite[p. 17]{835}. The following subsections introduce the security objectives, the assets and attack surfaces, and the threat model required to reason about the security of such a device.
 
-In modern environments, the scope of cybersecurity goes beyond traditional IT networks. It explicitly includes cyberspace-enabled systems, such as industrial control systems and cyber-physical architectures. Fundamentally, cybersecurity organizes resources and structures to defend these assets against a wide range of occurrences, including intentional attacks, accidental events, and natural hazards \cite[p. 17]{835}. 
-
-To systematically address these challenges, the following subsections outline the foundational concepts of digital information security. These include the primary security goals, the definition of target assets, and the relationship between threats, vulnerabilities, and attack vectors.
-
-
-\subsection{Security Goals} 
+\subsection{Security Objectives} 
 \label{subsec:security_goals} 
 
 Within the domain of digital information security, the systemic alignment of cybersecurity strategies is traditionally anchored within a foundational guiding framework known as the CIA (Confidentiality-Integrity-Availability) triad \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualizes the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
@@ -86,69 +115,29 @@ Every asset possesses specific cybersecurity properties, primarily based on the 
 The \textbf{attack surface} of a system is defined as the union of all accessible code, interfaces, services, and protocols. It represents the sum of all externally visible actions and resources where unauthorized users can inject malicious inputs or attempt to compromise the system \cite[p. 1]{THEISEN201894} \cite[p. 80]{richier2011security}. Analyzing this surface is the starting point for mapping potential threats to the identified assets \cite[p. 80]{richier2011security}.
 
 
-\subsection{Threats, Vulnerabilities, and Attack Vectors} 
+\subsection{Threats and Threat Modelling} 
 \label{subsec:threats_vulnerabilities_attack_vectors}
 
-A \textbf{threat} constitutes a circumstance or event capable of adversely affecting an organization's operations, assets, or individuals. These adverse impacts are realized through malicious actions, such as unauthorized data access, system destruction, or denial-of-service attacks \cite[p. 23]{IEC62443-3-3}.
+A \textbf{threat} is a circumstance or event that can adversely affect an organisation's operations, assets, or individuals, for example through unauthorised data access, destruction, or denial of service \cite[p. 23]{IEC62443-3-3}. A \textbf{vulnerability} is a flaw or weakness in the design, implementation, or operation of a system \cite[p. 12]{prEN50742_2025}. Its exploitation compromises the protective measures, so a vulnerability must be eliminated, mitigated, or covered by a documented compensating countermeasure \cite[p. 9]{prEN50742_2025} \cite[p. 14]{prEN50742_2025}. An \textbf{attack vector} is the path an adversary uses to exploit a vulnerability, and it connects a theoretical threat to the practical compromise of an asset \cite[p. 80]{richier2011security} \cite{IBM_AttackVector}. Systematic threat modelling therefore examines every hardware, software, and data asset for the vectors that could reach it \cite[p. 2, p. 11]{liebl2024analyzingattacksurfacethreats}.
 
-A \textbf{vulnerability} represents a specific flaw or weakness in a system's design, implementation, or operation \cite[p. 12]{prEN50742_2025}. While vulnerabilities do not create hazards independently, their exploitation compromises integrated protective measures \cite[p. 9]{prEN50742_2025}. Consequently, designers must follow a strict mitigation hierarchy. Vulnerabilities must be eliminated, actively mitigated, or addressed through documented compensating countermeasures \cite[p. 14]{prEN50742_2025}.
+\label{subsec:tara}
+Threat modelling is framed by Threat Analysis and Risk Assessment (TARA), a systematic method that identifies threats, assesses their risk, and derives countermeasures \cite[p. 37]{doCarmo2025}. TARA differs from the safety-oriented Hazard Analysis and Risk Assessment, because it assumes an intentional adversary rather than a random fault, and it is reassessed as the threat landscape evolves \cite[p. 70]{Wurm2022}. 
 
-An \textbf{attack vector} defines the specific method or path an adversary uses to exploit a vulnerability. Attack vectors bridge the gap between theoretical threats and practical exploitation \cite[p. 80]{richier2011security}. To ensure no potential vector is overlooked, all hardware, software, and data assets must be systematically analyzed \cite[p. 2, p. 11]{liebl2024analyzingattacksurfacethreats}. In modern connected environments, common attack vectors include:
-
-\begin{itemize}
-	\item Third-party and supply chain compromises
-	\item Denial-of-Service (DoS) attacks
-	\item Compromised credentials
-	\item Insider threats
-	\item Exploitation of unpatched software or hardware vulnerabilities
-	\item Injection and execution of malware
-	\item Physical attacks on the infrastructure 
-\end{itemize}
-
-Ultimately, the successful exploitation of an attack vector allows adversaries to compromise critical assets \cite{IBM_AttackVector}. 
-
-
-\section{Risk-Based Security Engineering} 
-\label{sec:risk_based_security_engineering} 
-
-\subsection{Threat Analysis and Risk Assessment (TARA)} 
-\label{subsec:tara} 
-
-Threat Analysis and Risk Assessment (TARA) is a systematic methodology used to identify potential threats, assess associated risks, and formulate countermeasures \cite[p. 37]{doCarmo2025}. It functions as the central tool to methodically derive concrete cybersecurity goals instead of relying on guesswork \cite{microtool_tara_2026}. A comprehensive TARA systematically investigates all possible attack vectors and adversary intentions targeting a specific system \cite[p. 33, 35]{Wurm2022}.
-
-While a TARA successfully uncovers vulnerabilities, it cannot provide definitive proof of security or guarantee an absolute defense \cite[p. 38]{doCarmo2025}. However, this is not a shortcoming of the methodology itself. No system can provide absolute security. This limitation arises from human uncertainty, system life cycle dynamics, and practical constraints regarding cost, schedule, and feasibility \cite[p. 31]{ross2022engineering}.
-
-In cyber-physical environments, TARA fundamentally differs from traditional Hazard Analysis and Risk Assessment (HARA). While functional safety (HARA) focuses on random hardware failures to protect humans from the system, cybersecurity (TARA) addresses intentional, malicious attacks to protect the system from human adversaries. Furthermore, safety risks are typically static after development. In contrast, security risks require continuous reassessment due to a constantly evolving threat landscape \cite[p. 70]{Wurm2022}.
-
-Consequently, TARA is implemented iteratively across the entire system lifecycle. Initial assessments define high-level security goals during early requirements engineering. Detailed assessments identify component-level risks during development and production. Finally, post-release TARAs continuously update the risk profile in response to new vulnerabilities or software updates \cite[p. 40]{doCarmo2025}.
-
-The general TARA workflow executes a sequential multi-step process \cite[p. 47, 49]{doCarmo2025}. First, \textit{Asset Identification} determines the system assets, their required security properties, and potential damage scenarios \cite[p. 46, 49]{doCarmo2025}. Next, \textit{Threat Scenario Analysis} maps out potential attack paths using frameworks like the \hyperref[subsec:stride]{STRIDE} methodology \cite[pp. 46, 135]{doCarmo2025}. \textit{Risk Evaluation} then combines the impact of a successful attack with its technical feasibility to calculate the overall risk level \cite[p. 47, 49]{doCarmo2025} \cite[p. 49]{Wurm2022}. Finally, the \textit{Risk Treatment} phase determines the final cybersecurity controls required to mitigate the identified risks effectively \cite[p. 37, 49]{doCarmo2025} \cite{microtool_tara_2026}.
-
-
-\subsection{STRIDE Threat Model} 
-\label{subsec:stride} 
-
-The STRIDE methodology is a widely used threat modeling approach developed by Microsoft to address the fundamental question of what can go wrong in a system \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025}. Rather than acting merely as a static threat categorization, STRIDE serves as a useful method for identifying specific threats based on potential attacker goals \cite{owasp_threat_modeling_process, doCarmo2025}. 
-
-The acronym STRIDE represents six distinct threat categories:
+\label{subsec:stride}
+STRIDE is the threat-modelling instrument. Developed by Microsoft, it identifies threats from the perspective of attacker goals rather than as a static list \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025} \cite{owasp_threat_modeling_process}. Its acronym denotes six threat categories:
 
 \begin{itemize}
-	\item \textbf{Spoofing:} The attacker pretends to be someone or something else. This involves illegally accessing and using another entity's authentication credentials, such as a username and password, or spoofing components and signals within embedded networks
-	
-	\item \textbf{Tampering:} Refers to the unauthorized, malicious modification of data or system functionalities. Examples include altering persistent data in a database, modifying firmware, or tampering with data in transit over an open network 
-	
-	\item \textbf{Repudiation:} Refers to the ability of an entity to deny having performed an action when the system does not provide sufficient audit records to verify the event.
-	
-	\item \textbf{Information Disclosure:} Involves the exposure of data to unauthorized individuals. This includes data breaches, unauthorized file access, or reading data in transit across network connections 
-	
-	\item \textbf{Denial of Service:} Threat actions aiming to disrupt system operation or deny access to legitimate users. Examples include making web servers temporarily unusable or flooding bus systems with traffic to block valid messages 
-	
-	\item \textbf{Elevation of Privilege:} An unprivileged attacker exploits vulnerabilities to gain higher access privileges than authorized. This allows the attacker to penetrate system defenses, access critical subsystems, and potentially compromise the entire system \cite{microsoft_stride_model} \cite[p. 144]{doCarmo2025}
+	\item \textbf{Spoofing:} an attacker assumes a false identity, for example by using another entity's credentials or by impersonating a component in an embedded network.
+	\item \textbf{Tampering:} unauthorised modification of data or functionality, such as altering stored data, firmware, or data in transit.
+	\item \textbf{Repudiation:} the ability to deny an action when the system keeps insufficient audit records to prove it.
+	\item \textbf{Information Disclosure:} exposure of data to unauthorised parties, including reading data in transit.
+	\item \textbf{Denial of Service:} disruption of operation or denial of access to legitimate users, for example by flooding an interface.
+	\item \textbf{Elevation of Privilege:} an unprivileged attacker gains higher access rights than authorised.
 \end{itemize}
 
-To systematically analyze these threats, Table \ref{tab:stride_mapping} illustrates how each STRIDE category maps directly to the specific cybersecurity property it violates.
+Each category is the direct negation of a security objective, as Table \ref{tab:stride_mapping} shows \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\caption{Mapping of STRIDE Threat Categories to Violated Cybersecurity Properties \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}}
 	\label{tab:stride_mapping}
 	\centering
@@ -166,134 +155,27 @@ To systematically analyze these threats, Table \ref{tab:stride_mapping} illustra
 	\end{tabularx}
 \end{table}
 
-As shown in Table \ref{tab:stride_mapping}, the STRIDE threat categories represent the direct opposite of fundamental security objectives. By systematically evaluating system components against these paired relationships, threat lists can be derived to identify potential attacker goals and define required security controls \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
-
-\subsection{Risk Evaluation} 
-\label{subsec:risk_evaluation} 
-
-Risk evaluation serves as the central mechanism to determine and quantify the overall risk level associated with identified threat scenarios. Fundamentally, risk is defined as a combination of the potential impact resulting from an attack and its corresponding likelihood or feasibility \cite[p. 196]{doCarmo2025}. In literature, this relationship is frequently expressed through formal mathematical models. For instance, the risk level ($R$) can be determined by multiplying the likelihood ($L$) by the severity ($S$) of the impact \cite[p. 648]{10.1007/978-3-030-85969-5_37}:
-\begin{equation}
-	R = L \cdot S
-\end{equation}
-
-To systematically assess the impact parameter ($I$), criteria are established based on operational and safety domains. In safety-critical industrial environments, the impact rating evaluates potential physical harm to humans across four distinct levels \cite[p. 106]{doCarmo2025}:
-\begin{itemize}
-	\item \textbf{Severe (S3):} Fatal injuries or severe, life-threatening injuries where survival is uncertain
-	\item \textbf{Major (S2):} Severe and life-threatening injuries where survival is probable
-	\item \textbf{Moderate (S1):} Light to moderate physical injuries
-	\item \textbf{Negligible (S0):} No physical injuries occur
-\end{itemize}
-
-Complementarily, the feasibility evaluation ($F$) determines the probability of occurrence by analyzing the technical effort and capabilities required for an adversary to execute specific attack paths \cite[p. 135]{doCarmo2025}. Attack feasibility is categorized into four distinct ratings \cite[p. 151]{doCarmo2025}:
-\begin{itemize}
-	\item \textbf{High:} The attack path can be accomplished utilizing low effort
-	\item \textbf{Medium:} The attack path can be accomplished utilizing medium effort
-	\item \textbf{Low:} The attack path can be accomplished utilizing high effort
-	\item \textbf{Very Low:} The attack path can be accomplished utilizing very high effort
-\end{itemize}
-
-For the final evaluation, assets, threat scenarios, attack paths, and resulting damage scenarios are combined into a structured matrix \cite[p. 180]{doCarmo2025}. By mapping the discrete impact ratings against the corresponding attack feasibility levels in a standardized risk matrix, the final numerical risk value is calculated. For instance, a damage scenario categorized with a \textit{moderate} impact rating and a \textit{high} attack feasibility yields a resulting risk value of three \cite[p. 180]{doCarmo2025}. Depending on specific institutional requirements and risk tolerance thresholds, individual organizations can make tailored adjustments to the underlying risk matrix structures \cite[p. 182]{doCarmo2025}.
-
-\subsection{Risk Treatment Strategies} 
-\label{subsec:risk_treatment_strategies} 
-
-Following the evaluation of identified risks, appropriate risk treatment strategies must be defined. Generally, four primary strategies are available to address identified risks: risk reduction, risk avoidance, risk sharing, and risk acceptance \cite[pp. 200]{doCarmo2025}.
-
-\textbf{Risk Reduction:} Risk reduction aims to decrease either the impact or the likelihood of a threat scenario. This is achieved by implementing technical countermeasures, also known as cybersecurity controls, which are typically derived from standardized or corporate catalogs \cite[p. 200]{doCarmo2025}. Table \ref{tab:stride_mitigations} summarizes standard technical mitigation techniques mapped to the corresponding \hyperref[subsec:stride]{STRIDE} threat categories \cite{owasp_threat_modeling_process}.
-
-\begin{table}[htbp]
-	\caption{Technical Mitigation Techniques Mapped to STRIDE Threat Categories \cite{owasp_threat_modeling_process}}
-	\label{tab:stride_mitigations}
-	\centering
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{Threat Type} & \textbf{Mitigation Techniques} \\
-		\midrule
-		Spoofing Identity & Appropriate authentication, protection of secret data, avoiding secret storage \\ \addlinespace
-		Tampering & Appropriate authorization, cryptographic hashes, MACs, digital signatures, tamper-resistant protocols \\ \addlinespace
-		Repudiation & Digital signatures, timestamps, audit trails \\ \addlinespace
-		Information Disclosure & Authorization, privacy-enhanced protocols, encryption, protection or non-storage of secrets \\ \addlinespace
-		Denial of Service & Appropriate authentication and authorization, traffic filtering, throttling, Quality of Service \\ \addlinespace
-		Elevation of Privilege & Execution under the principle of least privilege \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-\textbf{Risk Avoidance:} Risk avoidance involves modifying the fundamental design of the system component to eliminate the source of the risk entirely \cite[p. 200]{doCarmo2025}.
-
-\textbf{Risk Sharing:} Risk sharing distributes the risk among other stakeholders via contractual agreements or transfers it through insurance policies. In this case, a formal rationale in the form of a cybersecurity claim must be documented \cite[p. 201]{doCarmo2025}.
-
-\textbf{Risk Acceptance:} If the resulting risk level, impact, or attack feasibility is sufficiently low, accepting the risk represents a valid decision. Risk acceptance does not mean ignoring the threat. It strictly requires a documented rationale and cybersecurity claim to justify the acceptance \cite[p. 201]{doCarmo2025}.
-
-Once potential threats and corresponding countermeasures are established, a system threat profile can be derived into three distinct levels of mitigation \cite{owasp_threat_modeling_process}:
-\begin{itemize}
-	\item \textbf{Non-mitigated threats:} Threats without countermeasures that expose fully exploitable vulnerabilities.
-	\item \textbf{Partially mitigated threats:} Threats partially addressed by controls, resulting in limited exploitability and impact.
-	\item \textbf{Fully mitigated threats:} Threats with adequate countermeasures in place that leave no exposed vulnerabilities.
-\end{itemize}
-
-Even after implementing technical controls, a residual risk, may remain high. Residual risk represents the actual risk level present when an adversary attempts an attack path while active technical controls are in place \cite[pp. 200]{doCarmo2025}.
 
 
-
-
-
-\section{Security Testing Approaches}
+\section{Security Verification of Industrial Components}
 \label{sec:security_testing_approaches}
 
-% TODO[CONTENT]: This section defines functional vs. vulnerability testing and
-%   black/grey/white-box, which the methodology uses. However three foundations
-%   consumed later are still missing here:
-%   (1) Verification vs. Validation as distinct concepts (IEC 62443-4-1 SVV);
-%       vorgehen.tex and umsetzung.tex both "verify against requirements" and
-%       "validate against the thesis goal" without a grounded definition.
-%   (2) The named IEC 62443-4-1 SVV test-type taxonomy (SVV-1 requirements-based,
-%       SVV-2 threat-mitigation, SVV-3 vulnerability, SVV-4 penetration).
-%       RESOLVED: the SVV taxonomy is now defined in subsec:iec_62443.
-%   (3) Repeatability and reproducibility of a security test (needed to justify
-%       the standardized data-sheet design and the ETS/TER metrics).
-% TODO[LIMITATION]: Add one paragraph on the epistemic limit of testing (a test
-%   can demonstrate the presence of a mitigation, not the absence of all flaws;
-%   black-box scope excludes source-level assurance). This underpins the
-%   "prototype / partially validated" framing recommended for the whole thesis.
-% COPILOT UPDATE (foundations now demonstrably needed by the implementation):
-%   The practical work exposed two more foundations to ground here:
-%   (4) The distinction between functional testing, safety validation, and
-%       security testing - safety validation covers RANDOM-fault behaviour; a
-%       security test requires an ADVERSARIAL perspective. The thesis reuses
-%       some safety/functional (TIA) evidence, so define the boundary here.
-%   (5) Applicability of generic IT security tools to embedded OT targets, and
-%       passive vs. active test positions (direct-access vs. mirrored vs.
-%       inline). The implementation found several tool-to-target mismatches
-%       (Lynis needs an OS shell, SSLscan needs TLS, Hydra needs an auth
-%       endpoint), so "tool applicability / justified non-applicability" must be
-%       a grounded concept, not an ad-hoc excuse.
-Traditional software engineering often classifies security purely as a non-functional requirement, alongside performance and usability \cite[p. 291]{tauqeer2021analysis}. However, this strict distinction blurs significantly for security-centric components. When the primary purpose of a product is to provide protection, security mechanisms constitute the core functional requirements of the system. In these instances, the security architecture must operate equivalently to primary business processes, providing dedicated security functions and services to fulfill specified protection goals \cite[p. 61]{Barz2025}. 
-%TODO \cite{Schieferdecker_2012} --> Firewall
+Security is often treated as a non-functional requirement, alongside performance and usability \cite[p. 291]{tauqeer2021analysis}. For a security-centric component, however, the security mechanisms are core functional requirements and must be verified as such \cite[p. 61]{Barz2025}. This section presents the techniques used to verify the security functions of an industrial gateway, and the IEC 62443 verification taxonomy that classifies these techniques.
 
-Consequently, ensuring software security requires dedicated testing efforts that bridge both functional and non-functional paradigms. Security testing activities are generally divided into functional security testing and security vulnerability testing. 
+A security test also differs in purpose from a safety test %TODO: Quelle
+Functional safety validation examines the behaviour of a device under random faults and does not assume an adversary. Security verification instead assumes a deliberate attacker and applies a security-specific acceptance criterion \cite[p. 70]{Wurm2022}. An existing safety test therefore does not, on its own, demonstrate a security property, even when it exercises the same interface. 
 
-Functional security testing verifies the correct operation of explicitly planned security mechanisms, such as access control or authentication systems \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Test cases for this approach can be derived systematically from security requirements, similar to traditional use-case-based functional testing \cite[p. 56]{JOT:issue_2003_01/column6}. This helps verify that the implemented functional architecture correctly addresses the defined security demands \cite[p. 61]{Barz2025}. 
+\subsection{Functional Security Testing}
+\label{subsec:functional_security_testing}
 
-In contrast, vulnerability testing aims to discover unaddressed design flaws, implementation bugs, and unexpected system behavior under duress \cite[p. 8]{richier2011security}. It utilizes misuse cases to simulate realistic attacker behavior \cite[p. 56]{JOT:issue_2003_01/column6}. For example, while standard functional testing verifies that a system handles ordinary user requests, security testing employs load and stress testing to validate anti-Denial-of-Service (DoS) capabilities against malicious request flooding \cite[p. 56, 60]{JOT:issue_2003_01/column6}.
+Functional security testing verifies that an explicitly planned security function operates as specified \cite[p. 82]{1341418} \cite[p. 8]{richier2011security}. Its test cases are derived from the security requirements, in the same way that use-case-based functional testing derives cases from functional requirements \cite[p. 56]{JOT:issue_2003_01/column6}. 
 
-Ultimately, a comprehensive testing strategy must combine both approaches to validate specified security features while simultaneously evaluating the system's resilience against real-world attack scenarios \cite[pp. 81]{1341418}.
+The available knowledge of the internal structure determines the test perspective \cite[p. 296]{tauqeer2021analysis}. In black-box testing the internal structure is unknown and only the external interfaces are exercised; in white-box testing the source code is available; grey-box testing combines both.
 
-\subsection{Testing Methodologies}
-\label{subsec:testing_taxonomy}
+\subsection{Vulnerability Testing}
+\label{subsec:vulnerabilities_fuzzing_pentesting}
 
-Security testing approaches are categorized by the level of internal system knowledge available to the tester \cite[p. 296]{tauqeer2021analysis}:
-
-\begin{itemize}
-	\item \textbf{Black-Box Testing:} The tester has no knowledge of the internal system structure \cite[p. 296]{tauqeer2021analysis}. Testing evaluates external software interfaces by executing the program with various inputs \cite[p. 82]{1341418}. Subcategories include fuzzy testing, which injects randomly generated data to infect or damage a system, and property-based testing, a model-based approach converting security properties into specifications via program slicing \cite[p. 296]{tauqeer2021analysis}.
-	
-	\item \textbf{White-Box Testing:} The evaluator has full access to the source code, logical paths, and architectural design. It enables manual code reviews, model-based techniques that check system models against security requirements, and fault injection to test interaction limits under malicious commands \cite[p. 296]{tauqeer2021analysis}.
-	
-	\item \textbf{Grey-Box Testing:} Tests are conducted with limited knowledge of the internal architecture by combining white-box and black-box techniques across multiple system layers \cite[p. 296]{tauqeer2021analysis}.
-\end{itemize}
-
-Techniques that cannot be strictly categorized into these paradigms include ethical hacking, penetration testing, and security regression testing. Penetration testing mimics actual attacker behavior to exploit system vulnerabilities. Ethical hacking expands this focus to evaluate weak points across the entire environment, including human operators and clients. Security regression testing specifically verifies that system upgrades or changes do not introduce new vulnerabilities \cite[p. 296]{tauqeer2021analysis}.
-
+Whereas functional testing confirms a planned function, vulnerability testing searches for unaddressed weaknesses \cite[p. 8]{richier2011security}. Vulnerability scanning uses automated tools to enumerate hosts, open ports, and services and to match them against databases of known weaknesses \cite[p. 27]{nist_sp800_115}. Penetration testing goes further and mimics an attacker to identify and exploit weaknesses, following the four stages of planning, discovery, attack, and reporting defined in NIST SP 800-115 \cite[p. 37]{nist_sp800_115}.
 
 \subsection{Static and Dynamic Analysis}
 \label{subsec:static_dynamic_analysis}
@@ -329,97 +211,30 @@ Combining both static approaches increases overall vulnerability detection effec
 \textbf{Dynamic Analysis Mechanisms:} Dynamic Application Security Testing (DAST) evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, Interactive Application Security Testing (IAST) combines static and dynamic feedback during runtime, while Software Composition Analysis (SCA) audits third-party dependencies for vulnerabilities and license compliance \cite{GeeksforGeeksSecurityTesting}.
 
 
-\subsection{Vulnerability Assessment and Robustness Testing}
-\label{subsec:vulnerabilities_fuzzing_pentesting}
+\subsection{Robustness Testing and Fuzzing}
+\label{subsec:robustness_fuzzing}
 
-A comprehensive testing framework requires evaluating feature functionality, performance, and robustness \cite[p. 48]{richier2011security}:
+Robustness is the ability of a system to continue operating correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness technique that repeatedly injects invalid, random, or unexpected inputs into an interface to provoke faults or crashes. A dumb fuzzer mutates inputs without knowledge of their format, whereas a smart fuzzer uses an input model; depending on the available access, fuzzing is further divided into white-box, grey-box, and black-box approaches \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}. 
 
+\subsection{IEC 62443 Security Verification and Validation (SVV)}
+\label{subsec:svv}
+
+IEC 62443-4-1 defines Security Verification and Validation Testing (SVV) as the practice that demonstrates that a component meets its security requirements and its intended security purpose \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. Verification testing shows that the requirements are met, whereas validation additionally addresses the product security context and the defence-in-depth strategy \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. The practice defines four test types, which this thesis adopts as the taxonomy that classifies every test \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}:
 \begin{itemize}
-	\item \textbf{Vulnerability Scanning:} Automated tools scan hosts, open ports, and operating systems to match system configurations against databases of known vulnerabilities \cite[p. 27]{nist_sp800_115}.
-	
-	\item \textbf{Robustness Testing and Fuzzing:} Robustness measures a system's ability to operate correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness testing technique that repeatedly injects invalid, random, or unexpected inputs into target interfaces to provoke data handling errors or crashes. Fuzzing varies by input generation: ``dumb'' fuzzing performs random mutations without input format knowledge, while ``smart'' fuzzing uses input models. Based on system access, white-box fuzzing utilizes program analysis, grey-box fuzzing uses lightweight instrumentation, and black-box fuzzing operates without internal knowledge \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}.
-	
-	\item \textbf{Penetration Testing:} Evaluators mimic real-world cyberattacks to identify exploitable vulnerability combinations \cite[p. 296]{tauqeer2021analysis}. According to NIST SP 800-115, penetration testing follows four stages: \textit{Planning}, \textit{Discovery}, \textit{Attack}, and \textit{Reporting} \cite[p. 37]{nist_sp800_115}.
-	
-	\item \textbf{Fault Injection and Mutation Testing:} Fault injection evaluates interaction points by forcing the system to process malicious commands \cite[p. 296]{tauqeer2021analysis}. Mutation testing evaluates test suite effectiveness by injecting single syntactic changes, such as variable renaming or operator replacements, to create faulty software versions. It relies on three core assumptions: competent programmers make small errors, selected mutation operators represent typical human errors, and a coupling effect allows simple mutations to uncover subtle bugs \cite[p. 50]{richier2011security}.
+	\item \textbf{SVV-1 (Security Requirements Testing):} verifies that the security functions meet the requirements and that the product handles error cases and invalid input correctly, including functional, performance, and boundary tests \cite[p. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-2 (Threat Mitigation Testing):} tests the effectiveness of the mitigations in the threat model, including deliberate attempts to defeat each mitigation, using the STRIDE categories as example threats \cite[pp. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-3 (Vulnerability Testing):} identifies potential vulnerabilities through abuse-case and fuzz testing, attack-surface analysis, and scans for known vulnerabilities \cite[p. 39]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{SVV-4 (Penetration Testing):} attempts to discover and exploit vulnerabilities from an attacker's perspective, often by chaining several weaknesses \cite[pp. 39]{DIN_EN_IEC_62443_4_1_2018}.
 \end{itemize}
-
-
-
-\section{Industrial Gateways in IT/OT Environments} 
-\label{sec:industrial_gateways} 
-
-\subsection{IT/OT Convergence and Interfaces} 
-\label{subsec:it_ot_interfaces}
-
-Traditionally, Operational Technology (OT) environments, comprising the hardware and software used to monitor and control physical processes, operated as isolated, proprietary networks. These systems were managed entirely independently of Information Technology (IT) networks, which handle the electronic storage, calculation, and transport of business data \cite[p. 2]{EHIE2020103166} \cite[p. 199]{8586807}. 
-
-However, the rise of Industry 4.0 has transformed these isolated environments into interconnected architectures \cite[pp. 14]{Babel2024}. IT/OT convergence defines this strategic integration, where systems designed for monitoring and controlling physical machinery are connected with data-centric computing systems \cite[p. 2]{EHIE2020103166}. The primary driver for this convergence is the necessity to create a single, synergized view of enterprise operations, ensuring that the right information flows from a physical sensor to a digital application in real-time \cite[p. 4]{EHIE2020103166}.
-
-To systematically understand this demand, industrial architectures can be categorized into four functional levels \cite{hwi_ot_definition}:
-\begin{enumerate}
-	\item \textbf{Process Level:} Physical sensors and actuators interacting directly with the environment to perform mechanical work.
-	\item \textbf{Control Level:} Programmable Logic Controllers (PLCs) executing process logic and regulating physical operations in real-time.
-	\item \textbf{Supervisory/Operation Level:} Human-Machine Interfaces (HMIs) and SCADA systems allowing operators to monitor states and intervene manually.
-	\item \textbf{Operation IT / Data Layer:} The aggregation layer where raw OT data is structured and forwarded to higher-level IT applications, such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
-\end{enumerate}
-
-This Data Layer represents the critical intersection where operational systems become direct extensions of information systems \cite[p. 4]{EHIE2020103166}. Converging these two domains yields substantial economic advantages, primarily through enhanced process transparency, predictive maintenance strategies, and data-driven optimization \cite{hwi_ot_definition}. 
-
-Despite these benefits, the physical and software integration of legacy OT equipment with modern IT networks introduces significant engineering and organizational friction \cite{orise2025itotconvergence}. This friction arises because both domains operate under fundamentally conflicting paradigms. Table \ref{tab:it_ot_comparison} summarizes these core differences.
-
-\begin{table}[htbp]
-	\caption{Comparison of Core Characteristics and Requirements in IT and OT Environments \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807}}
-	\label{tab:it_ot_comparison}
-	\centering
-	\begin{tabularx}{\textwidth}{l X X}
-		\toprule  
-		\textbf{Characteristic} & \textbf{Information Technology (IT)} & \textbf{Operational Technology (OT)} \\ 
-		\midrule
-		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
-		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability (PAIN/CIA) & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality (AIC) \\ \addlinespace
-		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
-		Protocol Examples & TCP/IP, \newline HTTP(S),\newline SQL & Modbus, \newline Profinet \\ \addlinespace
-		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
-		\bottomrule  
-	\end{tabularx}
-\end{table}
-
-The most critical divergence lies within the prioritization of security objectives. In IT paradigms, data confidentiality and privacy occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments operate under the AIC triad, prioritizing maximum availability and deterministic real-time execution above all else \cite[p. 199]{8586807}. Any latency or system interruption on the shop floor could lead to physical damage, severe safety hazards, or costly production downtime \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
-
-This reversed priority directly dictates the motivation behind differing lifecycle and maintenance strategies. IT infrastructures rely on frequent, rapid security patching to close vulnerabilities as quickly as possible. OT operators, however, view changes to a stable system as risky and costly \cite{orise2025itotconvergence}. Because industrial controllers require rigorous validation to guarantee absolute operational safety, operators fear that software updates might induce unexpected behavior or system crashes. Consequently, patches are applied rarely and strictly during planned maintenance windows. Furthermore, the underlying network communication in OT frequently utilizes legacy, low-overhead protocols that lack built-in security features such as encryption, significantly exacerbating the risk at the IT/OT interface once these networks are converged \cite{hwi_ot_definition}.
+The accompanying requirement SVV-5 grades the required independence of the testers from the developers by test type \cite[pp. 40]{DIN_EN_IEC_62443_4_1_2018}.
 
 
 
 
-
-\subsection{Architectural Role of Industrial Gateways} 
-\label{subsec:architectural_role_gateways}
-
-% TODO[CONTENT]: The SUT is a PROFINET/PROFIsafe safety-related I/O device whose
-%   security argument (RQ-001, RQ-002 and most SVV-2/SVV-4 tests in WORKFLOW.md)
-%   depends entirely on the PROFIsafe "black-channel" principle, the consecutive
-%   number, the F_WD_Time watchdog, and the (non-cryptographic) CRC/F_Dest_Add
-%   check. None of this is grounded in the Fundamentals yet. Add a short,
-%   citation-backed subsection on functional-safety fieldbus communication and
-%   the black-channel model so the later test rationale is not introduced ad hoc.
-% Relationship to other chapters: Directly feeds umsetzung.tex Sec. Test Object
-%   and the RQ-001/RQ-002 test rationale.
-Industrial gateways represent crucial architectural components that bridge this gap between distinct network environments. Their primary objective is to enable seamless communication between the heterogeneous systems of the IT and OT domains. 
-
-To achieve this, a gateway intercepts incoming data from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[p. 277]{Gsell2026}.
-Beyond complex protocol translation, gateways can integrate raw binary or analog signals from basic physical sensors into bus systems for further network processing \cite[p. 132]{Babel2024}\cite{kleinbongartz2008uebersetzer} .
-
-
-A gateway can operate across various layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between IT networks, which are typically dominant in layers 4 to 7, and OT networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
-
-To ensure efficient translation, the protocol mapping generally occurs at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
-
-
-\section{Regulatory and Standardization Framework} 
+\section{Regulatory and Standardisation Framework} 
 \label{sec:regulatory_framework} 
 
-\subsection{Regulation (EU) 2023/1230}
+\subsection{Machinery Regulation (EU) 2023/1230}
 \label{subsec:eu_machinery_regulation}
 
 With the publication of Regulation (EU) 2023/1230 in the Official Journal of the European Union on June 29, 2023, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation, commonly referred to as the Machinery Regulation (MVO), replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
@@ -459,34 +274,24 @@ To accommodate different organizational prerequisites and product architectures,
 Despite methodological differences, both paths share identical core objectives regarding the technical protection of interfaces and the verification of control system integrity \cite[p. 15]{prEN50742_2025}. Both frameworks mandate critical mitigation measures: Entities attempting to intervene must be authenticated, and logical access must be restricted through role-based authorization \cite[p. 17, 24]{prEN50742_2025}. The integrity of safety-related software and configuration data must be verified cryptographically \cite[p. 17 f]{prEN50742_2025}. Furthermore, exchanged information across network boundaries must be secured to prevent spoofing or tampering \cite[p. 50]{prEN50742_2025}. Both approaches also require the secure, tamper-resistant digital logging of all security-relevant interventions for a minimum of five years to ensure complete traceability \cite[p. 19, 23]{prEN50742_2025}. Ultimately, prEN 50742 establishes that cybersecurity compliance cannot be achieved by design alone; all implemented technical countermeasures must be structurally verified \cite[p. 14]{prEN50742_2025}.
 
 
-\subsection{EN IEC 62443 Series} 
+\subsection{IEC 62443} 
 \label{subsec:iec_62443} 
 
-Within the landscape of industrial cybersecurity, the international standard series IEC 62443 serves as the foundational framework for securing Industrial Automation and Control Systems (IACS) \cite[p. 13]{IEC62443-3-3}. The standard is divided into multiple parts addressing different levels of a system's architecture and lifecycle.
+The IEC 62443 series is the reference framework for securing Industrial Automation and Control Systems (IACS) \cite[p. 13]{IEC62443-3-3}. 
 
-\textbf{IEC 62443-3-3} delineates the system-level security requirements, bridging the gap between high-level organizational policies and technical implementation \cite[p. 15]{IEC62443-3-3}. Its primary objective is to safeguard the availability, integrity, and confidentiality of industrial environments through a structured, risk-based approach \cite[p. 6]{IEC62443-3-3}. The standard establishes seven core pillars, referred to as Foundational Requirements (FRs):
+At the system level, IEC 62443-3-3 organises its requirements around seven Foundational Requirements (FRs). These requirements structure the component requirements that follow and are therefore reproduced here \cite[p. 15]{IEC62443-3-3}:
 \begin{itemize}
-	\item \textbf{FR 1 (Identification and Authentication Control):} Ensures all entities are uniquely identified and authenticated before access is granted \cite[p. 29]{IEC62443-3-3}.
-	\item \textbf{FR 2 (Use Control):} Restricts the privileges of authenticated entities according to the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
-	\item \textbf{FR 3 (System Integrity):} Protects the system, applications, and data from unauthorized modifications \cite[p. 50]{IEC62443-3-3}.
-	\item \textbf{FR 4 (Data Confidentiality):} Safeguards sensitive information against unauthorized disclosure at rest and in transit \cite[p. 57]{IEC62443-3-3}.
-	\item \textbf{FR 5 (Restricted Data Flow):} Segments the industrial network to limit data communication and prevent lateral threat movement \cite[p. 61]{IEC62443-3-3}.
-	\item \textbf{FR 6 (Timely Response to Events):} Mandates security monitoring and logging for rapid incident response \cite[p. 65]{IEC62443-3-3}.
-	\item \textbf{FR 7 (Resource Availability):} Ensures the system remains operational under resource stress or Denial-of-Service attacks \cite[p. 67]{IEC62443-3-3}.
+	\item \textbf{FR 1 (Identification and Authentication Control):} unique identification and authentication of all entities before access is granted \cite[p. 29]{IEC62443-3-3}.
+	\item \textbf{FR 2 (Use Control):} restriction of privileges according to the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
+	\item \textbf{FR 3 (System Integrity):} protection of the system, applications, and data against unauthorised modification \cite[p. 50]{IEC62443-3-3}.
+	\item \textbf{FR 4 (Data Confidentiality):} protection of sensitive information against unauthorised disclosure \cite[p. 57]{IEC62443-3-3}.
+	\item \textbf{FR 5 (Restricted Data Flow):} network segmentation to limit data flow and lateral movement \cite[p. 61]{IEC62443-3-3}.
+	\item \textbf{FR 6 (Timely Response to Events):} security monitoring and logging for incident response \cite[p. 65]{IEC62443-3-3}.
+	\item \textbf{FR 7 (Resource Availability):} continued operation under resource stress or denial-of-service \cite[p. 67]{IEC62443-3-3}.
 \end{itemize}
-The fulfillment of these FRs is evaluated through Security Levels (SL 1 to SL 4), which quantify the system's resilience against various adversary profiles \cite[p. 16, 26]{IEC62443-3-3}. 
+The fulfilment of these requirements is graded through Security Levels (SL 1 to SL 4), which express the resilience against increasing adversary profiles \cite[p. 16, 26]{IEC62443-3-3}.
 
-Achieving system-level security also requires a structured development process. \textbf{IEC 62443-4-1} specifies the process-oriented requirements for a Secure Product Development Lifecycle (SDLC) \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. It structures lifecycle capabilities across eight core practice areas, ranging from Security Management (SM) and Secure by Design (SD) to Security Verification and Validation Testing (SVV) and Security Update Management (SUM). To measure organizational rigor, it introduces Maturity Levels (ML 1 to ML 4) \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}.
+IEC 62443-4-1 specifies the process-oriented requirements for a Secure Product Development Lifecycle \cite[Chapter: Introduction]{DIN_EN_IEC_62443_4_1_2018}. It defines eight practice areas, from Security Management to Security Update Management, and grades organisational rigour through Maturity Levels (ML 1 to ML 4) \cite[Section 4.2]{DIN_EN_IEC_62443_4_1_2018}. The practice most relevant to this thesis is Security Verification and Validation Testing (SVV). Its four test types provide the verification taxonomy used to classify the tests of this work; they are introduced in Section \ref{subsec:svv}.
 
-Within IEC 62443-4-1, the practice Security Verification and Validation Testing (SVV) is the process most relevant to this thesis. An SVV test evaluates whether a component, product, or system meets its specified security requirements and its intended security purpose within the defined security context \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. In this sense, verification testing demonstrates that the security requirements are met, whereas validation testing additionally targets the product security context and the defense-in-depth strategy \cite[Section 3.1.33]{DIN_EN_IEC_62443_4_1_2018}. The practice defines four test types together with a requirement on the independence of the testers \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}:
-\begin{itemize}
-	\item \textbf{SVV-1 (Security Requirements Testing):} Verifies that the security functions meet the security requirements and that the product handles error scenarios and invalid input correctly. It also includes functional, performance, scaling, and boundary tests \cite[p. 38]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{SVV-2 (Threat Mitigation Testing):} Tests the effectiveness of the mitigations identified in the threat model, including deliberate attempts to defeat each mitigation. The standard names the STRIDE categories as example threats \cite[pp. 38]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{SVV-3 (Vulnerability Testing):} Identifies and describes potential vulnerabilities through abuse-case and fuzz testing, attack-surface analysis, and scans for known vulnerabilities \cite[p. 39]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{SVV-4 (Penetration Testing):} Attempts to discover and exploit security vulnerabilities from the perspective of an attacker, often by chaining several weaknesses \cite[pp. 39]{DIN_EN_IEC_62443_4_1_2018}.
-\end{itemize}
-The accompanying requirement SVV-5 grades the required independence of the testers from the developers by test type \cite[pp. 40]{DIN_EN_IEC_62443_4_1_2018}. 
-
-Building upon these lifecycle practices, \textbf{IEC 62443-4-2} shifts the focus to individual technical building blocks, specifying the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. It maps the seven FRs directly onto four distinct component types: software applications, embedded devices, host devices, and network components \cite[p. 17]{IEC62443-4-2}. The concrete technical specifications are structured as Component Security Requirements (CRs) and further refined by Requirement Enhancements (REs) to achieve a specific Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. For instance, while a system requires restricted data flow under FR 5, IEC 62443-4-2 translates this into explicit component capabilities, such as a network component's ability to enforce logical isolation or securely route traffic at physical interfaces \cite[p. 61]{IEC62443-4-2}.
-
+IEC 62443-4-2 specifies the technical security requirements for IACS components \cite[p. 18]{IEC62443-4-2}. It maps the seven Foundational Requirements onto four component types, namely software applications, embedded devices, host devices, and network components \cite[p. 17]{IEC62443-4-2}. The requirements are expressed as Component Requirements (CRs) and refined by Requirement Enhancements (REs) to reach a Component Security Level Capability (SL-C) \cite[pp. 31]{IEC62443-4-2}. For example, the system-level restricted-data-flow requirement of FR 5 becomes an explicit component capability, such as the ability of a network component to enforce logical isolation at its interfaces \cite[p. 61]{IEC62443-4-2}. 
 
