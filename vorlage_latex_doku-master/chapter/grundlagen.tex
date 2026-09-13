@@ -11,16 +11,16 @@ The test object of this thesis is an industrial gateway, the component at the bo
 \subsection{IT/OT Convergence} 
 \label{subsec:it_ot_interfaces}
 
-Traditionally, Operational Technology (OT) environments, comprising the hardware and software used to monitor and control physical processes, operated as isolated, proprietary networks. These systems were managed entirely independently of Information Technology (IT) networks, which handle the electronic storage, calculation, and transport of business data \cite[p. 2]{EHIE2020103166} \cite[p. 199]{8586807}. 
+Traditionally, Operational Technology (\gls{acr:OT}) environments, comprising the hardware and software used to monitor and control physical processes, operated as isolated, proprietary networks. These systems were managed entirely independently of Information Technology (\gls{acr:IT}) networks, which handle the electronic storage, calculation, and transport of business data \cite[p. 2]{EHIE2020103166} \cite[p. 199]{8586807}. 
 
-However, the rise of Industry 4.0 has transformed these isolated environments into interconnected architectures \cite[pp. 14]{Babel2024}. IT/OT convergence defines this strategic integration, where systems designed for monitoring and controlling physical machinery are connected with data-centric computing systems \cite[p. 2]{EHIE2020103166}. The primary driver for this convergence is the necessity to create a single, synergized view of enterprise operations, ensuring that the right information flows from a physical sensor to a digital application in real-time \cite[p. 4]{EHIE2020103166}.
+However, the rise of Industry 4.0 has transformed these isolated environments into interconnected architectures \cite[pp. 14]{Babel2024}. \gls{acr:IT}/\gls{acr:OT} convergence defines this strategic integration, where systems designed for monitoring and controlling physical machinery are connected with data-centric computing systems \cite[p. 2]{EHIE2020103166}. The primary driver for this convergence is the necessity to create a single, synergized view of enterprise operations, ensuring that the right information flows from a physical sensor to a digital application in real-time \cite[p. 4]{EHIE2020103166}.
 
 To systematically understand this demand, industrial architectures can be categorized into four functional levels \cite{hwi_ot_definition}:
 \begin{enumerate}
 	\item \textbf{Process Level:} Physical sensors and actuators interacting directly with the environment to perform mechanical work.
 	\item \textbf{Control Level:} Programmable Logic Controllers (PLCs) executing process logic and regulating physical operations in real-time.
 	\item \textbf{Supervisory/Operation Level:} Human-Machine Interfaces (HMIs) and SCADA systems allowing operators to monitor states and intervene manually.
-	\item \textbf{Operation IT / Data Layer:} The aggregation layer where raw OT data is structured and forwarded to higher-level IT applications, such as Enterprise Resource Planning (ERP) or Customer Relationship Management (CRM) systems \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
+	\item \textbf{Operation IT / Data Layer:} The aggregation layer where raw \gls{acr:OT} data is structured and forwarded to higher-level \gls{acr:IT} applications, such as Enterprise Resource Planning (\gls{acr:ERP}) or Customer Relationship Management (\gls{acr:CRM}) systems \cite[p. 404]{10.1007/978-3-030-85969-5_37}.
 \end{enumerate}
 
 This Data Layer represents the critical intersection where operational systems become direct extensions of information systems \cite[p. 4]{EHIE2020103166}. Converging these two domains yields substantial economic advantages, primarily through enhanced process transparency, predictive maintenance strategies, and data-driven optimization \cite{hwi_ot_definition}. 
@@ -44,32 +44,34 @@ Despite these benefits, the physical and software integration of legacy OT equip
 	\end{tabularx}
 \end{table}
 
-The most critical divergence lies within the prioritization of security objectives. In IT paradigms, data confidentiality and privacy occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, OT environments operate under the AIC triad, prioritizing maximum availability and deterministic real-time execution above all else \cite[p. 199]{8586807}. Any latency or system interruption on the shop floor could lead to physical damage, severe safety hazards, or costly production downtime \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
+The most critical divergence lies within the prioritization of security objectives. In \gls{acr:IT} paradigms, data confidentiality and privacy occupy the highest priority to prevent unauthorized access to sensitive information. In contrast, \gls{acr:OT} environments operate under the Availability, Integrity and Confidentiality (\gls{acr:AIC}) triad, prioritizing maximum availability and deterministic real-time execution above all else \cite[p. 199]{8586807}. Any latency or system interruption on the shop floor could lead to physical damage, severe safety hazards, or costly production downtime \cite[p. 1]{8586807} \cite{hwi_ot_definition}.
 
-This reversed priority directly dictates the motivation behind differing lifecycle and maintenance strategies. IT infrastructures rely on frequent, rapid security patching to close vulnerabilities as quickly as possible. OT operators, however, view changes to a stable system as risky and costly \cite{orise2025itotconvergence}. Because industrial controllers require rigorous validation to guarantee absolute operational safety, operators fear that software updates might induce unexpected behavior or system crashes. Consequently, patches are applied rarely and strictly during planned maintenance windows. Furthermore, the underlying network communication in OT frequently utilizes legacy, low-overhead protocols that lack built-in security features such as encryption, significantly exacerbating the risk at the IT/OT interface once these networks are converged \cite{hwi_ot_definition}.
+This reversed priority directly dictates the motivation behind differing lifecycle and maintenance strategies. \gls{acr:IT} infrastructures rely on frequent, rapid security patching to close vulnerabilities as quickly as possible. \gls{acr:OT} operators, however, view changes to a stable system as risky and costly \cite{orise2025itotconvergence}. Because industrial controllers require rigorous validation to guarantee absolute operational safety, operators fear that software updates might induce unexpected behavior or system crashes. Consequently, patches are applied rarely and strictly during planned maintenance windows. Furthermore, the underlying network communication in \gls{acr:OT} frequently utilizes legacy, low-overhead protocols that lack built-in security features such as encryption, significantly exacerbating the risk at the \gls{acr:IT}/\gls{acr:OT} interface once these networks are converged \cite{hwi_ot_definition}.
 
 \subsection{Industrial Gateways} 
 \label{subsec:architectural_role_gateways}
 
-Industrial gateways represent crucial architectural components that bridge this gap between distinct network environments. Their primary objective is to enable seamless communication between the heterogeneous systems of the IT and OT domains. 
+Industrial gateways represent crucial architectural components that bridge this gap between distinct network environments. Their primary objective is to enable seamless communication between the heterogeneous systems of the \gls{acr:IT} and \gls{acr:OT} domains. 
 
 To achieve this, a gateway intercepts incoming data from a source system, translates or encapsulates the payload into a compatible format, and routes it to the target system. During this conversion process, protocol-specific overhead that is incompatible with the destination network is stripped away, while necessary parameters required by the target protocol are dynamically appended \cite[p. 277]{Gsell2026}.
 Beyond complex protocol translation, gateways can integrate raw binary or analog signals from basic physical sensors into bus systems for further network processing \cite[p. 132]{Babel2024}\cite{kleinbongartz2008uebersetzer} .
 
-A gateway can operate across various layers of the Open Systems Interconnection (OSI) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between IT networks, which are typically dominant in layers 4 to 7, and OT networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
+A gateway can operate across various layers of the Open Systems Interconnection (\gls{acr:OSI}) reference model \cite{elektronikkompendium_gateway}. Industrial gateways specifically facilitate the transition between \gls{acr:IT} networks, which are typically dominant in layers 4 to 7, and \gls{acr:OT} networks, which operate heavily within layers 1 to 3 \cite{gfg_osi_model_2026}. Consequently, managing this transition requires the gateway to reconcile various domain-specific constraints, including differing physical layer standards, addressing schemes, transmission speeds, and data formats \cite{elektronikkompendium_gateway}. 
 
-To ensure efficient translation, the protocol mapping generally occurs at the lowest common layer shared by the interconnecting systems. Depending on the specific OSI layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
+To ensure efficient translation, the protocol mapping generally occurs at the lowest common layer shared by the interconnecting systems. Depending on the specific \gls{acr:OSI} layer at which the gateway operates, its internal processing mechanism and performance characteristics vary significantly \cite{hohn2026_gateway}.
 
 \subsection{Safety Communication and the Black-Channel Principle}
 \label{subsec:black_channel}
-% das ist Neu
-The industrial gateway examined in this thesis transmits safety-related data over PROFINET using the PROFIsafe profile. PROFIsafe follows the black-channel principle. The safety layer does not trust the underlying transmission channel and instead protects each safety telegram from producer to consumer, so that the standard communication stack and the network components are not part of the safety function.
-% TODO: add a citation for the PROFIsafe black-channel principle (e.g. IEC 61784-3-3 / PROFIsafe profile) - not yet in the bibliography.
 
-Each safety telegram is protected by several measures. A consecutive number orders the telegrams and detects loss, repetition, or insertion. A cyclic redundancy check protects the payload against corruption. A safety destination address binds a telegram to its intended consumer. A watchdog time bounds the maximum age of a valid telegram; when it expires, the consumer passivates to the defined safe state.
-% TODO: add a citation for the consecutive number, CRC, F_Dest_Add, and F_WD_Time (PROFIsafe profile).
 
-These measures are designed against random transmission faults rather than against a deliberate adversary. The cyclic redundancy check and the destination address are error-detection values whose parameters are not secret. They establish integrity against accidental corruption, but not cryptographic authenticity against intentional forgery. Conversely, a cybersecurity measure must never degrade this safety communication, for example by introducing impermissible latency \cite[p. 14]{prEN50742_2025}.
+A safety industrial gateway transmits safety-related data over \gls{acr:PROFINET} using the PROFIsafe profile \cite[p. 439]{Babel2024_profi}. PROFIsafe follows the black-channel principle. The safety layer does not trust the underlying transmission channel and instead protects each safety telegram from producer to consumer, so that the standard communication stack and the network components are not part of the safety function \cite{pi_profisafe}.
+
+Each safety telegram is protected by several measures. A consecutive number orders the telegrams and detects loss, repetition, or insertion. A cyclic redundancy check protects the payload against corruption. A safety destination address binds a telegram to its intended consumer. A watchdog time bounds the maximum age of a valid telegram; when it expires, the consumer passivates to the defined safe state \cite{elintissar2026profisafe}.
+
+
+
+
+
 
 
 
@@ -162,8 +164,7 @@ Each category is the direct negation of a security objective, as Table \ref{tab:
 
 Security is often treated as a non-functional requirement, alongside performance and usability \cite[p. 291]{tauqeer2021analysis}. For a security-centric component, however, the security mechanisms are core functional requirements and must be verified as such \cite[p. 61]{Barz2025}. This section presents the techniques used to verify the security functions of an industrial gateway, and the IEC 62443 verification taxonomy that classifies these techniques.
 
-A security test also differs in purpose from a safety test %TODO: Quelle
-Functional safety validation examines the behaviour of a device under random faults and does not assume an adversary. Security verification instead assumes a deliberate attacker and applies a security-specific acceptance criterion \cite[p. 70]{Wurm2022}. An existing safety test therefore does not, on its own, demonstrate a security property, even when it exercises the same interface. 
+A security test also differs in purpose from a safety test. Functional safety validation examines the behaviour of a device under random faults and does not assume an adversary. Security verification instead assumes a deliberate attacker and applies a security-specific acceptance criterion \cite[p. 70]{Wurm2022}. An existing safety test therefore does not, on its own, demonstrate a security property, even when it exercises the same interface. 
 
 \subsection{Functional Security Testing}
 \label{subsec:functional_security_testing}

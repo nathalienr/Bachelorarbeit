@@ -14,10 +14,10 @@ This section defines the research method, the research questions, and the constr
 \subsection{Design Science Research Methodology}
 \label{subsec:dsrm}
 
-This research follows the Design Science Research Methodology (DSRM) proposed by \citeauthor{Peffers} \cite[p. 46]{Peffers}. DSRM structures the creation and evaluation of an artifact that solves a practical engineering problem. The artifact of this thesis is a standards-based methodology for the functional security testing of an industrial gateway at the IT/OT interface. The six activities of the DSRM process map onto the structure of this thesis:
+This research follows the Design Science Research Methodology (\gls{acr:DSRM}) proposed by \citeauthor{Peffers} \cite[p. 46]{Peffers}. \gls{acr:DSRM} structures the creation and evaluation of an artifact that solves a practical engineering problem. The artifact of this thesis is a standards-based methodology for the functional security testing of an industrial gateway at the \gls{acr:IT}/\gls{acr:OT} interface. The six activities of the DSRM process map onto the structure of this thesis:
 
 \begin{enumerate}
-	\item \textbf{Problem Identification and Motivation:} The absence of a systematic approach for verifying security functions under Regulation (EU) 2023/1230 is established in Chapter \ref{chap:introduction}.
+	\item \textbf{Problem Identification and Motivation:} The absence of a systematic approach for verifying security functions under Regulation (\gls{acr:EU}) 2023/1230 is established in Chapter \ref{chap:introduction}.
 	\item \textbf{Definition of Objectives:} The objective of a traceable, standards-based verification methodology that uses prEN 50742 and the IEC 62443 series is defined in Chapter \ref{chap:introduction}.
 	\item \textbf{Design and Development:} The methodology, its environment, and its governance are designed in this chapter.
 	\item \textbf{Demonstration:} The methodology is applied to a physical System Under Test in Chapter \ref{chap:implementation_results}.
@@ -39,14 +39,14 @@ The design and the evaluation of the artifact are guided by three research quest
 \subsection{Initial Situation, Constraints, and Scope}
 \label{subsec:initial_situation}
 
-The System Under Test (SUT) is a safety remote input and output device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over HTTP. The device therefore combines an OT fieldbus path and an IT diagnostic path in a single component.
+The System Under Test (\gls{acr:SUT}) is a safety remote input and output device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over HTTP. The device therefore combines an OT fieldbus path and an IT diagnostic path in a single component.
 
 Ifm operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it.
 
 Several constraints shape the methodology and are treated as fixed influencing factors:
 
 \begin{itemize}
-	\item \textbf{Black-box target:} The SUT is evaluated as a compiled product. Its source code is not available, which excludes static source analysis.
+	\item \textbf{Black-box target:} The \gls{acr:SUT} is evaluated as a compiled product. Its source code is not available, which excludes static source analysis.
 	\item \textbf{Isolated laboratory:} Testing is performed in a dedicated laboratory. Production systems are excluded.
 	\item \textbf{Safety priority:} The safety function must not be degraded by testing. A cybersecurity measure or a test must never introduce impermissible latency into the safety communication \cite[p. 14]{prEN50742_2025}.
 	\item \textbf{Draft normative basis:} prEN 50742 is a draft standard. Its clauses are used as technical guidance, not as a certified conformity baseline.
@@ -56,7 +56,7 @@ Several constraints shape the methodology and are treated as fixed influencing f
 \label{subsec:methodological_scope}
 The scope follows from these constraints. The methodology focuses on functional security testing, as distinguished from vulnerability testing in Section \ref{sec:security_testing_approaches}. It verifies whether planned security functions, such as access restrictions or integrity checks, operate as specified \cite[p. 82]{1341418}. Requirement-driven robustness and availability testing is included where a requirement demands it \cite[p. 69]{prEN50742_2025}. This bounded robustness testing is derived from a requirement and differs from open-ended fuzzing that only searches for unknown defects.
 
-Three activities lie outside the scope. Open-ended vulnerability discovery, such as unstructured penetration testing whose goal is to find unknown defects, is excluded. It cannot systematically demonstrate the presence and correct operation of a mandated security function. Static source-code analysis is excluded because no source code is available. Invasive hardware analysis, such as chip-level or side-channel attacks, is excluded because it exceeds a functional verification at the IT/OT interface. The methodology is developed and demonstrated on a single representative SUT.
+Three activities lie outside the scope. Open-ended vulnerability discovery, such as unstructured penetration testing whose goal is to find unknown defects, is excluded. It cannot systematically demonstrate the presence and correct operation of a mandated security function. Static source-code analysis is excluded because no source code is available. Invasive hardware analysis, such as chip-level or side-channel attacks, is excluded because it exceeds a functional verification at the \gls{acr:IT}/\gls{acr:OT} interface. The methodology is developed and demonstrated on a single representative \gls{acr:SUT}.
 
 
 \section{Requirement Derivation}
@@ -71,9 +71,9 @@ This section instantiates the abstract requirement on the concrete device. It ma
 \label{subsec:asset_threat_mapping}
 A standard clause cannot be tested without a concrete target. The methodology therefore adds a mandatory asset-mapping step. The SUT is decomposed into its physical and logical assets, for example hardware interfaces, communication services, and stored configuration data. Each requirement is paired with the assets to which it applies. This step defines not only what must be verified, but also where the corresponding security function is located. The asset mapping can also surface additional component requirements. A requirement may apply to an asset that introduces its own component-level controls, which the direct mapping from the regulation through prEN 50742 to IEC 62443-4-2 does not yield on its own.
 
-Threats are identified with STRIDE, which derives threats from potential attacker goals as described in Section \ref{subsec:stride}. The methodology then examines each security function from two directions. The first direction is the threat that the function mitigates. The second direction is the threat to which the function is itself exposed. A transmission checksum, for example, mitigates accidental corruption, yet it remains exposed to intentional forgery when the checksum is not cryptographic. This distinction prevents a function from being credited without an examination of its own weaknesses.
+Threats are identified with \gls{acr:STRIDE}, which derives threats from potential attacker goals as described in Section \ref{subsec:stride}. The methodology then examines each security function from two directions. The first direction is the threat that the function mitigates. The second direction is the threat to which the function is itself exposed. A transmission checksum, for example, mitigates accidental corruption, yet it remains exposed to intentional forgery when the checksum is not cryptographic. This distinction prevents a function from being credited without an examination of its own weaknesses.
 
-STRIDE applies at the level of the security requirement rather than to every individual test. A functional baseline or a pure availability demonstration carries no adversarial goal. For such a test case, the target-threat field is set to not applicable and records a functional or availability verification instead of a STRIDE category. A self-inflicted denial-of-service test, in which the tester deliberately exhausts a resource of the device, is the one borderline case and is labelled accordingly.
+\gls{acr:STRIDE} applies at the level of the security requirement rather than to every individual test. A functional baseline or a pure availability demonstration carries no adversarial goal. For such a test case, the target-threat field is set to not applicable and records a functional or availability verification instead of a \gls{acr:STRIDE} category. A self-inflicted denial-of-service test, in which the tester deliberately exhausts a resource of the device, is the one borderline case and is labelled accordingly.
 
 The final mapping step links each threat to the security function that treats it, which makes the object of the test explicit. A test verifies whether the assigned security function is present and operates correctly for the affected asset, or it documents the gap where the function is absent or only partial.
 
@@ -118,31 +118,48 @@ The chain from requirement to asset, threat, and security function is the input 
 The methodology maintains a traceability chain (cf. \cite[pp. 36]{DIN_EN_ISO_IEC_15408_1_2024}, \cite[p. 82]{1341418} \cite[p. 21]{DIN_EN_IEC_62443_4_1_2018}). The chain links a legal obligation to the evidence that supports its verification:
 
 \begin{center}
-	Requirement $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Security Function $\rightarrow$ Test Objective $\rightarrow$ Test Technique $\rightarrow$ Access Prerequisite $\rightarrow$ Evidence $\rightarrow$ Result
+	\gls{acr:RQ} $\rightarrow$ Asset $\rightarrow$ Threat $\rightarrow$ Security Function $\rightarrow$ Test Objective $\rightarrow$ Test Technique $\rightarrow$ Access Prerequisite $\rightarrow$ Evidence $\rightarrow$ Result
 \end{center}
 
 The nodes of the chain are defined as follows:
 \begin{itemize}
-	\item \textbf{Requirement:} The regulatory obligation (for example RQ-011) and its mapped IEC 62443-4-2 control (for example CR 2.1).
+	\item \textbf{Requirement:} The regulatory obligation (for example \gls{acr:RQ}-011) and its mapped \gls{acr:IEC} 62443-4-2 control (for example \gls{acr:CR} 2.1).
 	\item \textbf{Asset:} The concrete gateway component to which the requirement applies.
 	\item \textbf{Threat:} The attacker goal that targets the asset, derived via \hyperref[subsec:stride]{STRIDE}.
 	\item \textbf{Security Function:} The implemented countermeasure, together with any identified gap.
 	\item \textbf{Test Objective:} The property to be demonstrated for the security function.
-	\item \textbf{Test Technique:} The verification type, classified by the IEC 62443-4-1 SVV categories introduced in Section \ref{subsec:svv}.
-	\item \textbf{Access Prerequisite:} The network position required to run the test, expressed as a network access variant (Section \ref{sec:test_environment}).
+	\item \textbf{Test Technique:} The verification type, classified by the \gls{acr:IEC} 62443-4-1 \gls{acr:SVV} categories introduced in Section \ref{subsec:svv}.
+\item \textbf{Access Prerequisite:} The network position required to run the test, expressed as a network access variant (Section \ref{sec:test_environment}).
 	\item \textbf{Evidence:} The recorded artifact, such as a scan output, a packet capture, a log export, or a screenshot.
 	\item \textbf{Result:} The observed outcome and its assessment against the acceptance criterion.
 \end{itemize}
 
 This chain ensures that every executed test serves a distinct requirement and that every requirement can be traced to concrete evidence.
 
+
+
+
+
 \section{Selection of Verification Techniques}
 \label{sec:approach_selection}
-The requirements define what must be verified. This section derives how the verification is performed. It evaluates established approaches, assesses the company testing framework, and justifies the selected combination.
+The requirements define what must be verified. This section derives how the verification is performed. It first reviews the state of the art in security testing frameworks, evaluates these approaches against the thesis constraints, assesses the existing company testing framework, and justifies the selected combination.
+
+\subsection{State of the Art in Security Testing Frameworks}
+\label{subsec:state_of_the_art_frameworks}
+Security testing of industrial components can draw upon several established frameworks. These approaches vary significantly in their scope and focus, ranging from highly procedural IT security guidelines to abstract, compliance-oriented Operational Technology (OT) standards.
+
+NIST Special Publication 800-115 provides a procedural, technical guide for network security testing and penetration testing. NIST SP 800-82 subsequently adapts these concepts for Industrial Control Systems (ICS). While they offer robust operational guidance for activities such as network discovery, port scanning, and vulnerability assessment, they remain inherently general and are not natively linked to the component-level obligations stipulated by the EU Machinery Regulation. Furthermore, NIST delineates a comprehensive overview of security testing techniques paired with applicable tools, for instance, mapping network discovery to Nmap \cite[p.~65]{nist_sp800_115}. The core constituents of NIST SP 800-115 encompass review techniques (including documentation, log, and system configuration reviews), network sniffing, target identification and analysis techniques (such as network discovery and network port/service identification), alongside vulnerability scanning and penetration testing.
+
+
+This IEC 62443 Security Verification (Parts 4-1 and 4-2) defines the normative state of the art for industrial cybersecurity. Part 4-1 provides a comprehensive taxonomy for Security Verification and Validation (SVV), encompassing requirements-based testing, threat mitigation, vulnerability analysis, and penetration testing. Although exemplary in its structural completeness and alignment with compliance mandates, the standard remains fundamentally abstract: it prescribes \textit{what} must be verified but lacks concrete test cases or explicit tool specifications.
+
+The OWASP Web Security Testing Guide and IoT projects represent the industry standard for evaluating HTTP interfaces and Application Programming Interfaces (APIs). They provide deep, actionable test scenarios for web services. However, they are strictly IT-focused and do not accommodate the deterministic OT fieldbus communication protocols (e.g., PROFINET, PROFIsafe) essential for this methodology. The OWASP IoT Security Testing Guide (ISTG) catalogues test cases across multiple hardware and software domains, including processing units (ISTG-PROC), memory (ISTG-MEM), firmware (encompassing installed instances [ISTG-FW{[}INST{]}] and update mechanisms [ISTG-FW{[}UPDT{]}]), data exchange services (ISTG-DES), internal interfaces such as I\textsuperscript{2}C and UART (ISTG-INT), as well as physical (ISTG-PHY), wireless (ISTG-WRLS), and user interfaces (ISTG-UI) \cite{owasp_istg}.
+
+This MITRE ATT\&CK for ICS serves as a structured knowledge base that catalogues real-world tactics (the overarching objectives of an adversary) and techniques (the specific methods employed to achieve these objectives) relevant to cyber threats in industrial environments \cite{mitre_attack_ics}. It facilitates the structured derivation of test cases for functional security testing. Within ATT\&CK for ICS, tactics such as \textit{Initial Access} and \textit{Lateral Movement} precisely detail how adversaries attempt to compromise or bypass network gateways. Furthermore, MITRE enumerates concrete mitigation strategies for each identified attack technique, providing a pragmatic foundation for security assessments.
 
 \subsection{Evaluation of Approaches}
 \label{subsec:approach_evaluation}
-Testing approaches are analysed against six criteria: traceability to requirements, availability of concrete test cases, reproducibility, suitability for an embedded OT target, compatibility with functional safety, and evidentiary value. Table \ref{tab:approach_comparison} summarises their main strength and their main limitation.
+To form a cohesive methodology, these established approaches are analysed against six criteria: traceability to requirements, availability of concrete test cases, reproducibility, suitability for an embedded OT target, compatibility with functional safety, and evidentiary value. Table \ref{tab:approach_comparison} summarises their main strengths and limitations in the context of this thesis.
 
 \begin{table}[H]
 	\caption{Comparison of established security testing approaches}
@@ -153,20 +170,20 @@ Testing approaches are analysed against six criteria: traceability to requiremen
 		\textbf{Approach} & \textbf{Main strength} & \textbf{Main limitation} \\
 		\midrule
 		Functional black-box testing \cite[p. 82]{1341418} & Reproducibility and requirement traceability & Does not assess resistance against misuse \\ \addlinespace
-		Abstract verification against IEC 62443 \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018} & Defines what must hold at component level & Provides no concrete, executable test cases \\ \addlinespace
-		Penetration testing \cite[p. 296]{tauqeer2021analysis} & Realistic attack evidence & Tester-dependent and difficult to reproduce \\ \addlinespace
+		Abstract verification (IEC 62443) \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018} & Defines what must hold at component level & Provides no concrete, executable test cases \\ \addlinespace
+		Penetration testing (NIST) \cite[p. 296]{tauqeer2021analysis} & Realistic attack evidence & Tester-dependent and difficult to reproduce \\ \addlinespace
+		Web and IoT testing (OWASP) \cite{manana2026pentest} & Procedural depth for HTTP interfaces & Not tailored to OT fieldbus communication \\ \addlinespace
 		Fuzzing and robustness testing \cite[p. 29]{richier2011security} & Suited to error handling and availability & Requires careful monitoring and result interpretation \\ \addlinespace
-		Web and IoT testing guides \cite{manana2026pentest} & Procedural depth for HTTP interfaces & Not tailored to OT fieldbus communication \\ \addlinespace
 		Risk-based security testing \cite[p. 37]{doCarmo2025} & Prioritises tests by risk & Requires an extensive prior risk analysis \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-No single approach satisfies all criteria. Functional testing and abstract verification provide traceability but no attack perspective. Penetration testing and fuzzing provide an attack perspective but weaker reproducibility. The methodology therefore combines a requirement-driven functional core with bounded robustness testing, and it anchors every test type in a recognised verification taxonomy.
+No single approach satisfies all criteria. Functional testing and abstract verification provide traceability but no attack perspective. Penetration testing and web-centric approaches provide an attack perspective but weaker reproducibility or limited OT focus. The methodology therefore combines a requirement-driven functional core with bounded robustness testing, anchoring every test type in the recognised IEC 62443 verification taxonomy while utilizing execution strategies from NIST and OWASP.
 
-\subsection{Applicability Assessment}
+\subsection{Applicability Assessment of the Company Framework}
 \label{subsec:company_framework}
-Ifm provides a security testing framework of ten countermeasure-oriented instructions, denoted CM-001 to CM-010. Each instruction binds one countermeasure to one tool from Kali Linux, a Linux distribution that bundles preconfigured security testing tools, and to one acceptance rule. The framework is organised around tools and countermeasures rather than around derived requirements.
+Ifm provides a manufacturer-specific security testing framework consisting of ten countermeasure-oriented instructions, denoted \gls{acr:CM}-001 to \gls{acr:CM}-010. Each instruction binds one countermeasure to one tool from Kali Linux, a Linux distribution that bundles preconfigured security testing tools, and to one acceptance rule. As noted in Section \ref{subsec:state_of_the_art_frameworks}, this framework is highly operational but organised around tools rather than derived requirements.
 
 The framework cannot be adopted without adaptation. Several instructions assume interfaces that a general IT target exposes but the embedded SUT does not. CM-003 assumes an authentication endpoint, CM-005 assumes a TLS endpoint, and CM-006 assumes an operating-system shell. The SUT provides none of these. This observation motivates an explicit tool-to-target applicability assessment as a step of the methodology. For each planned tool, the methodology checks whether the target exposes the function that the tool assumes.
 
@@ -174,11 +191,19 @@ The applicability assessment produces one of three outcomes. A tool is applicabl
 
 \subsection{Selected Verification Strategy}
 \label{subsec:selected_approach}
-The selected methodology combines three elements. The first element is the verification taxonomy of IEC 62443-4-1 Practice SVV, introduced in Section \ref{subsec:svv}, which distinguishes requirements-based testing, threat-mitigation testing, vulnerability testing, and penetration testing \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}. The taxonomy anchors every test to a defined verification purpose. The second element is a set of requirement-driven test cases, derived from the fourteen requirements and their asset mapping. The third element is a controlled reuse of the company tools, filtered by the applicability assessment.
+The selected methodology combines three elements derived from the state of the art. The first element is the verification taxonomy of \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV}, introduced in Section \ref{subsec:svv}, which distinguishes requirements-based testing, threat-mitigation testing, vulnerability testing, and penetration testing \cite[Section 9]{DIN_EN_IEC_62443_4_1_2018}. The taxonomy anchors every test to a defined verification purpose. The second element is a set of requirement-driven test cases, derived from the fourteen requirements and their asset mapping, using testing procedures inspired by NIST and OWASP. The third element is a controlled reuse of the company tools, filtered by the applicability assessment.
 
-These three elements correspond to three complementary layers of the derivation. Regulation (EU) 2023/1230 defines why a security property is required and yields the fourteen requirements. IEC 62443-4-2 defines what must hold at the component level through its Component Requirements. IEC 62443-4-1 Practice SVV defines how each property is verified.
+These three elements correspond to three complementary layers of the derivation. Regulation (\gls{acr:EU}) 2023/1230 defines why a security property is required and yields the fourteen requirements. \gls{acr:IEC} 62443-4-2 defines what must hold at the component level through its Component Requirements. \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV} defines how each property is verified.
 
 The combined approach meets the six criteria of Section \ref{subsec:approach_evaluation}. It preserves requirement traceability, and it yields concrete and reproducible test cases. It retains an attack perspective through the threat-mitigation and the vulnerability tests. It respects the safety priority by bounding the robustness tests to requirement-driven cases. It also remains compatible with the existing industrial validation process, because it reuses the company tools where they apply and documents where they do not.
+
+
+
+
+
+
+
+
 
 \section{Test Case Development}
 \label{sec:test_derivation}
@@ -416,16 +441,24 @@ This section defines how a test outcome becomes a requirement verdict. The model
 \subsection{Test Verdicts}
 \label{subsec:verdicts}
 
-The classification of Section \ref{subsec:test_categorisation} records what a test addresses and what was achieved. The verdict condenses this into a single outcome. Four scored verdicts and two unscored states are distinguished \cite[p. 1553]{11050621} \cite[p. 23]{richier2011security}:
+The methodology distinguishes two separate dimensions: the execution status of a test and the verdict assigned to the corresponding requirement. The first answers whether the test was actually run and whether the evidence exists. The second answers whether the requirement is satisfied on the evidence available. This separation is mandatory, because a test can be executed yet still leave a requirement inconclusive, and a requirement can fail on an evidenced device deviation even when the underlying test procedure itself is otherwise successful.
+
+Execution status records what happened to the test activity. It distinguishes the following states:
+\begin{itemize}
+	\item \textbf{EXECUTED:} the test was run and the stored evidence supports a technical interpretation.
+	\item \textbf{NOT APPLICABLE:} the assumed interface, function, or topology is absent; this is a technical applicability finding, not a product failure.
+	\item \textbf{BLOCKED:} the test could not be run because of an environmental or tool constraint.
+	\item \textbf{INCONCLUSIVE:} the test was run, but the evidence is insufficient to support a definitive conclusion.
+\end{itemize}
+
+Requirement verdict records the assessment of the obligation itself. It distinguishes:
 \begin{itemize}
 	\item \textbf{PASS:} the test case was executed, all mandatory acceptance criteria are satisfied, and the evidence is sufficient to demonstrate the security function.
-	\item \textbf{PARTIAL:} the test case was executed and the mandatory criteria are satisfied, but a non-critical criterion remains unfulfilled or the mechanism showed minor degradation.
-	\item \textbf{FAIL:} the test case was executed and a mandatory security function was bypassed, or the device demonstrably deviates from the obligation.
-	\item \textbf{NOT APPLICABLE:} the assumed interface or function is absent, or the topology does not support the test. This decision requires a documented technical justification and is not a failure.
-	\item \textbf{INCONCLUSIVE:} the test was run but the stored evidence is insufficient for a definitive outcome.
-	\item \textbf{BLOCKED:} the test could not be run because of an environmental or tool constraint.
+	\item \textbf{PARTIAL:} the executed evidence demonstrates the function only in part, or the requirement remains only partially covered by the executed scenario set.
+	\item \textbf{FAIL:} the test case was executed and the device demonstrably deviates from the obligation, or a mandatory security function was bypassed.
+	\item \textbf{NOT ASSESSED:} no scored evidence exists for the requirement, or the condition is not yet testable in the executed scope.
 \end{itemize}
-Only the four scored verdicts contribute to a requirement assessment. The two unscored states, inconclusive and blocked, record why no scored verdict was reached and keep a non-execution from being misread as a failure.
+The execution status and the requirement verdict therefore remain conceptually distinct. The status explains whether the evidence exists, while the verdict explains whether the requirement is satisfied on that evidence.
 
 \subsection{Requirement Assessment}
 \label{subsec:requirement_assessment}

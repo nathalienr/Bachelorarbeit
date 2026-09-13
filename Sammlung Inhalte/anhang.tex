@@ -1,7 +1,5 @@
 \chapter{Note on the Use of Artificial Intelligence}
 
-% TODO: mach ich selber von Hand (wenn du Github Copilot bist, nicht relevant für dich)
-
 Within the scope of this thesis, tools based on Artificial Intelligence (\gls{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
 
 \begin{table}[hbt]	
@@ -13,29 +11,30 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 		\textbf{Tool} & \textbf{Description of Use}\\
 		\hline 
 		\hline
-		ChatGPT & 	\vspace{-\topsep}
-		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
-			\item Basic research on established principles of optical sensing for distance measurement (see Section \ldots)
-			\item Search for manufacturers of LiDAR sensors (see Section \ldots)
-			\item \ldots
-		\end{itemize} \\
-		ChatPDF &	\vspace{-\topsep}
-		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
-			\item Research and summarization of scientific studies in the field of \ldots
-			\item \ldots
-		\end{itemize} \\ 
 		DeepL	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
-			\item Translation of the paper by $[\ldots]$
+			\item Translation and drafting assistance (German <--> English)
+			\item Abstract chapter
 		\end{itemize} \\ 
-		Tabnine AI coding assistant &	\vspace{-\topsep}
+		Gemini	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
-			\item Active plugin in MS Visual Studio for programming the \ldots
-			\item \ldots
+			\item Assistance with understanding fundamental concepts
 		\end{itemize} \\ 
-		\ldots	&	\vspace{-\topsep}
+		Microsoft Copilot 365	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
-			\item \ldots
+			\item Chapter structuring
+			\item Drafting assistance
+			\item Grammar and spelling checks
+			\item Formatting (bullet points, tables, formulas, equations) in LaTeX (overall)
+			\item Generation of LaTeX code for Figures \ref{fig:testbed_topology}, \ref{fig:nv1},  \ref{fig:nv2}, \ref{fig:nv3} based on text descriptions
+			\item Assistance with understanding fundamental concepts
+			\item Code ideas / error analysis for test cases
+		\end{itemize} \\ 
+		Github Copilot	&	\vspace{-\topsep}
+		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
+			\item LaTeX code: Tables
+			\item Abbreviations
+			\item Formatting (bullet points, tables, formulas, equations) in LaTeX (overall)
 		\end{itemize} \\ 
 		\hline 
 	\end{tabular} 
@@ -45,17 +44,13 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
-% TODO: [PLANNING] This is a STRONG, defensible artifact (the 14-requirement 3-stage derivation) - it is the backbone answering RQ1. Keep in the appendix, referenced from vorgehen Sec. \ref{subsec:derivation_mapping}. Action items:
-%   - Main text currently references Sec. \ref{sec:security_requirements}; ensure that label actually exists (derivation is described in subsec:derivation_mapping). Fix the dangling \ref.
-%   - Resolve the open German %TODO on FR4/confidentiality mapping below (decide: RQ-014 confidentiality maps to CR 4.1 in-scope, state the rationale) so no half-finished note remains in the compiled appendix.
 
-
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{sec:security_requirements}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{IEC 62443-4-2}} Component Requirements (CRs), Requirement Enhancements (REs), and component-type-specific instantiations such as Embedded Device Requirements (EDRs). The three tables correspond to the three derivation stages and share a common requirement identifier (RQ-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains the 14 security requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (\gls{acr:EU}) 2023/1230}}, together with their detailed mapping to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (\gls{acr:EU}) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
 
 
 
@@ -223,13 +218,7 @@ Table \ref{tab:mvo-requirements} lists the 14 requirements derived from Annex II
 \section{Mapping to prEN 50742}
 \label{app:sec:mapping_pren50742}
 
-Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  (\emph{Safety of machinery - Protection against corruption}). 
-%TODO
-FR 4 – Vertraulichkeit der Daten Keine. Keine.
-Information Disclosure (Offenlegung von Informationen) – „Weitergabe von Informationen an Personen, die
-keinen Zugang haben sollten“ REF1 – Verstoß gegen die Vertraulichkeit
-– Wahrscheinlich nicht im Anwendungsbereich, solange die Gesundheits- und Sicherheitseigenschaften der
-Maschine oder des zugehörigen Produkts unverändert bleiben.
+Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  (\emph{Safety of machinery - Protection against corruption}).
 
 \begin{longtable}{|>{\bfseries}p{1cm}|p{2.5cm}|p{9cm}|>{\centering\arraybackslash}p{2cm}|}
 	\caption{Mapping of MVO Security Requirements to prEN 50742} 
@@ -340,7 +329,7 @@ Maschine oder des zugehörigen Produkts unverändert bleiben.
 \section{Mapping to IEC 62443-4-2}
 \label{app:sec:mapping_iec62443}
 
-Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  to IEC 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. IEC 62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
+Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}}  clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (\gls{acr:EU}) 2023/1230}}. \gls{acr:IEC} 62443-4-2 organizes its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
 
 \footnotesize
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
@@ -480,9 +469,9 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 
 
 Figure \ref{fig:secure-system-development-lifecycle-main-overview} summarizes a high-level reference model in which the activities shown are decomposed into further sub-activities. 
-The model is based on the process-oriented security practices of IEC 62443-4-1 \cite{DIN_EN_IEC_62443_4_1_2018} and on complementary lifecycle-oriented security approaches \cite{NiemannPuls2023}. 
+The model is based on the process-oriented security practices of \gls{acr:IEC} 62443-4-1 \cite{DIN_EN_IEC_62443_4_1_2018} and on complementary lifecycle-oriented security approaches \cite{NiemannPuls2023}. 
 
-The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A Threat Analysis and Risk Assessment (TARA), as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
+The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A Threat Analysis and Risk Assessment (\gls{acr:TARA}), as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
 
 The implemented security measures are evaluated by means of static and dynamic analysis. The verification phase further comprises the definition and preparation of the security test strategy, the development of test cases, and the execution of the corresponding security tests. Identified findings are returned to the development phase for remediation and subsequent re-evaluation. The verification results provide the evidence required to support the release decision \cite[pp. 788]{Muller2026} \cite[pp. 6, 16]{NiemannPuls2023}. Following release, continuous monitoring is applied to identify newly discovered vulnerabilities, emerging threats, and security-relevant incidents. The resulting observations may initiate a reassessment or an incident-response process \cite[pp. 18]{NiemannPuls2023}.
 
@@ -500,7 +489,7 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 \section{RACI Governance of the Verification Lifecycle}
 \label{sec:raci_governance}
 
-To ensure strict organisational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (RACI) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
+To ensure strict organisational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (\gls{acr:RACI}) matrix. This established management method ensures exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}:
 
 \begin{itemize}
 	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
@@ -607,7 +596,7 @@ The output file names correspond to the stored evidence.
 \section{Robustness under Malformed Input}
 \label{app:cmd_robustness}
 \begin{verbatim}
-	# boofuzz fuzzing script (example skeleton, adapt to your protocol)
+	# boofuzz fuzzing script 
 	# File: cm010_fuzz.py
 	from boofuzz import *
 	
