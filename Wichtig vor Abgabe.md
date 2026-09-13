@@ -12,3 +12,4 @@
 * formatierung auf seite (keine überlangen wörter)
 * inhaltliche konsistenz
 * aufgabenstellung erfüllt
+* Kapitel und section Überschriften anpassen

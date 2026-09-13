@@ -229,13 +229,13 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	\caption{Mapping of Machinery Regulation requirements to prEN 50742} 
 	\label{tab:pren50742-mapping} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{4}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endhead
 	
@@ -342,13 +342,13 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
 	\caption{Mapping of Machinery Regulation-derived security requirements via prEN 50742 and the IEC 62443 Foundational Requirements to IEC 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{6}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endhead
 	
@@ -583,7 +583,9 @@ The output file names correspond to the stored evidence.
 	curl -s http://$SRIO/devicestatus/errorlog/loglist | tee errorlog.json
 	curl -s http://$SRIO/systemtime/systick/getdata  | tee systick.txt
 	# Manual sequence: baseline; short-circuit pins 1 and 3 of a digital input;
-	# remove power for a cold restart; induce the second short-circuit; repeat the reads.
+	# remove power for a cold restart; 
+	induce the second short-circuit; 
+	repeat the reads.
 \end{verbatim}
 
 \section{Availability under Connection Load}
