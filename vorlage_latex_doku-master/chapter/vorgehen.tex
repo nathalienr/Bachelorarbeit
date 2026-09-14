@@ -478,10 +478,10 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 
 \subsection{Test System and Tooling} 
 \label{subsec:execution_tooling} 
-%TODO Quelle
-Security testing exercises an object under defined conditions and compares the actual behaviour with the expected behaviour \cite[p. ES-1]{nist_sp800_115}. The \gls{acr:SUT} is evaluated as a compiled product without source access, only requirement documentation. The methodology therefore uses dynamic black-box testing, also known as \gls{acr:DAST}. Static source analysis is out of scope, as stated in Section \ref{subsec:constraints_scope} \cite[p. 6777]{aydos_security_2022}. 
 
-The methodology adopts Kali Linux as the standardised operating environment. Several options are considered. A general-purpose Linux distribution with individually installed tools offers flexibility, but it increases setup effort and reduces reproducibility. Commercial security suites offer integrated reporting, but their closed nature limits transparency and independent reproduction. Comparable open security distributions, such as Parrot OS, provide a similar toolset. Kali Linux is selected because it bundles a maintained and pre-configured set of open-source auditing tools, which improves reproducibility and removes the need to develop custom exploit code \cite{kali_whatis}. Its use of the same platform as the company framework is a secondary benefit that supports transfer into the industrial process, not the primary reason for the selection. The tools are grouped by function: network discovery and service enumeration, \gls{acr:HTTP} and \gls{acr:API} interception, credential testing, and load or robustness testing \cite[p. A-1]{nist_sp800_115}. A tool is used only after the applicability assessment of Section \ref{subsec:company_framework} confirms that the target exposes the assumed interface. 
+Security testing exercises an object under defined conditions and compares the actual behaviour with the expected behaviour \cite[p. ES-1]{nist_sp800_115}. The \gls{acr:SUT} is evaluated as a compiled product without source access, only requirement documentation. The methodology therefore uses dynamic black-box testing, also known as \gls{acr:DAST}. Static source analysis is out of scope, as stated in Section \ref{subsec:constraints_scope}. 
+
+The methodology adopts Kali Linux as the standardised operating environment. Several options are considered. A general-purpose Linux distribution with individually installed tools offers flexibility, but it increases setup effort and reduces reproducibility. Commercial security suites offer integrated reporting, but their closed nature limits transparency and independent reproduction. Comparable open security distributions, such as Parrot OS, provide a similar toolset \cite{gfg_kali_alternatives_2024}. Kali Linux is selected because it bundles a maintained and pre-configured set of open-source auditing tools, which improves reproducibility and removes the need to develop custom exploit code. Its use of the same platform as the company framework is a secondary benefit that supports transfer into the industrial process, not the primary reason for the selection. The tools are grouped by function: network discovery and service enumeration, \gls{acr:HTTP} and \gls{acr:API} interception, credential testing, and load or robustness testing. A tool is used only after the applicability assessment of Section \ref{subsec:company_framework} confirms that the target exposes the assumed interface \cite{kali_whatis}. 
 
 The engineering tool for the safety configuration, TIA Portal, is used only as a supporting instrument, for example to read identification and maintenance data or to observe the safety qualifier. It is not treated as a security testing tool.
 
@@ -494,18 +494,18 @@ This section defines how a test outcome becomes a requirement verdict. The model
 
 \subsection{Test Verdicts} 
 \label{subsec:verdicts} 
-%TODO Quellen
-The methodology distinguishes two separate dimensions: the execution status of a test and the verdict assigned to the corresponding requirement. The first answers whether the test was actually run and whether the evidence exists. The second answers whether the requirement is satisfied on the evidence available. This separation is mandatory, because the two dimensions operate on different objects: execution status is recorded per test case, while the requirement verdict is aggregated across all test cases associated with a requirement (Section \ref{subsec:requirement_assessment}). Execution status records what happened to the test activity. It distinguishes the following states: 
+
+The methodology distinguishes two separate dimensions: the execution status of a test and the verdict assigned to the corresponding requirement. The first answers whether the test was actually run and whether the evidence exists. The second answers whether the requirement is satisfied on the evidence available. This separation is mandatory, because the two dimensions operate on different objects: execution status is recorded per test case, while the requirement verdict is aggregated across all test cases associated with a requirement (Section \ref{subsec:requirement_assessment}). Execution status records what happened to the test activity. It distinguishes the following states \cite[p. 62]{glossar2013istqb}: 
 \begin{itemize} 
 	\item \textbf{Executed:} the test was run and the stored evidence supports a technical interpretation. 
-	\item \textbf{Not Applicable:} the assumed interface, function, or topology is absent. This is a technical applicability finding, not a product failure. \item \textbf{Blocked:} the test could not be run because of an environmental or tool constraint. 
+	\item \textbf{Not Applicable:} the assumed interface, function, or topology is absent. This is a technical applicability finding, not a product failure. \item \textbf{Blocked:} the test could not be run because of an environmental or tool constraint \cite[p. 11]{glossar2013istqb}. 
 \end{itemize} 
 
 Requirement verdict records the assessment of the obligation itself. It distinguishes: 
 
 \begin{itemize} 
 	\item \textbf{Pass:} the test case was executed, all mandatory acceptance criteria are satisfied, and the evidence is sufficient to demonstrate the security function. 
-	\item \textbf{Fail:} the test case was executed and the device demonstrably deviates from the obligation, or a mandatory security function was bypassed. 
+	\item \textbf{Fail:} the test case was executed and the device demonstrably deviates from the obligation, or a mandatory security function was bypassed \cite[p. 10]{glossar2013istqb}. 
 	\item \textbf{Not assessed:} no scored evidence exists for the requirement, or the condition is not yet testable in the executed scope. 
 \end{itemize} 
 
@@ -514,12 +514,12 @@ A requirement can accordingly be assessed as Not assessed even though none of it
 
 \subsection{Requirement Assessment} 
 \label{subsec:requirement_assessment} 
-
+%TODO
 The verdicts are aggregated per requirement according to a conservative rule that does not credit partial evidence. A requirement is assessed as Fail if any associated test case is Executed and the device demonstrably deviates from the obligation, or if a mandatory security function is bypassed. A Fail therefore takes precedence over any other outcome. A requirement is assessed as Pass only if every test case associated with it and applicable to it is Executed and passes with sufficient evidence, so that the requirement is fully covered by the executed scenario set. In every other case, including a requirement for which some but not all associated tests are Executed and passing while the remainder are Not Applicable or Blocked, the requirement is reported as Not assessed, together with the reason. This conservative default means that incomplete test coverage is never reported as a Pass, even when no deviation was found. 
 
 \subsection{Evidence Model} 
 \label{subsec:evidence_model} 
-
+%TODO
 The assessment rests on one evidence rule that is applied without exception. A test is considered Executed only if a corresponding stored artefact exists. An artefact is a recorded output of the test, for example a tool log, a packet capture, a log export, or a screenshot. A reported test run without such an artefact does not qualify as Executed; it is recorded as Blocked and cannot, by itself, support a Pass at the requirement level. A tool execution is not, by itself, a requirement verification. The observation it produces must be interpreted against the acceptance criterion, and this interpretation is kept separate from the raw observation. Expected behaviour taken from a test specification is never presented as an observed result. This rule is the basis of the evidence-first reporting applied in Chapter \ref{chap:implementation_results}. 
 
 The same rule governs the relationship to existing functional and safety tests. The \gls{acr:SUT} is a safety device, so some security-relevant properties are already exercised by functional or safety validation. Such a test does not, on its own, prove cybersecurity compliance, because safety validation examines behaviour under random faults, whereas a security verdict requires an adversarial perspective and a security-specific acceptance criterion. Safety evidence is therefore reused only when it is re-evaluated against such a criterion. The organisational embedding of these verification activities into a secure development lifecycle, including the governance responsibilities, is described in Appendix \ref{app:SecureDevelopmentLifecycle}.
