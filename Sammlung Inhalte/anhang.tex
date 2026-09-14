@@ -14,7 +14,7 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 		DeepL	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
 			\item Translation and drafting assistance (German <--> English)
-			\item Abstract chapter
+			\item Translation Abstract chapter
 		\end{itemize} \\ 
 		Gemini	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
@@ -49,12 +49,12 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 % (research questions). If renamed to SR-0xx, this appendix is the normative source and
 % must be changed together with Chapters 3, 4 and 5 in one coordinated pass.
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (\gls{acr:EU}) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{sec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{sec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (\gls{acr:EU}) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
 
 
 
@@ -229,13 +229,13 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	\caption{Mapping of Machinery Regulation requirements to prEN 50742} 
 	\label{tab:pren50742-mapping} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{4}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endhead
 	
@@ -336,19 +336,19 @@ Where the draft standard explicitly excludes an obligation, as for RQ-013, the d
 \section{Mapping to IEC 62443-4-2}
 \label{app:sec:mapping_iec62443}
 
-Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (\gls{acr:EU}) 2023/1230}}. The mapped Component Requirements are to be satisfied at the target Component Security Level Capability declared in Section \ref{subsec:derivation_mapping}; applicable Requirement Enhancements are included accordingly. \gls{acr:IEC} 62443-4-2 organises its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
-
+Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. The mapped Component Requirements are to be satisfied at the target Component Security Level Capability declared in Section \ref{subsec:derivation_mapping}; applicable Requirement Enhancements are included accordingly. \gls{acr:IEC} 62443-4-2 organises its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
+%TODO caption kürzen
 \footnotesize
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
 	\caption{Mapping of Machinery Regulation-derived security requirements via prEN 50742 and the IEC 62443 Foundational Requirements to IEC 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{6}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{Requirement ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endhead
 	
@@ -583,7 +583,9 @@ The output file names correspond to the stored evidence.
 	curl -s http://$SRIO/devicestatus/errorlog/loglist | tee errorlog.json
 	curl -s http://$SRIO/systemtime/systick/getdata  | tee systick.txt
 	# Manual sequence: baseline; short-circuit pins 1 and 3 of a digital input;
-	# remove power for a cold restart; induce the second short-circuit; repeat the reads.
+	# remove power for a cold restart; 
+	induce the second short-circuit; 
+	repeat the reads.
 \end{verbatim}
 
 \section{Availability under Connection Load}
