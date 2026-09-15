@@ -1,0 +1,5 @@
+3rd attempt while both slots are occupied (expected: timeout)
+
+real	0m5,012s
+user	0m0,000s
+sys	0m0,010s

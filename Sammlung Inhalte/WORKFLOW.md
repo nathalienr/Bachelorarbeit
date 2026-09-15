@@ -3567,7 +3567,8 @@ Generate the final test catalog entries for the planned tests. Each test must be
 </tr>
 <tr>
 <td>Procedure</td>
-<td><p>export SRIO=192.168.0.2</p>
+<td><p>bash</p>
+</p>export SRIO=192.168.0.2</p>
 <p>LOGDIR=~/rq007-03_evidence</p>
 <p>mkdir -p $LOGDIR</p>
 <p>cd $LOGDIR</p>

@@ -115,7 +115,7 @@ curl -s http://$SRIO/deviceinfo/swrevision/getdata | tee cm_rq007-01_swrev.txt
 -----------------------------------------------------------------------------------------
 
 - TC-RQ007-03 -  Connection-Hold Self-DoS on the Identification Interface
-
+bash
 export SRIO=192.168.0.2
 LOGDIR=~/rq007-03_evidence
 mkdir -p $LOGDIR

@@ -498,7 +498,8 @@ This section defines how a test outcome becomes a requirement verdict. The model
 The methodology distinguishes two separate dimensions: the execution status of a test and the verdict assigned to the corresponding requirement. The first answers whether the test was actually run and whether the evidence exists. The second answers whether the requirement is satisfied on the evidence available. This separation is mandatory, because the two dimensions operate on different objects: execution status is recorded per test case, while the requirement verdict is aggregated across all test cases associated with a requirement (Section \ref{subsec:requirement_assessment}). Execution status records what happened to the test activity. It distinguishes the following states \cite[p. 62]{glossar2013istqb}: 
 \begin{itemize} 
 	\item \textbf{Executed:} the test was run and the stored evidence supports a technical interpretation. 
-	\item \textbf{Not Applicable:} the assumed interface, function, or topology is absent. This is a technical applicability finding, not a product failure. \item \textbf{Blocked:} the test could not be run because of an environmental or tool constraint \cite[p. 11]{glossar2013istqb}. 
+	\item \textbf{Not Applicable:} the assumed interface, function, or topology is absent. This is a technical applicability finding, not a product failure. 
+	\item \textbf{Blocked:} the test could not be run because of an environmental or tool constraint \cite[p. 11]{glossar2013istqb}. 
 \end{itemize} 
 
 Requirement verdict records the assessment of the obligation itself. It distinguishes: 
