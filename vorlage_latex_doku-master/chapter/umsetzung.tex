@@ -1,6 +1,6 @@
 \chapter{Implementation and Results} 
 \label{chap:implementation_results} 
-% TODO: Confirm whether this chapter is included in a master document; no complete master file was found in the workspace.
+
 This chapter applies the methodology of Chapter \ref{chap:methodology} to a physical \gls{acr:SUT}. It documents the implemented environment, the instantiation of the method, the collected evidence, the verification of the derived requirements, a discussion of the resulting findings, the validation of the methodology against the thesis objective, and the reliability of the findings. 
 
 The practical work covers the direct-access variant \gls{acr:NV1} defined in Section \ref{subsec:nv1}. The passive-observation variant \gls{acr:NV2} and the in-path variant \gls{acr:NV3} are part of the methodology but were not realised in the laboratory. The validation therefore covers the core \gls{acr:NV1} process and those requirements whose acceptance conditions are observable from the direct-access position; the tests that depend on \gls{acr:NV2} or \gls{acr:NV3} remain specified but not executed.
@@ -195,7 +195,7 @@ All nodes shared the 192.168.0.0/24 segment and one Ethernet broadcast domain. N
 \end{figure}
 
 The device documentation defines organisational preconditions for secure operation. The intended use assumes the device in a protected zone behind a firewall. A firmware update is expected to be performed by a trusted person behind that firewall. A security risk assessment is required. The debug interface is primarily a physical interface. These preconditions bound the threat model of the practical tests.
-These preconditions are relevant to the compensating-countermeasure allocation: zone protection, trusted update procedures, and the system-level security risk assessment may address obligations that the component does not implement itself. They therefore inform the interpretation of component-capability findings in Section \ref{sec:requirement_verification}.
+These preconditions are relevant to the compensating-countermeasure allocation. Zone protection, trusted update procedures, and the system-level security risk assessment may address obligations that the component does not implement itself. They therefore inform the interpretation of component-capability findings in Section \ref{sec:requirement_verification}.
 
 
 
@@ -233,13 +233,13 @@ The instantiation binds the abstract asset-and-threat mapping of Section \ref{su
 		\addlinespace 
 		RQ-003 & I & Logging and auditing & IoT-Core error log & NV1 \\ 
 		\addlinespace
-		RQ-004 & D & Integrity protection / identification & IoT-Core \texttt{deviceinfo}/\texttt{firmware} & NV1 \\ 
+		RQ-004 & D & Integrity protection / identification & \gls{acr:IoT}-Core \texttt{deviceinfo}/\texttt{firmware} & NV1 \\ 
 		\addlinespace 
 		RQ-005 & D & Integrity protection & Firmware update service & NV1, NV3 \\ 
 		\addlinespace 
-		RQ-006 & D & Identification & IoT-Core \texttt{firmware} & NV1 \\ 
+		RQ-006 & D & Identification & \gls{acr:IoT}-Core \texttt{firmware} & NV1 \\ 
 		\addlinespace 
-		RQ-007 & D, H & Availability & IoT-Core \texttt{deviceinfo}, HTTP service & NV1 \\ 
+		RQ-007 & D, H & Availability & IoT-Core \texttt{deviceinfo}, \gls{acr:HTTP} service & NV1 \\ 
 		\addlinespace RQ-008 & I & Logging and auditing & IoT-Core error log & NV1 \\ 
 		\addlinespace 
 		RQ-009 & I, G & Logging and auditing; authorisation & IoT-Core error log; configuration interfaces & NV1 \\ 
@@ -275,7 +275,8 @@ Table \ref{tab:cm_applicability} records the applicability and execution status 
 		CM-002 & Nmap & Not applicable to the topology; no zone or conduit model in a flat segment \\ 
 		CM-003 & Hydra & Not applicable; no authentication endpoint is exposed; anonymous read access was observed separately \\ 
 		CM-004 & \gls{acr:OWASP} ZAP & Applicable with adaptation; web scan performed, multi-role comparison not applicable \\ 
-		CM-005 & SSLscan & Not applicable to the original procedure; \gls{acr:TCP}/80 provided \gls{acr:HTTP} without a \gls{acr:TLS} handshake or certificate \\ CM-006 & Lynis & Not applicable to the device; no operating-system shell \\ 
+		CM-005 & SSLscan & Not applicable to the original procedure; \gls{acr:TCP}/80 provided \gls{acr:HTTP} without a \gls{acr:TLS} handshake or certificate \\ 
+		CM-006 & Lynis & Not applicable to the device; no operating-system shell \\ 
 		CM-007 & Nikto & Applicable; performed \\ 
 		CM-008 & OpenVAS/GVM & Blocked; scanner could not be made operational in the laboratory setup \\ 
 		CM-009 & Siege & Applicable; performed, load summary recorded; 50-connection run outside the specified envelope \\ 
@@ -318,6 +319,7 @@ The table also lists requirements for which no applicable company test covered t
 \section{Test Execution and Results}
 \label{sec:executed_tests} 
 %TODO auf neue Ergebnisse anpassen
+%TODO sind alle Ergebnisse wie ich sie dokumentiert habe korrekt?
 The two-level test catalogue derived in Chapter \ref{chap:methodology} defines abstract test scenarios for all fourteen requirements, including the tests that depend on the passive-observation variant \gls{acr:NV2} and the in-path variant \gls{acr:NV3}. Only a subset of these was executed in the practical phase: the applicable company tests and the requirement-oriented tests that the NV1 position supports. This section groups the tests into the security categories defined in Section \ref{subsec:test_categorisation} and describes them at the level of the test activity, the method, and the result, rather than by individual test-case identifier. Each category summarises the abstract scenarios it contains, and then reports the concrete execution and the stored evidence for the activities performed under \gls{acr:NV1}. The tests that require NV2 or NV3 are described as designed but not executed. Every reported result is limited to what the stored evidence shows. A tool execution is not treated as requirement verification, and an expected outcome from a test specification is not presented as an observed result. 
 
 Each category follows the same logic: it states the machine-level obligation from Regulation (EU) 2023/1230 from which the component requirement is derived, what must therefore be checked, how the property can be tested and which company countermeasure applies, and what the general finding on the device was. Every performed test is stored in some form as evidence, depending on the test as a text file, an HTML report, a log file, or a screenshot. The exact tool commands for the executed activities are listed in Appendix \ref{app:tool_commands}.
