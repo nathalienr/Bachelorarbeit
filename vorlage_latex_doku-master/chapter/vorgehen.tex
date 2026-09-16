@@ -268,12 +268,15 @@ The second level is the concrete execution. It binds the abstract scenario to th
 \label{subsec:test_categorisation} 
 %TODO
 Each test case is classified along four dimensions. The first dimension is the security category. It groups tests by the security property under examination and provides the reader-facing structure of the results in Chapter \ref{chap:implementation_results}. The methodology distinguishes seven security categories: identification and asset discovery, communication security, logging and traceability, availability and resilience, robustness, authentication and access control, and firmware and configuration integrity. Each category groups the tests that verify one or more of the security functions defined in Section \ref{subsec:security_functions}, and thereby one of the \gls{acr:IEC} 62443-3-3 \glspl{acr:FR} that these functions are grounded in, as Table \ref{tab:category_function_fr} shows. 
+
 The authentication and access control category combines the authentication and the authorisation function, because both are examined jointly whenever an interface restricts access: authentication establishes who is connecting, and authorisation establishes what the connecting entity is permitted to do. This combination also reflects \gls{acr:IEC} 62443-3-3 itself, where \gls{acr:FR} 1 is defined as Identification and Authentication Control. 
+
 The second dimension is the \gls{acr:SVV} category, which states the verification purpose. 
 The third dimension is the network access variant, which states the required position on the communication path (Section \ref{sec:test_environment}). 
 The fourth dimension is the execution and evidence status, which states what was achieved for a given test case. 
 
 A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:category_function_fr} shows, the mapping between security categories and \glspl{acr:FR} is many-to-many rather than one-to-one: ``Authentication and access control'', for example, spans \gls{acr:FR} 1 and \gls{acr:FR} 2, while ``Robustness'' spans \gls{acr:FR} 3 and \gls{acr:FR} 7. Reporting strictly by \gls{acr:FR} would therefore fragment coherent test activities across multiple, only partially related result sections. The security-category scheme instead groups tests by the function they exercise in practice, which matches how tests are designed and executed, while traceability to the IEC 62443-3-3 \glspl{acr:FR} is preserved through Table \ref{tab:category_function_fr}. 
+
 
 \begin{table}[H] 
 	\caption{Security categories, the security function they examine, and the IEC 62443-3-3 Foundational Requirement} 
@@ -283,24 +286,31 @@ A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:
 		\toprule 
 		\textbf{Security category} & \textbf{Security function (Sec. \ref{subsec:security_functions})} & \textbf{\gls{acr:FR}} \\ 
 		\midrule 
-		Identification and asset discovery & Identification and inventory & \gls{acr:FR} 1 \\ 
+		Identification and asset discovery & Authentication (Identity verification) & \gls{acr:FR} 1 \\ 
 		\addlinespace 
-		Communication security & Communication security & \gls{acr:FR} 3, \gls{acr:FR} 4 \\ 
+		Communication security & Confidentiality and Encryption & \gls{acr:FR} 3, \gls{acr:FR} 4 \\ 
 		\addlinespace
-		Logging and traceability & Logging and auditing & \gls{acr:FR} 2, \gls{acr:FR} 6 \\ 
+		Logging and traceability & Security Logging, Auditing, and Non-repudiation & \gls{acr:FR} 2, \gls{acr:FR} 6 \\ 
 		\addlinespace 
 		Availability and resilience & Availability and resilience & \gls{acr:FR} 7 \\ 
 		\addlinespace 
 		Robustness & Availability and resilience & \gls{acr:FR} 3, \gls{acr:FR} 7 \\ 
 		\addlinespace 
-		Authentication and access control & Authentication, Authorisation & \gls{acr:FR} 1, \gls{acr:FR} 2 \\ 
+		Authentication and access control & Authentication, Authorisation and Access Control & \gls{acr:FR} 1, \gls{acr:FR} 2 \\ 
 		\addlinespace 
 		Firmware and configuration integrity & Integrity protection & \gls{acr:FR} 3 \\ 
 		\bottomrule 
 	\end{tabularx} 
 \end{table} 
 
-Table \ref{tab:security_categories} maps each security category to the requirements it primarily addresses. The mapping is not exclusive, because one test activity can support several requirements, and one requirement can appear in more than one category. 
+Table \ref{tab:security_categories} maps each security category to the requirements it primarily addresses. The mapping is not exclusive, because one test activity can support several requirements, and one requirement can appear in more than one category.
+
+
+
+
+
+
+ 
 
 \begin{table}[H] 
 	\caption{Security categories and the requirements they primarily address} 
@@ -310,11 +320,11 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 		\toprule 
 		\textbf{Security category} & \textbf{Primary requirements} \\ 
 		\midrule 
-		Identification and asset discovery & RQ-001, RQ-004, RQ-006, RQ-007, RQ-013 \\ 
+		Identification and asset discovery & RQ-001, RQ-004, RQ-006, RQ-007 \\ 
 		\addlinespace 
 		Communication security & RQ-001, RQ-002, RQ-014 \\ 
 		\addlinespace 
-		Logging and traceability & RQ-003, RQ-008, RQ-009, RQ-012 \\ 
+		Logging and traceability & RQ-003, RQ-008, RQ-009, RQ-012, RQ-013 \\ 
 		\addlinespace 
 		Availability and resilience & RQ-007, RQ-010 \\ 
 		\addlinespace 

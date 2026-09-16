@@ -45,9 +45,6 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
 
-% TODO-RENAME: RQ-0xx (security requirements, defined here) collides with RQ1-RQ3
-% (research questions). If renamed to SR-0xx, this appendix is the normative source and
-% must be changed together with Chapters 3, 4 and 5 in one coordinated pass.
 
 This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{sec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
@@ -219,8 +216,6 @@ Table \ref{tab:mvo-requirements} lists the 14 derived component-level requiremen
 	
 \end{longtable}
 
-% RQ-014 gloss: access to tracing-log data is restricted to a justified conformity request from a competent national authority.
-
 \section{Mapping to prEN 50742}
 \label{app:sec:mapping_pren50742}
 
@@ -242,75 +237,75 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	\hline
 	\endlastfoot
 	RQ-001 &
-	\S4.2; \S4.3 &
+	\S4.2; \newline \S4.3 &
 	Design/construction of machinery shall not permit hazardous situations arising from connections (physical, logical, indirect). &
 	\S4.2: Supporting \newline\S4.3: Supporting \\
 	\hline
 	
 	
 	RQ-002 &
-	\S1; \S3.5; \S7.1; \S7.2.1 &
+	\S1;  \newline \S3.5;  \newline \S7.1;  \newline \S7.2.1 &
 	Scope explicitly includes hardware components/interfaces (incl. remote-device interfaces) that transmit signals/data affecting machine safety; \S7.1 requires identification and protection of accessible interfaces by compensating/countermeasures. &
 	\S1, \S3.5, \S7.2.1: Supporting\newline\S7.1: Partial \\
 	\hline
 	
 	RQ-003 &
-	\S3.4; \S7.3.3; \S7.4.3.4.5 &
+	\S3.4;  \newline \S7.3.3;  \newline\S7.4.3.4.5 &
 	``Evidence'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); \S7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable; \S7.4.3.4.5 is the only operative requirement mandating detection of physical manipulation (SRSL0-3).  &
 	\S3.4: Supporting\newline\S7.3.3, \S7.4.3.4.5: Partial \\
 	\hline
 	
 	RQ-004 &
-	\S3.12; \S7.5 &
+	\S3.12;  \newline\S7.5 &
 	``Critical data'' defined as data whose manipulation can increase hazard; \S7.5 requires identification of software versions/configuration data relevant for protection against falsification. &
 	\S3.12: Supporting\newline\S7.5: Partial \\
 	\hline
 	
 	RQ-005 &
-	\S3.5; \S7.1; \S7.4.3.4.1 &
+	\S3.5;  \newline \S7.1;  \newline\S7.4.3.4.1 &
 	SRSL-graded software/information integrity requirements, from checksum verification at start-up (SRSL1) to cryptographic hash/HMAC/CMAC verification during operation (SRSL3). &
 	\S3.5, \S7.1: Supporting\newline\S7.4.3.4.1: Partial \\
 	\hline
 	
 	
 	RQ-006 &
-	\S7.5; \S9 &
+	\S7.5;  \newline\S9 &
 	Identification of software versions/configuration data ``relevant for protection against falsification'' must be available; \S9 additionally requires that user information include the identification of software versions and configuration data relevant for safety functions. &
 	\S7.5: Partial\newline\S9: Supporting \\
 	\hline
 	
 	RQ-007 &
-	\S7.5; \S9 &
+	\S7.5; \newline \S9 &
 	Identification data ``must be available on request'', in readable form, via an integrated system or an external tool; \S9 requires user information to include instructions for accessing this data and its modifications. Note: prEN 50742 requires availability ``on request'' rather than ``at all times'' as mandated by the regulation, so the mapping remains partial. &
 	\S7.5: Partial\newline\S9: Supporting \\
 	\hline
 	
 	RQ-008 &
-	\S3.2; \S7.3.1; \S7.3.2; \S7.3.3; \S7.3.4 &
+	\S3.2;  \newline \S7.3.1;  \newline \S7.3.2;  \newline \S7.3.3;  \newline\S7.3.4 &
 	Enumerated intervention types with minimum recorded data; \S7.3.4 specifies the log must at least include the records of the last intervention of each type. &
 	\S3.2: Supporting\newline\S7.3.1, \S7.3.2, \S7.3.3, \S7.3.4: Partial\\
 	\hline
 	
 	RQ-009 &
-	\S3.2; \S3.3; \S7.3.1; \S7.3.2; \S7.3.3; \S7.3.4 &
+	\S3.2; \newline \S3.3;  \newline \S7.3.1;  \newline \S7.3.2;   \newline\S7.3.3; \newline \S7.3.4 &
 	``Modification'' is defined as a change caused by an ``intervention'', incl. software version, sensor calibration, configuration data); \S7.3.1 b)/c) require identification means (version number, CRC) for SRESW/SRASW updates; \S7.3.4 specifies the associated minimum retention of at least five years per intervention type. &
 	\S3.2, \S3.3: Supporting\newline\S7.3.1, \S7.3.2, \S7.3.3, \S7.3.4: Partial \\
 	\hline
 	
 	RQ-010 &
-	\S4.3; \S7.1; \S7.2.1; \S7.4.2; \S7.4.3 &
+	\S4.3;  \newline \S7.1;  \newline \S7.2.1;  \newline \S7.4.2;  \newline\S7.4.3 &
 	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures; \S7.1 requires identification and protection of accessible interfaces, \S7.2.1 requires risk-based selection of security measures, and \S7.4.2/\S7.4.3 require determination and maintenance of SRSL-graded security requirements, all contributing to withstanding malicious third-party attempts. &
 	\S4.3, \S7.2.1, \S7.4.2: Supporting\newline\S7.1, \S7.4.3: Partial \\
 	\hline
 	
 	RQ-011 &
-	\S7.4.3.3.1; \S3.2; \S3.3 &
+	\S7.4.3.3.1;  \newline \S3.2;  \newline \S3.3 &
 	SRSL-graded authorisation requirements for interventions (SRSL1/2: authorisation required; SRSL3: privileged/role-based authorisation); the ``intervention'' definition names safety routines, safety variables, and calibration data as examples. Note: prEN 50742 contains no provision addressing learning-phase or self-evolving machinery behaviour; Annex ZZ correlation table (Table ZZ.1) does not correlate 1.2.1, Abs. 2, Punkt d) with any clause &
 	\S7.4.3.3.1: Partial\newline\S3.2, \S3.3: Supporting \\
 	\hline
 	
 	RQ-012 &
-	\S7.3.1; \S7.3.3; \S7.3.4 &
+	\S7.3.1;  \newline \S7.3.3;  \newline \S7.3.4 &
 	Log must contain at least the evidence of the last intervention of each type; records retained at least five years; log active at the latest from the time the machinery is put into service. &
 	\S7.3.1, \S7.3.3, \S7.3.4: Partial \\
 	\hline
@@ -322,7 +317,7 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	\hline
 	
 	RQ-014 &
-	\S7.3.5; \S7.3.3; \S7.4.3.3.1 &
+	\S7.3.5;  \newline \S7.3.3;  \newline \S7.4.3.3.1 &
 	Logs must be ``properly secured'' against tampering; deletion only via an authorized procedure; digital evidence must be readable and accessible. &
 	\S7.3.5, \S7.3.3: Supporting\newline\S7.4.3.3.1: Partial \\
 	\hline
@@ -340,7 +335,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 %TODO caption kürzen
 \footnotesize
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
-	\caption{Mapping of Machinery Regulation-derived security requirements via prEN 50742 and the IEC 62443 Foundational Requirements to IEC 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
+	\caption{Mapping of derived requirements to \gls{acr:IEC} 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
 	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
@@ -496,10 +491,7 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 \paragraph{RACI Governance of the Verification Lifecycle}
 \label{sec:raci_governance}
 
-% TODO-VERIFY: confirm the practice designation used in Chapters 2 and 3 and match it here.
-
-To ensure strict organisational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (\gls{acr:RACI}) matrix. This established management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. % TODO-VERIFY: confirm that the cited internal source is available to the intended readers and is not publicly available.
-
+To ensure strict organisational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (\gls{acr:RACI}) matrix. This established management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. 
 \begin{itemize}
 	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
 	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
@@ -571,7 +563,7 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 
 \section{Cleartext Transmission of the Identification Data}
 \label{app:cmd_cleartext}
-% TODO-VERIFY: confirm cm_rq006-03_sslscan.txt against the stored evidence; the identifier does not match the RQ-004/RQ-014 requirements supported by this activity in Chapter 4.
+
 \begin{verbatim}
 	sslscan --show-certificate $SRIO:80 | tee cm_rq006-03_sslscan.txt
 \end{verbatim}
@@ -590,7 +582,7 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 
 \section{Availability under Connection Load}
 \label{app:cmd_availability}
-% TODO-VERIFY: confirm cmrq010_siege.log and cmrq010_3connections_siege.log against the stored evidence; the names omit the underscore used in the other appendix artefacts.
+
 \begin{verbatim}
 	# Application-layer load test at 50 and at 3 concurrent connections
 	siege -c 50 -t 1M -v http://$SRIO/deviceinfo/getdata \
