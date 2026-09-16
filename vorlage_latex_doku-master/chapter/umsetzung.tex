@@ -3,7 +3,7 @@
 
 This chapter applies the methodology of Chapter \ref{chap:methodology} to a physical \gls{acr:SUT}. It documents the implemented environment, the instantiation of the method, the collected evidence, the verification of the derived requirements, a discussion of the resulting findings, the validation of the methodology against the thesis objective, and the reliability of the findings. 
 
-The practical work covers the direct-access variant \gls{acr:NV1} defined in Section \ref{subsec:nv1}. The passive-observation variant \gls{acr:NV2} and the in-path variant \gls{acr:NV3} are part of the methodology but were not realised in the laboratory. The validation therefore covers the core \gls{acr:NV1} process and those requirements whose acceptance conditions are observable from the direct-access position; the tests that depend on \gls{acr:NV2} or \gls{acr:NV3} remain specified but not executed.
+The practical work covers the direct-access variant \gls{acr:NV1} defined in Section \ref{subsec:nv1}. The passive-observation variant \gls{acr:NV2} and the in-path variant \gls{acr:NV3} are part of the methodology but were not realised in the laboratory. The validation therefore covers the core \gls{acr:NV1} process and those requirements whose acceptance conditions are observable from the direct-access position. The tests that depend on \gls{acr:NV2} or \gls{acr:NV3} remain specified but not executed.
 
 
 
@@ -15,14 +15,11 @@ This section defines the object, the environment, and the boundaries of the prac
 \subsection{System Under Test} 
 \label{subsec:test_object} 
 
-The \gls{acr:SUT} is the \gls{acr:SRIO}, a fieldbus-based safety component that exchanges safety-related input and output data with a higher-level safety controller over PROFINET and PROFIsafe. The evaluated unit identified itself over the \gls{acr:IoT}-Core interface as product \texttt{ifm-AL400S}, hardware version 1.4.0.2, hardware revision AA, and software revision 1.1.4.888. All reported results refer exclusively to this configuration.
+The \gls{acr:SUT} is the \gls{acr:SRIO}, a fieldbus-based safety component that exchanges safety-related input and output data with a higher-level safety controller over \gls{acr:PROFINET} and PROFIsafe. The evaluated unit identified itself over the \gls{acr:IoT}-Core interface as product \texttt{ifm-AL400S}, hardware version 1.4.0.2, hardware revision AA, and software revision 1.1.4.888. All reported results refer exclusively to this configuration.
 
-Following the asset classification of Section \ref{subsec:assets_attack_surfaces}, the \gls{acr:SRIO} is decomposed into hardware, software, and data assets. For the practical assessment, the externally accessible attack surface was divided into the \gls{acr:HTTP}-based \gls{acr:IoT}-Core diagnostic interface, the \gls{acr:PROFINET} and PROFIsafe communication path, the \gls{acr:DCP} configuration functions, and the firmware update mechanism. Only the interfaces accessible from the implemented \gls{acr:NV1} position were exercised. Internal debug and inter-processor interfaces, such as the \gls{acr:SysCom} link between the \gls{acr:COM} and \gls{acr:SCPU} modules and the \gls{acr:JTAG} interface, are included in the asset model but were not accessible within the practical test scope. %TODO warum waren sie nicht anwendbar? z.B. JTAG, physischer Zugriff --> weil SRIO umspritzt
-%TODO hab ich die Assets hier richtig definiert nach Grundlagen subsec:assets_attack_surfaces}
-%TODO sind das alles IT/OT Schnittstellen?
+Following the asset classification of Section \ref{subsec:assets_attack_surfaces}, the \gls{acr:SRIO} is decomposed into hardware, software, and data assets. For the practical assessment, the externally accessible attack surface was divided into the \gls{acr:HTTP}-based \gls{acr:IoT}-Core diagnostic interface, the \gls{acr:PROFINET} and PROFIsafe communication path, the \gls{acr:DCP} configuration functions, and the firmware update mechanism. The first two form, respectively, the \gls{acr:IT}-side diagnostic path and the \gls{acr:OT}-side fieldbus path. The \gls{acr:DCP} and firmware functions are configuration-time extensions of the same non-safety path. Only the interfaces accessible from the implemented \gls{acr:NV1} position were exercised. Internal debug and inter-processor interfaces, such as the \gls{acr:SysCom} link between the \gls{acr:COM} and \gls{acr:SCPU} modules and the \gls{acr:JTAG} interface, are included in the asset model as hardware assets but were not accessible within the practical test scope. The \gls{acr:JTAG} pads are sealed by the overmoulded housing of the \gls{acr:SRIO}, and the \gls{acr:SysCom} link is an internal inter-processor bus with no externally exposed connector. Their absence from the practical scope is therefore a physical-access constraint.
 
-Table \ref{tab:assets} summarises the assets and their protection objectives. It is not exhaustive, but it covers the main elements that are relevant for the security assessment.
-%TODO überprüfen ob das Asset Mapping zur Theorie passt: subsec:assets_attack_surface
+Table \ref{tab:assets} summarises the assets and their protection objectives, using the hardware, software, and data categories of Section \ref{subsec:assets_attack_surfaces}. It is not exhaustive, but it covers the main elements that are relevant for the security assessment.
 {\renewcommand{\arraystretch}{1.2}
 	\small 
 	\begin{xltabular}{\textwidth}{@{} 
@@ -194,8 +191,7 @@ All nodes shared the 192.168.0.0/24 segment and one Ethernet broadcast domain. N
 	\label{fig:testbed_topology}
 \end{figure}
 
-The device documentation defines organisational preconditions for secure operation. The intended use assumes the device in a protected zone behind a firewall. A firmware update is expected to be performed by a trusted person behind that firewall. A security risk assessment is required. The debug interface is primarily a physical interface. These preconditions bound the threat model of the practical tests.
-These preconditions are relevant to the compensating-countermeasure allocation. Zone protection, trusted update procedures, and the system-level security risk assessment may address obligations that the component does not implement itself. They therefore inform the interpretation of component-capability findings in Section \ref{sec:requirement_verification}.
+The device documentation defines organisational preconditions for secure operation. The intended use assumes the device in a protected zone behind a firewall. A firmware update is expected to be performed by a trusted person behind that firewall. A security risk assessment is required. The debug interface is primarily a physical interface. These preconditions bound the threat model of the practical tests and are relevant to the compensating-countermeasure allocation. Zone protection, trusted update procedures, and the system-level security risk assessment may address obligations that the component does not implement itself. They therefore inform the interpretation of component-capability findings in Section \ref{sec:requirement_verification}.
 
 
 
@@ -211,58 +207,100 @@ The empirical coverage was bounded by the single test object, the implemented to
 \section{Instantiation of the Methodology} 
 \label{sec:instantiation} 
 
-This section instantiates the abstract methodology of Chapter \ref{chap:methodology} on the \gls{acr:SRIO}. Section \ref{subsec:req_asset_interface} binds each of the fourteen derived requirements (Table \ref{tab:mvo-requirements}) to the affected asset, the security function that treats it, the concrete interface, and the network access variant required for its verification. Section \ref{subsec:cm_applicability} applies the applicability assessment defined in Section \ref{subsec:company_framework} to the ten company countermeasure tests. Section \ref{subsec:cm_tc_map} consolidates both mappings into the set of test cases that were actually selected for execution.
+This section instantiates the abstract methodology of Chapter \ref{chap:methodology} on the \gls{acr:SRIO}. Section \ref{subsec:req_asset_interface} binds each of the fourteen derived requirements (Table \ref{tab:mvo-requirements}) to the affected asset, the \gls{acr:STRIDE} threat it defends against, and the security function that treats it. Section \ref{subsec:cm_applicability} applies the applicability assessment defined in Section \ref{subsec:company_framework} to the ten company countermeasure tests. Section \ref{subsec:cm_tc_map} consolidates both mappings into the set of test cases that were actually selected for execution.
 
 \subsection{Requirement, Asset and Interface Mapping}
 \label{subsec:req_asset_interface}
-%TODO stimmt nicht so ganz: in subsec:asset_threat_mapping hab ich eigentlich nur beschrieben, dass ich assets und threats mappen muss, hier wird es wirklich umgestzt ich habe assets für das srio besimmt, dann threats (stride), gaps und mitigations von dem srio aktuell, abstrakte test scenarien, abstrakte testfälle --> testumgebung gestimmen
-The instantiation binds the abstract asset-and-threat mapping of Section \ref{subsec:asset_threat_mapping} to the \gls{acr:SRIO}. Each requirement is paired with the affected asset (Table \ref{tab:assets}), the security function that treats it (Section \ref{subsec:security_functions}), the interface on which it is exercised, and the network access variant that the corresponding test requires. Table \ref{tab:req_asset_interface} shows the complete mapping for all fourteen requirements. The underlying derivation chain from the Regulation through prEN 50742 and \gls{acr:IEC} 62443-4-2 is documented in Appendix \ref{app:requirement_derivation}. 
-%TODO stimmt das mapping? workflow.md ; ist das mapping sinnvoll? 
-\begin{table}[H] 
-	\centering 
-	\small 
-	\caption{Instantiated requirement-to-asset-to-interface mapping for the \gls{acr:SRIO}} 
-	\label{tab:req_asset_interface} 
-	\begin{tabularx}{\textwidth}{l l X X l} 
-		\toprule 
-		\textbf{Req.} & \textbf{Asset} & \textbf{Security function} & \textbf{Interface} & \textbf{Access} \\ 
-		\midrule 
-		RQ-001 & F & Availability and resilience (domain separation) & Non-safety path (\gls{acr:IoT}-Core) and safety communication path & NV1, NV2 \\ 
-		\addlinespace 
-		RQ-002 & C & Integrity protection & Firmware update service; PROFINET/PROFIsafe process data & NV1, NV3 \\ 
-		\addlinespace 
-		RQ-003 & I & Logging and auditing & IoT-Core error log & NV1 \\ 
-		\addlinespace
-		RQ-004 & D & Integrity protection / identification & \gls{acr:IoT}-Core \texttt{deviceinfo}/\texttt{firmware} & NV1 \\ 
-		\addlinespace 
-		RQ-005 & D & Integrity protection & Firmware update service & NV1, NV3 \\ 
-		\addlinespace 
-		RQ-006 & D & Identification & \gls{acr:IoT}-Core \texttt{firmware} & NV1 \\ 
-		\addlinespace 
-		RQ-007 & D, H & Availability & IoT-Core \texttt{deviceinfo}, \gls{acr:HTTP} service & NV1 \\ 
-		\addlinespace RQ-008 & I & Logging and auditing & IoT-Core error log & NV1 \\ 
-		\addlinespace 
-		RQ-009 & I, G & Logging and auditing; authorisation & IoT-Core error log; configuration interfaces & NV1 \\ 
-		\addlinespace 
-		RQ-010 & H & Availability and resilience & HTTP service and safety communication & NV1, NV2 \\ 
-		\addlinespace 
-		RQ-011 & B & Authorisation & Configuration interfaces (DCP, engineering tool) & NV1 \\ 
-		\addlinespace 
-		RQ-012 & I & Logging and auditing (accountability) & IoT-Core error log & NV1 \\ 
-		\addlinespace 
-		RQ-013 & D, I & Identification; logging (version history) & IoT-Core firmware version history & NV1 \\ 
-		\addlinespace 
-		RQ-014 & I & Confidentiality; authorisation & Tracing-log access; HTTP transport & NV1 \\ 
-		\bottomrule 
-	\end{tabularx} 
-\end{table}
+
+This section instantiates, for the \gls{acr:SRIO}, the abstract asset-and-threat mapping step defined in Section \ref{subsec:asset_threat_mapping}. Each of the fourteen derived requirements (Table \ref{tab:mvo-requirements}) is bound to the concrete asset it protects, the \gls{acr:STRIDE} threat it defends against, and the security function that provides the defence. These three columns follow the order of the traceability chain defined in Section \ref{subsec:traceability_model}. Table \ref{tab:req_asset_interface} records the resulting mapping. It summarises, at requirement level, the working test-case catalogue introduced in Section \ref{subsec:test_specification}; the individual abstract scenarios that this summary aggregates, including the concrete interface, the network access variant, and the evidence for each, are reported by security category in Section \ref{sec:executed_tests}, and the executed subset is assessed in Section \ref{sec:requirement_verification}.
+
+The columns are read as follows:
+\begin{itemize}
+	\item \textbf{Asset:} the entries of Table \ref{tab:assets} affected by the requirement. A requirement typically protects more than one asset, so several letters can appear in one row.
+	\item \textbf{Threat:} the \gls{acr:STRIDE} categories exercised across the requirement's test scenarios. A requirement is often examined from more than one threat angle; for example, RQ-001 is tested against an impersonated device (Spoofing), a manipulated frame (Tampering), and a flooding condition (Denial of Service). Following Section \ref{subsec:test_specification}, a scenario with no adversarial goal, such as a pure functional or identification baseline, does not contribute a threat entry.
+	\item \textbf{Security function:} for each threat listed, the function of Section \ref{subsec:security_functions} that treats it, following the \gls{acr:STRIDE}-to-function mapping of Table \ref{tab:threat_function} (for example, Spoofing pairs with Authentication, Information Disclosure with Confidentiality and Encryption). Where a requirement concerns discovery rather than a protective mechanism, this is instead the identification-and-inventory function that Table \ref{tab:category_function_fr} also grounds in Section \ref{subsec:security_functions}.
+\end{itemize}
+
+The required network access variant (Section \ref{sec:test_environment}) is not a column of Table \ref{tab:req_asset_interface}. Access is not a property of the requirement, the asset, or the threat, but rather of the individual test technique chosen to verify a security function. It is the last element of the traceability chain to be fixed, following Test Objective and Test Technique in Section \ref{subsec:traceability_model}. Different scenarios for the same requirement can therefore require different access variants, so the position is decided case by case for each concrete test, and is reported alongside that test in Section \ref{sec:executed_tests}.
+
+The underlying derivation chain from the Regulation through prEN 50742 and \gls{acr:IEC} 62443-4-2 is documented in Appendix \ref{app:requirement_derivation}.
+
+{\renewcommand{\arraystretch}{1.2}
+	\small
+	\begin{xltabular}{\textwidth}{@{}
+			l
+			c
+			>{\raggedright\arraybackslash}p{4cm}
+			>{\raggedright\arraybackslash}X
+			@{}}
+		
+		% --- Kopf- und Fußzeilen-Definition für die Longtable ---
+		
+		% 1. Kopfzeile auf der ersten Seite (inkl. Caption)
+		\caption{Instantiated requirement-to-asset mapping for the \gls{acr:SRIO}}
+		\label{tab:req_asset_interface} \\
+		\toprule
+		\textbf{Req.} & \textbf{Asset} & \textbf{Threat} & \textbf{Security function} \\
+		\midrule
+		\endfirsthead
+		
+		% 2. Kopfzeile auf allen folgenden Seiten
+		\caption*{Instantiated requirement-to-asset mapping for the \gls{acr:SRIO} (continued)} \\
+		\toprule
+		\textbf{Req.} & \textbf{Asset} & \textbf{Threat} & \textbf{Security function} \\
+		\midrule
+		\endhead
+		
+		% 3. Fußzeile auf allen Seiten außer der letzten
+		\midrule
+		\multicolumn{4}{r}{\footnotesize\textit{Continued on next page}} \\
+		\endfoot
+		
+		% 4. Fußzeile auf der allerletzten Seite der Tabelle
+		\bottomrule
+		\endlastfoot
+		
+		% --- Eigentlicher Tabelleninhalt ---
+		
+		RQ-001 & A, C, E, F & Spoofing, Tampering, Denial of Service & Authentication, Integrity protection, Availability and resilience \\
+		
+		RQ-002 & C, G & Tampering & Integrity protection \\
+		
+		RQ-003 & G, I & Repudiation & Security Logging, Auditing, and Non-repudiation \\
+		
+		RQ-004 & B, D & Tampering, \newline Information Disclosure & Identification and inventory; Confidentiality and Encryption \\
+		
+		RQ-005 & B, D, F & Tampering & Integrity protection \\
+		
+		RQ-006 & D & Information Disclosure & Identification and inventory; Confidentiality and Encryption \\
+		
+		RQ-007 & D, F, H & Denial of Service & Availability and resilience \\
+		
+		RQ-008 & D, F, G, I & Repudiation & Security Logging, Auditing, and Non-repudiation \\
+		
+		RQ-009 & B, D, F, I & Repudiation & Security Logging, Auditing, and Non-repudiation \\
+		
+		RQ-010 & A, E, F, H & Tampering, \newline Denial of Service, \newline Elevation of Privilege & Integrity protection, Availability and resilience, Authentication and Access Control \\
+		
+		RQ-011 & B, F, G & Spoofing, Tampering, Elevation of Privilege & Authentication, Integrity protection, Authentication and Access Control \\
+		
+		RQ-012 & F, I & Repudiation & Security Logging, Auditing, and Non-repudiation \\
+		
+		RQ-013 & D, I & Repudiation & Security Logging, Auditing, and Non-repudiation \\
+		
+		RQ-014 & H, I & Information Disclosure, Elevation of Privilege & Confidentiality and Encryption; Authentication and Access Control \\
+		
+	\end{xltabular}
+}
+
 
 
 
 \subsection{Applicability Assessment}
 \label{subsec:cm_applicability}
 
-Table \ref{tab:cm_applicability} records the applicability and execution status of the ten company tests. Execution status and requirement assessment are separate: a tool may be applicable and executed without producing sufficient evidence for a requirement verdict. Not-applicable outcomes are properties known in advance from the device or topology, not product failures. CM-002 requires a second network zone, which the flat segment does not provide, CM-003 assumes an authentication endpoint that the \gls{acr:SUT} does not expose, and CM-006 assumes an operating-system shell that the \gls{acr:SUT} does not expose. CM-005 was directed at \gls{acr:TCP} port 80 and showed that the tested endpoint did not provide \gls{acr:TLS}. This is an interface observation, not a \gls{acr:TLS} test of \gls{acr:TCP} port 443.
+Table \ref{tab:cm_applicability} records, for each of the ten company tests, whether the interface or precondition that the tool assumes is present on the \gls{acr:SRIO} in principle. This determination is made before execution and is a property of the device and the topology, not of a completed test run; whether an applicable tool was actually executed, and what it found, is reported in Section \ref{sec:executed_tests}. CM-002 requires a second network zone, which the flat segment does not provide. CM-003 assumes an authentication endpoint, which the device does not expose. CM-006 assumes an operating-system shell, which the embedded device does not provide. CM-005 assumes a dedicated \gls{acr:TLS} endpoint on \gls{acr:TCP} port 443. The device's diagnostic service is documented as plain \gls{acr:HTTP} on port 80 and provides no separate \gls{acr:HTTPS}/443 endpoint.
+
 
 \begin{table}[H] 
 	\centering 
@@ -271,73 +309,72 @@ Table \ref{tab:cm_applicability} records the applicability and execution status 
 	\label{tab:cm_applicability} 
 	\begin{tabularx}{\textwidth}{l l X} \toprule \textbf{CM} & \textbf{Tool} & \textbf{Applicability outcome} \\ 
 		\midrule 
-		CM-001 & Nmap & Applicable; performed \\ 
+		CM-001 & Nmap & Applicable; the device is reachable over \gls{acr:IP}, so a network port scan can enumerate its interfaces \\ 
 		CM-002 & Nmap & Not applicable to the topology; no zone or conduit model in a flat segment \\ 
-		CM-003 & Hydra & Not applicable; no authentication endpoint is exposed; anonymous read access was observed separately \\ 
-		CM-004 & \gls{acr:OWASP} ZAP & Applicable with adaptation; web scan performed, multi-role comparison not applicable \\ 
-		CM-005 & SSLscan & Not applicable to the original procedure; \gls{acr:TCP}/80 provided \gls{acr:HTTP} without a \gls{acr:TLS} handshake or certificate \\ 
+		CM-003 & Hydra & Not applicable; no authentication endpoint is exposed \\ 
+		CM-004 & \gls{acr:OWASP} ZAP & Applicable with adaptation; the device exposes a web interface, but only a single anonymous read-only role, so a multi-role comparison is not applicable \\ 
+		CM-005 & SSLscan & Not applicable to the original procedure; the device provides no dedicated \gls{acr:HTTPS}/443 endpoint \\ 
 		CM-006 & Lynis & Not applicable to the device; no operating-system shell \\ 
-		CM-007 & Nikto & Applicable; performed \\ 
-		CM-008 & OpenVAS/GVM & Blocked; scanner could not be made operational in the laboratory setup \\ 
-		CM-009 & Siege & Applicable; performed, load summary recorded; 50-connection run outside the specified envelope \\ 
-		CM-010 & boofuzz & Applicable; performed \\ 
+		CM-007 & Nikto & Applicable; the device exposes a web interface that a web-server scanner can probe \\ 
+		CM-008 & OpenVAS/GVM & Blocked; the scanner could not be made operational in the laboratory setup \\ 
+		CM-009 & Siege & Applicable; the device exposes an \gls{acr:HTTP} service that a load-generation tool can address \\ 
+		CM-010 & boofuzz & Applicable; the device exposes an \gls{acr:HTTP} service that a fuzzing tool can address \\ 
 		\bottomrule 
 	\end{tabularx} 
 \end{table}
 
-\subsection{Selected Test Cases and Execution Status}
-\label{subsec:cm_tc_map}
-Table \ref{tab:cm_tc_map} maps the company tests to the derived requirements and to the security category in which they are reported. One practical activity can support several requirements. The mapping is not one-to-one. For example, one Nmap run supports the exposure countermeasure CM-001 and the identification and asset-discovery category, and one query of the identification interface supports several identification requirements. The tests CM-002, CM-006, and CM-008 do not appear in the mapping, because they are not applicable or could not be operated on this device and therefore support no requirement. 
 
-The table also lists requirements for which no applicable company test covered the complete acceptance condition under \gls{acr:NV1}. RQ-002 and RQ-005 belong to the firmware and configuration-integrity category (Section \ref{subsec:cat_config_firmware}). Baseline and event-surface reads were performed for RQ-008 and RQ-009, but no complete software-installation or configuration-modification scenario was induced.
-%TODO stimmt die Tabelle?, wo ist CM-003?
+\subsection{Selected Test Cases}
+\label{subsec:cm_tc_map}
+Table \ref{tab:cm_tc_map} follows the security-category structure of Table \ref{tab:security_categories} and records, category by category, which method was selected to test it on the \gls{acr:SRIO}. The requirement column repeats the primary requirements of Table \ref{tab:security_categories} exactly, so the two tables can be read side by side: the abstract mapping states what a category is intended to cover, and this table states what was actually selected under the \gls{acr:NV1} position. A selected method can support only part of a category's requirement list; where this occurs, the covered requirements are named explicitly. CM-002, CM-003, CM-006, and CM-008 do not appear as a selected method in any row, because none is applicable to the \gls{acr:SRIO} or its topology (Table \ref{tab:cm_applicability}). This is a property of this specific device and topology, not of the company framework in general, since every countermeasure test is associated with at least one requirement category by design in the abstract framework of Section \ref{subsec:company_framework}.
+
 \begin{table}[H]
-	\centering
-	\small
-	\caption{Mapping of company tests, requirements, and security categories}
+	\caption{Selected test method per security category, alongside its primary requirements}
 	\label{tab:cm_tc_map}
-	\begin{tabularx}{\textwidth}{l l X X}
+	\centering
+	\begin{tabularx}{\textwidth}{l X X}
 		\toprule
-		\textbf{CM} & \textbf{Req.} & \textbf{Test category} & \textbf{Evidence} \\
+		\textbf{Security category} & \textbf{Primary requirements} & \textbf{Selected method} \\
 		\midrule
-		CM-001, CM-007 & RQ-001 & Identification and asset discovery & Nmap, Nikto \\
-		- & RQ-004, RQ-006, RQ-007, RQ-013 & Identification and asset discovery & \gls{acr:IoT}-Core inventory \\
-		CM-005 & - & Communication security & SSLscan; defence-in-depth observation only \\
-		- & RQ-003, RQ-008, RQ-012 & Logging and traceability & error log, systick; baseline and intervention evidence \\
-		CM-009 & RQ-007, RQ-010 & Availability and resilience & Siege \\
-		CM-010 & RQ-010 & Robustness & boofuzz \\
-		CM-004 & RQ-011, RQ-014 & Authorisation and access control & ZAP, \gls{acr:IoT}-Core; Hydra not applicable \\
-		- & RQ-002, RQ-005 & Firmware and configuration integrity & no complete execution under NV1 \\
-		- & RQ-009 & Logging and traceability & baseline only; modification event not induced \\
+		Identification and asset discovery & RQ-001, RQ-004, RQ-006, RQ-007, RQ-013 & Nmap (CM-001), Nikto (CM-007); \gls{acr:IoT}-Core inventory reads \\
+		\addlinespace
+		Communication security & RQ-001, RQ-002, RQ-014 & SSLscan (RQ-014 only) \\
+		\addlinespace
+		Logging and traceability & RQ-003, RQ-008, RQ-009, RQ-012 & \gls{acr:IoT}-Core error log, systick \\
+		\addlinespace
+		Availability and resilience & RQ-007, RQ-010 & Siege (CM-009) \\
+		\addlinespace
+		Robustness & RQ-010 & boofuzz (CM-010) \\
+		\addlinespace
+		Authentication and access control & RQ-009, RQ-011, RQ-014 & \gls{acr:OWASP} ZAP, \gls{acr:IoT}-Core (CM-004); Hydra (CM-003) not applicable \\
+		\addlinespace
+		Firmware and configuration integrity & RQ-002, RQ-005 & none selected for \gls{acr:NV1}; requires the engineering tool or \gls{acr:NV3} \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
 
 
-
 \section{Test Execution and Results}
 \label{sec:executed_tests} 
-%TODO auf neue Ergebnisse anpassen
-%TODO sind alle Ergebnisse wie ich sie dokumentiert habe korrekt?
 The two-level test catalogue derived in Chapter \ref{chap:methodology} defines abstract test scenarios for all fourteen requirements, including the tests that depend on the passive-observation variant \gls{acr:NV2} and the in-path variant \gls{acr:NV3}. Only a subset of these was executed in the practical phase: the applicable company tests and the requirement-oriented tests that the NV1 position supports. This section groups the tests into the security categories defined in Section \ref{subsec:test_categorisation} and describes them at the level of the test activity, the method, and the result, rather than by individual test-case identifier. Each category summarises the abstract scenarios it contains, and then reports the concrete execution and the stored evidence for the activities performed under \gls{acr:NV1}. The tests that require NV2 or NV3 are described as designed but not executed. Every reported result is limited to what the stored evidence shows. A tool execution is not treated as requirement verification, and an expected outcome from a test specification is not presented as an observed result. 
 
 Each category follows the same logic: it states the machine-level obligation from Regulation (EU) 2023/1230 from which the component requirement is derived, what must therefore be checked, how the property can be tested and which company countermeasure applies, and what the general finding on the device was. Every performed test is stored in some form as evidence, depending on the test as a text file, an HTML report, a log file, or a screenshot. The exact tool commands for the executed activities are listed in Appendix \ref{app:tool_commands}.
 
 
-
 \subsection{Identification and asset discovery}
 \label{subsec:cat_identification}
-
 This category covers the discovery of the reachable attack surface and the identification of the installed software and data, addressing RQ-001 on the non-safety path and requirements RQ-004, RQ-006, RQ-007, and RQ-013. It targets the separation of the safety and non-safety domains and the software and data-identification assets. The abstract catalogue contains the attack-surface enumeration, the identification-surface inventory, the \gls{acr:SBOM} completeness analysis, the plaintext-transport observation, the data-signature uniqueness check, and the version-history and per-upload-timestamp checks. The bill-of-materials, signature-uniqueness, and version-history scenarios were designed but not executed. The activities executed under NV1 are reported below.
 
 \paragraph{Attack-Surface Enumeration}
 \label{subsec:res_attack_surface}
 This activity examined the externally reachable services on the non-safety path. It relates to CM-001 and CM-007, to requirement RQ-001, and to asset F, the separation of the safety and the non-safety domain. It targets the \gls{acr:IoT}-Core \gls{acr:HTTP} path and was run under \gls{acr:NV1}. The commands are listed in Appendix \ref{app:cmd_attacksurface}.
 
-A full \gls{acr:TCP} port scan and a top-ports \gls{acr:UDP} scan were run against the \gls{acr:SUT} with Nmap. The \gls{acr:TCP} scan covered all 65535 ports and reported one open port, port 80, which returned \gls{acr:HTTP} responses without a server banner. All other \gls{acr:TCP} ports were reported as closed. The open \gls{acr:HTTP} port is consistent with the \gls{acr:IoT}-Core diagnostic interface. The \gls{acr:UDP} scan of the top 200 ports reported port 161 as open, identified as \gls{acr:SNMP}, and port 49152 as open or filtered. An open \gls{acr:SNMP} port is consistent with a PROFINET device, because the PROFINET standard uses \gls{acr:SNMP} for network diagnostics. The reported open-port count depends on the scan timing. At the slower \texttt{-T3} timing the scan reported the stable result above, whereas the faster \texttt{-T5} timing reported further open ports. The additional ports did not reappear on repetition, which suggests that the faster timing affects the observed responses rather than revealing additional stable services. Packet loss, SYN-backlog exhaustion, rate limiting, device overload, or test-system effects are alternative explanations. If aggressive timing does destabilise the device's responses, that would itself be an availability observation relevant to RQ-010; this remains an open item.
+A full \gls{acr:TCP} port scan and a top-ports \gls{acr:UDP} scan were run against the \gls{acr:SUT} with Nmap, each repeated on two separate dates to confirm reproducibility. Both \gls{acr:TCP} runs (\texttt{-sS -sV -T3}) covered all 65535 ports and consistently reported one open port, port 80, which returned \gls{acr:HTTP} responses without a server banner; all other \gls{acr:TCP} ports were reported as closed. The open \gls{acr:HTTP} port is consistent with the \gls{acr:IoT}-Core diagnostic interface. Both \gls{acr:UDP} runs of the top 200 ports reported port 161 as open, identified as \gls{acr:SNMP}, and port 49152 as open or filtered. An open \gls{acr:SNMP} port is consistent with a PROFINET device, because the PROFINET standard uses \gls{acr:SNMP} for network diagnostics.
 
-The externally reachable services on the non-safety path are the \gls{acr:HTTP} service on port 80 and the \gls{acr:SNMP} service on port 161. Nikto targets the exposure of debug and service interfaces on a web server, which is the objective of the company countermeasure CM-007. On this device the physical debug interface is encapsulated and not reachable, so the scan characterises only the reachable \gls{acr:HTTP} service surface. The Nikto report lists missing \gls{acr:HTTP} security headers, including content-security-policy, x-content-type-options, strict-transport-security, and permissions-policy. These headers are a defence-in-depth measure, so their absence is an observation rather than a direct vulnerability. The report also flags several \texttt{/actuator/*} paths as Spring Boot Actuator endpoints that return \gls{acr:JSON}.
+An earlier, exploratory \gls{acr:TCP} scan used a window scan (\texttt{-sW}) at the \texttt{-T5} timing template instead of a SYN scan and reported numerous additional open ports that did not reappear in either \texttt{-sS} run. Because this exploratory scan differed in scan technique as well as in timing, the additional ports are attributable to the window scan's known unreliability against a non-standard embedded \gls{acr:TCP} stack rather than to scan timing alone; this exploratory result is not used as evidence, and the reproduced \texttt{-sS} result above is reported instead. A dedicated SYN scan at the \texttt{-T5} timing was not performed, so whether timing alone affects the device's responses remains an open item.
+
+The externally reachable services on the non-safety path are therefore the \gls{acr:HTTP} service on port 80 and the \gls{acr:SNMP} service on port 161. On this device the physical debug interface is encapsulated and not reachable, so the scan characterises only the reachable \gls{acr:HTTP} service surface. The Nikto report lists missing \gls{acr:HTTP} security headers, including content-security-policy, x-content-type-options, strict-transport-security, and permissions-policy. These headers are a defence-in-depth measure, that is, an additional protective layer that does not itself close a primary gap, so their absence is an observation rather than a direct vulnerability. The report also flags several \texttt{/actuator/*} paths as Spring Boot Actuator endpoints that return \gls{acr:JSON}.
 
 The Nikto findings are unvalidated scanner results \cite[p. 39]{richier2011security}. The Spring Boot Actuator finding is a probable false positive. The device is an ifm \gls{acr:IoT}-Core and not a Spring Boot application, and its \gls{acr:HTTP} service returns a generic \gls{acr:JSON} structure for many paths, which a generic scanner signature can misclassify as an exposed Actuator endpoint. The finding therefore does not, on its own, indicate a risk. Directly requesting one such path and inspecting the raw response remains an open verification item; no result is claimed here.
 
@@ -354,16 +391,14 @@ The device exposes top-level version identifiers for the \gls{acr:COM} firmware,
 
 \subsection{Communication security}
 \label{subsec:cat_communication}
-
-This category covers the protection of the communication paths against corruption and disclosure, addressing RQ-001, RQ-002, and the transport aspect of RQ-014. It targets the safety-relevant process data and the audit data. The abstract catalogue contains the transport-confidentiality observation on the non-safety path, the integrity-rejection and in-path manipulation scenarios for the safety telegram, and the watchdog-passivation scenario. The safety-telegram integrity, in-path manipulation, and watchdog scenarios require the \gls{acr:NV2} or \gls{acr:NV3} position or the engineering tool and were designed but not executed. The transport observation executed under NV1 is reported below.
+This category covers the protection of the communication paths against corruption and disclosure, addressing RQ-001, RQ-002, and the transport aspect of RQ-014. It targets the safety-relevant process data and the audit data. The abstract catalogue contains the transport-confidentiality observation on the non-safety path, the integrity-rejection and in-path manipulation scenarios for the safety telegram, and the watchdog-passivation scenario. The safety-telegram integrity, in-path manipulation, and watchdog scenarios require the \gls{acr:NV2} or \gls{acr:NV3} position or the engineering tool and were designed but not executed. The transport observation executed under NV1 is reported below; it additionally supports RQ-004 as a secondary contribution, alongside its primary categorisation under identification and asset discovery (Section \ref{subsec:cat_identification}).
 
 \paragraph{Cleartext Transmission of the Identification Data}
 \label{subsec:res_cleartext}
 This activity examined the transport protection of the identification data. It relates to CM-005, to requirements RQ-004 and RQ-014, and to asset I. It targets the \gls{acr:IoT}-Core \gls{acr:HTTP} service and was run under \gls{acr:NV1}. The commands are listed in Appendix \ref{app:cmd_cleartext}.
 
-SSLscan verifies the \gls{acr:TLS} configuration of a \gls{acr:TLS} endpoint. It probes for a \gls{acr:TLS} handshake on a given host and port and reports the enabled protocol versions and the certificate. The tool was directed at the \gls{acr:HTTP} service on port 80. The saved output shows that no SSL %TODO stimmt SSL?
-or \gls{acr:TLS} protocol version is enabled and that no certificate can be parsed. The output therefore confirms that port 80 does not provide a \gls{acr:TLS} endpoint, so the service is plain \gls{acr:HTTP} without transport encryption. The identification data of Section \ref{subsec:res_identification} observed in the test system's own requests and responses was therefore transmitted in plaintext.
-The absence of \gls{acr:TLS} is a device characteristic, not a failed \gls{acr:TLS} test. It is relevant to RQ-014 as a defense-in-depth observation. %TODO was bedeutet defense-in-depth?
+SSLscan verifies the \gls{acr:TLS} configuration of a \gls{acr:TLS} endpoint. It probes for an SSL or \gls{acr:TLS} handshake on a given host and port and reports the enabled protocol versions and the certificate. The tool was directed at the \gls{acr:HTTP} service on port 80. The saved output shows that no SSL or \gls{acr:TLS} protocol version, from SSLv2 through TLSv1.3, is enabled, and that no certificate can be parsed. The output therefore confirms that port 80 does not provide a \gls{acr:TLS} endpoint, so the service is plain \gls{acr:HTTP} without transport encryption. The identification data of Section \ref{subsec:res_identification} observed in the test system's own requests and responses was therefore transmitted in plaintext.
+The absence of \gls{acr:TLS} is a device characteristic, not a failed \gls{acr:TLS} test. It is relevant to RQ-014 as a defence-in-depth observation.
 A confidentiality impact requires two further conditions. The transmitted data must be sensitive, and an unauthorised party must be able to observe it. The second condition depends on the \gls{acr:NV2} position, which was not realised. The confidentiality claim is therefore limited to the cleartext transmission that the test system observed in its own requests and responses.
 
 
@@ -418,7 +453,7 @@ The acceptance criterion is bounded by the specified operating envelope: availab
 
 The stored summaries show that the service responded to a large number of requests with \gls{acr:HTTP} status 200 and that a substantial number of connections failed in the same runs. The six 50-connection runs recorded 1,273 successful transactions and 407 failed connections in total. One run completed no transaction and failed all 100 connection attempts after 26.58 seconds. The 3-connection run recorded 332 successful transactions and no failed connections. These results document behaviour under the tested loads, but the tested loads exceeded the specified maximum and therefore do not establish availability within the product's declared operating envelope.
 
-The connection-hold procedure was also performed against the identification interface. Two long-lived \gls{acr:HTTP} connections were opened and are recorded as active in the job listing. While both connections were held, a third request to the identification endpoint did not receive a response within the five-second timeout. After one held connection was released, the same request again returned \gls{acr:HTTP} status 200. The evidence therefore demonstrates the intended connection-hold condition and recovery of the endpoint after a slot became available. The third request was made while the two permitted concurrent connections were already occupied and is consequently an outside-envelope overload observation, not a direct test of the specified operating condition. The activity remains \textbf{Not Assessed} for the requirement because it exercised only one endpoint and does not establish availability of all required identification information under every permitted operating condition.
+The connection-hold procedure was executed twice against the identification interface. The first attempt did not reproduce the intended condition: its job listing shows two suspended processes left over from an earlier activity rather than the intended connection-holding processes, and the subsequent request returned \gls{acr:HTTP} status 200 within 0.25 seconds instead of timing out. This attempt is treated as a procedural execution failure and is not used as evidence. The procedure was repeated; the second job listing shows two connection-holding processes running as intended. While both connections were held, a third request to the identification endpoint did not receive a response within the five-second timeout. After one held connection was released, the same request again returned \gls{acr:HTTP} status 200. The evidence from this second run therefore demonstrates the intended connection-hold condition and recovery of the endpoint after a slot became available. The third request was made while the two permitted concurrent connections were already occupied and is consequently an outside-envelope overload observation, not a direct test of the specified operating condition. The activity remains \textbf{Not Assessed} for the requirement because it exercised only one endpoint and does not establish availability of all required identification information under every permitted operating condition.
 
 The load results and the connection-hold attempt do not, by themselves, support a Pass or Fail verdict. A statement about domain separation or about the safety function is not possible under \gls{acr:NV1}, because the safety channel was not observed.
 
@@ -431,20 +466,28 @@ The planned packet and \gls{acr:MAC}-address flooding activity is not counted as
 The robustness aspect of RQ-010 under malformed input is examined with the same availability asset. The abstract catalogue contains the protocol-fuzzing scenario for the fieldbus-discovery, safety-frame, and web-interface inputs. The fieldbus-discovery and safety-frame fuzzing require the \gls{acr:NV2} or \gls{acr:NV3} position and were designed but not executed. The web-interface fuzzing executed under NV1 is reported below.
 
 
-\subsection{Robustness}\label{subsec:cat_robustness} This category covers the robustness aspect of RQ-010 under malformed input, with the availability asset H. The abstract catalogue contains the protocol-fuzzing scenario for the fieldbus-discovery, safety-frame, and web-interface inputs. The fieldbus-discovery and safety-frame fuzzing require the \gls{acr:NV2} or \gls{acr:NV3} position and were designed but not executed. The web-interface fuzzing executed under \gls{acr:NV1} is reported below.
+\subsection{Robustness}
+\label{subsec:cat_robustness} 
+This category covers the robustness aspect of RQ-010 under malformed input, with the availability asset H. The abstract catalogue contains the protocol-fuzzing scenario for the fieldbus-discovery, safety-frame, and web-interface inputs. The fieldbus-discovery and safety-frame fuzzing require the \gls{acr:NV2} or \gls{acr:NV3} position and were designed but not executed. The web-interface fuzzing executed under \gls{acr:NV1} is reported below.
 
 
 \paragraph{Robustness under Malformed Input}
 \label{subsec:res_robustness}
 This activity examined the robustness of the \gls{acr:HTTP} service against malformed input. It relates to CM-010, to requirement RQ-010, and to asset H. It targets the \gls{acr:IoT}-Core \gls{acr:HTTP} service and was run under \gls{acr:NV1}. The commands are listed in Appendix \ref{app:cmd_robustness}.
 
-A fuzzing test was run with boofuzz against the \gls{acr:HTTP} service on port 80. The saved script fuzzes the request line of an \gls{acr:HTTP} GET request. The boofuzz session databases and the run log are stored as evidence. The log records successful processing of the initial test cases, followed by a failed reconnection after a subsequent malformed request. The \gls{acr:HTTP} service became reachable again approximately 41 seconds later. The triggering input and the internal cause of the interruption were not established.
+A fuzzing test was run with boofuzz against the \gls{acr:HTTP} service on port 80. The saved script fuzzes the request line of an \gls{acr:HTTP} GET request. The boofuzz session databases are stored as evidence (Appendix \ref{app:cmd_robustness}). %TODO-VERIFY: the timing detail below (approx. 41 s recovery) could not be independently confirmed from a plain-text export in Tests_BA; verify against the session database content or attach a text export as a stored artefact.
+The session record shows successful processing of the initial test cases, followed by a failed reconnection after a subsequent malformed request. The \gls{acr:HTTP} service became reachable again approximately 41 seconds later. The triggering input and the internal cause of the interruption were not established.
 
-The stored evidence therefore shows a temporary disruption of the \gls{acr:HTTP} service on the non-safety path under malformed input, followed by recovery. The disruption requires follow-up by development. Its causation, reproducibility, and effect on the safety function are not established, because the safety channel was not monitored. The activity therefore supports an observation but not a complete requirement verdict for RQ-010; the requirement remains \textbf{Not Assessed} under the conservative aggregation rule.
+During the run, the device's BF and SF indicator LEDs (bus-fault and system-fault indicators, respectively) were both observed lit red; the SF indicator turned off as the run continued. After the test was aborted, the BF indicator was off while the SF indicator and a third indicator, labelled FS, showed red. A manual read of the error log taken after the run showed one additional \texttt{FATAL}-level entry and three additional \texttt{ERROR}-level entries that were not present in the baseline of Section \ref{subsec:res_evidence}. This reading was not captured to a stored file and is therefore reported as an unscored observation rather than as evidence. %TODO-VERIFY: capture a screenshot or an exported error-log read of this fault indication as a stored artefact in a repeat run.
+Independently of the specific error codes involved, which are not interpreted here, the indicator and error-log behaviour together show that the device entered a fault state as a consequence of the \gls{acr:HTTP}-level fuzzing. Because the affected indicators concern safety monitoring (asset E), this observation is also relevant to the domain-separation obligation of RQ-001 (Section \ref{subsec:res_attack_surface}, asset F): it suggests, without yet proving, that the disruption is not confined to the non-safety interface.
+
+The stored evidence therefore shows a temporary disruption of the \gls{acr:HTTP} service on the non-safety path under malformed input, followed by recovery, together with an unstored observation of a device fault indication. The disruption requires follow-up by development. Its causation, reproducibility, and effect on the safety function are not established, because the safety channel was not monitored and the fault indication was not captured as a stored artefact. The activity therefore supports an observation but not a complete requirement verdict for RQ-010; the requirement remains \textbf{Not Assessed} under the conservative aggregation rule.
 
 
 \subsection{Authorisation and access control}
 \label{subsec:cat_access}
+
+%TODO
 This category covers the identification-and-authentication and the authorisation aspects of \gls{acr:FR} 1 and \gls{acr:FR} 2, addressing the modification-prevention and access-restriction requirements RQ-011 and RQ-014, together with the configuration-modification evidence of RQ-009, with the operating-mode, configuration, and audit-data assets. The abstract catalogue contains the read-only enforcement scenario, the unauthenticated configuration-protocol reset, the fieldbus parameter-write scenario, the firmware-update mode gate, the physical-barrier scenario, the unauthenticated tracing-log read, and the access-control and deletion-control probes. The device exposes a single anonymous read-only role and no authentication endpoint; the authentication dimension of this category therefore reduces, for this device, to the empirical finding that no identity model exists to authenticate against. The configuration-protocol and physical-barrier scenarios were designed but not executed. The read-only write probe and the access-control probe executed under \gls{acr:NV1} are reported below.
 
 \paragraph{Access Control and Configuration Interfaces}
@@ -459,6 +502,7 @@ The anonymous read-only access is an observation about the \gls{acr:IoT}-Core in
 
 \subsection{Open Test Areas}
 \label{subsec:cat_config_firmware}
+%TODO
 This subsection collects the firmware and configuration-integrity category together with the test areas that were specified in the methodology but not executed in the practical phase, so that they are not misread as results. They comprise the firmware and configuration-integrity tests, the tests that require the \gls{acr:NV2} or \gls{acr:NV3} position, and the company tests that were not applicable or blocked.
 
 The firmware and configuration-integrity tests cover the integrity and authenticity of safety-relevant software and data under RQ-005, the parameter-integrity aspect of RQ-002, and the physical tamper resistance of the address and mode interface. They target the configuration, firmware, and operating-mode assets. The abstract catalogue contains the parameter-integrity rejection and forgery scenarios, the unsigned and modified firmware installation scenario, the update-package static-analysis scenario, the analytical safety-self-test scenario, and the physical tamper-resistance scenario. These scenarios require the engineering tool, a spare unit for a risk-bearing firmware test, the \gls{acr:NV3} in-path position, or physical access to the sealed interface. They were designed but not executed in the practical phase, so no requirement in this category is assessed from stored device evidence. The parameter-integrity, firmware-authenticity, and physical-tamper gaps identified during the theoretical validation remain open items for a future test campaign.
@@ -473,13 +517,13 @@ The following evidence items remain open: confirmation of the probable Spring Bo
 
 \section{Requirement Assessment}
 \label{sec:requirement_verification}
+%TODO entsprechend anpassen
 The purpose of this section is to show that the methodology can assign a traceable verdict to each derived component-level requirement from the collected evidence. The per-requirement results are the output of applying the method to one device under the NV1 position. They are not a conformance audit of the product, and no legal conformity is claimed. A Fail verdict denotes an evidenced absence of component capability against a derived requirement, not a declaration of legal non-conformity of the product. Under the allocation defined in Section \ref{subsec:regulatory_applicability}, the corresponding machine-level obligation may instead be satisfied by a compensating countermeasure at system or zone level, which the machine manufacturer or integrator must document. Section \ref{subsec:req_verification_table} relates the executed activities of Section \ref{sec:executed_tests} to the fourteen derived requirements and assigns a verdict according to the scale of Section \ref{subsec:verdicts}. Section \ref{subsec:metrics_application} summarises the resulting coverage of the practical phase as direct counts.
 
 
 \subsection{Verification Status per Requirement}
 \label{subsec:req_verification_table} 
 All executed activities reported here used the network variant \gls{acr:NV1}. A verdict is assigned only where a stored artefact supports it. The execution status of a test and its verdict are distinct. An executed test can still leave the requirement Not Assessed when the complete acceptance condition is not covered. A definitive Fail can result from an evidenced device deviation even though the test itself succeeded. Where the evidence documents such a deviation, the requirement is assessed as Fail because the component capability is not demonstrated against the derived requirement. Table \ref{tab:req_verification} summarises the current status per requirement. No requirement is verified as fully met. No legal conformity is claimed. Incomplete or ambiguous evidence is reported as \textbf{Not Assessed} under the conservative aggregation rule of Section \ref{subsec:requirement_assessment}.
-%TODO Tabelle überprüfen
 \begin{xltabular}{\textwidth}{l X l X} 
 	\caption{Current requirement verification status under NV1} 
 	\label{tab:req_verification} \\ 
@@ -506,7 +550,7 @@ All executed activities reported here used the network variant \gls{acr:NV1}. A 
 	RQ-007 & identification availability; connection-hold and load tests (Sections \ref{subsec:cat_identification}, \ref{subsec:cat_availability}) & Not Assessed & availability and recovery were observed at the tested endpoint, but the complete specified operating envelope was not assessed \\
 	RQ-008 & software-event evidence baseline (Section \ref{subsec:cat_logging}) & Not Assessed & baseline evidence exists, but no software-installation event was induced \\ 
 	RQ-009 & configuration evidence baseline (Section \ref{subsec:cat_logging}) & Not Assessed & baseline evidence exists, but no configuration change was induced \\ 
-	RQ-010 & HTTP fuzzing; load test (Sections \ref{subsec:cat_robustness}, \ref{subsec:cat_availability}) & Not Assessed & safety channel was not observed and the layer-two activity was not evidence-backed \\ 
+	RQ-010 & HTTP fuzzing; load test (Sections \ref{subsec:cat_robustness}, \ref{subsec:cat_availability}) & Not Assessed & safety channel was not observed, the layer-two activity was not evidence-backed, and a fault-indication observation during fuzzing was not captured as a stored artefact \\ 
 	RQ-011 & write probe on three nodes (Section \ref{subsec:cat_access}) & Not Assessed & bad-request responses do not prove an access-control decision \\ 
 	RQ-012 & cold-start deletion (Section \ref{subsec:cat_logging}) & Fail & substitute error log cleared by a cold restart; compensating control at system level required \\ 
 	RQ-013 & none executed & Not Assessed & version history not exposed; current-version read does not evidence retention \\ 
@@ -528,6 +572,7 @@ The evidence base includes raw Nmap and Nikto output, SSLscan output, inventory 
 
 \section{Discussion of Results}
 \label{sec:discussion} 
+%TODO entsprechend anpassen
 Section \ref{sec:requirement_verification} assigned a verdict to each of the fourteen derived requirements. This section steps back from the individual verdicts and interprets the resulting pattern as a whole. Section \ref{subsec:discussion_synthesis} discusses why the practical phase yields predominantly Not Assessed verdicts, what the two Fail verdicts signify, and what role the unrealised network variants \gls{acr:NV2} and \gls{acr:NV3} play in this pattern. Section \ref{subsec:discussion_rq} relates these findings back to the three research questions defined in Section \ref{subsec:research_questions}.
 
 \subsection{Synthesis of Findings Across Test Categories}
@@ -548,7 +593,10 @@ The unrealised \gls{acr:NV2} and \gls{acr:NV3} variants therefore do not merely 
 \textbf{RQ3: What can direct-access testing at the physical \gls{acr:IT}/\gls{acr:OT} interface verify about the effectiveness of the implemented security functions, and where are its boundaries?} The synthesis in Section \ref{subsec:discussion_synthesis} bounds this answer precisely. Direct-access testing under \gls{acr:NV1} can conclusively verify requirements whose acceptance condition is exercised entirely through the \gls{acr:IP}-reachable non-safety path, as demonstrated by the Fail verdicts for RQ-003 and RQ-012. It can also produce reproducible interface-level observations, such as the absence of a \gls{acr:TLS} endpoint (Section \ref{subsec:cat_communication}) or the absence of an authentication endpoint (Section \ref{subsec:cat_access}), that constrain but do not by themselves decide a requirement. Its boundary is equally precise: \gls{acr:NV1} cannot observe the cyclic PROFINET/PROFIsafe communication between controller and \gls{acr:SUT}, so it cannot support any claim about the integrity of safety-relevant process data in transit, about in-path manipulation, or about the effect of a network disturbance on the safety function itself. Every requirement in Table \ref{tab:req_verification} whose limitation column names the safety channel, the \gls{acr:NV2} position, or the \gls{acr:NV3} position marks exactly this boundary. RQ3 is therefore answered as follows: direct-access testing is sufficient to verify security functions that are fully exposed on the \gls{acr:IT}-side interface, but it structurally cannot verify or refute claims about the \gls{acr:OT}-side safety communication, regardless of the number or the depth of the tests executed at the \gls{acr:IT}/\gls{acr:OT} interface.
 
 
-\section{Evaluation of the Methodology}\label{sec:objective_validation} This section closes the chapter by evaluating the methodology itself, as distinct from the requirement verdicts of Section \ref{sec:requirement_verification} and their interpretation in Section \ref{sec:discussion}. Section \ref{subsec:objective_validation_sub} validates the methodology against the thesis objective, following the evaluation activity of the Design Science Research process. Section \ref{subsec:threats_to_validity} examines the reliability of the findings and the threats to construct, internal, and external validity that bound them.
+\section{Evaluation of the Methodology}
+\label{sec:objective_validation} 
+%TODO entsprechend anpassen
+This section closes the chapter by evaluating the methodology itself, as distinct from the requirement verdicts of Section \ref{sec:requirement_verification} and their interpretation in Section \ref{sec:discussion}. Section \ref{subsec:objective_validation_sub} validates the methodology against the thesis objective, following the evaluation activity of the Design Science Research process. Section \ref{subsec:threats_to_validity} examines the reliability of the findings and the threats to construct, internal, and external validity that bound them.
 
 
 \subsection{Validation against the Thesis Objective}
@@ -577,6 +625,7 @@ This section validates the developed methodology against the thesis objective. T
 	 \end{tabularx} 
  \end{table} 
  
+ 
 The empirical validation covered the central methodology steps under \gls{acr:NV1}. The requirement derivation, the asset mapping, the applicability assessment, the test selection, the execution, and the evidence-based assessment were all exercised on a real device. How far this validation extends the specific capabilities of the methodology, expressed through the three research questions, is discussed in Section \ref{subsec:discussion_rq}. The tests that require passive observation or inline manipulation remain extensions of the validated core process. The methodology is therefore validated within a bounded scope, defined by the \gls{acr:NV2} and \gls{acr:NV3} variants and by the requirements whose evidence is still open. A claim of full validation is not made. The validation concerns the methodology rather than the product, and its boundary is the \gls{acr:NV1} position together with the requirements whose evidence remains open. These limits are examined further in Section \ref{subsec:threats_to_validity}.
 
 \subsection{Reliability and Threats to Validity}
@@ -589,6 +638,6 @@ The results are subject to threats to construct validity, internal validity, ext
 
 \textbf{Safety-priority constraint.} Section \ref{subsec:constraints_scope} requires that testing must not impair the safety function. Under \gls{acr:NV1}, however, the cyclic safety channel was not observable. The constraint was therefore maintained procedurally through the isolated laboratory and the exclusion of production systems rather than demonstrated by measurement. 
 
-\textbf{Connection-hold result.} The new evidence establishes that two \gls{acr:HTTP} connections were occupied, that a third request timed out while both slots were held, and that the endpoint responded successfully after a slot was released. This confirms the connection-hold procedure and recovery behaviour, but the third request was outside the specified two-connection operating envelope and only one identification endpoint was exercised. The requirement therefore remains \textbf{Not Assessed}, because the evidence does not cover the complete acceptance condition.
+\textbf{Connection-hold result.} The connection-hold procedure required a repeated run because the first attempt failed to occupy the connection slots (Section \ref{subsec:res_availability}). This repetition is itself a reliability observation: a manually orchestrated background procedure was not reliably reproducible on the first attempt. The repeated run establishes that two \gls{acr:HTTP} connections were occupied, that a third request timed out while both slots were held, and that the endpoint responded successfully after a slot was released. This confirms the connection-hold procedure and recovery behaviour, but the third request was outside the specified two-connection operating envelope and only one identification endpoint was exercised. The requirement therefore remains \textbf{Not Assessed}, because the evidence does not cover the complete acceptance condition.
 
 \textbf{External validity.} The evaluation covers one device, one firmware revision, one flat laboratory topology without \gls{acr:VLAN} separation, and only the \gls{acr:NV1} network position. The results do not generalise to other gateways or to the cyclic safety path. \textbf{Reliability.} The work was performed by a single tester and depends on specific tool versions and scan timing. The Nmap timing sensitivity is itself evidence that execution conditions affect observations. The stored tool outputs, commands in Appendix \ref{app:tool_commands}, and defined acceptance criteria make the raw evidence reproducible, although the interpretation is not fully reproducible where causation or setup state is uncertain. These limitations bound the claims of Section \ref{subsec:objective_validation_sub} to a bounded validation of the methodology.

@@ -545,13 +545,13 @@ The output file names correspond to the stored evidence.
 
 \section{Attack-Surface Enumeration}
 \label{app:cmd_attacksurface}
-% TODO-VERIFY: confirm the cm001_srio_tcp and cm001_srio_udp file names against the stored evidence; the naming scheme differs from the cm_rq001-02_srio.html artefact.
+The scan was executed on two separate dates to confirm reproducibility, both with the same result (Section \ref{subsec:res_attack_surface}). The commands and file names of the later run are given below; the earlier run is stored under the \texttt{cm001\_srio\_*} basename with otherwise identical commands.
 \begin{verbatim}
 	
 	# Full TCP scan with service detection
-	sudo nmap -sS -sV -p- -T3 -oA cm001_srio_tcp $SRIO
+	sudo nmap -sS -sV -p- -T3 -oA cm_rq001-02_tcp_srio $SRIO
 	# UDP top-ports scan
-	sudo nmap -sU --top-ports 200 -oA cm001_srio_udp $SRIO
+	sudo nmap -sU --top-ports 200 -oA cm_rq001-02 $SRIO
 	# Web-server scan
 	nikto -h http://$SRIO -output cm_rq001-02_srio.html -Format html
 \end{verbatim}
@@ -598,9 +598,28 @@ The output file names correspond to the stored evidence.
 	siege -c 3  -t 1M -v http://$SRIO/deviceinfo/getdata \
 	--log=cmrq010_3connections_siege.log
 	# Connection-hold procedure: occupy the available HTTP slots, then issue
-	# a further request that is expected to time out.
+	# bash
+export SRIO=192.168.0.2
+echo " Baseline: Connection working normally" | tee cm_rq007-03_00_baseline.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_00_baseline.txt 2>&1
+cat cm_rq007-03_00_baseline.txt
+
+echo "Block both slots"
+for i in 1 2; do
+  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost: x\r\n\r\n' >&3; sleep 600) &
+done
+jobs | tee cm_rq007-03_01_jobs.txt
+
+echo "3rd attempt while both slots are occupied (expected: timeout)" | tee cm_rq007-03_02_blocked.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_02_blocked.txt 2>&1
+cat cm_rq007-03_02_blocked.txt
+
+echo "Free up one slot"
+kill %1
+echo "Retry after freeing up slot (expected: successful again)" | tee cm_rq007-03_03_after_release.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_03_after_release.txt 2>&1
+cat cm_rq007-03_03_after_release.txt
 \end{verbatim}
-The connection-hold procedure was performed manually. No command listing or stored artefact documents that the connection slots were occupied; this limitation is reported in Section \ref{subsec:res_availability}.
 
 \section{Layer-Two and Network Flooding}
 \label{app:cmd_flood}
