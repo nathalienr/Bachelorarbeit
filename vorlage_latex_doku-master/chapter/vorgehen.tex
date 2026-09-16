@@ -1,9 +1,9 @@
 \chapter{Methodology} 
 \label{chap:methodology}
 
-Building upon the theoretical foundations established in Chapter \ref{chap:fundamentals}, this chapter develops the security testing methodology used in this thesis. The methodology translates the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 into derived, component-level requirements and a traceable, repeatable engineering procedure. The chapter is structured along the derivation chain that forms the scientific core of the methodology. 
+Building on the theoretical foundations established in \autoref{chap:fundamentals}, this chapter develops the security-testing methodology used in this thesis. The methodology translates the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 into derived, component-level requirements and a traceable, repeatable engineering procedure. The chapter follows the derivation chain that forms the scientific core of the methodology.
 
-Section \ref{sec:research_design} defines the research design, the research questions, and the constraints. Section \ref{sec:problem_context} describes the initial situation, the regulatory allocation of responsibility, and the methodological scope. Section \ref{sec:requirements_analysis} defines how the fourteen security requirements are derived from the regulation and how each requirement is to be mapped to the affected assets, the relevant threats, and the security functions that treat them. These links are consolidated into a single traceability chain. Section \ref{sec:approach_selection} selects the verification techniques and assesses the applicability of the company framework. Section \ref{sec:test_derivation} defines the development of the individual test cases. Section \ref{sec:test_environment} defines the test environment and the three network access variants. Section \ref{sec:evaluation_metrics} defines the verification and assessment model that turns test outcomes into requirement verdicts.
+\autoref{sec:research_design} defines the research design, the research questions, and the constraints. \autoref{sec:problem_context} describes the initial situation, the regulatory allocation of responsibility, and the methodological scope. \autoref{sec:requirements_analysis} explains how the fourteen security requirements are derived from the regulation and how each requirement is mapped to the affected assets, the relevant threats, and the security functions that address them. These links are consolidated into a single traceability chain. \autoref{sec:approach_selection} selects the verification techniques and assesses the applicability of the company framework. \autoref{sec:test_derivation} defines the development of the individual test cases. \autoref{sec:test_environment} defines the test environment and the three network access variants. \autoref{sec:evaluation_metrics} defines the verification and assessment model that converts test outcomes into requirement verdicts.
 
 
 \section{Research Design} 
@@ -27,11 +27,11 @@ This research follows \gls{acr:DSRM}, proposed by \citeauthor{Peffers} \cite[p. 
 \subsection{Research Questions} 
 \label{subsec:research_questions}
  
-The design and the evaluation of the artefact are guided by three research questions: 
+The design and evaluation of the artefact are guided by three research questions:
 \begin{itemize} 
-	\item \textbf{RQ1:} How can the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 be translated into verifiable, derived component-level security tests for a safety-related industrial gateway? 
-	\item \textbf{RQ2:} Which tests of the existing company framework are applicable to an industrial gateway, and how can non-applicable tests be identified before execution? 
-	\item \textbf{RQ3:} What can direct-access testing at the physical IT/OT interface verify about the effectiveness of the implemented security functions, and where are its boundaries? 
+	\item \textbf{RQ1:} How can the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 be translated into verifiable, derived component-level security tests for a safety-related industrial gateway?
+	\item \textbf{RQ2:} Which tests of the existing company framework are applicable to an industrial gateway, and how can non-applicable tests be identified before execution?
+	\item \textbf{RQ3:} What can direct-access testing at the physical IT/OT interface verify about the effectiveness of the implemented security functions, and where are its boundaries?
 \end{itemize}
 
 
