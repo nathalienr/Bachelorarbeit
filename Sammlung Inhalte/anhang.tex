@@ -1,11 +1,11 @@
 \chapter{Note on the Use of Artificial Intelligence}
 
-Within the scope of this thesis, tools based on Artificial Intelligence (\gls{acr:AI})\index{Artificial Intelligence} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
+Within the scope of this thesis, tools based on \gls{acr:AI} were used. Table \ref{tab:anhang_uebersicht_KI_werkzeuge} provides an overview of the tools used and their respective purpose of application.
 
 \begin{table}[hbt]	
 	\centering
 	\renewcommand{\arraystretch}{1.5}	% Scales the row height of the table
-	\captionabove[List of artificial intelligence based tools used]{List of \acrshort{acr:AI}-based tools used}
+	\captionabove[List of artificial intelligence based tools used]{List of \gls{acr:AI}-based tools used}
 	\label{tab:anhang_uebersicht_KI_werkzeuge}
 	\begin{tabular}{>{\raggedright\arraybackslash}p{0.3\linewidth} >{\raggedright\arraybackslash}p{0.65\linewidth}}
 		\textbf{Tool} & \textbf{Description of Use}\\
@@ -19,6 +19,7 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 		Gemini	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
 			\item Assistance with understanding fundamental concepts
+			\item Finding Literature Sources
 		\end{itemize} \\ 
 		Microsoft Copilot 365	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
@@ -29,13 +30,11 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 			\item Generation of LaTeX code for Figures \ref{fig:testbed_topology}, \ref{fig:nv1},  \ref{fig:nv2}, \ref{fig:nv3} based on text descriptions
 			\item Assistance with understanding fundamental concepts
 			\item Code ideas / error analysis for test cases
-			\item  Assistance with test case interpretation 
 		\end{itemize} \\ 
 		Github Copilot	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
 			\item LaTeX code: Tables
 			\item Abbreviations
-			\item Grammar and spelling checks
 			\item Formatting (bullet points, tables, formulas, equations) in LaTeX (overall)
 		\end{itemize} \\ 
 		\hline 
@@ -44,11 +43,13 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 
 \clearpage
 
+
+
 \chapter{Detailed Requirement Derivation Matrices}
 \label{app:requirement_derivation}
 
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{sec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the \gls{acr:SUT} for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{subsec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} \glspl{acr:CR}, \glspl{acr:RE}, and component-type-specific instantiations such as \glspl{acr:EDR}. The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
@@ -221,18 +222,18 @@ Table \ref{tab:mvo-requirements} lists the 14 derived component-level requiremen
 \section{Mapping to prEN 50742}
 \label{app:sec:mapping_pren50742}
 
-Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} (\emph{Safety of machinery - Protection against corruption}). The mapping types are used as follows: \textbf{Partial} indicates that the clause addresses the obligation but does not fully cover it; \textbf{Supporting} indicates that the clause contributes context or a prerequisite but is not the operative requirement; and \textbf{No mapping} indicates that the draft standard explicitly excludes or does not address the obligation.
+Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo-requirements} onto the corresponding clauses of \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} (Safety of machinery - Protection against corruption). The mapping types are used as follows: \textbf{Partial} indicates that the clause addresses the obligation but does not fully cover it; \textbf{Supporting} indicates that the clause contributes context or a prerequisite but is not the operative requirement; and \textbf{No mapping} indicates that the draft standard explicitly excludes or does not address the obligation.
 \begin{longtable}{|>{\bfseries}p{1cm}|p{2.5cm}|p{9cm}|>{\centering\arraybackslash}p{2cm}|}
 	\caption{Mapping of Machinery Regulation requirements to prEN 50742} 
 	\label{tab:pren50742-mapping} \\
 	\hline
-	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{\gls{acr:RQ} ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{4}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{\gls{acr:RQ} ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endhead
 	
@@ -253,7 +254,7 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	RQ-003 &
 	\S3.4;  \newline \S7.3.3;  \newline\S7.4.3.4.5 &
-	``Evidence'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); \S7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable; \S7.4.3.4.5 is the only operative requirement mandating detection of physical manipulation (SRSL0-3).  &
+	``Evidence'' definition includes physical tamper evidence (broken seals, damaged interface covers, e.g. RJ45); \S7.3.3 requires physical evidence where digital evidence collection is not reasonably practicable; \S7.4.3.4.5 is the only operative requirement mandating detection of physical manipulation (\gls{acr:SRSL}0-3).  &
 	\S3.4: Supporting\newline\S7.3.3, \S7.4.3.4.5: Partial \\
 	\hline
 	
@@ -265,7 +266,7 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	RQ-005 &
 	\S3.5;  \newline \S7.1;  \newline\S7.4.3.4.1 &
-	SRSL-graded software/information integrity requirements, from checksum verification at start-up (SRSL1) to cryptographic hash/HMAC/CMAC verification during operation (SRSL3). &
+	\gls{acr:SRSL}-graded software/information integrity requirements, from checksum verification at start-up (\gls{acr:SRSL}1) to cryptographic hash/HMAC/CMAC verification during operation (\gls{acr:SRSL}3). &
 	\S3.5, \S7.1: Supporting\newline\S7.4.3.4.1: Partial \\
 	\hline
 	
@@ -290,19 +291,19 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	RQ-009 &
 	\S3.2; \newline \S3.3;  \newline \S7.3.1;  \newline \S7.3.2;   \newline\S7.3.3; \newline \S7.3.4 &
-	``Modification'' is defined as a change caused by an ``intervention'', incl. software version, sensor calibration, configuration data); \S7.3.1 b)/c) require identification means (version number, CRC) for SRESW/SRASW updates; \S7.3.4 specifies the associated minimum retention of at least five years per intervention type. &
+	``Modification'' is defined as a change caused by an ``intervention'', incl. software version, sensor calibration, configuration data); \S7.3.1 b)/c) require identification means (version number, \gls{acr:CRC}) for SRESW/SRASW updates; \S7.3.4 specifies the associated minimum retention of at least five years per intervention type. &
 	\S3.2, \S3.3: Supporting\newline\S7.3.1, \S7.3.2, \S7.3.3, \S7.3.4: Partial \\
 	\hline
 	
 	RQ-010 &
 	\S4.3;  \newline \S7.1;  \newline \S7.2.1;  \newline \S7.4.2;  \newline\S7.4.3 &
-	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures; \S7.1 requires identification and protection of accessible interfaces, \S7.2.1 requires risk-based selection of security measures, and \S7.4.2/\S7.4.3 require determination and maintenance of SRSL-graded security requirements, all contributing to withstanding malicious third-party attempts. &
+	Process principles: eliminate vulnerabilities that could lead to hazardous situations; otherwise mitigate; otherwise inform the user via user information of compensating measures; \S7.1 requires identification and protection of accessible interfaces, \S7.2.1 requires risk-based selection of security measures, and \S7.4.2/\S7.4.3 require determination and maintenance of \gls{acr:SRSL}-graded security requirements, all contributing to withstanding malicious third-party attempts. &
 	\S4.3, \S7.2.1, \S7.4.2: Supporting\newline\S7.1, \S7.4.3: Partial \\
 	\hline
 	
 	RQ-011 &
 	\S7.4.3.3.1;  \newline \S3.2;  \newline \S3.3 &
-	SRSL-graded authorisation requirements for interventions (SRSL1/2: authorisation required; SRSL3: privileged/role-based authorisation); the ``intervention'' definition names safety routines, safety variables, and calibration data as examples. Note: prEN 50742 contains no provision addressing learning-phase or self-evolving machinery behaviour; Annex ZZ correlation table (Table ZZ.1) does not correlate 1.2.1, Abs. 2, Punkt d) with any clause &
+	\gls{acr:SRSL}-graded authorisation requirements for interventions (\gls{acr:SRSL}1/2: authorisation required; \gls{acr:SRSL}3: privileged/role-based authorisation); the ``intervention'' definition names safety routines, safety variables, and calibration data as examples. Note: prEN 50742 contains no provision addressing learning-phase or self-evolving machinery behaviour; Annex ZZ correlation table (Table ZZ.1) does not correlate 1.2.1, Abs. 2, Point d) with any clause &
 	\S7.4.3.3.1: Partial\newline\S3.2, \S3.3: Supporting \\
 	\hline
 	
@@ -330,21 +331,24 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 Where the draft standard explicitly excludes an obligation, as for RQ-013, the derivation proceeds directly from the Regulation; the absence of a standard clause does not remove the underlying obligation.
 
 
-\section{Mapping to IEC 62443-4-2}
+\section{Mapping to \gls{acr:IEC} 62443-4-2}
 \label{app:sec:mapping_iec62443}
+%TODO zeilen abstand ist komisch
+\normalsize
+Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. The mapped \glspl{acr:CR} are to be satisfied at the target Component \gls{acr:SL-C} declared in Section \ref{subsec:derivation_mapping}; applicable \glspl{acr:RE} are included accordingly. \gls{acr:IEC} 62443-4-2 organises its \glspl{acr:CR} under the seven \glspl{acr:FR} introduced in Section \ref{subsec:iec_62443}.
 
-Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. The mapped Component Requirements are to be satisfied at the target Component Security Level Capability declared in Section \ref{subsec:derivation_mapping}; applicable Requirement Enhancements are included accordingly. \gls{acr:IEC} 62443-4-2 organises its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
 \footnotesize
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
-	\caption{Mapping of derived requirements to IEC 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
+	\caption{Mapping of derived requirements to \gls{acr:IEC} 62443-4-2} 
+	\label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
-	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{\gls{acr:RQ} ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{6}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{\gls{acr:RQ} ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endhead
 	
@@ -353,115 +357,115 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\endlastfoot
 	
 	RQ-001 &
-	FR3 &
-	CR 3.1 &
+	\gls{acr:FR} &
+	\gls{acr:CR} 3.1 &
 	Communication integrity &
-	CR 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
+	\gls{acr:CR} 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
 	Partial \\
 	\hline
 	
 	RQ-002 &
-	FR3 &
-	CR 3.1; \newline EDR 3.11 &
+	\gls{acr:FR}3 &
+	\gls{acr:CR} 3.1; \newline \gls{acr:EDR} 3.11 &
 	Communication integrity; Physical tamper resistance and detection (embedded device) &
-	CR 3.1 covers the integrity of the information transmitted over such an interface, while EDR 3.11 covers protection of the interface hardware itself against unauthorised physical access and corruption. &
+	\gls{acr:CR} 3.1 covers the integrity of the information transmitted over such an interface, while \gls{acr:EDR} 3.11 covers protection of the interface hardware itself against unauthorised physical access and corruption. &
 	Partial \\
 	\hline
 	
 	RQ-003 &
-	FR2; FR3 &
-	CR 2.8; \newline CR 2.12; \newline EDR 3.11 &
+	\gls{acr:FR}2; \gls{acr:FR}3 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.12; \newline \gls{acr:EDR} 3.11 &
 	Auditable events; Non-repudiation; Physical tamper resistance and detection (embedded device) &
-	prEN \S7.3.3 makes physical evidence (EDR 3.11) the fallback used only where digital evidence collection (CR 2.8) is not practicable. CR 2.8 supplies the primary digital-evidence/event-generation mechanism; CR 2.12 supplies the attribution property implied by ``legitimate or illegitimate'' (the evidence must be undeniably traceable to the causing action) &
+	prEN \S7.3.3 makes physical evidence (\gls{acr:EDR} 3.11) the fallback used only where digital evidence collection (\gls{acr:CR} 2.8) is not practicable. \gls{acr:CR} 2.8 supplies the primary digital-evidence/event-generation mechanism; \gls{acr:CR} 2.12 supplies the attribution property implied by ``legitimate or illegitimate'' (the evidence must be undeniably traceable to the causing action) &
 	Partial \\
 	\hline
 	
 	RQ-004 &
-	FR7 &
-	CR 7.8 &
+	\gls{acr:FR}7 &
+	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	CR 7.8's component-inventory capability is the closest CR-level asset-identification control. &
+	\gls{acr:CR} 7.8's component-inventory capability is the closest \gls{acr:CR}-level asset-identification control. &
 	Supporting \\
 	\hline
 	
 	RQ-005 &
-	FR3 &
-	CR 3.4; \newline EDR 3.14 &
+	\gls{acr:FR}3 &
+	\gls{acr:CR} 3.4; \newline \gls{acr:EDR} 3.14 &
 	Software and information integrity; Integrity of the boot process (embedded device) &
-	prEN's SRSL-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ EDR 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
+	prEN's \gls{acr:SRSL}-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ \gls{acr:EDR} 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
 	Partial \\
 	\hline
 	
 	RQ-006 &
-	FR7 &
-	CR 7.8 &
+	\gls{acr:FR}7 &
+	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	CR 7.8's inventory capability is the closest CR-level match for tracking installed-software identity. &
+	\gls{acr:CR} 7.8's inventory capability is the closest \gls{acr:CR}-level match for tracking installed-software identity. &
 	Supporting \\
 	\hline
 	
 	RQ-007 &
-	FR7 &
-	CR 7.1, CR 7.2, CR 7.8 &
+	\gls{acr:FR}7 &
+	\gls{acr:CR} 7.1, \gls{acr:CR} 7.2, \gls{acr:CR} 7.8 &
 	Control system component inventory &
-	CR 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability. &
+	\gls{acr:CR} 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability. &
 	Supporting \\
 	\hline
 	
 	RQ-008 &
-	FR2 &
-	CR 2.8; \newline CR 2.12 &
+	\gls{acr:FR}2 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.12 &
 	Auditable events; Non-repudiation &
-	prEN \S7.3.1/\S7.3.2 anchor the enumerated intervention types and minimum recorded data to CR 2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches CR 2.12 (non-repudiation). &
-	CR 2.8: Partial\newline CR 2.12: Supporting \\
+	prEN \S7.3.1/\S7.3.2 anchor the enumerated intervention types and minimum recorded data to \gls{acr:CR} 2.8 (event generation); the ``legitimate or illegitimate'' attribution qualifier matches \gls{acr:CR} 2.12 (non-repudiation). &
+	\gls{acr:CR} 2.8: Partial\newline \gls{acr:CR} 2.12: Supporting \\
 	\hline
 	
 	RQ-009 &
-	FR2; FR3 &
-	CR 2.8; \newline CR 2.12; \newline CR 3.4 &
+	\gls{acr:FR}2; \gls{acr:FR}3 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.12; \newline \gls{acr:CR} 3.4 &
 	Auditable events; Non-repudiation; Software and information integrity &
-	prEN's ``modification'' definition and the version-number/CRC identification means combine an audit obligation (CR 2.8) with an integrity-verification obligation (CR 3.4). Because a modification is defined as a change caused by an intervention (\S3.2), the attribution qualifier extends to modification evidence, which CR 2.12 (non-repudiation) addresses. &
-	CR 2.8, CR 3.4: Partial \newline CR 2.12: Supporting \\
+	prEN's ``modification'' definition and the version-number/\gls{acr:CRC} identification means combine an audit obligation (\gls{acr:CR} 2.8) with an integrity-verification obligation (\gls{acr:CR} 3.4). Because a modification is defined as a change caused by an intervention (\S3.2), the attribution qualifier extends to modification evidence, which \gls{acr:CR} 2.12 (non-repudiation) addresses. &
+	\gls{acr:CR} 2.8, \gls{acr:CR} 3.4: Partial \newline \gls{acr:CR} 2.12: Supporting \\
 	\hline
 	
 	RQ-010 &
-	FR7 &
-	CR 7.1 (1) &
+	\gls{acr:FR}7 &
+	\gls{acr:CR} 7.1 (1) &
 	Protection against denial-of-service events &
-	The regulation's requirement that control systems withstand reasonably foreseeable malicious third-party attempts corresponds, at the component level, to CR 7.1 (protection against denial-of-service events) together with its RE(1) (mitigation of communication-load flooding). &
+	The regulation's requirement that control systems withstand reasonably foreseeable malicious third-party attempts corresponds, at the component level, to \gls{acr:CR} 7.1 (protection against denial-of-service events) together with its \gls{acr:RE}(1) (mitigation of communication-load flooding). &
 	Partial \\
 	\hline
 	
 	RQ-011 &
-	FR1; FR2; FR3 &
-	CR 1.1; \newline CR 1.2; \newline CR 2.1 (2); \newline CR 3.4 &
+	\gls{acr:FR}1; \gls{acr:FR}2; \gls{acr:FR}3 &
+	\gls{acr:CR} 1.1; \newline \gls{acr:CR} 1.2; \newline \gls{acr:CR} 2.1 (2); \newline \gls{acr:CR} 3.4 &
 	Human/device identification and authentication; Authorisation enforcement (role-based); Software and information integrity &
-	prEN's SRSL-graded authorisation requirement for interventions corresponds to CR 2.1, with role/task-based authorisation at SRSL3 (\S7.4.3.3.1) matching CR 2.1's RE(2) (mapping of permissions to roles). CR 1.1 addresses authentication of the human-operator path, CR 1.2 (identification and authentication of software processes and devices) additionally applies to that path. CR 3.4 is included because ``preventing modifications to safety-relevant settings or rules'' is fundamentally a configuration-integrity property. The learning-phase/self-evolving-behaviour aspect has no counterpart in IEC 62443-4-2. &
-	CR 1.1, CR 1.2, CR 3.4: Supporting \newline CR 2.1 (2): Partial\\
+	prEN's \gls{acr:SRSL}-graded authorisation requirement for interventions corresponds to \gls{acr:CR} 2.1, with role/task-based authorisation at \gls{acr:SRSL}3 (\S7.4.3.3.1) matching \gls{acr:CR} 2.1's \gls{acr:RE}(2) (mapping of permissions to roles). \gls{acr:CR} 1.1 addresses authentication of the human-operator path, \gls{acr:CR} 1.2 (identification and authentication of software processes and devices) additionally applies to that path. \gls{acr:CR} 3.4 is included because ``preventing modifications to safety-relevant settings or rules'' is fundamentally a configuration-integrity property. The learning-phase/self-evolving-behaviour aspect has no counterpart in \gls{acr:IEC} 62443-4-2. &
+	\gls{acr:CR} 1.1, \gls{acr:CR} 1.2, \gls{acr:CR} 3.4: Supporting \newline \gls{acr:CR} 2.1 (2): Partial\\
 	\hline
 	
 	RQ-012 &
-	FR2 &
-	CR 2.8; \newline CR 2.9 &
+	\gls{acr:FR}2 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.9 &
 	Auditable events; Audit storage capacity &
-	prEN's requirement that the log retain at least the evidence of the last intervention of each type combines the event-generation obligation of CR 2.8 with the storage-capacity obligation of CR 2.9. IEC 62443-4-2 defines no Component Requirement mandating a specific retention duration. &
-	CR 2.8, CR 2.9: Partial \\
+	prEN's requirement that the log retain at least the evidence of the last intervention of each type combines the event-generation obligation of \gls{acr:CR} 2.8 with the storage-capacity obligation of \gls{acr:CR} 2.9. \gls{acr:IEC} 62443-4-2 defines no Component Requirement mandating a specific retention duration. &
+	\gls{acr:CR} 2.8, \gls{acr:CR} 2.9: Partial \\
 	\hline
 	
 	RQ-013 &
-	FR2 &
-	CR 2.8 CR 2.9 &
+	\gls{acr:FR}2 &
+	\gls{acr:CR} 2.8 \gls{acr:CR} 2.9 &
 	Auditable events (configuration changes); Audit storage capacity &
-	CR 2.8's auditable-event categories include configuration changes and automation-system events, which are broad enough to cover the upload of a new safety-software version as a recordable event, and CR 2.9 provides the associated storage-capacity capability (without mandating the specific five-year, per-upload retention period). &
-	CR 2.8, CR 2.9: Partial \\
+	\gls{acr:CR} 2.8's auditable-event categories include configuration changes and automation-system events, which are broad enough to cover the upload of a new safety-software version as a recordable event, and \gls{acr:CR} 2.9 provides the associated storage-capacity capability (without mandating the specific five-year, per-upload retention period). &
+	\gls{acr:CR} 2.8, \gls{acr:CR} 2.9: Partial \\
 	\hline
 	
 	RQ-014 &
-	FR2; FR3; FR4; FR6 &
-	CR 2.1; \newline CR 3.9; \newline CR 4.1; \newline CR 6.1 (supporting) &
+	\gls{acr:FR}2; \gls{acr:FR}3; \gls{acr:FR}4; \gls{acr:FR}6 &
+	\gls{acr:CR} 2.1; \newline \gls{acr:CR} 3.9; \newline \gls{acr:CR} 4.1; \newline \gls{acr:CR} 6.1 (supporting) &
 	Authorisation enforcement; Protection of audit information; Data confidentiality; Audit log accessibility (supporting) &
-	CR 2.1 (authorisation enforcement) is the primary control restricting who may access the log and for what purpose, and CR 4.1 (confidentiality of information at rest for which read authorisation is explicitly required). CR 3.9 additionally protects the log against tampering and unauthorised deletion. CR 6.1 (ability to access event logs) is included only as a supporting control, since it ensures that an already-authorised party can retrieve the log on request. &
-	CR 2.1: Partial\newline CR 3.9, CR 4.1, CR 6.1: Supporting \\
+	\gls{acr:CR} 2.1 (authorisation enforcement) is the primary control restricting who may access the log and for what purpose, and \gls{acr:CR} 4.1 (confidentiality of information at rest for which read authorisation is explicitly required). \gls{acr:CR} 3.9 additionally protects the log against tampering and unauthorised deletion. \gls{acr:CR} 6.1 (ability to access event logs) is included only as a supporting control, since it ensures that an already-authorised party can retrieve the log on request. &
+	\gls{acr:CR} 2.1: Partial\newline \gls{acr:CR} 3.9, \gls{acr:CR} 4.1, \gls{acr:CR} 6.1: Supporting \\
 	\hline
 	
 \end{longtable}
@@ -474,25 +478,25 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 Figure \ref{fig:secure-system-development-lifecycle-main-overview} summarises a high-level reference model in which the activities shown are decomposed into further sub-activities. 
 The model is based on the process-oriented security practices of \gls{acr:IEC} 62443-4-1 \cite{DIN_EN_IEC_62443_4_1_2018} and on complementary lifecycle-oriented security approaches \cite{NiemannPuls2023}. 
 
-The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A Threat Analysis and Risk Assessment (\gls{acr:TARA}), as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
+The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A \gls{acr:TARA}, as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
 
 The implemented security measures are evaluated by means of static and dynamic analysis. The verification phase further comprises the definition and preparation of the security test strategy, the development of test cases, and the execution of the corresponding security tests. Identified findings are returned to the development phase for remediation and subsequent re-evaluation. The verification results provide the evidence required to support the release decision \cite[pp. 788]{Muller2026} \cite[pp. 6, 16]{NiemannPuls2023}. Following release, continuous monitoring is applied to identify newly discovered vulnerabilities, emerging threats, and security-relevant incidents. The resulting observations may initiate a reassessment or an incident-response process \cite[pp. 18]{NiemannPuls2023}.
 
-The dashed connections shown in Figure \ref{fig:secure-system-development-lifecycle-main-overview} represent feedback paths and emphasize that the lifecycle is iterative rather than strictly sequential. Findings identified during security testing are returned to secure implementation for remediation. Architectural constraints may require the assumptions or results of the risk assessment to be reconsidered. In addition, information obtained through continuous monitoring may trigger a reassessment or incident response, thereby re-entering the lifecycle at the risk-assessment stage. These feedback paths support the continuous refinement of the risk assessment, security architecture, implementation, and verification activities 
+The dashed connections shown in Figure \ref{fig:secure-system-development-lifecycle-main-overview} represent feedback paths and emphasise that the lifecycle is iterative rather than strictly sequential. Findings identified during security testing are returned to secure implementation for remediation. Architectural constraints may require the assumptions or results of the risk assessment to be reconsidered. In addition, information obtained through continuous monitoring may trigger a reassessment or incident response, thereby re-entering the lifecycle at the risk-assessment stage. These feedback paths support the continuous refinement of the risk assessment, security architecture, implementation, and verification activities 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{"images/Secure System Development Lifecycle-Main Overview.drawio"}
-	\caption{High-level overview of the secure development lifecycle}
+	\caption[High-level overview of the secure development lifecycle]{High-level overview of the secure development lifecycle (Own illustration)}
 	\label{fig:secure-system-development-lifecycle-main-overview}
 	\footnotetext{Author's own illustration based on \cite{DIN_EN_IEC_62443_4_1_2018} and \cite{NiemannPuls2023}}
 \end{figure}
 
-\paragraph{RACI Governance of the Verification Lifecycle}
+\paragraph{\gls{acr:RACI} Governance of the Verification Lifecycle}
 \label{sec:raci_governance}
 
-To ensure strict organisational accountability, responsibility for the testing phases is governed through a Responsible-Accountable-Consulted-Informed (\gls{acr:RACI}) matrix. This established management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. 
+To ensure strict organisational accountability, responsibility for the testing phases is governed through a \gls{acr:RACI} matrix. This established management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. 
 \begin{itemize}
 	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
 	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
@@ -505,7 +509,7 @@ To ensure strict organisational accountability, responsibility for the testing p
 Table \ref{tab:raci_matrix_verification} defines the distribution of these responsibilities across the verification phases.
 
 \begin{table}[H]
-	\caption{RACI matrix for the verification lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
+	\caption[\gls{acr:RACI} matrix for the verification lifecycle]{\gls{acr:RACI} matrix for the verification lifecycle (Adapted from \cite{cybersierra_security_raci_2026})}
 	\label{tab:raci_matrix_verification}
 	\centering
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c c c c c c @{}}
@@ -520,16 +524,16 @@ Table \ref{tab:raci_matrix_verification} defines the distribution of these respo
 	\end{tabular*}
 \end{table}
 
-As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organisational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labour documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support IEC 62443-4-1 Practice SVV (Security Verification and Validation Testing). This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
+As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organisational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labour documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV}. This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
 
-Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative application of TARA (see Section \ref{subsec:tara}), the requirement baseline and the associated test cases require re-evaluation under specific triggers. These triggers include the introduction of a new product variant, revisions to normative documents (Regulation (EU) 2023/1230, prEN 50742, or IEC 62443-4-2), or the disclosure of a post-release vulnerability. Under the RACI model, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for updating the technical documentation.
+Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative application of \hyperref[subsec:tara]{\textbf{\gls{acr:TARA}}}, the requirement baseline and the associated test cases require re-evaluation under specific triggers. These triggers include the introduction of a new product variant, revisions to normative documents (Regulation (EU) 2023/1230, prEN 50742, or \gls{acr:IEC} 62443-4-2), or the disclosure of a post-release vulnerability. Under the \gls{acr:RACI} model, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for updating the technical documentation.
 
 
 
 \chapter{Tool Commands}
 \label{app:tool_commands}
-This appendix lists the tool commands used for the activities executed under the NV1 network position, as reported in Section \ref{sec:executed_tests}. The placeholder \texttt{\$SRIO} denotes the IP address of the Safe Remote I/O, \texttt{192.168.0.2}.
-All commands were executed from the Kali Linux test system under NV1 in the isolated laboratory environment described in Section \ref{subsec:realized_environment}. The commands are reproduced as run, and the file names below are the names of the stored evidence artefacts produced during the test campaign.
+This appendix lists the tool commands used for the activities executed under the \gls{acr:NV1} network position, as reported in Section \ref{sec:executed_tests}. The placeholder \texttt{\$SRIO} denotes the \gls{acr:IP} address of the \gls{acr:SRIO}, \texttt{192.168.0.2}.
+All commands were executed from the Kali Linux test system under \gls{acr:NV1} in the isolated laboratory environment described in Section \ref{subsec:realized_environment}. The commands are reproduced as run, and the file names below are the names of the stored evidence artefacts produced during the test campaign.
 \begin{verbatim}
 	export SRIO=192.168.0.2
 \end{verbatim}
@@ -591,26 +595,33 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 	siege -c 3  -t 1M -v http://$SRIO/deviceinfo/getdata \
 	--log=cmrq010_3connections_siege.log
 	# Connection-hold procedure: occupy the available HTTP slots, then issue
-	# bash
+bash
 export SRIO=192.168.0.2
-echo " Baseline: Connection working normally" | tee cm_rq007-03_00_baseline.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_00_baseline.txt 2>&1
+echo " Baseline: Connection working normally" 
+| tee cm_rq007-03_00_baseline.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata )
+ >> cm_rq007-03_00_baseline.txt 2>&1
 cat cm_rq007-03_00_baseline.txt
 
 echo "Block both slots"
 for i in 1 2; do
-  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost: x\r\n\r\n' >&3; sleep 600) &
+  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost:
+   x\r\n\r\n' >&3; sleep 600) &
 done
 jobs | tee cm_rq007-03_01_jobs.txt
 
-echo "3rd attempt while both slots are occupied (expected: timeout)" | tee cm_rq007-03_02_blocked.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_02_blocked.txt 2>&1
+echo "3rd attempt while both slots are occupied (expected: timeout)" 
+| tee cm_rq007-03_02_blocked.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+>> cm_rq007-03_02_blocked.txt 2>&1
 cat cm_rq007-03_02_blocked.txt
 
 echo "Free up one slot"
 kill %1
-echo "Retry after freeing up slot (expected: successful again)" | tee cm_rq007-03_03_after_release.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_03_after_release.txt 2>&1
+echo "Retry after freeing up slot (expected: successful again)" 
+| tee cm_rq007-03_03_after_release.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+>> cm_rq007-03_03_after_release.txt 2>&1
 cat cm_rq007-03_03_after_release.txt
 \end{verbatim}
 
@@ -656,7 +667,3 @@ cat cm_rq007-03_03_after_release.txt
 	zaproxy -daemon -host 127.0.0.1 -port 8090 -config api.disablekey=true
 	curl "http://127.0.0.1:8090/JSON/spider/action/scan/?url=http://$SRIO/"
 \end{verbatim}
-
-
-
-
