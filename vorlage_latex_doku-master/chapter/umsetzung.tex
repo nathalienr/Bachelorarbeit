@@ -187,7 +187,7 @@ All nodes shared the 192.168.0.0/24 segment and one Ethernet broadcast domain. N
 		node[pos=0.75, port, xshift=0.1cm, yshift=-0.2cm] {Port 4};
 		
 	\end{tikzpicture}
-	\caption{Logical topology and addressing of the implemented test environment}
+	\caption[Logical topology and addressing of the implemented test environment]{Logical topology and addressing of the implemented test environment (Own illustration)}
 	\label{fig:testbed_topology}
 \end{figure}
 
@@ -322,6 +322,7 @@ Table \ref{tab:cm_applicability} records, for each of the ten company tests, whe
 		\bottomrule 
 	\end{tabularx} 
 \end{table}
+%TODO (Bonus) The applicability assessment correctly marks CM-002 "not applicable" because the flat lab topology lacks a zone/conduit model — but this raises an external-validity question the thesis doesn't address: how representative is a flat, single-switch lab network of a real customer deployment, where IEC 62443-3-3 zone segmentation would typically be present? A short paragraph acknowledging this as a threat to validity would strengthen the discussion of results.
 
 
 \subsection{Selected Test Cases}
@@ -329,7 +330,7 @@ Table \ref{tab:cm_applicability} records, for each of the ten company tests, whe
 Table \ref{tab:cm_tc_map} follows the security-category structure of Table \ref{tab:security_categories} and records, category by category, which method was selected to test it on the \gls{acr:SRIO}. The requirement column repeats the primary requirements of Table \ref{tab:security_categories} exactly, so the two tables can be read side by side: the abstract mapping states what a category is intended to cover, and this table states what was actually selected under the \gls{acr:NV1} position. A selected method can support only part of a category's requirement list; where this occurs, the covered requirements are named explicitly. CM-002, CM-003, CM-006, and CM-008 do not appear as a selected method in any row, because none is applicable to the \gls{acr:SRIO} or its topology (Table \ref{tab:cm_applicability}). This is a property of this specific device and topology, not of the company framework in general, since every countermeasure test is associated with at least one requirement category by design in the abstract framework of Section \ref{subsec:company_framework}.
 
 \begin{table}[H]
-	\caption{Selected test method per security category, alongside its primary requirements}
+	\caption{Test methods and regulation requirements per security category}
 	\label{tab:cm_tc_map}
 	\centering
 	\begin{tabularx}{\textwidth}{l X X}
@@ -489,7 +490,7 @@ A fuzzing test was run with boofuzz against the \gls{acr:HTTP} service on port 8
 The session record shows successful processing of the initial test cases, followed by a failed reconnection after a subsequent malformed request. The \gls{acr:HTTP} service became reachable again approximately 41 seconds later. The triggering input and the internal cause of the interruption were not established.
 
 During the run, the device visibly indicated a fault condition on its status indicators; the indication changed as the run continued and had not fully cleared after the test was aborted. A manual read of the error log taken after the run showed one additional \texttt{FATAL}-level entry and three additional \texttt{ERROR}-level entries that were not present in the baseline of Section \ref{subsec:res_evidence}. This reading was not captured to a stored file and is therefore reported as an unscored observation rather than as evidence.
-Independently of the specific error codes involved, which are not interpreted here, the indicator and error-log behaviour together show that the device entered a fault state as a consequence of the \gls{acr:HTTP}-level fuzzing. This is not expected behaviour and warrants closer review by the development. Because the observation concerns safety monitoring (asset E), it is also relevant to the domain-separation obligation of RQ-001 (Section \ref{subsec:res_attack_surface}, asset F): it suggests, without yet proving, that the disruption is not confined to the non-safety interface.
+Independently of the specific error codes involved, which are not interpreted here, the indicator and error-log behaviour together show that the device entered a fault state as a consequence of the \gls{acr:HTTP}-level fuzzing. This is not expected behaviour and warrants closer review by the development department. Because the observation concerns safety monitoring (asset E), it is also relevant to the domain-separation obligation of RQ-001 (Section \ref{subsec:res_attack_surface}, asset F): it suggests, without yet proving, that the disruption is not confined to the non-safety interface.
 
 The stored evidence therefore shows a temporary disruption of the \gls{acr:HTTP} service on the non-safety path under malformed input, followed by recovery, together with an unstored observation of a device fault indication. The disruption requires follow-up by development. Its causation, reproducibility, and effect on the safety function are not established, because the safety channel was not monitored and the fault indication was not captured as a stored artefact. The activity therefore supports an observation but not a complete requirement verdict for RQ-010; the requirement remains Not Assessed under the conservative aggregation rule.
 

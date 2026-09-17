@@ -28,7 +28,7 @@ This Data Layer represents the critical intersection where operational systems b
 Despite these benefits, the physical and software integration of legacy \gls{acr:OT} equipment with modern \gls{acr:IT} networks introduces significant engineering and organisational friction \cite{orise2025itotconvergence}. This friction arises because both domains operate under fundamentally conflicting paradigms. Table \ref{tab:it_ot_comparison} summarises these core differences. 
  
  \begin{table}[H]
- 	\caption{Difference between \gls{acr:IT} and \gls{acr:OT} environments (cf. \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807})}
+ 	\caption[Difference between \gls{acr:IT} and \gls{acr:OT} environments]{Difference between \gls{acr:IT} and \gls{acr:OT} environments (Based on \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807})}
  	\label{tab:it_ot_comparison}
  	\centering
  	\begin{tabularx}{\textwidth}{l X X}
@@ -131,7 +131,7 @@ Threat modelling is framed by \gls{acr:TARA}, a systematic method that identifie
 
 Each category is the direct negation of a security objective, as Table \ref{tab:stride_mapping} shows \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
 \begin{table}[H]
-	\caption{Mapping of \gls{acr:STRIDE} Threat Categories to Violated Cybersecurity Properties \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}}
+	\caption[Mapping of \gls{acr:STRIDE} Threat Categories to Cybersecurity Properties]{Mapping of \gls{acr:STRIDE} Threat Categories to Cybersecurity Properties (Based on \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process})}
 	\label{tab:stride_mapping}
 	\centering
 	\begin{tabularx}{\textwidth}{X X}
@@ -143,7 +143,7 @@ Each category is the direct negation of a security objective, as Table \ref{tab:
 		Repudiation & Non-repudiation, Accountability \\
 		Information Disclosure & Confidentiality \\
 		Denial of Service & Availability \\
-		Elevation of Privilege & Authorization \\
+		Elevation of Privilege & Authorisation \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -172,7 +172,7 @@ Whereas functional testing confirms a planned function, vulnerability testing se
 \subsection{Static and Dynamic Analysis}
 \label{subsec:static_dynamic_analysis}
 
-Security analysis techniques are structured into static and dynamic execution paradigms. Static analysis inspects source code or control and data flow graphs using checklists without exercising the system with real runtime data \cite[p. 35]{richier2011security}. It detects errors early in development, but may miss runtime flaws \cite[p. 1]{cong2024overview}. Conversely, dynamic analysis evaluates system behaviour during runtime under different configurations and input data, comparing actual outputs against formal specifications \cite[p. 35]{richier2011security}. Dynamic testing provides real-world validation, it can disrupt system operations \cite[p. 1]{cong2024overview}.
+Security analysis techniques are structured into static and dynamic execution paradigms. Static analysis inspects source code or control and data flow graphs using checklists without exercising the system with real runtime data \cite[p. 35]{richier2011security}. It detects errors early in development, but may miss runtime flaws \cite[p. 1]{cong2024overview}. Conversely, dynamic analysis evaluates system behaviour during runtime under different configurations and input data, comparing actual outputs against formal specifications \cite[p. 35]{richier2011security}. Dynamic testing provides real-world validation, but it can disrupt system operations \cite[p. 1]{cong2024overview}. 
 
 \textbf{Static Analysis Mechanisms:} 
 
@@ -186,7 +186,7 @@ Security analysis techniques are structured into static and dynamic execution pa
 
 Combining both static approaches increases overall vulnerability detection effectiveness \cite[p. 8]{cong2024overview}.
 \begin{table}[H]
-	\caption{Comparison of Static Analysis Detection Approaches \cite[p. 3, 8]{cong2024overview}}
+	\caption[Comparison of Static Analysis Detection Approaches]{Comparison of Static Analysis Detection Approaches (Adapted from \cite[p. 3, 8]{cong2024overview})}
 	\label{tab:static_analysis_comparison}
 	\centering
 	\begin{tabularx}{\textwidth}{l X X}
@@ -202,7 +202,7 @@ Combining both static approaches increases overall vulnerability detection effec
 \end{table}
 \textbf{Dynamic Analysis Mechanisms:} 
 
-\gls{acr:DAST} evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, \gls{acr:IACS}) combines static and dynamic feedback during runtime, while \gls{acr:SCA} audits third-party dependencies for vulnerabilities and licence compliance \cite{GeeksforGeeksSecurityTesting}.
+\gls{acr:DAST} evaluates running applications under real-world attack conditions \cite{GeeksforGeeksSecurityTesting}. Advanced dynamic penetration testing methodologies employ planning-based or reinforcement learning-based approaches to discover execution paths \cite[p. 6]{cong2024overview}. Furthermore, \gls{acr:IAST} combines static and dynamic feedback during runtime, while \gls{acr:SCA} audits third-party dependencies for vulnerabilities and licence compliance \cite{GeeksforGeeksSecurityTesting}.
 
 
 \subsection{Robustness Testing and Fuzzing}
@@ -210,7 +210,7 @@ Combining both static approaches increases overall vulnerability detection effec
 
 Robustness is the ability of a system to continue operating correctly under exceptional inputs or environmental stress \cite[p. 39]{richier2011security}. Fuzzing is an automated robustness technique that repeatedly injects invalid, random, or unexpected inputs into an interface to provoke faults or crashes. A dumb fuzzer mutates inputs without knowledge of their format, whereas a smart fuzzer uses an input model; depending on the available access, fuzzing is further divided into white-box, grey-box, and black-box approaches \cite[p. 8]{cong2024overview} \cite[p. 29]{richier2011security}. 
 
-\subsection{IEC 62443 Security Verification and Validation (SVV)}
+\subsection{IEC 62443 Security Verification and Validation}
 \label{subsec:svv}
 
 \gls{acr:IEC} 62443-4-1 defines \gls{acr:SVV} as the practice that demonstrates that a component meets its security requirements and its intended security purpose. Verification testing shows that the requirements are met, whereas validation additionally addresses the product security context \cite[p. 16]{DIN_EN_IEC_62443_4_1_2018}. The practice defines four test types, which this thesis adopts as the taxonomy that classifies every test \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}:
@@ -229,11 +229,11 @@ The accompanying requirement \gls{acr:SVV}-5 grades the required independence of
 \subsection{Machinery Regulation (EU) 2023/1230}
 \label{subsec:eu_machinery_regulation}
 
-With the publication of Regulation (EU) 2023/1230 in the Official Journal of the European Union on June 29, 2023, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation, commonly referred to as the \gls{acr:MVO}, replaces the former Machinery Directive 2006/42/EC and becomes mandatory following a transition period starting January 20, 2027 \cite[p. 38]{EU2023_1230}.
+With the publication of Regulation (EU) 2023/1230 in the Official Journal of the European Union on June 29, 2023, the European legislature initiated a fundamental paradigm shift regarding the product safety of machinery \cite[p. 32]{https://doi.org/10.1002/citp.202501012}. The new regulation replaces the former Machinery Directive 2006/42/EC and becomes mandatory from January 20, 2027, following a transition period that ends the preceding day \cite[p. 38]{EU2023_1230}.
 
 The primary legal distinction lies in its regulatory form. While the previous directive was addressed strictly to EU member states, requiring transposition into national law, a regulation applies directly to all economic operators, including manufacturers, importers, and distributors \cite[p. 32]{https://doi.org/10.1002/citp.202501012} \cite[p. 15]{EU2023_1230}. This creates a standardised, uniform legal framework across the Union without national leeway for interpretation \cite[p. 38]{EU2023_1230}. Furthermore, the regulation introduces legally binding definitions for fundamental concepts such as ``substantial modification'', formally clarifying when an alteration to an existing machine legally turns an operator into a manufacturer subject to full conformity assessment procedures \cite[p. 25]{EU2023_1230}.
 
-A key driver for this legislative overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the \gls{acr:MVO}, cybersecurity is explicitly treated as a prerequisite for machinery safety, establishing that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
+A key driver for this legislative overhaul was the identification of regulatory gaps within the previous directive regarding emerging digital technologies \cite[p. 2]{EU2023_1230}. Consequently, the regulation incorporates mandatory requirements for cybersecurity and protection against malicious third parties into the framework of product safety for the first time \cite[p. 33]{https://doi.org/10.1002/citp.202501012}. Under the Regulation, cybersecurity is explicitly treated as a prerequisite for machinery safety, establishing that the functional safety of modern machinery can no longer be evaluated independently of its cybersecurity \cite{carl2026_maschinenverordnung}.
 
 This digitalisation shift is also reflected in structural updates across the regulation's annexes. Most notably, the explicit list of safety components in Annex II now formally includes standalone software that fulfils safety functions. This establishes that non-tangible, digital components are subject to the same strict conformity requirements as physical safety hardware \cite[pp. 42]{EU2023_1230}. 
 
@@ -253,7 +253,7 @@ Furthermore, Article 10(2) \cite[p. 18]{EU2023_1230} and Annex IV Part A \cite[p
 \subsection{prEN 50742} 
 \label{subsec:pren_50742} 
 
-While the \gls{acr:MVO} defines the overarching regulatory safety objectives regarding cybersecurity, the harmonised standard draft prEN 50742 (published in Germany as DIN \gls{acr:EN} 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the MVO, specifically Annex III, sections 1.1.9 and 1.2.1 \cite[p. 70]{prEN50742_2025}. 
+While the Regulation defines the overarching regulatory safety objectives regarding cybersecurity, the harmonised standard draft prEN 50742 (published in Germany as DIN \gls{acr:EN} 50742 / VDE 0113-742) provides the specific technical guidance for engineering and implementation. The standard acts as a bridge between regulatory compliance and practical machine design, with its primary focus on fulfilling the essential health and safety requirements of the Regulation, specifically Annex III, sections 1.1.9 and 1.2.1 \cite[p. 70]{prEN50742_2025}. 
 
 prEN 50742 aims at protecting the machine's functional safety and control systems against digital and physical manipulation, ensuring that cyber threats cannot cause hazardous situations \cite[p. 10]{prEN50742_2025}. A fundamental requirement of the standard is that any implemented cybersecurity measure must not compromise or degrade the functional safety of the machine, for instance, by introducing impermissible latencies in safety-critical communication loops \cite[p. 14]{prEN50742_2025}.
 

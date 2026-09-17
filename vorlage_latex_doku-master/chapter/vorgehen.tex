@@ -47,7 +47,7 @@ This section describes the initial situation and the subject area of the \gls{ac
 
 The \gls{acr:SUT} is a safety remote \gls{acr:I/O} device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over \gls{acr:HTTP}. The device therefore combines an \gls{acr:OT} fieldbus path and an \gls{acr:IT} diagnostic path in a single component. ifm ecomatic operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it. 
 
-\subsection{Regulatory Applicability and Allocation of Responsibility} 
+\subsection{Regulatory Applicability} 
 \label{subsec:regulatory_applicability} 
 %TODO QUelle
 Regulation (EU) 2023/1230 addresses machinery, related products, safety components and partly completed machinery \cite[pp. 11]{EU2023_1230}. The \gls{acr:SUT} is treated in this thesis as a safety-related component integrated into a machine, not as a machine in its own right. Its regulatory relevance therefore arises primarily through that integration. The following distinction separates the legal obligation from the engineering activities needed to support the conformity assessment of the overall machine. 
@@ -59,7 +59,7 @@ Regulation (EU) 2023/1230 addresses machinery, related products, safety componen
 \end{itemize} 
 
 A machine-level obligation may also be satisfied by compensating countermeasures at system or zone level rather than by the component itself. Consequently, a negative component-level finding indicates an integration requirement that the integrator must document \cite[p. 30]{IEC62443-4-2} \cite[pp. 27]{IEC62443-3-3}. It does not, by itself, establish non-conformity of the product. This allocation bounds the claims of the methodology and frames the requirement assessment reported in Chapter \ref{chap:implementation_results}. 
-
+%TODO Target Security Level Capability (SL-C) is never stated for the SRIO. Section 2.4.2 explains that Approach B requires components to meet IEC 62443-4-2 requirements at "a specified Security Level Capability (typically SL-C 1 or SL-C 2)", but the thesis never states which SL-C was actually targeted for the fourteen derived requirements applied to the SRIO. This materially affects how the two Fail verdicts (RQ-003, RQ-012) should be interpreted — a Fail against SL-C 1 is a different severity finding than against SL-C 2. Clarifying the chosen target level (and justifying it from the SUT's risk context) would close a real methodological gap.
 \subsection{Testing Constraints and Methodological Scope} 
 \label{subsec:constraints_scope} 
 
@@ -116,7 +116,7 @@ While Section \ref{subsec:stride} identifies the threats and the security proper
 Not every gateway implements every function natively, and a function may be absent, partial, or delegated to an overarching organisational control. The methodology therefore examines, for each requirement, which of these functions the device actually provides, and derives a test that verifies the present function or documents the gap. Table \ref{tab:threat_function} relates the \gls{acr:STRIDE} threat categories to these security functions and provides the bridge from the threat model to the tests. 
 
 \begin{table}[H] 
-	\caption{Mapping of \gls{acr:STRIDE} threat categories to security functions (cf. \cite{owasp_threat_modeling_process} \cite{softguide_security_functions})} 
+	\caption[Mapping of \gls{acr:STRIDE} threat categories to security functions]{Mapping of \gls{acr:STRIDE} threat categories to security functions (Based on \cite{owasp_threat_modeling_process} \cite{softguide_security_functions})} 
 	\label{tab:threat_function} 
 	\centering 
 	\begin{tabular}{p{0.5\textwidth} p{0.5\textwidth} } 
@@ -279,7 +279,7 @@ A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:
 
 
 \begin{table}[H] 
-	\caption{Security categories, the security function they examine, and the IEC 62443-3-3 Foundational Requirement} 
+	\caption[Mapping of security categories to \gls{acr:IEC} 62443-3-3 requirements]{Mapping of security categories to \gls{acr:IEC} 62443-3-3 requirements (Own compilation)} 
 	\label{tab:category_function_fr} 
 	\centering 
 	\begin{tabularx}{\textwidth}{X X l} 
@@ -313,7 +313,7 @@ Table \ref{tab:security_categories} maps each security category to the requireme
  
 
 \begin{table}[H] 
-	\caption{Security categories and the requirements they primarily address} 
+	\caption{Mapping of security categories to regulatory requirements} 
 	\label{tab:security_categories} 
 	\centering 
 	\begin{tabularx}{\textwidth}{l X} 
@@ -344,7 +344,7 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In \gls{acr:OT}, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is a mandatory requirement, in line with \gls{acr:NIST} SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
 %TODO deutlich machen, dass die 3 Testumgebung für mich definiert wurden, es ist nicht eine literaturrecherche oder so
 %TODO Quellen
-The feasibility of a test depends on the position of the test system on the communication path. The methodology defines three network access variants, each providing a different level of access: direct access (Section \ref{subsec:nv1}), passive observation (Section \ref{subsec:nv2}), and active in-path manipulation (Section \ref{subsec:}). Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants. 
+The feasibility of a test depends on the position of the test system on the communication path. The methodology defines three network access variants, each providing a different level of access: direct access (Section \ref{subsec:nv1}), passive observation (Section \ref{subsec:nv2}), and active in-path manipulation (Section \ref{subsec:nv3}). Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants. 
 
 \subsection{NV1: Direct Access} 
 \label{subsec:nv1} 
@@ -384,7 +384,7 @@ The test system communicates as a regular participant with the \gls{acr:SUT} and
 		\draw[->, >=Latex, dashed, black!60] (kali.north east) to[bend right=15] 
 		node[right, font=\scriptsize, align=left] {Unexpected\\comm. partner} (sut.south west);
 	\end{tikzpicture}
-	\caption{NV1, direct access}
+	\caption[NV1, direct access]{NV1, direct access (Own illustration)}
 	\label{fig:nv1}
 \end{figure}
 
@@ -426,7 +426,7 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 		\draw[mirror] ($(sw.center) + (0.5,0)$) to[bend left=20] 
 		node[right, font=\scriptsize] {Mirrored Traffic (L2)} (kali.north);
 	\end{tikzpicture}
-	\caption{NV2, passive observation}
+	\caption[NV2, passive observation]{NV2, passive observation (Own illustration)}
 	\label{fig:nv2}
 \end{figure}
 
@@ -481,7 +481,7 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 		% Erklärungstext unter Kali
 		\node[below=0.1cm of kali, font=\scriptsize, text=black!60] {Delay / Drop / Replace frames};
 	\end{tikzpicture}
-	\caption{NV3, active in-path manipulation}
+	\caption[NV3, active in-path manipulation]{NV3, active in-path manipulation (Own illustration)}
 	\label{fig:nv3}
 \end{figure}
 
@@ -517,16 +517,16 @@ Requirement verdict records the assessment of the obligation itself. It distingu
 \begin{itemize} 
 	\item \textbf{Pass:} the test case was executed, all mandatory acceptance criteria are satisfied, and the evidence is sufficient to demonstrate the security function. 
 	\item \textbf{Fail:} the test case was executed and the device demonstrably deviates from the obligation, or a mandatory security function was bypassed \cite[p. 10]{glossar2013istqb}. 
-	\item \textbf{Not assessed:} no scored evidence exists for the requirement, or the condition is not yet testable in the executed scope. 
+	\item \textbf{Not Assessed:} no scored evidence exists for the requirement, or the condition is not yet testable in the executed scope. 
 \end{itemize} 
 
-A requirement can accordingly be assessed as Not assessed even though none of its associated tests is itself unresolved, for example, if every test associated with a requirement is Not Applicable or Blocked, no individual test carries an ambiguous label, yet the requirement as a whole lacks any evidence to support a Pass or a Fail. The execution status and the requirement verdict therefore remain conceptually distinct. The status explains whether a given test produced usable evidence, while the verdict explains whether the requirement is satisfied on the evidence available across all its associated tests. 
+A requirement can accordingly be assessed as Not Assessed even though none of its associated tests is itself unresolved, for example, if every test associated with a requirement is Not Applicable or Blocked, no individual test carries an ambiguous label, yet the requirement as a whole lacks any evidence to support a Pass or a Fail. The execution status and the requirement verdict therefore remain conceptually distinct. The status explains whether a given test produced usable evidence, while the verdict explains whether the requirement is satisfied on the evidence available across all its associated tests. 
 
 
 \subsection{Requirement Assessment} 
 \label{subsec:requirement_assessment} 
 %TODO
-The verdicts are aggregated per requirement according to a conservative rule that does not credit partial evidence. A requirement is assessed as Fail if any associated test case is Executed and the device demonstrably deviates from the obligation, or if a mandatory security function is bypassed. A Fail therefore takes precedence over any other outcome. A requirement is assessed as Pass only if every test case associated with it and applicable to it is Executed and passes with sufficient evidence, so that the requirement is fully covered by the executed scenario set. In every other case, including a requirement for which some but not all associated tests are Executed and passing while the remainder are Not Applicable or Blocked, the requirement is reported as Not assessed, together with the reason. This conservative default means that incomplete test coverage is never reported as a Pass, even when no deviation was found. 
+The verdicts are aggregated per requirement according to a conservative rule that does not credit partial evidence. A requirement is assessed as Fail if any associated test case is Executed and the device demonstrably deviates from the obligation, or if a mandatory security function is bypassed. A Fail therefore takes precedence over any other outcome. A requirement is assessed as Pass only if every test case associated with it and applicable to it is Executed and passes with sufficient evidence, so that the requirement is fully covered by the executed scenario set. In every other case, including a requirement for which some but not all associated tests are Executed and passing while the remainder are Not Applicable or Blocked, the requirement is reported as Not Assessed, together with the reason. This conservative default means that incomplete test coverage is never reported as a Pass, even when no deviation was found. 
 
 \subsection{Evidence Model} 
 \label{subsec:evidence_model} 

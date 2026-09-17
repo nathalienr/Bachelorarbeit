@@ -19,6 +19,7 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 		Gemini	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
 			\item Assistance with understanding fundamental concepts
+			\item Finding Literature Sources
 		\end{itemize} \\ 
 		Microsoft Copilot 365	&	\vspace{-\topsep}
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
@@ -46,7 +47,7 @@ Within the scope of this thesis, tools based on Artificial Intelligence (\gls{ac
 \label{app:requirement_derivation}
 
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{sec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the System Under Test for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{subsec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} Component Requirements (\gls{acr:CR}s), Requirement Enhancements (\gls{acr:RE}s), and component-type-specific instantiations such as Embedded Device Requirements (\gls{acr:EDR}s). The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
@@ -330,12 +331,13 @@ Where the draft standard explicitly excludes an obligation, as for RQ-013, the d
 
 \section{Mapping to IEC 62443-4-2}
 \label{app:sec:mapping_iec62443}
-
+%TODO zeilen abstand ist komisch
 Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} to \gls{acr:IEC} 62443-4-2. Where no \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} clause is available, the mapping proceeds directly from \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. The mapped Component Requirements are to be satisfied at the target Component Security Level Capability declared in Section \ref{subsec:derivation_mapping}; applicable Requirement Enhancements are included accordingly. \gls{acr:IEC} 62443-4-2 organises its Component Requirements under the seven Foundational Requirements introduced in Section \ref{subsec:iec_62443}.
 %TODO caption kürzen
 \footnotesize
 \begin{longtable}{|>{\bfseries}p{1.0cm}|p{0.9cm}|p{2.4cm}|p{2.4cm}|p{4.8cm}|p{1.8cm}|}
-	\caption{Mapping of derived requirements to \gls{acr:IEC} 62443-4-2 component requirements} \label{tab:mvo-pren-iec62443-mapping} \\
+	\caption{Mapping of derived requirements to \gls{acr:IEC} 62443-4-2} 
+	\label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
 	\textbf{RQ ID} & \textbf{FR} & \textbf{CR/RE/EDR} & \textbf{IEC 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
@@ -483,7 +485,7 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{"images/Secure System Development Lifecycle-Main Overview.drawio"}
-	\caption{High-level overview of the secure development lifecycle}
+	\caption[High-level overview of the secure development lifecycle]{High-level overview of the secure development lifecycle (Own illustration)}
 	\label{fig:secure-system-development-lifecycle-main-overview}
 	\footnotetext{Author's own illustration based on \cite{DIN_EN_IEC_62443_4_1_2018} and \cite{NiemannPuls2023}}
 \end{figure}
@@ -504,7 +506,7 @@ To ensure strict organisational accountability, responsibility for the testing p
 Table \ref{tab:raci_matrix_verification} defines the distribution of these responsibilities across the verification phases.
 
 \begin{table}[H]
-	\caption{RACI matrix for the verification lifecycle (adapted from \cite{cybersierra_security_raci_2026})}
+	\caption[RACI matrix for the verification lifecycle]{RACI matrix for the verification lifecycle (Adapted from \cite{cybersierra_security_raci_2026})}
 	\label{tab:raci_matrix_verification}
 	\centering
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c c c c c c @{}}
@@ -590,26 +592,33 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 	siege -c 3  -t 1M -v http://$SRIO/deviceinfo/getdata \
 	--log=cmrq010_3connections_siege.log
 	# Connection-hold procedure: occupy the available HTTP slots, then issue
-	# bash
+bash
 export SRIO=192.168.0.2
-echo " Baseline: Connection working normally" | tee cm_rq007-03_00_baseline.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_00_baseline.txt 2>&1
+echo " Baseline: Connection working normally" 
+| tee cm_rq007-03_00_baseline.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata )
+ >> cm_rq007-03_00_baseline.txt 2>&1
 cat cm_rq007-03_00_baseline.txt
 
 echo "Block both slots"
 for i in 1 2; do
-  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost: x\r\n\r\n' >&3; sleep 600) &
+  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost:
+   x\r\n\r\n' >&3; sleep 600) &
 done
 jobs | tee cm_rq007-03_01_jobs.txt
 
-echo "3rd attempt while both slots are occupied (expected: timeout)" | tee cm_rq007-03_02_blocked.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_02_blocked.txt 2>&1
+echo "3rd attempt while both slots are occupied (expected: timeout)" 
+| tee cm_rq007-03_02_blocked.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+>> cm_rq007-03_02_blocked.txt 2>&1
 cat cm_rq007-03_02_blocked.txt
 
 echo "Free up one slot"
 kill %1
-echo "Retry after freeing up slot (expected: successful again)" | tee cm_rq007-03_03_after_release.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) >> cm_rq007-03_03_after_release.txt 2>&1
+echo "Retry after freeing up slot (expected: successful again)" 
+| tee cm_rq007-03_03_after_release.txt
+( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+>> cm_rq007-03_03_after_release.txt 2>&1
 cat cm_rq007-03_03_after_release.txt
 \end{verbatim}
 

@@ -1,3 +1,4 @@
+\pdfminorversion=7
 % Präambel
 \documentclass[%
 fontsize=12pt,          % Schriftgröße
@@ -9,7 +10,7 @@ titlepage,              % Titlepage-Umgebung statt \maketitle
 headsepline,            % horizontale Linie unter Kolumnentitel
 cleardoublepage=empty,  % Stil einer leeren eingefügten Seite bei Kapitelwechsel
 parskip,                % Absatzabstand bei Absatzwechsel einfügen
-english                 % Spracheinstellung: Englisch
+british                 % Spracheinstellung: Englisch
 ]{scrbook}		
 
 \usepackage{float}
@@ -35,7 +36,7 @@ english                 % Spracheinstellung: Englisch
 \usepackage[scaled]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
-\usepackage[english]{babel}     % Englische Trennungsregeln und automatische Überschriften
+\usepackage[british]{babel}     % Englische Trennungsregeln und automatische Überschriften
 \setlength{\parindent}{0ex}     % bei neuem Abschnitt nicht einrücken
 
 \usepackage[onehalfspacing]{setspace} % 1.5-zeiliger Abstand
@@ -52,7 +53,7 @@ english                 % Spracheinstellung: Englisch
 \newcommand{\studienschwerpunkt}{}
 \newcommand{\autor}{Nathalie Nuber}
 \newcommand{\abgabedatum}{\today}
-\newcommand{\bearbeitungszeitraum}{July 06, 2026 - \today}
+\newcommand{\bearbeitungszeitraum}{06th July 2026 - \today}
 \newcommand{\matrikelnr}{2257314}
 \newcommand{\kurs}{TEA 23}
 \newcommand{\firma}{ifm ecomatic GmbH, Kressbronn a.B.}
@@ -99,7 +100,7 @@ date=short
 \addbibresource{literature/literatur2.bib}
 
 \usepackage[normalem]{ulem}
-\usepackage{csquotes}
+\usepackage[style=british]{csquotes}
 \usepackage{pdfpages}
 \usepackage{enumitem}
 \usepackage{amsmath}
@@ -192,12 +193,13 @@ pdfkeywords={DHBW, Electrical Engineering, Information Technology}
 toc,
 acronym,
 ]{glossaries}							
-\input{pages/glossar}					
+\input{pages/glossar}
+\input{pages/abkuerzungen}					
 \makeglossaries
 
-\usepackage[intoc]{nomencl} 			
-\input{pages/abkuerzungen}				
-\makenomenclature				
+%\usepackage[intoc]{nomencl} 			
+%\input{pages/abkuerzungen}				
+%\makenomenclature				
 
 \begin{document}
 	\let\texteuro\euro						
