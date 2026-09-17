@@ -341,25 +341,27 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 	\end{tabularx} 
 \end{table}
 
-%TODO Quellen
+
 \section{Security Test Environment} 
 \label{sec:test_environment} 
+%TODO Quellen
+
+
 
 Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In \gls{acr:OT}, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is a mandatory requirement, in line with \gls{acr:NIST} SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
-%TODO deutlich machen, dass die 3 Testumgebung für mich definiert wurden, es ist nicht eine literaturrecherche oder so
 
-%TODO abbildungen verbessern: NV1: IP-based tests (e.g. HTTP) und Unexpected comm. partner ist im pfeil drin; NV2: roter pfeil nicht ersichtlich, dass es zu mirrorred traffic (L2) gehört; NV3: Text direct link disconnected in den kästen von den anderen drin
-%TODO caption anpassen, damit man anhang von der caption versteht was die abbildung sagen soll;
-The feasibility of a test depends on the position of the test system on the communication path. The methodology defines three network access variants, each providing a different level of access: direct access (Section \ref{subsec:nv1}), passive observation (Section \ref{subsec:nv2}), and active in-path manipulation (Section \ref{subsec:nv3}). Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants. 
+The feasibility of a test depends on the position of the test system on the communication path. To structure the testing methodology for this work, three specific network access variants were defined. Each variant provides a different level of logical and physical access: direct access (Section \ref{subsec:nv1}), passive observation (Section \ref{subsec:nv2}), and active in-path manipulation (Section \ref{subsec:nv3}). Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants. 
+
 
 \subsection{NV1: Direct Access} 
 \label{subsec:nv1} 
 %The test system communicates as a regular participant with the SUT and the controller over the switch, simulating an insider scenario (vgl. NIST SP 800-115, Sec. 5.2.2). NV1 supports all IP-based tests, including the IoT-Core HTTP services (vgl. NIST SP 800-115, Sec. 4.2), and any test in which the test system acts as an unexpected communication partner interacting directly with the network (vgl. NIST SP 800-115, Sec. 2.3).
 
+
 The test system communicates as a regular participant with the \gls{acr:SUT} and the controller over the switch. \gls{acr:NV1} supports all \gls{acr:IP}-based tests, including the \gls{acr:IoT}-Core \gls{acr:HTTP} services, and any test in which the test system acts as an unexpected communication partner.
+
 \begin{figure}[H]
 	\centering
-	% --- Globale TikZ-Stile für einheitliches Design ---
 	\tikzset{
 		node distance=1.5cm and 2cm,
 		box/.style={
@@ -370,10 +372,7 @@ The test system communicates as a regular participant with the \gls{acr:SUT} and
 		switch/.style={
 			box, fill=gray!10, minimum height=1.4cm, minimum width=3.5cm
 		},
-		link/.style={draw=black!80, thick, <->, >=Latex},
-		cyclic/.style={draw=blue!70, thick, <->, >=Latex},
-		mirror/.style={draw=red!80, thick, ->, >=Latex, dashed}, 
-		inline/.style={draw=orange!90!black, thick, <->, >=Latex} 
+		link/.style={draw=black!80, thick, <->, >=Latex}
 	}
 	
 	\begin{tikzpicture}
@@ -386,12 +385,12 @@ The test system communicates as a regular participant with the \gls{acr:SUT} and
 		\draw[link] (sut) -- (sw);
 		\draw[link] (kali) -- (sw);
 		
-		\draw[->, >=Latex, dashed, black!60] (kali.north west) to[bend left=15] 
-		node[left, font=\scriptsize, align=right] {IP-based tests\\(e.g., HTTP)} (plc.south east);
-		\draw[->, >=Latex, dashed, black!60] (kali.north east) to[bend right=15] 
-		node[right, font=\scriptsize, align=left] {Unexpected\\comm. partner} (sut.south west);
+		\draw[->, >=Latex, dashed, black!60] (kali.west) to[bend left=25] 
+		node[midway, left=0.1cm, font=\scriptsize, align=center, fill=white, inner sep=2pt] {IP-based tests\\(e.g., HTTP)} (plc.south);
+		\draw[->, >=Latex, dashed, black!60] (kali.east) to[bend right=25] 
+		node[midway, right=0.1cm, font=\scriptsize, align=center, fill=white, inner sep=2pt] {Unexpected\\comm. partner} (sut.south);
 	\end{tikzpicture}
-	\caption[NV1, direct access]{NV1, direct access (Own illustration)}
+	\caption[\acrlong{acr:NV1}, direct access]{\acrlong{acr:NV1}, direct access (Own illustration)}
 	\label{fig:nv1}
 \end{figure}
 
@@ -401,7 +400,6 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 
 \begin{figure}[H]
 	\centering
-	% --- Globale TikZ-Stile für einheitliches Design ---
 	\tikzset{
 		node distance=1.5cm and 2cm,
 		box/.style={
@@ -414,8 +412,7 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 		},
 		link/.style={draw=black!80, thick, <->, >=Latex},
 		cyclic/.style={draw=blue!70, thick, <->, >=Latex},
-		mirror/.style={draw=red!80, thick, ->, >=Latex, dashed}, 
-		inline/.style={draw=orange!90!black, thick, <->, >=Latex} 
+		mirror/.style={draw=red!80, thick, ->, >=Latex, dashed} 
 	}
 	
 	\begin{tikzpicture}
@@ -430,10 +427,11 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 		
 		\node[above=0.2cm of sw, font=\scriptsize, text=blue!80] {Cyclic PROFINET/PROFIsafe Traffic};
 		
-		\draw[mirror] ($(sw.center) + (0.5,0)$) to[bend left=20] 
-		node[right, font=\scriptsize] {Mirrored Traffic (L2)} (kali.north);
+		% Offset the mirror path slightly to the right so it doesn't overlap the main link
+		\draw[mirror] ($(sw.south) + (0.5,0)$) to[bend left=20] 
+		node[midway, right=0.1cm, font=\scriptsize, text=red!80, fill=white, inner sep=2pt] {Mirrored Traffic (L2)} ($(kali.north) + (0.5,0)$);
 	\end{tikzpicture}
-	\caption[NV2, passive observation]{NV2, passive observation (Own illustration)}
+	\caption[\acrlong{acr:NV2}, passive observation]{\acrlong{acr:NV2}, passive observation (Own illustration)}
 	\label{fig:nv2}
 \end{figure}
 
@@ -445,7 +443,6 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 
 \begin{figure}[H]
 	\centering
-	% --- Globale TikZ-Stile für einheitliches Design ---
 	\tikzset{
 		node distance=1.5cm and 2cm,
 		box/.style={
@@ -457,40 +454,39 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 			box, fill=gray!10, minimum height=1.4cm, minimum width=3.5cm
 		},
 		link/.style={draw=black!80, thick, <->, >=Latex},
-		cyclic/.style={draw=blue!70, thick, <->, >=Latex},
-		mirror/.style={draw=red!80, thick, ->, >=Latex, dashed}, 
 		inline/.style={draw=orange!90!black, thick, <->, >=Latex} 
 	}
 	
 	\begin{tikzpicture}
-		% Knotenpunkte exakt an der gleichen Stelle wie in NV1 und NV2
 		\node[switch] (sw) {\textbf{Industrial Switch}};
 		\node[box, left=of sw] (plc) {\textbf{PLC (F-Host)}};
 		\node[box, right=of sw] (sut) {\textbf{SUT}};
 		\node[box, below=1cm of sw] (kali) {\textbf{Kali Linux}\\(Transparent Bridge)};
 		
-		% Unveränderte Verbindung zum PLC
 		\draw[link] (plc) -- (sw);
 		
-		% Visualisierung der "getrennten" Direktverbindung
+		% Added line break and white background to prevent overlapping the boxes
 		\draw[draw=black!30, thick, dashed] (sw) -- (sut) 
-		node[midway, above, font=\scriptsize, text=black!50] {Direct link disconnected};
+		node[midway, font=\scriptsize, text=black!50, align=center, fill=white, inner sep=2pt] {Direct link\\disconnected};
 		
-		% Der Traffic wird nun physisch nach unten durch das Kali-System geroutet
-		% 1. Kabel vom Switch zum Kali
 		\draw[link] (sw) -- (kali) 
 		node[midway, left, font=\scriptsize, align=right] {Original\\Traffic};
 		
-		% 2. Kabel vom Kali zum SUT (mit einem sauberen rechten Winkel gezeichnet)
 		\draw[inline] (kali.east) -| (sut.south) 
 		node[pos=0.25, above, font=\scriptsize, text=orange!90!black, align=center] {Manipulated\\Traffic};
 		
-		% Erklärungstext unter Kali
 		\node[below=0.1cm of kali, font=\scriptsize, text=black!60] {Delay / Drop / Replace frames};
 	\end{tikzpicture}
-	\caption[NV3, active in-path manipulation]{NV3, active in-path manipulation (Own illustration)}
+	\caption[\acrlong{acr:NV3}, active in-path manipulation]{\acrlong{acr:NV3}, active in-path manipulation (Own illustration)}
 	\label{fig:nv3}
 \end{figure}
+
+ 
+
+
+
+
+
 
 
 \subsection{Test System and Tooling} 
