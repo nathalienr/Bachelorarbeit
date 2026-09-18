@@ -20,19 +20,19 @@ This research follows \gls{acr:DSRM}, proposed by \citeauthor{Peffers} \cite[p. 
 	\item \textbf{Problem Identification and Motivation:} The absence of a systematic approach for verifying security functions derived from Regulation (EU) 2023/1230 is established in Chapter \ref{chap:introduction}. 
 	\item \textbf{Definition of Objectives:} The objective of a traceable, standards-based verification methodology that uses prEN 50742 and the \gls{acr:IEC} 62443 series is defined in Chapter \ref{chap:introduction}. 
 	\item \textbf{Design and Development:} The methodology, its environment, and its governance are designed in this chapter. 
-	\item \textbf{Demonstration:} The methodology is applied to a physical System Under Test in Chapter \ref{chap:implementation_results}. 
+	\item \textbf{Demonstration:} The methodology is applied to a physical \gls{acr:SUT} in Chapter \ref{chap:implementation_results}. 
 	\item \textbf{Evaluation:} The results and the residual validation gap are assessed in Chapter \ref{chap:implementation_results}. 
 	\item \textbf{Communication:} The results are documented and discussed in this thesis. 
 \end{enumerate} 
-	
+
 \subsection{Research Questions} 
 \label{subsec:research_questions}
- 
+
 The design and evaluation of the artefact are guided by three research questions:
 \begin{itemize} 
 	\item \textbf{RQ1:} How can the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 be translated into verifiable, derived component-level security tests for a safety-related industrial gateway?
 	\item \textbf{RQ2:} Which tests of the existing company framework are applicable to an industrial gateway, and how can non-applicable tests be identified before execution?
-	\item \textbf{RQ3:} What can direct-access testing at the physical IT/OT interface verify about the effectiveness of the implemented security functions, and where are its boundaries?
+	\item \textbf{RQ3:} What can direct-access testing at the physical \gls{acr:IT}/\gls{acr:OT} interface verify about the effectiveness of the implemented security functions, and where are its boundaries?
 \end{itemize}
 
 
@@ -46,11 +46,11 @@ This section describes the initial situation and the subject area of the \gls{ac
 \subsection{Initial Situation} 
 \label{subsec:initial_situation} 
 
-The \gls{acr:SUT} is a safety remote \gls{acr:I/O} device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over \gls{acr:HTTP}. The device therefore combines an \gls{acr:OT} fieldbus path and an \gls{acr:IT} diagnostic path in a single component. ifm ecomatic operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it. 
+The \gls{acr:SUT} is a \gls{acr:SRIO} device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over PROFINET and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over \gls{acr:HTTP}. The device therefore combines an \gls{acr:OT} fieldbus path and an \gls{acr:IT} diagnostic path in a single component. ifm ecomatic operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it. 
 
 \subsection{Regulatory Applicability} 
 \label{subsec:regulatory_applicability} 
-%TODO QUelle
+
 Regulation (EU) 2023/1230 addresses machinery, related products, safety components and partly completed machinery \cite[pp. 11]{EU2023_1230}. The \gls{acr:SUT} is treated in this thesis as a safety-related component integrated into a machine, not as a machine in its own right. Its regulatory relevance therefore arises primarily through that integration. The following distinction separates the legal obligation from the engineering activities needed to support the conformity assessment of the overall machine. 
 \begin{itemize} 
 	\item \textbf{Legal requirements on the machine:} The machine manufacturer must satisfy the essential health and safety requirements of Annex III for the machinery or related product \cite[p. 44]{EU2023_1230}. 
@@ -92,7 +92,7 @@ The derivation follows three steps. First, machine-level cybersecurity requireme
 
 This thesis follows Approach B of prEN 50742. The choice reflects the role of the \gls{acr:SUT} as a component integrated into a larger industrial communication network. The methodology therefore uses \gls{acr:IEC} 62443-4-2 \glspl{acr:CR} as the technical basis for the derived component capabilities rather than deriving an independent \gls{acr:SRSL}. 
 
-To evaluate these capabilities, the methodology establishes \gls{acr:SL-C} 1 as the target baseline for all derived requirements. Because the \gls{acr:SUT} is evaluated as an isolated component outside a specific machine context, a comprehensive, machine-level risk assessment cannot be performed. \gls{acr:SL-C} 1 is therefore selected as the pragmatic minimum standard. It represents the foundational capability required to protect against casual or coincidental violation. Consequently, a Fail verdict in this methodology indicates that the component lacks basic security standards and fails to meet even the minimum baseline required for secure integration.
+To evaluate these capabilities, the methodology establishes \gls{acr:SL-C} 1 as the target baseline for all derived requirements. Because the \gls{acr:SUT} is evaluated as an isolated component outside a specific machine context, a comprehensive, machine-level risk assessment cannot be performed. \gls{acr:SL-C} 1 is therefore selected as the pragmatic minimum standard. It represents the foundational capability required to protect against casual or coincidental violation. Consequently, a Fail verdict in this methodology indicates that the component lacks basic security standards and fails to meet the minimum baseline required for secure integration.
 
 \subsection{Asset and Threat Mapping} 
 \label{subsec:asset_threat_mapping} 
@@ -135,7 +135,7 @@ Not every gateway implements every function natively, and a function may be abse
 		\bottomrule 
 	\end{tabular} 
 \end{table}
- 
+
 
 \subsection{Traceability Model} 
 \label{subsec:traceability_model} 
@@ -170,26 +170,26 @@ This chain ensures that every executed test serves a distinct requirement and th
 The requirements define what must be verified. This section derives how the verification is performed. It first reviews the state of the art in security testing frameworks (Section \ref{subsec:state_of_the_art_frameworks}), evaluates these approaches against explicit criteria (Section \ref{subsec:approach_evaluation}), assesses the applicability of the existing company testing framework (Section \ref{subsec:company_framework}), and justifies the selected combination (Section \ref{subsec:selected_approach}). 
 
 \subsection{State of the Art}
- \label{subsec:state_of_the_art_frameworks} 
- %TODO Quellen
+\label{subsec:state_of_the_art_frameworks} 
+
 Security testing of industrial components can draw upon several established frameworks and general testing paradigms. These approaches vary in their scope and focus, ranging from a general engineering testing paradigm through highly procedural \gls{acr:IT} security guidelines to abstract, compliance-oriented \gls{acr:OT} standards. They are evaluated against explicit criteria in Section \ref{subsec:approach_evaluation}. 
- 
+
 Functional black-box testing verifies whether a specified behaviour is present without reference to the internal implementation, by comparing the actual output against the expected output for defined inputs \cite[p. 82]{1341418}. It is the general testing paradigm that requirements-based verification approaches, including the \gls{acr:IEC} 62443-4-1 \gls{acr:SVV} taxonomy discussed below, instantiate for the security domain. It is introduced here as an independent baseline, because its central strength, direct requirement traceability, and its central limitation, the absence of any assessment of resistance against deliberate misuse, are best established before the security-specific frameworks are discussed.
- 
-\gls{acr:NIST} Special Publication 800-115 provides a procedural, technical guide for network security testing and penetration testing. \gls{acr:NIST} SP 800-82 subsequently adapts these concepts for \gls{acr:ICS}. While they offer robust operational guidance for activities such as network discovery, port scanning, and vulnerability assessment, they remain inherently general and are not natively linked to the component-level obligations stipulated by the EU Machinery Regulation. Furthermore, \gls{acr:NIST} delineates a comprehensive overview of security testing techniques paired with applicable tools, for instance, mapping network discovery to Nmap \cite[p.~65]{nist_sp800_115}. The core constituents of \gls{acr:NIST} SP 800-115 encompass review techniques (including documentation, log, and system configuration reviews), network sniffing, target identification and analysis techniques (such as network discovery and network port/service identification), alongside vulnerability scanning and penetration testing. 
- 
-\gls{acr:IEC} 62443 Security Verification (Parts 4-1 and 4-2) defines the normative state of the art for industrial cybersecurity. Part 4-1 provides a comprehensive taxonomy for \gls{acr:SVV}, encompassing requirements-based testing, threat mitigation, vulnerability analysis, and penetration testing. Although exemplary in its structural completeness and alignment with compliance mandates, the standard remains fundamentally abstract: it prescribes \textit{what} must be verified but lacks concrete test cases or explicit tool specifications. 
- 
+
+\gls{acr:NIST} Special Publication 800-115 provides a procedural, technical guide for network security testing and penetration testing. \gls{acr:NIST} SP 800-82 subsequently adapts these concepts for \gls{acr:ICS}. While they offer robust operational guidance for activities such as network discovery, port scanning, and vulnerability assessment, they remain inherently general and are not natively linked to the component-level obligations stipulated by the EU Machinery Regulation. Furthermore, \gls{acr:NIST} delineates a comprehensive overview of security testing techniques paired with applicable tools, for instance, mapping network discovery to Nmap \cite[p. 65]{nist_sp800_115}. The core constituents of \gls{acr:NIST} SP 800-115 encompass review techniques (including documentation, log, and system configuration reviews), network sniffing, target identification and analysis techniques (such as network discovery and network port/service identification), alongside vulnerability scanning and penetration testing \cite[p. iv]{nist_sp800_115}. 
+
+\gls{acr:IEC} 62443 Security Verification (Parts 4-1 and 4-2) defines the normative state of the art for industrial cybersecurity. Part 4-1 provides a comprehensive taxonomy for \gls{acr:SVV}, encompassing requirements-based testing, threat mitigation, vulnerability analysis, and penetration testing \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Although exemplary in its structural completeness and alignment with compliance mandates, the standard remains fundamentally abstract. It prescribes \textit{what} must be verified but lacks concrete test cases or explicit tool specifications. 
+
 The \gls{acr:OWASP} Web Security Testing Guide and \gls{acr:IoT} projects are used references for evaluating \gls{acr:HTTP} interfaces and \glspl{acr:API}. They provide actionable test scenarios for web services. However, they are primarily \gls{acr:IT}-focused and do not accommodate the deterministic OT fieldbus communication protocols (e.g., PROFINET, PROFIsafe) essential for this methodology. The \gls{acr:OWASP} \gls{acr:IoT} Security Testing Guide catalogues test cases across multiple hardware and software domains, including processing units, memory, firmware (encompassing installed instances and update mechanisms, data exchange services, internal interfaces such as \gls{acr:I2C} and \gls{acr:UART}, as well as physical, wireless, and user interfaces \cite{owasp_istg}. 
- 
-MITRE ATT\&CK for \gls{acr:ICS} serves as a structured knowledge base that catalogues real-world tactics (the overarching objectives of an adversary) and techniques (the specific methods employed to achieve these objectives) relevant to cyber threats in industrial environments (Techniques represent 'how' an adversary achieves a tactical goal by performing an action. For example, an adversary may dump credentials to achieve credential access.) \cite{mitre_attack_ics}. It facilitates the structured derivation of test cases for functional security testing. Within ATT\&CK for \gls{acr:ICS}, tactics such as \textit{Initial Access} and \textit{Lateral Movement} precisely detail how adversaries attempt to compromise or bypass network gateways. Furthermore, MITRE enumerates concrete mitigation strategies for each identified attack technique, providing a pragmatic foundation for security assessments. 
- 
-Fuzzing and robustness testing complements these frameworks by subjecting an interface to malformed, boundary, or high-volume input and observing whether the system maintains its specified behaviour \cite[p. 29]{richier2011security}. Unlike the four frameworks above, it is not tied to a single institutional standard but constitutes a general testing paradigm. It is introduced here because Section \ref{subsec:constraints_scope} admits requirement-driven robustness testing within the scope of this thesis, bounded to cases where a requirement demands it. 
+
+MITRE ATT\&CK for \gls{acr:ICS} serves as a structured knowledge base that catalogues real-world tactics (the overarching objectives of an adversary) and techniques (the specific methods employed to achieve these objectives) relevant to cyber threats in industrial environments (Techniques represent 'how' an adversary achieves a tactical goal by performing an action. For example, an adversary may dump credentials to achieve credential access.) \cite{mitre_attack_ics}. It facilitates the structured derivation of test cases for functional security testing. Within ATT\&CK for \gls{acr:ICS}, tactics such as \textit{Initial Access} and \textit{Lateral Movement} precisely detail how adversaries attempt to compromise or bypass network gateways. Furthermore, MITRE enumerates concrete mitigation strategies for each identified attack technique, providing a pragmatic foundation for security assessments \cite{mitre_attack_ics_tactics}. 
+
+Fuzzing and robustness testing complements these frameworks by subjecting an interface to malformed, boundary, or high-volume input and observing whether the system maintains its specified behaviour \cite[p. 29]{richier2011security}. Unlike the four frameworks above, it is not tied to a single institutional standard but constitutes a general testing paradigm. 
 
 \subsection{Evaluation of Approaches} 
 \label{subsec:approach_evaluation} 
-%TODO Quellen
-The six approaches introduced in Section \ref{subsec:state_of_the_art_frameworks} are analysed against six criteria: traceability to requirements, availability of concrete test cases, reproducibility, suitability for an embedded OT target, compatibility with functional safety, and evidentiary value. These criteria replace the cost- and lifecycle-oriented dimensions of a classical Utility Analysis, because this comparison evaluates verification methodologies rather than competing physical product designs. Reproducibility and applicability serve as the more relevant equivalents in this context. Table \ref{tab:approach_comparison} summarises their main strengths and limitations in the context of this thesis. 
+
+The six approaches introduced in Section \ref{subsec:state_of_the_art_frameworks} are analysed against six criteria: traceability to requirements, availability of concrete test cases, reproducibility, suitability for an embedded OT target, compatibility with functional safety, and evidentiary value. Table \ref{tab:approach_comparison} summarises their main strengths and limitations in the context of this thesis. 
 
 \begin{table}[H] 
 	\caption{Comparison of established security testing approaches} 
@@ -210,11 +210,11 @@ The six approaches introduced in Section \ref{subsec:state_of_the_art_frameworks
 		Adversary-technique-based testing (MITRE ATT\&CK for \gls{acr:ICS}) \cite{mitre_attack_ics} & Structured, real-world catalogue of adversary tactics and techniques & Provides tactics and techniques, not executable test procedures \\ 
 		\addlinespace 
 		Fuzzing and robustness testing \cite[p. 29]{richier2011security} & Suited to error handling and availability & Requires careful monitoring and result interpretation \\ \bottomrule 
-\end{tabular} 
+	\end{tabular} 
 	
 \end{table} 
-	
-No single approach satisfies all criteria. Functional testing and abstract verification provide traceability but no attack perspective. Penetration testing, web-centric testing, and adversary-technique-based testing provide an attack perspective but weaker reproducibility, limited \gls{acr:OT} focus, or no executable test procedures. The methodology therefore combines a requirement-driven functional core with bounded robustness testing, anchoring every test type in the recognised \gls{acr:IEC} 62443 verification taxonomy while utilising execution strategies from \gls{acr:NIST}, \gls{acr:OWASP}, and MITRE ATT\&CK for \gls{acr:ICS}.
+
+No single approach satisfies all criteria. Functional testing and abstract verification provide traceability but no attack perspective. Penetration testing, web-centric testing, and adversary-technique-based testing provide an attack perspective but weaker reproducibility, limited \gls{acr:OT} focus, or no executable test procedures. This gap between traceability-oriented and attack-oriented approaches motivates a combined strategy, which is developed after the applicability of the existing company framework is assessed in Section \ref{subsec:company_framework} and justified in full in Section \ref{subsec:selected_approach}.
 
 
 \subsection{Applicability Assessment of the Company Framework} 
@@ -255,8 +255,8 @@ Every test case is specified on two levels. This separates the product-neutral d
 
 The first level is the abstract test scenario. It is independent of the concrete laboratory and contains the following fields: 
 \begin{itemize} 
-	\item \textbf{Traceability:} the requirement, its mapped Component Requirement, and the target asset. 
-	\item \textbf{Target Threat:} the STRIDE threat that the test exercises. A functional baseline that carries no adversarial goal is marked as not applicable. \item \textbf{SVV Category:} the verification type according to IEC 62443-4-1. 
+	\item \textbf{Traceability:} the requirement, its mapped \gls{acr:CR}, and the target asset. 
+	\item \textbf{Target Threat:} the \gls{acr:STRIDE} threat that the test exercises. A functional baseline that carries no adversarial goal is marked as not applicable. \item \textbf{SVV Category:} the verification type according to \gls{acr:IEC} 62443-4-1. 
 	\item \textbf{Objective:} the property to be demonstrated. 
 	\item \textbf{Steps:} the abstract procedure. 
 	\item \textbf{Acceptance Criterion:} the exact expected behaviour that constitutes a pass. 
@@ -273,13 +273,13 @@ The second level is the concrete execution. It binds the abstract scenario to th
 
 Each test case is classified along four dimensions. The first dimension is the security category. It groups tests by the security property under examination and provides the reader-facing structure of the results in Chapter \ref{chap:implementation_results}. The methodology distinguishes seven security categories: identification and asset discovery, communication security, logging and traceability, availability and resilience, robustness, authentication and access control, and firmware and configuration integrity. Each category groups the tests that verify one or more of the security functions defined in Section \ref{subsec:security_functions}, and thereby one of the \gls{acr:IEC} 62443-3-3 \glspl{acr:FR} that these functions are grounded in, as Table \ref{tab:category_function_fr} shows. 
 
-The authentication and access control category combines the authentication and the authorisation function, because both are examined jointly whenever an interface restricts access: authentication establishes who is connecting, and authorisation establishes what the connecting entity is permitted to do. This combination also reflects \gls{acr:IEC} 62443-3-3 itself, where \gls{acr:FR} 1 is defined as Identification and Authentication Control. 
+The authentication and access control category combines the authentication and the authorisation function, because both are examined jointly whenever an interface restricts access. Authentication establishes who is connecting, and authorisation establishes what the connecting entity is permitted to do. This combination also reflects \gls{acr:IEC} 62443-3-3 itself, where \gls{acr:FR} 1 is defined as Identification and Authentication Control. 
 
 The second dimension is the \gls{acr:SVV} category, which states the verification purpose. 
 The third dimension is the network access variant, which states the required position on the communication path (Section \ref{sec:test_environment}). 
 The fourth dimension is the execution and evidence status, which states what was achieved for a given test case. 
 
-A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:category_function_fr} shows, the mapping between security categories and \glspl{acr:FR} is many-to-many rather than one-to-one: ``Authentication and access control'', for example, spans \gls{acr:FR} 1 and \gls{acr:FR} 2, while ``Robustness'' spans \gls{acr:FR} 3 and \gls{acr:FR} 7. Reporting strictly by \gls{acr:FR} would therefore fragment coherent test activities across multiple, only partially related result sections. The security-category scheme instead groups tests by the function they exercise in practice, which matches how tests are designed and executed, while traceability to the IEC 62443-3-3 \glspl{acr:FR} is preserved through Table \ref{tab:category_function_fr}. 
+A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:category_function_fr} shows, the mapping between security categories and \glspl{acr:FR} is many-to-many rather than one-to-one: ``Authentication and access control'', for example, spans \gls{acr:FR} 1 and \gls{acr:FR} 2, while ``Robustness'' spans \gls{acr:FR} 3 and \gls{acr:FR} 7. Reporting strictly by \gls{acr:FR} would therefore fragment coherent test activities across multiple, only partially related result sections. The security-category scheme instead groups tests by the function they exercise in practice, which matches how tests are designed and executed, while traceability to the \gls{acr:IEC} 62443-3-3 \glspl{acr:FR} is preserved through Table \ref{tab:category_function_fr}. 
 
 
 \begin{table}[H] 
@@ -300,7 +300,7 @@ A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:
 		\addlinespace 
 		Robustness & Availability and resilience & \gls{acr:FR} 3, \gls{acr:FR} 7 \\ 
 		\addlinespace 
-		Authentication and access control & Authentication, Authorisation and Access Control & \gls{acr:FR} 1, \gls{acr:FR} 2 \\ 
+		Authentication and access control & Authentication, \newline  Authorisation and Access Control & \gls{acr:FR} 1, \gls{acr:FR} 2 \\ 
 		\addlinespace 
 		Firmware and configuration integrity & Integrity protection & \gls{acr:FR} 3 \\ 
 		\bottomrule 
@@ -310,11 +310,6 @@ A categorisation by \gls{acr:FR} was considered but rejected. As Table \ref{tab:
 Table \ref{tab:security_categories} maps each security category to the requirements it primarily addresses. The mapping is not exclusive, because one test activity can support several requirements, and one requirement can appear in more than one category.
 
 
-
-
-
-
- 
 
 \begin{table}[H] 
 	\caption{Mapping of security categories to regulatory requirements} 
@@ -344,8 +339,6 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 
 \section{Security Test Environment} 
 \label{sec:test_environment} 
-%TODO Quellen
-
 
 
 Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In \gls{acr:OT}, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is a mandatory requirement, in line with \gls{acr:NIST} SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
@@ -355,10 +348,8 @@ The feasibility of a test depends on the position of the test system on the comm
 
 \subsection{NV1: Direct Access} 
 \label{subsec:nv1} 
-%The test system communicates as a regular participant with the SUT and the controller over the switch, simulating an insider scenario (vgl. NIST SP 800-115, Sec. 5.2.2). NV1 supports all IP-based tests, including the IoT-Core HTTP services (vgl. NIST SP 800-115, Sec. 4.2), and any test in which the test system acts as an unexpected communication partner interacting directly with the network (vgl. NIST SP 800-115, Sec. 2.3).
 
-
-The test system communicates as a regular participant with the \gls{acr:SUT} and the controller over the switch. \gls{acr:NV1} supports all \gls{acr:IP}-based tests, including the \gls{acr:IoT}-Core \gls{acr:HTTP} services, and any test in which the test system acts as an unexpected communication partner.
+The test system communicates as a regular participant with the \gls{acr:SUT} and the controller over the switch. \gls{acr:NV1} supports all \gls{acr:IP}-based tests, including the \gls{acr:IoT}-Core \gls{acr:HTTP} services, and any test in which the test system acts as an unexpected communication partner \cite[pp. 4-1, pp. 5-5]{nist_sp800_115} \cite[p. 116]{BSI2024ICSCompendium}.
 
 \begin{figure}[H]
 	\centering
@@ -377,7 +368,7 @@ The test system communicates as a regular participant with the \gls{acr:SUT} and
 	
 	\begin{tikzpicture}
 		\node[switch] (sw) {\textbf{Industrial Switch}};
-		\node[box, left=of sw] (plc) {\textbf{PLC (F-Host)}};
+		\node[box, left=of sw] (plc) {\textbf{PLC}};
 		\node[box, right=of sw] (sut) {\textbf{SUT}};
 		\node[box, below=1cm of sw] (kali) {\textbf{Kali Linux}\\(Regular Participant)};
 		
@@ -396,7 +387,7 @@ The test system communicates as a regular participant with the \gls{acr:SUT} and
 
 \subsection{NV2: Passive Observation} 
 \label{subsec:nv2} 
-A switch mirror or a network tap makes traffic visible that is not addressed to the test system, such as the cyclic PROFINET and PROFIsafe communication between the controller and the \gls{acr:SUT}. \gls{acr:NV2} requires a switch that supports and is configured for port mirroring. A network tap is an alternative to a mirror port. It duplicates the traffic on a dedicated hardware path and avoids the frame loss that a mirror port can introduce under high load. Address resolution spoofing is not a substitute, because the cyclic traffic uses Ethernet-level addressing (EtherType 0x8892 and \gls{acr:DCP}) rather than \gls{acr:IP} and \gls{acr:ARP} \cite[p. 34]{1377673}. 
+A switch mirror or a network tap makes traffic visible that is not addressed to the test system, such as the cyclic PROFINET and PROFIsafe communication between the controller and the \gls{acr:SUT}. \gls{acr:NV2} requires a switch that supports and is configured for port mirroring. A network tap is an alternative to a mirror port. It duplicates the traffic on a dedicated hardware path and avoids the frame loss that a mirror port can introduce under high load \cite[p. 3-4]{nist_sp800_115} \cite[p. 72, p. 116]{BSI2024ICSCompendium}. Address resolution spoofing is not a substitute, because the cyclic traffic uses Ethernet-level addressing (EtherType 0x8892 and \gls{acr:DCP}) rather than \gls{acr:IP} and \gls{acr:ARP} \cite[p. 34]{1377673}. 
 
 \begin{figure}[H]
 	\centering
@@ -417,7 +408,7 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 	
 	\begin{tikzpicture}
 		\node[switch] (sw) {\textbf{Industrial Switch}\\(Mirror Port Configured)};
-		\node[box, left=of sw] (plc) {\textbf{PLC (F-Host)}};
+		\node[box, left=of sw] (plc) {\textbf{PLC}};
 		\node[box, right=of sw] (sut) {\textbf{SUT}};
 		\node[box, below=1cm of sw] (kali) {\textbf{Kali Linux}\\(Passive Listener)};
 		
@@ -439,7 +430,7 @@ A switch mirror or a network tap makes traffic visible that is not addressed to 
 \subsection{NV3: Active In-Path Manipulation} 
 \label{subsec:nv3} 
 
-The test system is inserted inline between the \gls{acr:SUT} and the switch and operates as a transparent bridge. \gls{acr:NV3} enables the controlled suppression, delay, or replacement of individual frames in transit. 
+The test system is inserted inline between the \gls{acr:SUT} and the switch and operates as a transparent bridge. \gls{acr:NV3} enables the controlled suppression, delay, or replacement of individual frames in transit \cite[pp. 42, p. 45]{BSI2024ICSCompendium}. 
 
 \begin{figure}[H]
 	\centering
@@ -459,7 +450,7 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 	
 	\begin{tikzpicture}
 		\node[switch] (sw) {\textbf{Industrial Switch}};
-		\node[box, left=of sw] (plc) {\textbf{PLC (F-Host)}};
+		\node[box, left=of sw] (plc) {\textbf{PLC }};
 		\node[box, right=of sw] (sut) {\textbf{SUT}};
 		\node[box, below=1cm of sw] (kali) {\textbf{Kali Linux}\\(Transparent Bridge)};
 		
@@ -481,7 +472,7 @@ The test system is inserted inline between the \gls{acr:SUT} and the switch and 
 	\label{fig:nv3}
 \end{figure}
 
- 
+
 
 
 
@@ -496,7 +487,7 @@ Security testing exercises an object under defined conditions and compares the a
 
 The methodology adopts Kali Linux as the standardised operating environment. Several options are considered. A general-purpose Linux distribution with individually installed tools offers flexibility, but it increases setup effort and reduces reproducibility. Commercial security suites offer integrated reporting, but their closed nature limits transparency and independent reproduction. Comparable open security distributions, such as Parrot OS, provide a similar toolset \cite{gfg_kali_alternatives_2024}. Kali Linux is selected because it bundles a maintained and pre-configured set of open-source auditing tools, which improves reproducibility and removes the need to develop custom exploit code. Its use of the same platform as the company framework is a secondary benefit that supports transfer into the industrial process, not the primary reason for the selection. The tools are grouped by function: network discovery and service enumeration, \gls{acr:HTTP} and \gls{acr:API} interception, credential testing, and load or robustness testing. A tool is used only after the applicability assessment of Section \ref{subsec:company_framework} confirms that the target exposes the assumed interface \cite{kali_whatis}. 
 
-The engineering tool for the safety configuration, TIA Portal, is used only as a supporting instrument, for example to read identification and maintenance data or to observe the safety qualifier. It is not treated as a security testing tool.
+The engineering tool for the safety configuration, \gls{acr:TIA} Portal, is used only as a supporting instrument, for example to read identification and maintenance data or to observe the safety qualifier. It is not treated as a security testing tool.
 
 
 
@@ -534,6 +525,6 @@ The verdicts are aggregated per requirement according to a conservative rule tha
 \subsection{Evidence Model} 
 \label{subsec:evidence_model} 
 
-The assessment rests on one evidence rule that is applied without exception. A test is considered Executed only if a corresponding stored artefact exists. An artefact is a recorded output of the test, for example a tool log, a packet capture, a log export, or a screenshot. A reported test run without such an artefact does not qualify as Executed; it is recorded as Blocked and cannot, by itself, support a Pass at the requirement level. A tool execution is not, by itself, a requirement verification. The observation it produces must be interpreted against the acceptance criterion, and this interpretation is kept separate from the raw observation. Expected behaviour taken from a test specification is never presented as an observed result. This rule is the basis of the evidence-first reporting applied in Chapter \ref{chap:implementation_results}. 
+The assessment rests on one evidence rule that is applied without exception. A test is considered Executed only if a corresponding stored artefact exists. An artefact is a recorded output of the test, for example a tool log, a packet capture, a log export, or a screenshot. A reported test run without such an artefact does not qualify as Executed. It is recorded as Blocked and cannot, by itself, support a Pass at the requirement level. A tool execution is not, by itself, a requirement verification. The observation it produces must be interpreted against the acceptance criterion, and this interpretation is kept separate from the raw observation. Expected behaviour taken from a test specification is never presented as an observed result. This rule is the basis of the evidence-first reporting applied in Chapter \ref{chap:implementation_results}. 
 
 The same rule governs the relationship to existing functional and safety tests. The \gls{acr:SUT} is a safety device, so some security-relevant properties are already exercised by functional or safety validation. Such a test does not, on its own, prove cybersecurity compliance, because safety validation examines behaviour under random faults, whereas a security verdict requires an adversarial perspective and a security-specific acceptance criterion. Safety evidence is therefore reused only when it is re-evaluated against such a criterion. The organisational embedding of these verification activities into a secure development lifecycle, including the governance responsibilities, is described in Appendix \ref{app:SecureDevelopmentLifecycle}.
