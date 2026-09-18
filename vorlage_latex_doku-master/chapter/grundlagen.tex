@@ -38,7 +38,7 @@ Despite these benefits, the physical and software integration of legacy \gls{acr
  		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
  		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability (\acrshort{acr:CIA}) & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality (\acrshort{acr:AIC}) \\ \addlinespace
  		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
- 		Protocol Examples & \acrshort{acr:TCP}/\gls{acr:IP}, \newline \acrshort{acr:HTTP}(S), \newline \acrshort{acr:SQL} & Modbus, \newline Profinet \\ \addlinespace
+ 		Protocol Examples & \acrshort{acr:TCP}/\gls{acr:IP}, \newline \acrshort{acr:HTTP}(S), \newline \acrshort{acr:SQL} & Modbus, \newline \acrshort{acr:PROFINET} \\ \addlinespace
  		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
  		\bottomrule  
  	\end{tabularx}
@@ -64,7 +64,7 @@ To ensure efficient translation, the protocol mapping generally occurs at the lo
 \subsection{Safety Communication}
 \label{subsec:black_channel}
 
-A safety industrial gateway transmits safety-related data over PROFINET using the PROFIsafe profile \cite[p. 439]{Babel2024_profi}. PROFIsafe follows the black-channel principle. The safety layer does not trust the underlying transmission channel and instead protects each safety telegram from producer to consumer, so that the standard communication stack and the network components are not part of the safety function \cite{pi_profisafe}.
+A safety industrial gateway transmits safety-related data over \gls{acr:PROFINET} using the PROFIsafe profile \cite[p. 439]{Babel2024_profi}. PROFIsafe follows the black-channel principle. The safety layer does not trust the underlying transmission channel and instead protects each safety telegram from producer to consumer, so that the standard communication stack and the network components are not part of the safety function \cite{pi_profisafe}.
 
 Each safety telegram is protected by several measures. A consecutive number orders the telegrams and detects loss, repetition, or insertion. A \gls{acr:CRC} protects the payload against corruption. A safety destination address binds a telegram to its intended consumer. A watchdog time bounds the maximum age of a valid telegram. When it expires, the consumer passivates to the defined safe state \cite{elintissar2026profisafe}.
 
