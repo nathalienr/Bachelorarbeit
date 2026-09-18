@@ -31,12 +31,9 @@ This research follows \gls{acr:DSRM}, proposed by \citeauthor{Peffers} \cite[p. 
 The design and evaluation of the artefact are guided by three research questions:
 \begin{itemize} 
 	\item \textbf{RQ1:} How can the machine-level cybersecurity obligations of Regulation (EU) 2023/1230 be translated into verifiable, derived component-level security tests for a safety-related industrial gateway?
-	\item \textbf{RQ2:} Which tests of the existing company framework are applicable to an industrial gateway, and how can non-applicable tests be identified before execution?
+	\item \textbf{RQ2:} Which tests of the existing security company framework are applicable to an industrial gateway, and how can non-applicable tests be identified before execution?
 	\item \textbf{RQ3:} What can direct-access testing at the physical \gls{acr:IT}/\gls{acr:OT} interface verify about the effectiveness of the implemented security functions, and where are its boundaries?
 \end{itemize}
-
-
-
 
 \section{Problem Context and Scope} 
 \label{sec:problem_context} 
@@ -46,7 +43,7 @@ This section describes the initial situation and the subject area of the \gls{ac
 \subsection{Initial Situation} 
 \label{subsec:initial_situation} 
 
-The \gls{acr:SUT} is a \gls{acr:SRIO} device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over \gls{acr:PROFINET} and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over \gls{acr:HTTP}. The device therefore combines an \gls{acr:OT} fieldbus path and an \gls{acr:IT} diagnostic path in a single component. ifm ecomatic operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it. 
+The \gls{acr:SUT} is a \gls{acr:SRIO} device. It exposes two interfaces with different characteristics. The first interface carries deterministic safety communication over \gls{acr:PROFINET} and PROFIsafe according to the black-channel principle. The second interface is a diagnostic service reachable over \gls{acr:HTTP}. The device therefore combines an \gls{acr:OT} fieldbus path and an \gls{acr:IT} diagnostic path in a single component. Ifm ecomatic operates an established functional test process. This process does not yet verify security functions in a systematic and requirement-driven manner. The methodology developed here addresses this gap by adding a systematic, requirement-driven security verification. It complements the existing functional and safety validation rather than replacing it. 
 
 \subsection{Regulatory Applicability} 
 \label{subsec:regulatory_applicability} 
@@ -111,7 +108,7 @@ While Section \ref{subsec:stride} identifies the threats and the security proper
 \begin{itemize} 
 	\item \textbf{Authentication:} Verification of the identity of a connecting user, system, or process to ensure that only authorised parties gain access. 
 	\item \textbf{Authorisation and Access Control:} Restriction of the permitted actions and accessible resources for an authenticated entity, typically managed through defined policies, role-based access control, and the principle of least privilege. 
-	\item \textbf{Confidentiality and Encryption:} Protection of data both in transit and at rest. This includes converting sensitive information into an unreadable format using cryptographic keys to prevent unauthorized information disclosure or alteration. 
+	\item \textbf{Confidentiality and Encryption:} Protection of data both in transit and at rest. This includes converting sensitive information into an unreadable format using cryptographic keys to prevent unauthorised information disclosure or alteration. 
 	\item \textbf{Integrity protection:} Protection of software, firmware, and configuration data against unauthorised modification, enforced through mechanisms such as checksums, cryptographic signatures, or a verified boot process. 
 	\item \textbf{Security Logging, Auditing, and Non-repudiation:} Continuous logging and monitoring of system activities to generate and retain evidence of security-relevant interventions. This ensures sufficient attribution and time reference to detect incidents, investigate misuse, and ensure non-repudiation. 
 	\item \textbf{Availability and resilience:} Preservation of the intended system function under load, malformed input, or \gls{acr:DoS} conditions, combined with recovery mechanisms and a defined response to detected faults to prevent system or data loss. 
@@ -148,7 +145,7 @@ The methodology maintains a traceability chain (Based on \cite[p. 36]{DIN_EN_ISO
 
 The nodes of the chain are defined as follows: 
 \begin{itemize} 
-	\item \textbf{Requirement:} The derived \gls{acr:CR} (for example RQ-011) and its mapped \gls{acr:IEC} 62443-4-2 control (for example \gls{acr:CR} 2.1). 
+	\item \textbf{Requirement:} The derived component-level requirement (for example RQ-011) and its mapped \gls{acr:IEC} 62443-4-2 control (for example \gls{acr:CR} 2.1). 
 	\item \textbf{Asset:} The concrete gateway component to which the requirement applies. 
 	\item \textbf{Threat:} The attacker goal that targets the asset, derived via \hyperref[subsec:stride]{STRIDE}. 
 	\item \textbf{Security Function:} The implemented countermeasure, together with any identified gap. 
@@ -178,7 +175,7 @@ Functional black-box testing verifies whether a specified behaviour is present w
 
 \gls{acr:NIST} Special Publication 800-115 provides a procedural, technical guide for network security testing and penetration testing. \gls{acr:NIST} SP 800-82 subsequently adapts these concepts for \gls{acr:ICS}. While they offer robust operational guidance for activities such as network discovery, port scanning, and vulnerability assessment, they remain inherently general and are not natively linked to the component-level obligations stipulated by the EU Machinery Regulation. Furthermore, \gls{acr:NIST} delineates a comprehensive overview of security testing techniques paired with applicable tools, for instance, mapping network discovery to Nmap \cite[p. 65]{nist_sp800_115}. The core constituents of \gls{acr:NIST} SP 800-115 encompass review techniques (including documentation, log, and system configuration reviews), network sniffing, target identification and analysis techniques (such as network discovery and network port/service identification), alongside vulnerability scanning and penetration testing \cite[p. iv]{nist_sp800_115}. 
 
-\gls{acr:IEC} 62443 Security Verification (Parts 4-1 and 4-2) defines the normative state of the art for industrial cybersecurity. Part 4-1 provides a comprehensive taxonomy for \gls{acr:SVV}, encompassing requirements-based testing, threat mitigation, vulnerability analysis, and penetration testing \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Although exemplary in its structural completeness and alignment with compliance mandates, the standard remains fundamentally abstract. It prescribes \textit{what} must be verified but lacks concrete test cases or explicit tool specifications. 
+\gls{acr:IEC} 62443 Security Verification (Parts 4-1 and 4-2) defines the normative state of the art for industrial cybersecurity. Part 4-1 provides a comprehensive taxonomy for \gls{acr:SVV}, encompassing requirements-based testing, threat mitigation, vulnerability analysis, and penetration testing \cite[p. 37]{DIN_EN_IEC_62443_4_1_2018}. Although structurally complete and alignment with compliance mandates, the standard remains fundamentally abstract. It prescribes \textit{what} must be verified but lacks concrete test cases or explicit tool specifications. 
 
 The \gls{acr:OWASP} Web Security Testing Guide and \gls{acr:IoT} projects are used references for evaluating \gls{acr:HTTP} interfaces and \glspl{acr:API}. They provide actionable test scenarios for web services. However, they are primarily \gls{acr:IT}-focused and do not accommodate the deterministic OT fieldbus communication protocols (e.g., \gls{acr:PROFINET}, PROFIsafe) essential for this methodology. The \gls{acr:OWASP} \gls{acr:IoT} Security Testing Guide catalogues test cases across multiple hardware and software domains, including processing units, memory, firmware (encompassing installed instances and update mechanisms, data exchange services, internal interfaces such as \gls{acr:I2C} and \gls{acr:UART}, as well as physical, wireless, and user interfaces \cite{owasp_istg}. 
 
@@ -220,7 +217,7 @@ No single approach satisfies all criteria. Functional testing and abstract verif
 \subsection{Applicability Assessment of the Company Framework} 
 \label{subsec:company_framework} 
 
-Ifm provides a manufacturer-specific security testing framework consisting of ten countermeasure -oriented instructions, denoted CM-001 to CM-010. Each instruction binds one countermeasure to one tool from Kali Linux, a Linux distribution that bundles preconfigured security testing tools, and to one acceptance rule. This framework is highly operational and organised around tools rather than derived requirements. 
+Ifm provides a manufacturer-specific security testing framework consisting of ten countermeasure -oriented instructions, denoted CM-001 to CM-010. Each instruction binds one countermeasure to one tool from Kali Linux, a Linux distribution that bundles preconfigured security testing tools, and to one acceptance rule. This framework is operational and organised around tools rather than derived requirements. 
 
 The framework cannot be adopted without adaptation. Several instructions assume interfaces that a general \gls{acr:IT} target exposes but the embedded \gls{acr:SUT} does not. CM-003 assumes an authentication endpoint, CM-005 assumes a \gls{acr:TLS} endpoint, and CM-006 assumes an operating-system shell. The \gls{acr:SUT} provides none of these. This observation motivates an explicit tool-to-target applicability assessment as a step of the methodology. For each planned tool, the methodology checks whether the target exposes the function that the tool assumes.
 
@@ -264,7 +261,7 @@ The first level is the abstract test scenario. It is independent of the concrete
 
 \gls{acr:STRIDE} applies at the level of the security requirement rather than to every individual test. A functional baseline or a pure availability demonstration carries no adversarial goal. For such a test case, the target-threat field is set to not applicable and records a functional or availability verification instead of a \gls{acr:STRIDE} category. A self-inflicted \gls{acr:DoS} test, in which the tester deliberately exhausts a resource of the device, is the one borderline case and is labelled accordingly. 
 
-Every availability or robustness test must declare an acceptance criterion bounded by the device's specified operating envelope, such as the maximum number of concurrent connections permitted by the product specification. Observations made outside that envelope are recorded as overload observations and cannot, by themselves, support a PASS or FAIL verdict. 
+Every availability or robustness test must declare an acceptance criterion bounded by the device's specified operating envelope, such as the maximum number of concurrent connections permitted by the product specification. Observations made outside that envelope are recorded as overload observations and cannot, by themselves, support a Pass or Fail verdict. 
 
 The second level is the concrete execution. It binds the abstract scenario to the laboratory. It records the required network access variant, the applied tools, and the concrete commands, and it provides the fields for the result and the supporting evidence. The procedural depth of the concrete steps follows \gls{acr:NIST} SP 800-115 for network-level tests, the \gls{acr:OWASP} Web Security Testing Guide for the \gls{acr:HTTP} interface, and MITRE ATT\&CK for \gls{acr:ICS} for adversary techniques in the OT domain \cite[p. 1-1]{nist_sp800_115} \cite{manana2026pentest} \cite{mitre_attack_ics}. Only representative abstract scenarios are presented in this chapter. The full two-level catalogue is maintained per requirement as a working artefact, and the executed subset with its supporting evidence is reported by security category in Chapter \ref{chap:implementation_results}. 
 
@@ -341,7 +338,7 @@ Table \ref{tab:security_categories} maps each security category to the requireme
 \label{sec:test_environment} 
 
 
-Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In \gls{acr:OT}, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is a mandatory requirement, in line with \gls{acr:NIST} SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
+Security testing can disturb an industrial network. Active scanning or malicious input can interrupt communication and, in the worst case, affect a safety function. In \gls{acr:OT}, availability and safety hold the highest priority. Security tests must therefore never run in a production environment. A dedicated and isolated test environment is mandatory, in line with \gls{acr:NIST} SP 800-82 \cite[p. 2]{NIST.SP.800-82r3}. 
 
 The feasibility of a test depends on the position of the test system on the communication path. To structure the testing methodology for this work, three specific network access variants were defined. Each variant provides a different level of logical and physical access: direct access (Section \ref{subsec:nv1}), passive observation (Section \ref{subsec:nv2}), and active in-path manipulation (Section \ref{subsec:nv3}). Figures \ref{fig:nv1}, \ref{fig:nv2}, and \ref{fig:nv3} illustrate the three variants. 
 

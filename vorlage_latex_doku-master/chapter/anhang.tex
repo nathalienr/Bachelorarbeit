@@ -321,7 +321,7 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	RQ-014 &
 	\S7.3.5;  \newline \S7.3.3;  \newline \S7.4.3.3.1 &
-	Logs must be ``properly secured'' against tampering; deletion only via an authorized procedure; digital evidence must be readable and accessible. &
+	Logs must be ``properly secured'' against tampering; deletion only via an authorised procedure; digital evidence must be readable and accessible. &
 	\S7.3.5, \S7.3.3: Supporting\newline\S7.4.3.3.1: Partial \\
 	\hline
 	
@@ -357,7 +357,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\endlastfoot
 	
 	RQ-001 &
-	\gls{acr:FR} &
+	\gls{acr:FR}3 &
 	\gls{acr:CR} 3.1 &
 	Communication integrity &
 	\gls{acr:CR} 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
@@ -384,15 +384,15 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8's component-inventory capability is the closest \gls{acr:CR}-level asset-identification control. &
+	\gls{acr:CR} 7.8's component-inventory capability is the closest \gls{acr:CR}-level asset-identification control. --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-10 &
 	Supporting \\
 	\hline
 	
 	RQ-005 &
 	\gls{acr:FR}3 &
-	\gls{acr:CR} 3.4; \newline \gls{acr:EDR} 3.14 &
+	\gls{acr:CR} 3.4; \newline \gls{acr:EDR} 3.4 &
 	Software and information integrity; Integrity of the boot process (embedded device) &
-	prEN's \gls{acr:SRSL}-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ \gls{acr:EDR} 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
+	prEN's \gls{acr:SRSL}-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ \gls{acr:CR} 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
 	Partial \\
 	\hline
 	
@@ -400,7 +400,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8's inventory capability is the closest \gls{acr:CR}-level match for tracking installed-software identity. &
+	\gls{acr:CR} 7.8's inventory capability is the closest \gls{acr:CR}-level match for tracking installed-software identity. --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-1&
 	Supporting \\
 	\hline
 	
@@ -408,7 +408,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.1, \gls{acr:CR} 7.2, \gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability. &
+	\gls{acr:CR} 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability, \gls{acr:CR}7.1 (DoS protection), \gls{acr:CR}7.2 Resource Management --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-1 &
 	Supporting \\
 	\hline
 	
@@ -429,7 +429,8 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\hline
 	
 	RQ-010 &
-	\gls{acr:FR}7 &
+	\gls{acr:FR}7; \newline (\gls{acr:FR}1; \newline \gls{acr:FR}2; \newline 
+	\gls{acr:FR}3)&
 	\gls{acr:CR} 7.1 (1) &
 	Protection against denial-of-service events &
 	The regulation's requirement that control systems withstand reasonably foreseeable malicious third-party attempts corresponds, at the component level, to \gls{acr:CR} 7.1 (protection against denial-of-service events) together with its \gls{acr:RE}(1) (mitigation of communication-load flooding). &
@@ -454,7 +455,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	
 	RQ-013 &
 	\gls{acr:FR}2 &
-	\gls{acr:CR} 2.8 \gls{acr:CR} 2.9 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.9 &
 	Auditable events (configuration changes); Audit storage capacity &
 	\gls{acr:CR} 2.8's auditable-event categories include configuration changes and automation-system events, which are broad enough to cover the upload of a new safety-software version as a recordable event, and \gls{acr:CR} 2.9 provides the associated storage-capacity capability (without mandating the specific five-year, per-upload retention period). &
 	\gls{acr:CR} 2.8, \gls{acr:CR} 2.9: Partial \\
