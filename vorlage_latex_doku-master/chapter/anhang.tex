@@ -26,7 +26,7 @@ Within the scope of this thesis, tools based on \gls{acr:AI} were used. Table \r
 			\item Chapter structuring
 			\item Drafting assistance
 			\item Grammar and spelling checks
-			\item Formatting (bullet points, tables, formulas, equations) in LaTeX (overall)
+			\item Formatting (bullet points, tables, formulas) in LaTeX (overall)
 			\item Generation of LaTeX code for Figures \ref{fig:testbed_topology}, \ref{fig:nv1},  \ref{fig:nv2}, \ref{fig:nv3} based on text descriptions
 			\item Assistance with understanding fundamental concepts
 			\item Code ideas / error analysis for test cases
@@ -35,7 +35,7 @@ Within the scope of this thesis, tools based on \gls{acr:AI} were used. Table \r
 		\begin{itemize}[noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt] 
 			\item LaTeX code: Tables
 			\item Abbreviations
-			\item Formatting (bullet points, tables, formulas, equations) in LaTeX (overall)
+			\item Formatting (bullet points, tables, formulas) in LaTeX (overall)
 		\end{itemize} \\ 
 		\hline 
 	\end{tabular} 
@@ -49,12 +49,12 @@ Within the scope of this thesis, tools based on \gls{acr:AI} were used. Table \r
 \label{app:requirement_derivation}
 
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the \gls{acr:SUT} for verification purposes. They do not state that the Regulation applies directly to the component. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} \glspl{acr:CR}, \glspl{acr:RE}, and component-type-specific instantiations such as \glspl{acr:EDR}. The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the \gls{acr:SUT} for verification purposes. They do not state that the Regulation applies directly to the component. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} \glspl{acr:CR}, \glspl{acr:RE}, and component-type-specific instantiations such as \glspl{acr:EDR}. 
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, and the assigned Security Objective. The Security Objective column records the primary protection goal of each requirement only; a requirement may additionally engage further objectives through its associated threats, as reflected in the \gls{acr:STRIDE} mapping of Table \ref{tab:req_asset_interface}.
+Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, and the assigned Security Objective. The Security Objective column records the primary protection goal of each requirement only. A requirement may additionally engage further objectives through its associated threats, as reflected in the \gls{acr:STRIDE} mapping of Table \ref{tab:req_asset_interface}.
 
 
 
@@ -227,13 +227,13 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	\caption{Mapping of Machinery Regulation requirements to prEN 50742} 
 	\label{tab:pren50742-mapping} \\
 	\hline
-	\textbf{\gls{acr:RQ} ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{4}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{\gls{acr:RQ} ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
+	\textbf{RQ ID} & \textbf{prEN 50742 clause} & \textbf{prEN 50742 requirement/topic} & \textbf{Mapping type} \\
 	\hline
 	\endhead
 	
@@ -342,13 +342,13 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\caption{Mapping of derived requirements to \gls{acr:IEC} 62443-4-2} 
 	\label{tab:mvo-pren-iec62443-mapping} \\
 	\hline
-	\textbf{\gls{acr:RQ} ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endfirsthead
 	
 	\multicolumn{6}{c}{\tablename\ \thetable{} continued from previous page} \\
 	\hline
-	\textbf{\gls{acr:RQ} ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
+	\textbf{RQ ID} & \textbf{\gls{acr:FR}} & \textbf{\gls{acr:CR}/\gls{acr:RE}/\gls{acr:EDR}} & \textbf{\gls{acr:IEC} 62443-4-2 topic} & \textbf{Mapping rationale} & \textbf{Type} \\
 	\hline
 	\endhead
 	
@@ -511,7 +511,7 @@ To ensure strict organisational accountability, responsibility for the testing p
 Table \ref{tab:raci_matrix_verification} defines the distribution of these responsibilities across the verification phases.
 
 \begin{table}[H]
-	\caption[\gls{acr:RACI} matrix for the verification lifecycle]{\gls{acr:RACI} matrix for the verification lifecycle (Adapted from \cite{cybersierra_security_raci_2026})}
+	\caption[RACI matrix for the verification lifecycle]{RACI matrix for the verification lifecycle (Adapted from \cite{cybersierra_security_raci_2026})}
 	\label{tab:raci_matrix_verification}
 	\centering
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c c c c c c @{}}

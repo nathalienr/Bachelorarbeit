@@ -28,7 +28,7 @@ This Data Layer represents the critical intersection where operational systems b
 Despite these benefits, the physical and software integration of legacy \gls{acr:OT} equipment with modern \gls{acr:IT} networks introduces significant engineering and organisational friction \cite{orise2025itotconvergence}. This friction arises because both domains operate under fundamentally conflicting paradigms. Table \ref{tab:it_ot_comparison} summarises these core differences. 
  
  \begin{table}[H]
- 	\caption[Difference between \gls{acr:IT} and \gls{acr:OT} environments]{Difference between \gls{acr:IT} and \gls{acr:OT} environments (Based on \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807})}
+ 	\caption[Differences between \gls{acr:IT} and \gls{acr:OT} environments]{Differences between \gls{acr:IT} and \gls{acr:OT} environments (Based on \cite{hwi_ot_definition} \cite[p. 1, 199]{8586807})}
  	\label{tab:it_ot_comparison}
  	\centering
  	\begin{tabularx}{\textwidth}{l X X}
@@ -38,7 +38,7 @@ Despite these benefits, the physical and software integration of legacy \gls{acr
  		Primary Focus & Information processing and data flow & Monitoring and control of physical processes \\ \addlinespace
  		Security Priorities & Confidentiality $\rightarrow$ \newline Integrity $\rightarrow$ \newline Availability (\acrshort{acr:CIA}) & Availability $\rightarrow$ \newline Integrity $\rightarrow$ \newline Confidentiality (\acrshort{acr:AIC}) \\ \addlinespace
  		Core Security Objectives & Authentication, \newline Non-repudiation & Real-time availability, \newline Functional Safety \\ \addlinespace
- 		Protocol Examples & \acrshort{acr:TCP}/\gls{acr:IP}, \newline \acrshort{acr:HTTP}(S), \newline \acrshort{acr:SQL} & Modbus, \newline \acrshort{acr:PROFINET} \\ \addlinespace
+ 		Protocol Examples & \acrshort{acr:TCP}/\gls{acr:IP}, \newline \acrshort{acr:HTTP}(S) & Modbus, \newline \acrshort{acr:PROFINET} \\ \addlinespace
  		Update Cycles & Regular, frequent, and automated & Rare, conservative, and strictly validated \\ 
  		\bottomrule  
  	\end{tabularx}
@@ -78,7 +78,7 @@ Cybersecurity comprises the processes and technical measures used to protect sys
 \subsection{Security Objectives} 
 \label{subsec:security_goals} 
 
-Information security is traditionally structured around the confidentiality, integrity and availability \gls{acr:CIA} triad \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualises the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
+Information security is traditionally structured around the \gls{acr:CIA} triad \cite{CIAtriadEICTA2026} \cite[p. 1]{app16126260}. This paradigm conceptualises the three primary objectives required to establish a security posture and protect information assets against digital threats \cite[p. 5]{Khanna2024}. To evaluate and mitigate risks effectively, these three distinct dimensions form the theoretical baseline \cite[p. 24]{app16126260}:
 
 \begin{itemize}
 	\item \textbf{Confidentiality:} Focuses on ensuring that sensitive data and information are strictly protected from unauthorised access or disclosure to unintended individuals, entities, and processes \cite[p. 4]{Khanna2024} \cite[p. 3]{app16126260}. In the specific context of \gls{acr:IACS}, the maintenance of authorised restrictions on access becomes paramount to secure proprietary information, data configurations, and core operational parameters from illicit exposure \cite[p. 23]{IEC62443-3-3}.
@@ -121,12 +121,12 @@ Threat modelling is framed by \gls{acr:TARA}, a systematic method that identifie
 \gls{acr:STRIDE} is the threat-modelling instrument. Developed by Microsoft, it identifies threats from the perspective of attacker goals rather than as a static list \cite{microsoft_stride_model} \cite[p. 143]{doCarmo2025} \cite{owasp_threat_modeling_process}. Its acronym denotes six threat categories:
 
 \begin{itemize}
-	\item \textbf{Spoofing:} an attacker assumes a false identity, for example by using another entity's credentials or by impersonating a component in an embedded network.
-	\item \textbf{Tampering:} unauthorised modification of data or functionality, such as altering stored data, firmware, or data in transit.
-	\item \textbf{Repudiation:} the ability to deny an action when the system keeps insufficient audit records to prove it.
-	\item \textbf{Information Disclosure:} exposure of data to unauthorised parties, including reading data in transit.
-	\item \textbf{Denial of Service:} disruption of operation or denial of access to legitimate users, for example by flooding an interface.
-	\item \textbf{Elevation of Privilege:} an unprivileged attacker gains higher access rights than authorised.
+	\item \textbf{Spoofing:} An attacker assumes a false identity, for example by using another entity's credentials or by impersonating a component in an embedded network.
+	\item \textbf{Tampering:} Unauthorised modification of data or functionality, such as altering stored data, firmware, or data in transit.
+	\item \textbf{Repudiation:} The ability to deny an action when the system keeps insufficient audit records to prove it.
+	\item \textbf{Information Disclosure:} Exposure of data to unauthorised parties, including reading data in transit.
+	\item \textbf{Denial of Service:} Disruption of operation or denial of access to legitimate users, for example by flooding an interface.
+	\item \textbf{Elevation of Privilege:} An unprivileged attacker gains higher access rights than authorised.
 \end{itemize}
 
 Each category is the direct negation of a security objective, as Table \ref{tab:stride_mapping} shows \cite[p. 144]{doCarmo2025} \cite{owasp_threat_modeling_process}.
@@ -215,11 +215,11 @@ Robustness is the ability of a system to continue operating correctly under exce
 
 \gls{acr:IEC} 62443-4-1 defines \gls{acr:SVV} as the practice that demonstrates that a component meets its security requirements and its intended security purpose. Verification testing shows that the requirements are met, whereas validation additionally addresses the product security context \cite[p. 16]{DIN_EN_IEC_62443_4_1_2018}. This practice encompasses five specific requirements. While the first four define distinct test types, the fifth governs the organisational execution of these tests \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}:
 \begin{itemize}
-	\item \textbf{\gls{acr:SVV}-1 (Security Requirements Testing):} verifies that the security functions meet the requirements and that the product handles error cases and invalid input correctly, including functional, performance, and boundary tests \cite[p. 38]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{\gls{acr:SVV}-2 (Threat Mitigation Testing):} tests the effectiveness of the mitigations in the threat model, including deliberate attempts to defeat each mitigation, using the STRIDE categories as example threats \cite[pp. 38]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{\gls{acr:SVV}-3 (Vulnerability Testing):} identifies potential vulnerabilities through abuse-case and fuzz testing, attack-surface analysis, and scans for known vulnerabilities \cite[p. 39]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{\gls{acr:SVV}-4 (Penetration Testing):} attempts to discover and exploit vulnerabilities from an attacker's perspective, often by chaining several weaknesses \cite[pp. 39]{DIN_EN_IEC_62443_4_1_2018}.
-	\item \textbf{\gls{acr:SVV}-5 (Independence of Testers):} grades the required level of independence of the testers from the development team, based on the targeted security level \cite[pp. 40]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{\gls{acr:SVV}-1 (Security Requirements Testing):} Verifies that the security functions meet the requirements and that the product handles error cases and invalid input correctly, including functional, performance, and boundary tests \cite[p. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{\gls{acr:SVV}-2 (Threat Mitigation Testing):} Tests the effectiveness of the mitigations in the threat model, including deliberate attempts to defeat each mitigation, using the STRIDE categories as example threats \cite[pp. 38]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{\gls{acr:SVV}-3 (Vulnerability Testing):} Identifies potential vulnerabilities through abuse-case and fuzz testing, attack-surface analysis, and scans for known vulnerabilities \cite[p. 39]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{\gls{acr:SVV}-4 (Penetration Testing):} Attempts to discover and exploit vulnerabilities from an attacker's perspective, often by chaining several weaknesses \cite[pp. 39]{DIN_EN_IEC_62443_4_1_2018}.
+	\item \textbf{\gls{acr:SVV}-5 (Independence of Testers):} Grades the required level of independence of the testers from the development team, based on the targeted security level \cite[pp. 40]{DIN_EN_IEC_62443_4_1_2018}.
 \end{itemize}
 
 
@@ -277,13 +277,13 @@ The \gls{acr:IEC} 62443 series is the reference framework for securing \gls{acr:
 
 At the system level, \gls{acr:IEC} 62443-3-3 organises its requirements around seven \glspl{acr:FR}. These requirements structure the \glspl{acr:CR} that follow and are therefore reproduced here \cite[p. 15]{IEC62443-3-3}:
 \begin{itemize}
-	\item \textbf{\gls{acr:FR} 1 (Identification and Authentication Control):} unique identification and authentication of all entities before access is granted \cite[p. 29]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 2 (Use Control):} restriction of privileges according to the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 3 (System Integrity):} protection of the system, applications, and data against unauthorised modification \cite[p. 50]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 4 (Data Confidentiality):} protection of sensitive information against unauthorised disclosure \cite[p. 57]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 5 (Restricted Data Flow):} network segmentation to limit data flow and lateral movement \cite[p. 61]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 6 (Timely Response to Events):} security monitoring and logging for incident response \cite[p. 65]{IEC62443-3-3}.
-	\item \textbf{\gls{acr:FR} 7 (Resource Availability):} continued operation under resource stress or \gls{acr:DoS} \cite[p. 67]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 1 (Identification and Authentication Control):} Unique identification and authentication of all entities before access is granted \cite[p. 29]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 2 (Use Control):} Restriction of privileges according to the principle of least privilege \cite[p. 41]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 3 (System Integrity):} Protection of the system, applications, and data against unauthorised modification \cite[p. 50]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 4 (Data Confidentiality):} Protection of sensitive information against unauthorised disclosure \cite[p. 57]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 5 (Restricted Data Flow):} Network segmentation to limit data flow and lateral movement \cite[p. 61]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 6 (Timely Response to Events):} Security monitoring and logging for incident response \cite[p. 65]{IEC62443-3-3}.
+	\item \textbf{\gls{acr:FR} 7 (Resource Availability):} Continued operation under resource stress or \gls{acr:DoS} \cite[p. 67]{IEC62443-3-3}.
 \end{itemize}
 The fulfilment of these requirements is graded through \glspl{acr:SL} (\gls{acr:SL} 1 to \gls{acr:SL} 4), which express the resilience against increasing adversary profiles \cite[p. 16, 26]{IEC62443-3-3}.
 
