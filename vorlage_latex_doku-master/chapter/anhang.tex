@@ -54,7 +54,7 @@ This appendix provides the complete, requirement-by-requirement documentation un
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text. The Security Objective column records the primary protection goal of each requirement only; a requirement may additionally engage further objectives through its associated threats, as reflected in the \gls{acr:STRIDE} mapping of Table \ref{tab:req_asset_interface}.
 
 
 
@@ -489,7 +489,7 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{"images/Secure System Development Lifecycle-Main Overview.drawio"}
-	\caption[High-level overview of the secure development lifecycle]{High-level overview of the secure development lifecycle (Own illustration)}
+	\caption[High-level overview of the Secure Development Lifecycle]{High-level overview of the Secure Development Lifecycle (Own illustration)}
 	\label{fig:secure-system-development-lifecycle-main-overview}
 	\footnotetext{Author's own illustration based on \cite{DIN_EN_IEC_62443_4_1_2018} and \cite{NiemannPuls2023}}
 \end{figure}
@@ -526,7 +526,7 @@ Table \ref{tab:raci_matrix_verification} defines the distribution of these respo
 	\end{tabular*}
 \end{table}
 
-As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organisational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labour documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV}. This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
+As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organisational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for its formal closure reflects the practical division of labour documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV}. This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
 
 \newpage
 
@@ -642,7 +642,7 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 	
 	session = Session(target=Target(connection=TCPSocketConnection("$SRIO", 80)))
 	s_initialize("request")
-	s_string("USER")        # field to fuzz
+	s_string("USER")        # field to fuzz/ "GET"
 	s_delim(" ")
 	s_string("value")
 	session.connect(s_get("request"))

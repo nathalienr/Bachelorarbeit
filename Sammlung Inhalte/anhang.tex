@@ -49,12 +49,12 @@ Within the scope of this thesis, tools based on \gls{acr:AI} were used. Table \r
 \label{app:requirement_derivation}
 
 
-This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the \gls{acr:SUT} for verification purposes; they do not state that the Regulation applies directly to the component. This allocation is consistent with \autoref{subsec:regulatory_applicability}. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} \glspl{acr:CR}, \glspl{acr:RE}, and component-type-specific instantiations such as \glspl{acr:EDR}. The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
+This appendix provides the complete, requirement-by-requirement documentation underlying the derivation methodology described in Section \ref{subsec:derivation_mapping}. It contains 14 requirements derived from obligations addressed to machinery and related products under \hyperref[subsec:eu_machinery_regulation]{\textbf{Regulation (EU) 2023/1230}}. They are expressed here as derived component-level requirements for the \gls{acr:SUT} for verification purposes. They do not state that the Regulation applies directly to the component. The requirements are mapped to \hyperref[subsec:pren_50742]{\textbf{prEN 50742}} and, subsequently, to \hyperref[subsec:iec_62443]{\textbf{\gls{acr:IEC} 62443-4-2}} \glspl{acr:CR}, \glspl{acr:RE}, and component-type-specific instantiations such as \glspl{acr:EDR}. The three tables correspond to the three derivation stages and share a common requirement identifier (\gls{acr:RQ}-XXX) to preserve traceability across all stages.
 
 \section{Security Requirements Derived from Regulation (EU) 2023/1230}
 \label{app:sec:mvo_requirements}
 
-Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text.
+Table \ref{tab:mvo-requirements} lists the 14 derived component-level requirements originating from Annex III, Sections 1.1.9 and 1.2.1 of Regulation (EU) 2023/1230. Each entry records the originating source clause, the requirement statement, the assigned Security Objective, the Requirement Type, and a rationale explaining the derivation from the regulatory text. The Security Objective column records the primary protection goal of each requirement only; a requirement may additionally engage further objectives through its associated threats, as reflected in the \gls{acr:STRIDE} mapping of Table \ref{tab:req_asset_interface}.
 
 
 
@@ -321,7 +321,7 @@ Table \ref{tab:pren50742-mapping} maps the 14 requirements of Table \ref{tab:mvo
 	
 	RQ-014 &
 	\S7.3.5;  \newline \S7.3.3;  \newline \S7.4.3.3.1 &
-	Logs must be ``properly secured'' against tampering; deletion only via an authorized procedure; digital evidence must be readable and accessible. &
+	Logs must be ``properly secured'' against tampering; deletion only via an authorised procedure; digital evidence must be readable and accessible. &
 	\S7.3.5, \S7.3.3: Supporting\newline\S7.4.3.3.1: Partial \\
 	\hline
 	
@@ -357,7 +357,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\endlastfoot
 	
 	RQ-001 &
-	\gls{acr:FR} &
+	\gls{acr:FR}3 &
 	\gls{acr:CR} 3.1 &
 	Communication integrity &
 	\gls{acr:CR} 3.1 requires the component to verify the integrity of information transmitted over a communication channel, the closest component-level control for connection-related corruption. &
@@ -384,15 +384,15 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8's component-inventory capability is the closest \gls{acr:CR}-level asset-identification control. &
+	\gls{acr:CR} 7.8's component-inventory capability is the closest \gls{acr:CR}-level asset-identification control. --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-10 &
 	Supporting \\
 	\hline
 	
 	RQ-005 &
 	\gls{acr:FR}3 &
-	\gls{acr:CR} 3.4; \newline \gls{acr:EDR} 3.14 &
+	\gls{acr:CR} 3.4; \newline \gls{acr:EDR} 3.4 &
 	Software and information integrity; Integrity of the boot process (embedded device) &
-	prEN's \gls{acr:SRSL}-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ \gls{acr:EDR} 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
+	prEN's \gls{acr:SRSL}-graded integrity framework (\S7.4.3.4) covers general software/information integrity (\S7.4.3.4.1 $\rightarrow$ \gls{acr:CR} 3.4) and, as a distinct sub-case, boot-process integrity (\S7.4.3.4.2).  &
 	Partial \\
 	\hline
 	
@@ -400,7 +400,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8's inventory capability is the closest \gls{acr:CR}-level match for tracking installed-software identity. &
+	\gls{acr:CR} 7.8's inventory capability is the closest \gls{acr:CR}-level match for tracking installed-software identity. --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-1&
 	Supporting \\
 	\hline
 	
@@ -408,7 +408,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\gls{acr:FR}7 &
 	\gls{acr:CR} 7.1, \gls{acr:CR} 7.2, \gls{acr:CR} 7.8 &
 	Control system component inventory &
-	\gls{acr:CR} 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability. &
+	\gls{acr:CR} 7.8 supports retrieval of inventory information but does not mandate continuous, unsolicited availability, \gls{acr:CR}7.1 (DoS protection), \gls{acr:CR}7.2 Resource Management --> \gls{acr:IEC} 62443-4-1: SUM-1/SM-9/SM-1 &
 	Supporting \\
 	\hline
 	
@@ -429,7 +429,8 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	\hline
 	
 	RQ-010 &
-	\gls{acr:FR}7 &
+	\gls{acr:FR}7; \newline (\gls{acr:FR}1; \newline \gls{acr:FR}2; \newline 
+	\gls{acr:FR}3)&
 	\gls{acr:CR} 7.1 (1) &
 	Protection against denial-of-service events &
 	The regulation's requirement that control systems withstand reasonably foreseeable malicious third-party attempts corresponds, at the component level, to \gls{acr:CR} 7.1 (protection against denial-of-service events) together with its \gls{acr:RE}(1) (mitigation of communication-load flooding). &
@@ -454,7 +455,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 	
 	RQ-013 &
 	\gls{acr:FR}2 &
-	\gls{acr:CR} 2.8 \gls{acr:CR} 2.9 &
+	\gls{acr:CR} 2.8; \newline \gls{acr:CR} 2.9 &
 	Auditable events (configuration changes); Audit storage capacity &
 	\gls{acr:CR} 2.8's auditable-event categories include configuration changes and automation-system events, which are broad enough to cover the upload of a new safety-software version as a recordable event, and \gls{acr:CR} 2.9 provides the associated storage-capacity capability (without mandating the specific five-year, per-upload retention period). &
 	\gls{acr:CR} 2.8, \gls{acr:CR} 2.9: Partial \\
@@ -478,7 +479,7 @@ Table \ref{tab:mvo-pren-iec62443-mapping} extends the derivation chain from \hyp
 Figure \ref{fig:secure-system-development-lifecycle-main-overview} summarises a high-level reference model in which the activities shown are decomposed into further sub-activities. 
 The model is based on the process-oriented security practices of \gls{acr:IEC} 62443-4-1 \cite{DIN_EN_IEC_62443_4_1_2018} and on complementary lifecycle-oriented security approaches \cite{NiemannPuls2023}. 
 
-The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A \gls{acr:TARA}, as described in Section \ref{subsec:tara}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
+The lifecycle demonstrates that cybersecurity is not limited to a single verification activity prior to product release. Instead, security is addressed throughout the development and operational lifecycle \cite[pp. 5]{NiemannPuls2023} \cite[pp. 68]{Wurm2022}. The process begins with the definition of the scope and security objectives. A \hyperref[subsec:tara]{\textbf{TARA}}, is performed to identify and assess relevant cybersecurity risks and to determine the required security level. Based on the assessment results, detailed countermeasures are derived and incorporated into the security architecture. The resulting architectural constraints provide input to the development phase, during which the specified security measures are implemented \cite[pp. 8]{NiemannPuls2023}. 
 
 The implemented security measures are evaluated by means of static and dynamic analysis. The verification phase further comprises the definition and preparation of the security test strategy, the development of test cases, and the execution of the corresponding security tests. Identified findings are returned to the development phase for remediation and subsequent re-evaluation. The verification results provide the evidence required to support the release decision \cite[pp. 788]{Muller2026} \cite[pp. 6, 16]{NiemannPuls2023}. Following release, continuous monitoring is applied to identify newly discovered vulnerabilities, emerging threats, and security-relevant incidents. The resulting observations may initiate a reassessment or an incident-response process \cite[pp. 18]{NiemannPuls2023}.
 
@@ -496,7 +497,8 @@ The dashed connections shown in Figure \ref{fig:secure-system-development-lifecy
 \paragraph{\gls{acr:RACI} Governance of the Verification Lifecycle}
 \label{sec:raci_governance}
 
-To ensure strict organisational accountability, responsibility for the testing phases is governed through a \gls{acr:RACI} matrix. This established management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. 
+To ensure strict organisational accountability, responsibility for the testing phases is governed through a \gls{acr:RACI} matrix. This management method is described as ensuring exactly one role is accountable for a given activity \cite{cybersierra_security_raci_2026, su13041806}. In this scheme, the responsible role performs the activity, the accountable role owns and approves the outcome, consulted roles provide input before a decision, and informed roles are notified of the result. Six generic roles are distinguished for this purpose \cite[p. 6]{Schmidt2026CybersecurityTestProcess}. 
+
 \begin{itemize}
 	\item \textbf{Security Engineering:} Holds technical accountability for test scope and execution integrity.
 	\item \textbf{System/Requirements Engineering:} Consulted where a requirement or asset boundary is affected.
@@ -526,8 +528,7 @@ Table \ref{tab:raci_matrix_verification} defines the distribution of these respo
 
 As illustrated in Table \ref{tab:raci_matrix_verification}, accountability shifts between phases. It follows the organisational ownership of a phase's primary deliverable rather than a fixed functional assignment \cite{cybersierra_security_raci_2026}. Distinguishing the role responsible for executing a verification activity from the role accountable for closing it out reflects the practical division of labour documented in secure software engineering \cite[p. 5]{219394}. Ultimately, these role assignments directly support \gls{acr:IEC} 62443-4-1 Practice \gls{acr:SVV}. This standard mandates a rigorous process demonstrating that the product's security functions meet all specified requirements \cite[pp. 37]{DIN_EN_IEC_62443_4_1_2018}.
 
-Beyond a single release cycle, the governance model must also account for the maintenance of the methodology itself. Consistent with the iterative application of \hyperref[subsec:tara]{\textbf{\gls{acr:TARA}}}, the requirement baseline and the associated test cases require re-evaluation under specific triggers. These triggers include the introduction of a new product variant, revisions to normative documents (Regulation (EU) 2023/1230, prEN 50742, or \gls{acr:IEC} 62443-4-2), or the disclosure of a post-release vulnerability. Under the \gls{acr:RACI} model, initiating this re-evaluation falls under the consulting role of System/Requirements Engineering, while Quality/Compliance Management remains accountable for updating the technical documentation.
-
+\newpage
 
 
 \chapter{Tool Commands}
@@ -595,34 +596,34 @@ The scan was executed on two separate dates to confirm reproducibility, both wit
 	siege -c 3  -t 1M -v http://$SRIO/deviceinfo/getdata \
 	--log=cmrq010_3connections_siege.log
 	# Connection-hold procedure: occupy the available HTTP slots, then issue
-bash
-export SRIO=192.168.0.2
-echo " Baseline: Connection working normally" 
-| tee cm_rq007-03_00_baseline.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata )
- >> cm_rq007-03_00_baseline.txt 2>&1
-cat cm_rq007-03_00_baseline.txt
-
-echo "Block both slots"
-for i in 1 2; do
-  (exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost:
-   x\r\n\r\n' >&3; sleep 600) &
-done
-jobs | tee cm_rq007-03_01_jobs.txt
-
-echo "3rd attempt while both slots are occupied (expected: timeout)" 
-| tee cm_rq007-03_02_blocked.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
->> cm_rq007-03_02_blocked.txt 2>&1
-cat cm_rq007-03_02_blocked.txt
-
-echo "Free up one slot"
-kill %1
-echo "Retry after freeing up slot (expected: successful again)" 
-| tee cm_rq007-03_03_after_release.txt
-( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
->> cm_rq007-03_03_after_release.txt 2>&1
-cat cm_rq007-03_03_after_release.txt
+	bash
+	export SRIO=192.168.0.2
+	echo " Baseline: Connection working normally" 
+	| tee cm_rq007-03_00_baseline.txt
+	( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata )
+	>> cm_rq007-03_00_baseline.txt 2>&1
+	cat cm_rq007-03_00_baseline.txt
+	
+	echo "Block both slots"
+	for i in 1 2; do
+	(exec 3<>/dev/tcp/$SRIO/80; printf 'GET /deviceinfo HTTP/1.1\r\nHost:
+	x\r\n\r\n' >&3; sleep 600) &
+	done
+	jobs | tee cm_rq007-03_01_jobs.txt
+	
+	echo "3rd attempt while both slots are occupied (expected: timeout)" 
+	| tee cm_rq007-03_02_blocked.txt
+	( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+	>> cm_rq007-03_02_blocked.txt 2>&1
+	cat cm_rq007-03_02_blocked.txt
+	
+	echo "Free up one slot"
+	kill %1
+	echo "Retry after freeing up slot (expected: successful again)" 
+	| tee cm_rq007-03_03_after_release.txt
+	( time curl -s --max-time 5 http://$SRIO/deviceinfo/swrevision/getdata ) 
+	>> cm_rq007-03_03_after_release.txt 2>&1
+	cat cm_rq007-03_03_after_release.txt
 \end{verbatim}
 
 \section{Layer-Two and Network Flooding}
