@@ -68,7 +68,7 @@ A command-line packet analyzer.
 
 ## 5. PROFINET & Specialized Scripts
 
-### `python3 -c`
+### `python3 -c
 Executes Python code directly from the command line.
 *   **`import pnio_dcp; c = pnio_dcp.DCP('eth1')`**: Initializes a PROFINET Discovery and Basic Configuration Protocol (DCP) connection on the `eth1` interface.
 *   **`identify_all()`**: Broadcasts a request to find all PROFINET devices on the local network segment.
